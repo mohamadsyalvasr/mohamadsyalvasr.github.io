@@ -2,14 +2,12 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panduan Let's Encrypt SSL</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-    }
+    body { font-family: 'Inter', sans-serif; }
     pre {
       background-color: #1a202c;
       color: #ffffff;
@@ -21,42 +19,42 @@
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl shadow-xl p-8 max-w-2xl w-full border border-blue-200">
+  <div class="bg-white rounded-2xl shadow-xl p-8 max-w-3xl w-full border border-blue-200">
     <h1 class="text-3xl font-bold text-center text-gray-800 mb-6 flex items-center justify-center">
-      <svg class="w-8 h-8 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      <svg class="w-8 h-8 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
       </svg>
       Panduan Let's Encrypt SSL
     </h1>
 
-    <p class="text-gray-600 text-center mb-8">
-      Aplikasi ini membantu Anda membuat perintah Certbot yang sesuai dengan konfigurasi server Anda.
-    </p>
-
-    <div class="mb-6">
-      <label for="domain" class="block text-gray-700 text-sm font-semibold mb-2">
-        Nama Domain Anda
-      </label>
-      <input type="text" id="domain" placeholder="contoh: example.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200" />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div>
+        <label for="domain" class="block text-gray-700 text-sm font-semibold mb-2">Nama Domain</label>
+        <input type="text" id="domain" placeholder="contoh.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+      <div>
+        <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Alamat Email</label>
+        <input type="email" id="email" placeholder="email@contoh.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
     </div>
 
-    <div class="mb-6">
-      <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">
-        Alamat Email Anda
-      </label>
-      <input type="email" id="email" placeholder="contoh: email@example.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200" />
-    </div>
-
-    <div class="mb-6">
-      <label for="method" class="block text-gray-700 text-sm font-semibold mb-2">
-        Metode Instalasi Certbot
-      </label>
-      <select id="method" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">
-        <option value="standalone">Standalone (Tanpa Web Server)</option>
-        <option value="apache">Apache</option>
-        <option value="nginx">Nginx</option>
-        <option value="manual-dns">Manual (Wildcard DNS Challenge)</option>
-      </select>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div>
+        <label for="platform" class="block text-gray-700 text-sm font-semibold mb-2">Platform</label>
+        <select id="platform" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="linux">Linux</option>
+          <option value="wsl">WSL (Windows Subsystem for Linux)</option>
+          <option value="windows">Windows</option>
+        </select>
+      </div>
+      <div>
+        <label for="webserver" class="block text-gray-700 text-sm font-semibold mb-2">Tipe Web Server</label>
+        <select id="webserver" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="standalone">Standalone</option>
+          <option value="nginx">Nginx</option>
+          <option value="apache">Apache</option>
+        </select>
+      </div>
     </div>
 
     <button id="generateButton" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 transform hover:scale-105">
@@ -65,91 +63,50 @@
 
     <div id="instructions" class="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200 hidden">
       <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9.293 11.293a1 1 0 001.414 1.414L12 10.414l1.293 1.293a1 1 0 001.414-1.414L13.414 9l1.293-1.293a1 1 0 10-1.414-1.414L12 7.586l-1.293-1.293a1 1 0 00-1.414 1.414L10.586 9l-1.293 1.293z" clip-rule="evenodd" />
+        <svg class="w-6 h-6 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9.293 11.293a1 1 0 001.414 1.414L12 10.414l1.293 1.293a1 1 0 001.414-1.414L13.414 9l1.293-1.293a1 1 0 10-1.414-1.414L12 7.586l-1.293-1.293a1 1 0 00-1.414 1.414L10.586 9l-1.293 1.293z" clip-rule="evenodd"></path>
         </svg>
         Langkah-langkah untuk Server Anda
       </h2>
-
-      <p class="text-gray-700 mb-4">
-        Berikut adalah perintah yang dapat Anda gunakan di server Anda berdasarkan pilihan Anda:
-      </p>
-
-      <h4 id="certTitle" class="font-semibold text-md text-gray-800 mb-2 mt-4">Perintah Certbot</h4>
-      <pre id="standardCertCommand"><code></code></pre>
-
-      <h3 class="font-semibold text-lg text-gray-800 mb-2 mt-6">Uji Perpanjangan Otomatis</h3>
-      <p class="text-gray-600 mb-4">
-        Anda dapat menguji perpanjangan otomatis menggunakan perintah berikut:
-      </p>
-      <pre><code>sudo certbot renew --dry-run</code></pre>
-
-      <p class="text-gray-700 text-sm mt-6">
-        <strong class="text-red-600">Penting:</strong> Panduan ini tidak menggantikan konfigurasi server Anda. Sesuaikan dengan kondisi di server masing-masing.
-      </p>
+      <div id="output"></div>
     </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const domainInput = document.getElementById('domain');
-      const emailInput = document.getElementById('email');
-      const methodSelect = document.getElementById('method');
-      const generateButton = document.getElementById('generateButton');
-      const instructionsDiv = document.getElementById('instructions');
-      const standardCertCommand = document.getElementById('standardCertCommand');
-      const certTitle = document.getElementById('certTitle');
+    document.getElementById('generateButton').addEventListener('click', () => {
+      const domain = document.getElementById('domain').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const platform = document.getElementById('platform').value;
+      const webserver = document.getElementById('webserver').value;
 
-      generateButton.addEventListener('click', () => {
-        const domain = domainInput.value.trim();
-        const email = emailInput.value.trim();
-        const method = methodSelect.value;
+      if (!domain || !email) {
+        alert('Mohon lengkapi Domain dan Email');
+        return;
+      }
 
-        if (!domain || !email) {
-          alert('Mohon lengkapi semua bidang: Domain dan Email.');
-          return;
-        }
+      let command = '';
+      let extra = '';
 
-        generateButton.disabled = true;
-        generateButton.classList.add('opacity-60', 'cursor-not-allowed');
-        generateButton.innerHTML = `
-          <span class="flex items-center justify-center">
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Memproses...
-          </span>
+      if (platform === 'windows') {
+        command = `Gunakan tool seperti <a class="text-blue-600 underline" href="https://www.win-acme.com/" target="_blank">win-acme</a> untuk mendapatkan sertifikat di Windows.`;
+      } else {
+        const certbotWebserver = webserver === 'standalone' ? 'certonly --standalone' : `--${webserver}`;
+        command = `sudo certbot ${certbotWebserver} -d ${domain} -m ${email} --agree-tos --no-eff-email --redirect`;
+
+        extra = `
+          <h3 class="mt-4 font-semibold text-md">Perintah Tambahan:</h3>
+          <pre><code>sudo certbot renew --dry-run</code></pre>
         `;
-        instructionsDiv.classList.add('hidden');
+      }
 
-        setTimeout(() => {
-          let command = '';
-          let title = 'Perintah Certbot';
+      document.getElementById('output').innerHTML = `
+        <h3 class="font-semibold text-lg text-gray-800 mb-2">Perintah:</h3>
+        <pre><code>${command}</code></pre>
+        ${extra}
+        <p class="text-gray-700 text-sm mt-4">Pastikan port 80 dan 443 terbuka dan domain Anda mengarah ke IP server ini.</p>
+      `;
 
-          if (method === 'standalone') {
-            command = `sudo certbot certonly --standalone -d ${domain} -m ${email} --agree-tos --no-eff-email`;
-            title += ' (Standalone)';
-          } else if (method === 'apache') {
-            command = `sudo certbot --apache -d ${domain} -m ${email} --agree-tos --no-eff-email --redirect`;
-            title += ' (Apache)';
-          } else if (method === 'nginx') {
-            command = `sudo certbot --nginx -d ${domain} -m ${email} --agree-tos --no-eff-email --redirect`;
-            title += ' (Nginx)';
-          } else if (method === 'manual-dns') {
-            command = `sudo certbot certonly --manual --preferred-challenges dns --email ${email} -d *.${domain} -d ${domain}`;
-            title += ' (Manual DNS Challenge - Wildcard)';
-          }
-
-          certTitle.innerText = title;
-          standardCertCommand.innerHTML = `<code>${command}</code>`;
-          instructionsDiv.classList.remove('hidden');
-
-          generateButton.disabled = false;
-          generateButton.classList.remove('opacity-60', 'cursor-not-allowed');
-          generateButton.innerHTML = 'Dapatkan Panduan Sertifikat';
-        }, 1200);
-      });
+      document.getElementById('instructions').classList.remove('hidden');
     });
   </script>
 </body>
