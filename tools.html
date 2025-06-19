@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="id" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT Support Toolbox</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/cronstrue@2.48.0/dist/cronstrue.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { 
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Custom Styles */
+    pre {
+      position: relative; background-color: #1e293b; color: #e5e7eb; padding: 1.25rem 1rem 1rem;
+      border-radius: 0.5rem; font-size: 0.875rem; overflow-x: auto; border: 1px solid #374151;
+      white-space: pre-wrap; word-wrap: break-word;
+    }
+    .dark pre { background-color: #0f172a; border-color: #4b5563; }
+
+    .copy-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem; background-color: #374151; color: #d1d5db;
+      border: none; padding: 0.25rem 0.5rem; border-radius: 0.375rem; cursor: pointer;
+      font-size: 0.75rem; transition: background-color 0.2s;
+    }
+    .copy-btn:hover { background-color: #4b5563; }
+    .copy-btn.copied { background-color: #16a34a; color: white; }
+
+    .toggle-bg:after {
+      content: ''; position: absolute; top: 0.125rem; left: 0.125rem; background-color: white;
+      border-width: 1px; border-color: #d1d5db; border-radius: 9999px; height: 1.25rem; width: 1.25rem;
+      transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    }
+    input:checked + .toggle-bg { background-color: #2563eb; }
+    input:checked + .toggle-bg:after { transform: translateX(100%); border-color: white; }
+    
+    .tool-tab-btn {
+      padding: 0.5rem 1rem; font-weight: 600; border-radius: 0.5rem;
+      transition: background-color 0.2s, color 0.2s; flex-shrink: 0;
+    }
+    .tool-tab-btn.active { background-color: #2563eb; color: white; }
+    .dark .tool-tab-btn.active { background-color: #3b82f6; }
+    
+    .tool-panel { display: none; }
+    .tool-panel.active { display: block; }
+    
+    .instruction-tab-btn {
+      padding: 0.5rem 1rem; font-weight: 600; color: #6b7280; border-bottom-width: 2px;
+      border-color: transparent; transition-property: color, border-color; transition-duration: 150ms;
+    }
+    .instruction-tab-btn.active { color: #2563eb; border-color: #2563eb; }
+    .dark .instruction-tab-btn.active { color: #60a5fa; border-color: #60a5fa; }
+    
+    .instruction-tab-content { display: none; }
+    .instruction-tab-content.active { display: block; }
+
+    /* Custom styles for chmod calculator */
+    .chmod-grid { display: grid; grid-template-columns: repeat(4, auto); align-items: center; gap: 0.5rem; justify-content: space-between; }
+  </style>
+</head>
+<body class="bg-slate-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+  <div class="min-h-screen container mx-auto flex flex-col items-center justify-center p-4">
+
+    <!-- Dark Mode Toggle -->
+    <div class="absolute top-4 right-4 flex items-center space-x-2">
+        <i class="fas fa-sun text-yellow-500"></i>
+        <label for="dark-mode-toggle" class="flex items-center cursor-pointer">
+            <div class="relative">
+                <input type="checkbox" id="dark-mode-toggle" class="sr-only">
+                <div class="block bg-gray-300 dark:bg-gray-700 w-10 h-6 rounded-full toggle-bg"></div>
+            </div>
+        </label>
+        <i class="fas fa-moon text-blue-400"></i>
+    </div>
+    
+    <main class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-10 max-w-4xl w-full border border-slate-200 dark:border-gray-700">
+        <!-- Main Tool Navigation -->
+        <div class="mb-8 flex justify-center bg-slate-100 dark:bg-gray-700 p-1.5 rounded-lg">
+            <nav class="flex flex-wrap justify-center gap-1 sm:gap-2" id="tool-tabs-container">
+                <button class="tool-tab-btn active" data-tool="ssl"><i class="fas fa-shield-halved mr-2"></i>SSL</button>
+                <button class="tool-tab-btn" data-tool="firewall"><i class="fas fa-fire-alt mr-2"></i>Firewall</button>
+                <button class="tool-tab-btn" data-tool="webserver"><i class="fas fa-server mr-2"></i>Web Server</button>
+                <button class="tool-tab-btn" data-tool="cron"><i class="fas fa-clock mr-2"></i>Cron</button>
+                <button class="tool-tab-btn" data-tool="chmod"><i class="fas fa-key mr-2"></i>Chmod</button>
+                <button class="tool-tab-btn" data-tool="regex"><i class="fas fa-code mr-2"></i>Regex</button>
+            </nav>
+        </div>
+        
+        <!-- Panels Container -->
+        <!-- SSL Guide Panel -->
+        <div id="tool-ssl" class="tool-panel active">
+            <header class="text-center mb-8">
+              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">
+                Panduan Interaktif Let's Encrypt
+              </h1>
+              <p class="text-gray-600 dark:text-slate-300">Generate step-by-step SSL certificate guides.</p>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="domain" class="block text-sm font-semibold mb-2 dark:text-gray-300">Nama Domain</label>
+                <input type="text" id="domain" placeholder="contoh.com" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-semibold mb-2 dark:text-gray-300">Alamat Email</label>
+                <input type="email" id="email" placeholder="email@contoh.com" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label for="platform" class="block text-sm font-semibold mb-2 dark:text-gray-300">Platform</label>
+                <select id="platform" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="ubuntu">Linux (Ubuntu/Debian)</option>
+                  <option value="centos">Linux (CentOS/RHEL)</option>
+                  <option value="wsl">WSL</option>
+                  <option value="windows">Windows (Win-ACME)</option>
+                </select>
+              </div>
+              <div>
+                <label for="webserver" class="block text-sm font-semibold mb-2 dark:text-gray-300">Tipe Web Server</label>
+                <select id="webserver" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="standalone">Standalone</option>
+                  <option value="nginx">Nginx</option>
+                  <option value="apache">Apache</option>
+                </select>
+              </div>
+            </div>
+            <div id="ssl-validation-message" class="hidden text-red-500 text-sm mb-4 text-center"></div>
+            <button id="generateSslButton" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+              <i class="fas fa-cogs mr-2"></i>Buat Panduan Sertifikat
+            </button>
+            <div id="ssl-instructions" class="mt-8 hidden">
+              <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
+                <nav class="-mb-px flex space-x-4" aria-label="Tabs" id="ssl-tabs-container"></nav>
+              </div>
+              <div id="ssl-output"></div>
+            </div>
+        </div>
+
+        <!-- Firewall Generator Panel -->
+        <div id="tool-firewall" class="tool-panel">
+             <header class="text-center mb-8">
+              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">
+                Generator Perintah Firewall (UFW)
+              </h1>
+              <p class="text-gray-600 dark:text-slate-300">Buat perintah UFW dengan cepat dan mudah.</p>
+            </header>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-semibold mb-2 dark:text-gray-300">Layanan Umum</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <label class="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border dark:border-gray-600 cursor-pointer"><input type="checkbox" id="fw-ssh" class="h-4 w-4 rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600 mr-3">SSH (22)</label>
+                        <label class="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border dark:border-gray-600 cursor-pointer"><input type="checkbox" id="fw-http" class="h-4 w-4 rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600 mr-3">HTTP (80)</label>
+                        <label class="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border dark:border-gray-600 cursor-pointer"><input type="checkbox" id="fw-https" class="h-4 w-4 rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600 mr-3">HTTPS (443)</label>
+                    </div>
+                </div>
+                 <div>
+                    <label for="fw-custom" class="block text-sm font-semibold mb-2 dark:text-gray-300">Port Kustom (pisahkan dengan koma)</label>
+                    <input type="text" id="fw-custom" placeholder="contoh: 8080, 3306/tcp" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+            </div>
+             <button id="generateFwButton" class="mt-8 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+              <i class="fas fa-magic mr-2"></i>Buat Perintah Firewall
+            </button>
+            <div id="fw-instructions" class="mt-8 hidden">
+                <h3 class="text-xl font-bold dark:text-white mb-4">Perintah yang Dihasilkan</h3>
+                <div id="fw-output"></div>
+            </div>
+        </div>
+        
+        <!-- Web Server Config Generator Panel -->
+        <div id="tool-webserver" class="tool-panel">
+            <header class="text-center mb-8">
+              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">
+                Generator Konfigurasi Web Server
+              </h1>
+              <p class="text-gray-600 dark:text-slate-300">Buat file konfigurasi Nginx atau Apache.</p>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="ws-type" class="block text-sm font-semibold mb-2 dark:text-gray-300">Tipe Server</label>
+                    <select id="ws-type" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="nginx">Nginx</option>
+                      <option value="apache">Apache</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="ws-domain" class="block text-sm font-semibold mb-2 dark:text-gray-300">Nama Domain</label>
+                    <input type="text" id="ws-domain" placeholder="situs.com" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div class="md:col-span-2">
+                    <label for="ws-root" class="block text-sm font-semibold mb-2 dark:text-gray-300">Document Root</label>
+                    <input type="text" id="ws-root" placeholder="/var/www/situs.com" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+            </div>
+            <button id="generateWsButton" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+              <i class="fas fa-file-code mr-2"></i>Buat Konfigurasi
+            </button>
+            <div id="ws-instructions" class="mt-8 hidden">
+                <h3 class="text-xl font-bold dark:text-white mb-4">Konfigurasi yang Dihasilkan</h3>
+                <div id="ws-output"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Cron Job Helper Panel -->
+        <div id="tool-cron" class="tool-panel">
+            <header class="text-center mb-8">
+              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Asisten Cron Job (Advanced)</h1>
+              <p class="text-gray-600 dark:text-slate-300">Buat jadwal cron kompleks dengan mudah.</p>
+            </header>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                    <div><label for="cron-minute" class="block text-sm font-semibold mb-2">Menit</label><input id="cron-minute" type="text" value="*" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border border-gray-300 dark:border-gray-600 rounded-lg"></div>
+                    <div><label for="cron-hour" class="block text-sm font-semibold mb-2">Jam</label><input id="cron-hour" type="text" value="*" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border border-gray-300 dark:border-gray-600 rounded-lg"></div>
+                    <div><label for="cron-dom" class="block text-sm font-semibold mb-2">Hari (Bulan)</label><input id="cron-dom" type="text" value="*" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border border-gray-300 dark:border-gray-600 rounded-lg"></div>
+                    <div><label for="cron-month" class="block text-sm font-semibold mb-2">Bulan</label><input id="cron-month" type="text" value="*" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border border-gray-300 dark:border-gray-600 rounded-lg"></div>
+                    <div><label for="cron-dow" class="block text-sm font-semibold mb-2">Hari (Minggu)</label><input id="cron-dow" type="text" value="*" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border border-gray-300 dark:border-gray-600 rounded-lg"></div>
+                </div>
+                 <div>
+                    <label for="cron-command" class="block text-sm font-semibold mb-2 dark:text-gray-300">Perintah</label>
+                    <input type="text" id="cron-command" placeholder="/path/to/your/script.sh" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg">
+                </div>
+                <div class="flex items-center">
+                    <input id="cron-logging" type="checkbox" class="h-4 w-4 rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600">
+                    <label for="cron-logging" class="ml-2 text-sm">Tambahkan logging ke file? (`>> /var/log/cron.log 2>&1`)</label>
+                </div>
+            </div>
+            <div id="cron-human-readable" class="mt-4 p-3 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 rounded-lg text-center font-semibold"></div>
+            <div id="cron-instructions" class="mt-4">
+                <h3 class="text-xl font-bold dark:text-white mb-4">Cron Job yang Dihasilkan</h3>
+                <div id="cron-output"></div>
+            </div>
+        </div>
+        
+        <!-- Chmod Calculator Panel -->
+        <div id="tool-chmod" class="tool-panel">
+            <header class="text-center mb-8">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Kalkulator Chmod</h1>
+                <p class="text-gray-600 dark:text-slate-300">Hitung izin file secara interaktif.</p>
+            </header>
+            <div class="chmod-grid p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                <div class="font-bold">Izin</div><div class="font-bold text-center">Read</div><div class="font-bold text-center">Write</div><div class="font-bold text-center">Execute</div>
+                
+                <div class="font-semibold">Owner</div>
+                <div class="text-center"><input type="checkbox" data-permission="400" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+                <div class="text-center"><input type="checkbox" data-permission="200" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+                <div class="text-center"><input type="checkbox" data-permission="100" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+
+                <div class="font-semibold">Group</div>
+                <div class="text-center"><input type="checkbox" data-permission="40" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+                <div class="text-center"><input type="checkbox" data-permission="20" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+                <div class="text-center"><input type="checkbox" data-permission="10" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+
+                <div class="font-semibold">Other</div>
+                <div class="text-center"><input type="checkbox" data-permission="4" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+                <div class="text-center"><input type="checkbox" data-permission="2" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+                <div class="text-center"><input type="checkbox" data-permission="1" class="chmod-box h-5 w-5 rounded text-blue-600"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                 <div><label class="text-sm font-semibold">Notasi Oktal:</label><input id="chmod-octal" type="text" class="w-full mt-1 p-2 bg-slate-50 dark:bg-slate-700 border rounded-lg"></div>
+                 <div><label class="text-sm font-semibold">Notasi Simbolik:</label><input id="chmod-symbolic" type="text" readonly class="w-full mt-1 p-2 bg-slate-200 dark:bg-slate-600 border rounded-lg"></div>
+            </div>
+             <div id="chmod-instructions" class="mt-8">
+                <h3 class="text-xl font-bold dark:text-white mb-4">Perintah `chmod`</h3>
+                <div id="chmod-output"></div>
+            </div>
+        </div>
+
+        <!-- Regex Generator Panel -->
+        <div id="tool-regex" class="tool-panel">
+            <header class="text-center mb-8">
+              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Generator Regex dengan AI</h1>
+              <p class="text-gray-600 dark:text-slate-300">Ubah bahasa biasa menjadi Regular Expression.</p>
+            </header>
+            <div class="space-y-4">
+                <div>
+                    <label for="regex-prompt" class="block text-sm font-semibold mb-2 dark:text-gray-300">Deskripsikan pola yang Anda inginkan:</label>
+                    <textarea id="regex-prompt" placeholder="Contoh: validasi nomor telepon Indonesia yang diawali +62" rows="3" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border rounded-lg"></textarea>
+                </div>
+            </div>
+            <button id="generateRegexButton" class="mt-4 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+                <i class="fas fa-microchip mr-2"></i>Buat Regex dengan AI
+            </button>
+            <div id="regex-instructions" class="mt-8 hidden">
+                <h3 class="text-xl font-bold dark:text-white mb-4">Regex yang Dihasilkan</h3>
+                <div id="regex-output" class="mb-4"></div>
+                <h3 class="text-xl font-bold dark:text-white mb-4">Uji Coba Regex</h3>
+                <textarea id="regex-test-area" placeholder="Masukkan teks di sini untuk diuji..." rows="4" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border rounded-lg"></textarea>
+                <div id="regex-test-results" class="mt-2 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg"></div>
+            </div>
+        </div>
+        
+    </main>
+  </div>
+
+  <script>
+    // --- Initial Setup ---
+    const htmlEl = document.documentElement;
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const toolTabs = document.querySelectorAll('.tool-tab-btn');
+    const toolPanels = document.querySelectorAll('.tool-panel');
+
+    // --- Dark Mode Logic ---
+    if (localStorage.getItem('darkMode') === 'true') {
+        htmlEl.classList.add('dark');
+        darkModeToggle.checked = true;
+    }
+    darkModeToggle.addEventListener('change', () => {
+        htmlEl.classList.toggle('dark');
+        localStorage.setItem('darkMode', darkModeToggle.checked);
+    });
+
+    // --- Main Tool Switching Logic ---
+    toolTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            toolTabs.forEach(t => t.classList.remove('active'));
+            toolPanels.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('tool-' + tab.dataset.tool).classList.add('active');
+        });
+    });
+    
+    // --- Utility Functions ---
+    function addCopyToClipboard(scope) {
+        const copyButtons = scope.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.replaceWith(button.cloneNode(true));
+        });
+        scope.querySelectorAll('.copy-btn').forEach(button => {
+             button.addEventListener('click', () => {
+                const code = button.parentElement.querySelector('code').innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.innerHTML = '<i class="fas fa-check"></i> Disalin!';
+                    button.classList.add('copied');
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="fas fa-copy"></i> Salin';
+                        button.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+    }
+    function createCodeBlock(command) {
+        return `<pre><button class="copy-btn"><i class="fas fa-copy"></i> Salin</button><code>${command}</code></pre>`;
+    }
+    
+    // --- SSL GUIDE LOGIC ---
+    document.getElementById('generateSslButton').addEventListener('click', () => {
+      const domain = document.getElementById('domain').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const platform = document.getElementById('platform').value;
+      const webserver = document.getElementById('webserver').value;
+      const validationMessage = document.getElementById('ssl-validation-message');
+      if (!domain || !email) {
+        validationMessage.textContent = 'Mohon lengkapi Nama Domain dan Alamat Email.';
+        validationMessage.classList.remove('hidden');
+        return;
+      }
+      validationMessage.classList.add('hidden');
+      generateSslInstructions(domain, email, platform, webserver);
+      document.getElementById('ssl-instructions').classList.remove('hidden');
+    });
+
+    function generateSslInstructions(domain, email, platform, webserver) {
+        const tabsContainer = document.getElementById('ssl-tabs-container');
+        const outputDiv = document.getElementById('ssl-output');
+        let tabs = '', content = '';
+
+        if (platform === 'windows') {
+            tabs = `<button class="instruction-tab-btn active" data-tab="win-acme">Panduan Win-ACME</button>`;
+            content = `<div id="instruction-tab-win-acme" class="instruction-tab-content active space-y-4">Panduan lengkap untuk Win-ACME...</div>`;
+        } else {
+            tabs = `
+                <button class="instruction-tab-btn active" data-tab="ssl-install">1. Instalasi</button>
+                <button class="instruction-tab-btn" data-tab="ssl-generate">2. Dapatkan Sertifikat</button>
+                <button class="instruction-tab-btn" data-tab="ssl-renew">3. Auto-Renewal</button>`;
+            
+            let installCmd = (platform === 'ubuntu' || platform === 'wsl') ? 
+                `sudo apt update && sudo apt install snapd -y\nsudo snap install core; sudo snap refresh core\nsudo snap install --classic certbot` : 
+                `sudo dnf install epel-release\nsudo dnf install certbot python3-certbot-${webserver === 'apache' ? 'apache' : 'nginx'}`;
+            
+            const generateCmd = `sudo certbot ${webserver === 'standalone' ? 'certonly --standalone' : `--${webserver}`} -d ${domain} --non-interactive -m ${email} --agree-tos --redirect`;
+            const renewCmd = `sudo certbot renew --dry-run`;
+
+            content = `
+                <div id="instruction-tab-ssl-install" class="instruction-tab-content active space-y-4">
+                  <h3 class="text-xl font-bold dark:text-white">Langkah 1: Instal Certbot</h3>${createCodeBlock(installCmd)}
+                  ${(platform === 'ubuntu' || platform === 'wsl') ? `<p class="mt-4 dark:text-gray-300">Pastikan perintah certbot dapat dieksekusi:</p>${createCodeBlock('sudo ln -s /snap/bin/certbot /usr/bin/certbot')}` : ''}
+                </div>
+                <div id="instruction-tab-ssl-generate" class="instruction-tab-content space-y-4"><h3 class="text-xl font-bold dark:text-white">Langkah 2: Dapatkan Sertifikat</h3>${createCodeBlock(generateCmd)}</div>
+                <div id="instruction-tab-ssl-renew" class="instruction-tab-content space-y-4"><h3 class="text-xl font-bold dark:text-white">Langkah 3: Verifikasi Auto-Renewal</h3>${createCodeBlock(renewCmd)}</div>`;
+        }
+        
+        tabsContainer.innerHTML = tabs;
+        outputDiv.innerHTML = content;
+        addCopyToClipboard(outputDiv);
+        
+        const tabButtons = tabsContainer.querySelectorAll('.instruction-tab-btn');
+        const tabContents = outputDiv.querySelectorAll('.instruction-tab-content');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                button.classList.add('active');
+                outputDiv.querySelector('#instruction-tab-' + button.dataset.tab).classList.add('active');
+            });
+        });
+    }
+
+    // --- FIREWALL GENERATOR LOGIC ---
+    document.getElementById('generateFwButton').addEventListener('click', () => {
+        let commands = 'sudo ufw reset\n';
+        if (document.getElementById('fw-ssh').checked) commands += 'sudo ufw allow ssh\n';
+        if (document.getElementById('fw-http').checked) commands += 'sudo ufw allow http\n';
+        if (document.getElementById('fw-https').checked) commands += 'sudo ufw allow https\n';
+        const customPorts = document.getElementById('fw-custom').value.trim();
+        if (customPorts) {
+            customPorts.split(',').map(p => p.trim()).filter(p => p).forEach(port => {
+                commands += `sudo ufw allow ${port}\n`;
+            });
+        }
+        commands += 'sudo ufw --force enable';
+        const outputDiv = document.getElementById('fw-output');
+        outputDiv.innerHTML = createCodeBlock(commands);
+        addCopyToClipboard(outputDiv);
+        document.getElementById('fw-instructions').classList.remove('hidden');
+    });
+
+    // --- WEB SERVER CONFIG LOGIC ---
+    document.getElementById('generateWsButton').addEventListener('click', () => {
+        const type = document.getElementById('ws-type').value;
+        const domain = document.getElementById('ws-domain').value.trim() || 'situs.com';
+        const root = document.getElementById('ws-root').value.trim() || `/var/www/${domain}`;
+        let config = '';
+
+        if (type === 'nginx') {
+            config = `server {
+    listen 80;
+    server_name ${domain} www.${domain};
+    root ${root};
+    index index.html index.htm index.php;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \\.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock; # Sesuaikan versi PHP
+    }
+
+    location ~ /\\.ht {
+        deny all;
+    }
+}`;
+        } else { // Apache
+            config = `<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName ${domain}
+    ServerAlias www.${domain}
+    DocumentRoot ${root}
+
+    <Directory ${root}>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog \${APACHE_LOG_DIR}/error.log
+    CustomLog \${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>`;
+        }
+        const outputDiv = document.getElementById('ws-output');
+        outputDiv.innerHTML = createCodeBlock(config);
+        addCopyToClipboard(outputDiv);
+        document.getElementById('ws-instructions').classList.remove('hidden');
+    });
+
+    // --- Advanced Cron Job Logic ---
+    const cronInputs = ['cron-minute', 'cron-hour', 'cron-dom', 'cron-month', 'cron-dow'];
+    const humanReadableDiv = document.getElementById('cron-human-readable');
+    const cronOutputDiv = document.getElementById('cron-output');
+
+    function updateCron() {
+        const schedule = cronInputs.map(id => document.getElementById(id).value.trim()).join(' ');
+        const command = document.getElementById('cron-command').value.trim() || '/path/to/your/script.sh';
+        const useLogging = document.getElementById('cron-logging').checked;
+        const logString = '>> /var/log/cron.log 2>&1';
+        
+        try {
+            humanReadableDiv.textContent = cronstrue.toString(schedule, { use24HourTimeFormat: true, verbose: true });
+        } catch (e) {
+            humanReadableDiv.textContent = 'Sintaks tidak valid.';
+        }
+        
+        const finalCommand = `${schedule} ${command} ${useLogging ? logString : ''}`.trim();
+        cronOutputDiv.innerHTML = createCodeBlock(finalCommand);
+        addCopyToClipboard(cronOutputDiv);
+    }
+    cronInputs.forEach(id => document.getElementById(id).addEventListener('input', updateCron));
+    document.getElementById('cron-command').addEventListener('input', updateCron);
+    document.getElementById('cron-logging').addEventListener('change', updateCron);
+    updateCron();
+
+    // --- Chmod Calculator Logic ---
+    const chmodBoxes = document.querySelectorAll('.chmod-box');
+    const octalInput = document.getElementById('chmod-octal');
+    const symbolicInput = document.getElementById('chmod-symbolic');
+    const chmodOutputDiv = document.getElementById('chmod-output');
+
+    function updateChmod() {
+        let octalValue = 0;
+        chmodBoxes.forEach(box => {
+            if (box.checked) {
+                octalValue += parseInt(box.dataset.permission, 10);
+            }
+        });
+
+        const owner = (octalValue >> 6) & 7;
+        const group = (octalValue >> 3) & 7;
+        const other = octalValue & 7;
+        
+        const toSymbolic = (val) => [(val & 4 ? 'r' : '-'), (val & 2 ? 'w' : '-'), (val & 1 ? 'x' : '-')].join('');
+
+        octalInput.value = ('000' + octalValue.toString(8)).slice(-3);
+        symbolicInput.value = toSymbolic(owner) + toSymbolic(group) + toSymbolic(other);
+        
+        const command = `chmod ${octalInput.value} [nama_file]`;
+        chmodOutputDiv.innerHTML = createCodeBlock(command);
+        addCopyToClipboard(chmodOutputDiv);
+    }
+
+    chmodBoxes.forEach(box => box.addEventListener('change', updateChmod));
+    octalInput.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (/^[0-7]{1,3}$/.test(val)) {
+            const octalValue = parseInt(val, 8);
+            const owner = (octalValue >> 6) & 7;
+            const group = (octalValue >> 3) & 7;
+            const other = octalValue & 7;
+
+            document.querySelector('.chmod-box[data-permission="400"]').checked = (owner & 4);
+            document.querySelector('.chmod-box[data-permission="200"]').checked = (owner & 2);
+            document.querySelector('.chmod-box[data-permission="100"]').checked = (owner & 1);
+            document.querySelector('.chmod-box[data-permission="40"]').checked = (group & 4);
+            document.querySelector('.chmod-box[data-permission="20"]').checked = (group & 2);
+            document.querySelector('.chmod-box[data-permission="10"]').checked = (group & 1);
+            document.querySelector('.chmod-box[data-permission="4"]').checked = (other & 4);
+            document.querySelector('.chmod-box[data-permission="2"]').checked = (other & 2);
+            document.querySelector('.chmod-box[data-permission="1"]').checked = (other & 1);
+            updateChmod();
+        }
+    });
+    updateChmod();
+    
+    // --- Regex Generator Logic ---
+    const generateRegexButton = document.getElementById('generateRegexButton');
+    const regexPrompt = document.getElementById('regex-prompt');
+    const regexInstructionsDiv = document.getElementById('regex-instructions');
+    const regexOutputDiv = document.getElementById('regex-output');
+    const regexTestArea = document.getElementById('regex-test-area');
+    const regexTestResults = document.getElementById('regex-test-results');
+
+    generateRegexButton.addEventListener('click', async () => {
+        const userPrompt = regexPrompt.value.trim();
+        if (!userPrompt) {
+            alert('Mohon masukkan deskripsi untuk pola regex.'); return;
+        }
+        generateRegexButton.disabled = true;
+        generateRegexButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Membuat...';
+
+        try {
+            const fullPrompt = `Based on the following description, generate ONLY the JavaScript-compatible regular expression pattern without any explanation or delimiters: "${userPrompt}"`;
+            let chatHistory = [{ role: "user", parts: [{ text: fullPrompt }] }];
+            const payload = { contents: chatHistory };
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+            const result = await response.json();
+
+            if (result.candidates && result.candidates[0].content.parts[0].text) {
+                const regexPattern = result.candidates[0].content.parts[0].text.trim();
+                regexOutputDiv.innerHTML = createCodeBlock(regexPattern);
+                addCopyToClipboard(regexOutputDiv);
+                regexInstructionsDiv.classList.remove('hidden');
+                updateRegexTest();
+            } else { throw new Error("Respons API tidak valid."); }
+        } catch (error) {
+            console.error('Regex Generation Error:', error);
+            regexOutputDiv.innerHTML = `<p class="text-red-500">Gagal membuat regex: ${error.message}</p>`;
+            regexInstructionsDiv.classList.remove('hidden');
+        } finally {
+            generateRegexButton.disabled = false;
+            generateRegexButton.innerHTML = '<i class="fas fa-microchip mr-2"></i>Buat Regex dengan AI';
+        }
+    });
+    
+    function updateRegexTest() {
+        const pattern = regexOutputDiv.querySelector('code')?.innerText;
+        if (!pattern) return;
+        const testText = regexTestArea.value;
+        try {
+            const regex = new RegExp(pattern, 'g');
+            const matches = testText.match(regex);
+            if(matches) {
+                regexTestResults.innerHTML = `<strong>Ditemukan ${matches.length} kecocokan:</strong><br>${matches.map(m => `<span class="bg-yellow-200 dark:bg-yellow-700 px-1 rounded">'${m}'</span>`).join(', ')}`;
+            } else {
+                regexTestResults.textContent = "Tidak ada kecocokan yang ditemukan.";
+            }
+        } catch (e) {
+            regexTestResults.innerHTML = `<span class="text-red-500">Error pada pola Regex: ${e.message}</span>`;
+        }
+    }
+    regexTestArea.addEventListener('input', updateRegexTest);
+  </script>
+</body>
+</html>
