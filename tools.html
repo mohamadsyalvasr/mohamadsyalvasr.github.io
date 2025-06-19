@@ -61,6 +61,18 @@
 
     /* Custom styles for chmod calculator */
     .chmod-grid { display: grid; grid-template-columns: repeat(4, auto); align-items: center; gap: 0.5rem; justify-content: space-between; }
+    
+    /* Regex builder styles */
+    .regex-builder-group {
+        background-color: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+    .dark .regex-builder-group {
+        background-color: #1f2937;
+        border-color: #374151;
+    }
   </style>
 </head>
 <body class="bg-slate-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
@@ -87,6 +99,7 @@
                 <button class="tool-tab-btn" data-tool="webserver"><i class="fas fa-server mr-2"></i>Web Server</button>
                 <button class="tool-tab-btn" data-tool="cron"><i class="fas fa-clock mr-2"></i>Cron</button>
                 <button class="tool-tab-btn" data-tool="chmod"><i class="fas fa-key mr-2"></i>Chmod</button>
+                <button class="tool-tab-btn" data-tool="subnet"><i class="fas fa-network-wired mr-2"></i>Subnet</button>
                 <button class="tool-tab-btn" data-tool="regex"><i class="fas fa-code mr-2"></i>Regex</button>
             </nav>
         </div>
@@ -267,24 +280,57 @@
                 <div id="chmod-output"></div>
             </div>
         </div>
+        
+        <!-- Subnet Calculator Panel -->
+        <div id="tool-subnet" class="tool-panel">
+            <header class="text-center mb-8">
+              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">
+                Kalkulator Subnet
+              </h1>
+              <p class="text-gray-600 dark:text-slate-300">Hitung detail jaringan dari alamat IP & CIDR.</p>
+            </header>
+            <div>
+                <label for="subnet-ip" class="block text-sm font-semibold mb-2 dark:text-gray-300">Alamat IP / CIDR</label>
+                <input type="text" id="subnet-ip" placeholder="192.168.1.0/24" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <button id="calculateSubnetButton" class="mt-8 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+              <i class="fas fa-calculator mr-2"></i>Hitung
+            </button>
+            <div id="subnet-results" class="mt-8 hidden bg-slate-50 dark:bg-slate-700 p-4 rounded-lg"></div>
+        </div>
 
         <!-- Regex Generator Panel -->
         <div id="tool-regex" class="tool-panel">
             <header class="text-center mb-8">
-              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Generator Regex dengan AI</h1>
-              <p class="text-gray-600 dark:text-slate-300">Ubah bahasa biasa menjadi Regular Expression.</p>
+              <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Generator Regex Manual</h1>
+              <p class="text-gray-600 dark:text-slate-300">Bangun Regular Expression secara bertahap.</p>
             </header>
-            <div class="space-y-4">
-                <div>
-                    <label for="regex-prompt" class="block text-sm font-semibold mb-2 dark:text-gray-300">Deskripsikan pola yang Anda inginkan:</label>
-                    <textarea id="regex-prompt" placeholder="Contoh: validasi nomor telepon Indonesia yang diawali +62" rows="3" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 text-gray-800 dark:text-slate-200 border rounded-lg"></textarea>
+            
+            <!-- Manual Mode UI -->
+            <div id="regex-manual-mode" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="regex-builder-group space-y-2">
+                        <h4 class="font-semibold text-gray-800 dark:text-slate-200">Karakter</h4>
+                        <label class="flex items-center text-gray-700 dark:text-slate-300"><input type="checkbox" class="regex-manual-box" data-regex="\d+"> Angka (\d+)</label>
+                        <label class="flex items-center text-gray-700 dark:text-slate-300"><input type="checkbox" class="regex-manual-box" data-regex="\w+"> Huruf & Angka (\w+)</label>
+                        <label class="flex items-center text-gray-700 dark:text-slate-300"><input type="checkbox" class="regex-manual-box" data-regex="\s+"> Spasi (\s+)</label>
+                        <label class="flex items-center text-gray-700 dark:text-slate-300"><input type="checkbox" class="regex-manual-box" data-regex=".+"> Karakter Apapun (.+)</label>
+                    </div>
+                    <div class="regex-builder-group space-y-2">
+                        <h4 class="font-semibold text-gray-800 dark:text-slate-200">Jangkar (Anchors)</h4>
+                        <label class="flex items-center text-gray-700 dark:text-slate-300"><input type="checkbox" class="regex-manual-box" data-regex="^"> Awal String (^)</label>
+                        <label class="flex items-center text-gray-700 dark:text-slate-300"><input type="checkbox" class="regex-manual-box" data-regex="$"> Akhir String ($)</label>
+                    </div>
+                    <div class="regex-builder-group md:col-span-2">
+                        <label for="regex-manual-custom" class="block text-sm font-semibold mb-2 text-gray-800 dark:text-slate-200">Pola Kustom</label>
+                        <input id="regex-manual-custom" type="text" placeholder="Contoh: [a-zA-Z0-9_]+" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border rounded-lg">
+                    </div>
                 </div>
             </div>
-            <button id="generateRegexButton" class="mt-4 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
-                <i class="fas fa-microchip mr-2"></i>Buat Regex dengan AI
-            </button>
-            <div id="regex-instructions" class="mt-8 hidden">
-                <h3 class="text-xl font-bold dark:text-white mb-4">Regex yang Dihasilkan</h3>
+
+            <!-- Regex Common Output/Testing Area -->
+            <div id="regex-instructions" class="mt-8">
+                 <h3 class="text-xl font-bold dark:text-white mb-4">Regex yang Dihasilkan</h3>
                 <div id="regex-output" class="mb-4"></div>
                 <h3 class="text-xl font-bold dark:text-white mb-4">Uji Coba Regex</h3>
                 <textarea id="regex-test-area" placeholder="Masukkan teks di sini untuk diuji..." rows="4" class="w-full p-2 bg-slate-50 dark:bg-slate-700 border rounded-lg"></textarea>
@@ -555,53 +601,74 @@
     });
     updateChmod();
     
-    // --- Regex Generator Logic ---
-    const generateRegexButton = document.getElementById('generateRegexButton');
-    const regexPrompt = document.getElementById('regex-prompt');
-    const regexInstructionsDiv = document.getElementById('regex-instructions');
+    // --- Subnet Calculator Logic ---
+    document.getElementById('calculateSubnetButton').addEventListener('click', () => {
+        const input = document.getElementById('subnet-ip').value.trim();
+        const resultsDiv = document.getElementById('subnet-results');
+        try {
+            const [ip, cidrStr] = input.split('/');
+            const cidr = parseInt(cidrStr);
+            if (!ip || isNaN(cidr) || cidr < 0 || cidr > 32) throw new Error("Format tidak valid.");
+
+            const ipToLong = (ip) => ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0);
+            const longToIp = (long) => [(long >>> 24) & 255, (long >>> 16) & 255, (long >>> 8) & 255, long & 255].join('.');
+            
+            const ipLong = ipToLong(ip);
+            const mask = -1 << (32 - cidr);
+            const networkLong = ipLong & mask;
+            const broadcastLong = networkLong | (~mask);
+
+            resultsDiv.innerHTML = `
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <strong class="text-gray-500 dark:text-gray-400">Alamat:</strong> <span>${input}</span>
+                    <strong class="text-gray-500 dark:text-gray-400">Netmask:</strong> <span>${longToIp(mask)}</span>
+                    <strong class="text-gray-500 dark:text-gray-400">Alamat Jaringan:</strong> <span>${longToIp(networkLong)}</span>
+                    <strong class="text-gray-500 dark:text-gray-400">Alamat Broadcast:</strong> <span>${longToIp(broadcastLong)}</span>
+                    <strong class="text-gray-500 dark:text-gray-400">Host Pertama:</strong> <span>${cidr < 31 ? longToIp(networkLong + 1) : 'N/A'}</span>
+                    <strong class="text-gray-500 dark:text-gray-400">Host Terakhir:</strong> <span>${cidr < 31 ? longToIp(broadcastLong - 1) : 'N/A'}</span>
+                    <strong class="text-gray-500 dark:text-gray-400">Total Host:</strong> <span>${Math.pow(2, 32 - cidr)}</span>
+                    <strong class="text-gray-500 dark:text-gray-400">Host Dapat Digunakan:</strong> <span>${cidr < 31 ? (Math.pow(2, 32 - cidr) - 2) : 0}</span>
+                </div>`;
+
+        } catch (e) {
+            resultsDiv.innerHTML = `<p class="text-red-500">Error: ${e.message}. Gunakan format seperti 192.168.1.0/24.</p>`;
+        }
+        resultsDiv.classList.remove('hidden');
+    });
+
+    // --- Regex Generator Logic (Manual Only) ---
+    const manualBoxes = document.querySelectorAll('.regex-manual-box');
+    const customInput = document.getElementById('regex-manual-custom');
     const regexOutputDiv = document.getElementById('regex-output');
+    const regexInstructionsDiv = document.getElementById('regex-instructions');
     const regexTestArea = document.getElementById('regex-test-area');
     const regexTestResults = document.getElementById('regex-test-results');
 
-    generateRegexButton.addEventListener('click', async () => {
-        const userPrompt = regexPrompt.value.trim();
-        if (!userPrompt) {
-            alert('Mohon masukkan deskripsi untuk pola regex.'); return;
-        }
-        generateRegexButton.disabled = true;
-        generateRegexButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Membuat...';
+    function buildManualRegex() {
+        let pattern = '';
+        manualBoxes.forEach(box => {
+            if(box.checked) {
+                pattern += box.dataset.regex;
+            }
+        });
+        pattern += customInput.value.trim();
+        displayRegex(pattern || '');
+    }
 
-        try {
-            const fullPrompt = `Based on the following description, generate ONLY the JavaScript-compatible regular expression pattern without any explanation or delimiters: "${userPrompt}"`;
-            let chatHistory = [{ role: "user", parts: [{ text: fullPrompt }] }];
-            const payload = { contents: chatHistory };
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-            
-            const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-            if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
-            const result = await response.json();
+    manualBoxes.forEach(box => box.addEventListener('change', buildManualRegex));
+    customInput.addEventListener('input', buildManualRegex);
 
-            if (result.candidates && result.candidates[0].content.parts[0].text) {
-                const regexPattern = result.candidates[0].content.parts[0].text.trim();
-                regexOutputDiv.innerHTML = createCodeBlock(regexPattern);
-                addCopyToClipboard(regexOutputDiv);
-                regexInstructionsDiv.classList.remove('hidden');
-                updateRegexTest();
-            } else { throw new Error("Respons API tidak valid."); }
-        } catch (error) {
-            console.error('Regex Generation Error:', error);
-            regexOutputDiv.innerHTML = `<p class="text-red-500">Gagal membuat regex: ${error.message}</p>`;
-            regexInstructionsDiv.classList.remove('hidden');
-        } finally {
-            generateRegexButton.disabled = false;
-            generateRegexButton.innerHTML = '<i class="fas fa-microchip mr-2"></i>Buat Regex dengan AI';
-        }
-    });
+    function displayRegex(pattern) {
+        regexOutputDiv.innerHTML = createCodeBlock(pattern);
+        addCopyToClipboard(regexOutputDiv);
+        regexInstructionsDiv.classList.remove('hidden'); // Show the output/test area
+        updateRegexTest();
+    }
     
     function updateRegexTest() {
         const pattern = regexOutputDiv.querySelector('code')?.innerText;
-        if (!pattern) return;
+        if (pattern === undefined || pattern === null) return;
+        
         const testText = regexTestArea.value;
         try {
             const regex = new RegExp(pattern, 'g');
@@ -616,6 +683,8 @@
         }
     }
     regexTestArea.addEventListener('input', updateRegexTest);
+    buildManualRegex(); // Initial call to show empty state
+
   </script>
 </body>
 </html>
