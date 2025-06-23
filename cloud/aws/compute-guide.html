@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif AWS Compute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals - Background: Stone 100, Text: Slate 700, Primary Accent: Teal 600, Secondary Accent: Amber 500 -->
+    <!-- Application Structure Plan: Aplikasi ini dirancang sebagai dasbor eksplorasi satu halaman. Struktur utamanya adalah: 1. Header dengan judul dan pengantar. 2. Diagram interaktif "Spektrum Kendali" sebagai navigasi utama, yang secara visual memetakan layanan dari IaaS ke FaaS. Mengklik layanan pada spektrum akan memperbarui konten utama secara dinamis. 3. Area konten dinamis yang menampilkan detail layanan yang dipilih, diatur dalam tab untuk ringkasan, kasus penggunaan, dan harga. 4. Alat "Pilih Layanan Anda" yang interaktif, mengubah kerangka keputusan laporan menjadi serangkaian filter berbasis kriteria (misalnya, keahlian tim, pola lalu lintas) untuk merekomendasikan layanan. 5. Visualisasi perbandingan dinamis menggunakan Chart.js untuk membandingkan layanan yang dipilih pada berbagai atribut seperti kontrol, kemudahan, dan skalabilitas. Struktur ini dipilih untuk mengubah laporan linier menjadi pengalaman belajar non-linier yang menarik, memprioritaskan pemahaman pengguna dan eksplorasi mandiri daripada konsumsi pasif. -->
+    <!-- Visualization & Content Choices: 1. Spektrum Kendali (Diagram HTML/CSS): Goal=Organize/Navigate, Method=Flexbox dengan elemen yang dapat diklik. Interaction=Menampilkan/menyembunyikan bagian konten melalui JS. Justification=Mewujudkan konsep inti laporan sebagai navigasi utama. 2. Perbandingan Layanan (Radar Chart - Chart.js): Goal=Compare, Method=Radar chart untuk visualisasi multi-atribut. Interaction=Diperbarui secara dinamis oleh alat keputusan. Justification=Menyederhanakan perbandingan kompleks menjadi format visual yang mudah dipahami. 3. Alat Keputusan (Filter HTML/JS): Goal=Guide/Inform, Method=Tombol filter yang memanipulasi visibilitas rekomendasi. Interaction=Mengklik kriteria akan menyorot layanan yang sesuai. Justification=Mengubah kerangka kerja statis menjadi alat praktis yang menarik. 4. Detail Layanan (Tab HTML/JS): Goal=Inform, Method=Konten yang dapat dialihkan. Interaction=Mengklik tab akan mengubah konten yang ditampilkan. Justification=Mencegah kelebihan informasi dengan menyajikan detail secara terstruktur. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #334155; /* slate-700 */
+        }
+        .nav-button.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(13, 148, 136, 0.39);
+        }
+        .nav-button {
+            transition: all 0.3s ease-in-out;
+            flex-shrink: 0;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #0d9488; /* teal-600 */
+            color: #0d9488;
+        }
+        .content-section, .tab-content {
+            display: none;
+        }
+        .content-section.active, .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px; /* h-80 */
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .decision-button.selected {
+            background-color: #f59e0b; /* amber-500 */
+            color: white;
+        }
+        .recommendation-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .recommendation-card.highlight {
+            border-color: #0d9488; /* teal-600 */
+            box-shadow: 0 0 15px rgba(13, 148, 136, 0.2);
+            transform: translateY(-5px);
+        }
+        .spectrum-line {
+            position: absolute;
+            left: 50px;
+            right: 50px;
+            top: 50%;
+            height: 4px;
+            background: linear-gradient(to right, #0d9488, #f59e0b);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .spectrum-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .spectrum-container::-webkit-scrollbar-thumb {
+            background-color: #d4d4d8; /* stone-300 */
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-2">Panduan Interaktif AWS Compute</h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi berbagai layanan komputasi AWS—mulai dari mesin virtual hingga serverless—dalam panduan visual yang dirancang untuk memudahkan pemahaman.</p>
+        </header>
+
+        <section id="spectrum-section" class="mb-12">
+            <h2 class="text-2xl font-bold text-center mb-4 text-slate-800">Spektrum Kendali & Abstraksi</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Pilih salah satu layanan untuk melihat detailnya. Spektrum ini menggambarkan pergeseran dari kontrol penuh terhadap infrastruktur (seperti pada IaaS) di sisi kiri, menuju layanan yang lebih otomatis dan mudah digunakan (seperti FaaS) di sisi kanan.</p>
+            <div class="spectrum-container overflow-x-auto pb-4 -mx-4 px-4">
+                 <div class="relative w-full min-w-[550px] h-32">
+                    <div class="spectrum-line"></div>
+                    <div id="spectrum-nav" class="relative z-10 flex justify-between items-center h-full">
+                        <button type="button" data-target="ec2" class="nav-button bg-white shadow-lg rounded-full w-28 h-28 flex flex-col justify-center items-center p-2 text-center">
+                            <span class="text-4xl">💻</span>
+                            <span class="font-semibold text-sm mt-1">EC2</span>
+                            <span class="text-xs text-slate-500">IaaS</span>
+                        </button>
+                        <button type="button" data-target="containers" class="nav-button bg-white shadow-lg rounded-full w-28 h-28 flex flex-col justify-center items-center p-2 text-center">
+                            <span class="text-4xl">📦</span>
+                            <span class="font-semibold text-sm mt-1">Container</span>
+                            <span class="text-xs text-slate-500">CaaS</span>
+                        </button>
+                        <button type="button" data-target="platforms" class="nav-button bg-white shadow-lg rounded-full w-28 h-28 flex flex-col justify-center items-center p-2 text-center">
+                            <span class="text-4xl">⚙️</span>
+                            <span class="font-semibold text-sm mt-1">Platform</span>
+                            <span class="text-xs text-slate-500">PaaS</span>
+                        </button>
+                        <button type="button" data-target="lambda" class="nav-button bg-white shadow-lg rounded-full w-28 h-28 flex flex-col justify-center items-center p-2 text-center">
+                            <span class="text-4xl">💡</span>
+                            <span class="font-semibold text-sm mt-1">Lambda</span>
+                            <span class="text-xs text-slate-500">FaaS</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <main id="content-area" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[500px] transition-all duration-300">
+            <!-- EC2 Content -->
+            <div id="ec2-content" class="content-section"></div>
+            <!-- Containers Content -->
+            <div id="containers-content" class="content-section"></div>
+            <!-- Platforms Content -->
+            <div id="platforms-content" class="content-section"></div>
+            <!-- Lambda Content -->
+            <div id="lambda-content" class="content-section"></div>
+            <!-- Welcome Message -->
+            <div id="welcome-content" class="content-section text-center flex flex-col justify-center items-center h-full">
+                <span class="text-6xl mb-4">☁️</span>
+                <h3 class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
+                <p class="text-slate-500 mt-2">Pilih salah satu layanan pada Spektrum Kendali di atas untuk mulai menjelajahi fitur dan kegunaannya.</p>
+            </div>
+        </main>
+
+        <section id="decision-tool" class="mt-16">
+            <h2 class="text-3xl font-bold text-center mb-4 text-slate-800">Alat Bantu Keputusan: Temukan Layanan yang Tepat</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter berikut untuk mencari layanan komputasi AWS yang paling sesuai dengan kebutuhan proyek. Rekomendasi akan diberikan berdasarkan prioritas dan karakteristik aplikasi yang dipilih.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div id="decision-filters" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-bold mb-3 text-slate-700">1. Apa yang jadi prioritas utama tim?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="control" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Kendali penuh dan fleksibilitas</button>
+                            <button type="button" data-filter="simplicity" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Kesederhanaan dan kecepatan deployment</button>
+                            <button type="button" data-filter="portability" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Portabilitas dan standar industri (Kubernetes)</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-3 text-slate-700">2. Seperti apa arsitektur aplikasinya?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="monolith" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Monolitik atau Aplikasi Web biasa</button>
+                            <button type="button" data-filter="microservices" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Layanan mikro (<i>microservices</i>)</button>
+                            <button type="button" data-filter="event-driven" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Berbasis Peristiwa (<i>Event-Driven</i>)</button>
+                        </div>
+                    </div>
+                     <div>
+                        <h4 class="font-bold mb-3 text-slate-700">3. Bagaimana pola lalu lintas yang dihadapi?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="stable" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Stabil & Mudah Diprediksi</button>
+                            <button type="button" data-filter="unpredictable" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Tidak menentu atau sering melonjak</button>
+                            <button type="button" data-filter="batch" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Pemrosesan Batch dalam Skala Besar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-8 border-slate-200">
+
+                <div>
+                    <h3 class="text-xl font-bold text-center mb-6 text-slate-800">Rekomendasi Layanan</h3>
+                    <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Recommendation cards will be injected here -->
+                    </div>
+                     <div id="no-recommendation" class="text-center text-slate-500 py-8 hidden">
+                        <p>Pilih salah satu kriteria di atas untuk melihat rekomendasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comparison-chart-section" class="mt-16">
+            <h2 class="text-3xl font-bold text-center mb-4 text-slate-800">Visualisasi Perbandingan Layanan</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Bandingkan hingga dua layanan secara visual. Pilih layanan yang ingin kamu bandingkan dari kartu rekomendasi di atas.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 relative">
+                <div id="comparison-alert" class="hidden absolute top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg z-20" role="alert">
+                    <strong class="font-bold">Batas tercapai!</strong>
+                    <span class="block sm:inline"> Kamu hanya dapat membandingkan 2 layanan.</span>
+                </div>
+                <div class="text-center mb-4" id="comparison-controls">
+                     <p class="text-slate-600 mb-2">Layanan untuk dibandingkan:</p>
+                     <div id="comparison-pills" class="flex flex-wrap justify-center gap-2 min-h-[24px]"></div>
+                     <button type="button" id="clear-comparison" class="mt-4 text-sm text-teal-600 hover:text-teal-800 disabled:opacity-50 disabled:cursor-not-allowed">Bersihkan Pilihan</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                    <div id="chart-placeholder" class="absolute inset-0 flex justify-center items-center text-slate-500">
+                        <p>Pilih layanan dari kartu rekomendasi untuk mulai membandingkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const serviceData = {
+            ec2: {
+                title: 'Amazon EC2',
+                icon: '💻',
+                svg: `
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <svg width="32px" height="32px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+                        <title>Icon-Architecture/64/Arch_Amazon-EC2_64</title>
+                        <desc>Created with Sketch.</desc>
+                        <defs>
+                            <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-1">
+                                <stop stop-color="#C8511B" offset="0%"></stop>
+                                <stop stop-color="#FF9900" offset="100%"></stop>
+                            </linearGradient>
+                        </defs>
+                        <g id="Icon-Architecture/64/Arch_Amazon-EC2_64" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Icon-Architecture-BG/64/Compute" fill="url(#linearGradient-1)">
+                                <rect id="Rectangle" x="0" y="0" width="80" height="80"></rect>
+                            </g>
+                            <path d="M27,53 L52,53 L52,28 L27,28 L27,53 Z M54,28 L58,28 L58,30 L54,30 L54,34 L58,34 L58,36 L54,36 L54,39 L58,39 L58,41 L54,41 L54,45 L58,45 L58,47 L54,47 L54,51 L58,51 L58,53 L54,53 L54,53.136 C54,54.164 53.164,55 52.136,55 L52,55 L52,59 L50,59 L50,55 L46,55 L46,59 L44,59 L44,55 L41,55 L41,59 L39,59 L39,55 L35,55 L35,59 L33,59 L33,55 L29,55 L29,59 L27,59 L27,55 L26.864,55 C25.836,55 25,54.164 25,53.136 L25,53 L22,53 L22,51 L25,51 L25,47 L22,47 L22,45 L25,45 L25,41 L22,41 L22,39 L25,39 L25,36 L22,36 L22,34 L25,34 L25,30 L22,30 L22,28 L25,28 L25,27.864 C25,26.836 25.836,26 26.864,26 L27,26 L27,22 L29,22 L29,26 L33,26 L33,22 L35,22 L35,26 L39,26 L39,22 L41,22 L41,26 L44,26 L44,22 L46,22 L46,26 L50,26 L50,22 L52,22 L52,26 L52.136,26 C53.164,26 54,26.836 54,27.864 L54,28 Z M41,65.876 C41,65.944 40.944,66 40.876,66 L14.124,66 C14.056,66 14,65.944 14,65.876 L14,39.124 C14,39.056 14.056,39 14.124,39 L20,39 L20,37 L14.124,37 C12.953,37 12,37.953 12,39.124 L12,65.876 C12,67.047 12.953,68 14.124,68 L40.876,68 C42.047,68 43,67.047 43,65.876 L43,61 L41,61 L41,65.876 Z M68,14.124 L68,40.876 C68,42.047 67.047,43 65.876,43 L60,43 L60,41 L65.876,41 C65.944,41 66,40.944 66,40.876 L66,14.124 C66,14.056 65.944,14 65.876,14 L39.124,14 C39.056,14 39,14.056 39,14.124 L39,20 L37,20 L37,14.124 C37,12.953 37.953,12 39.124,12 L65.876,12 C67.047,12 68,12.953 68,14.124 L68,14.124 Z" id="Amazon-EC2_Icon_64_Squid" fill="#FFFFFF"></path>
+                        </g>
+                    </svg>
+                `,
+                description: 'Layanan inti yang menyediakan server virtual (instance) yang bisa diskalakan, dengan kendali penuh atas sistem operasi dan perangkat lunak.',
+                tabs: {
+                    'Ringkasan': `<h4 class="font-bold text-lg mb-2">Ringkasan</h4><p>EC2 adalah tulang punggung dari model IaaS (Infrastructure as a Service) di AWS. Layanan ini memberikan fleksibilitas maksimal untuk mengatur mesin virtual sesuai kebutuhan. Pengelolaan sistem operasi, keamanan, dan perangkat lunak sepenuhnya menjadi tanggung jawab pengguna.</p><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Kendali Penuh:</span> Akses root ke server virtual.</li><li><span class="font-semibold">Fleksibilitas Tinggi:</span> Ratusan jenis instance yang bisa disesuaikan dengan berbagai jenis beban kerja.</li><li><span class="font-semibold">Beragam Opsi Pembelian:</span> On-Demand, Savings Plans, Reserved, dan Spot untuk efisiensi biaya.</li></ul>`,
+                    'Kasus Penggunaan': `<h4 class="font-bold text-lg mb-2">Kasus Penggunaan Umum</h4><ul class="list-disc list-inside mt-4 space-y-2"><li>Aplikasi web atau sistem internal dengan kebutuhan konfigurasi khusus.</li><li>Beban kerja yang butuh kontrol penuh atas lingkungan software.</li><li>Aplikasi dengan trafik stabil (lebih hemat dengan Reserved Instances).</li><li>Kebutuhan komputasi tinggi seperti HPC (High Performance Computing).</li></ul>`,
+                    'Harga': `<h4 class="font-bold text-lg mb-2">Model Harga</h4><p>Harga EC2 cukup fleksibel, ditagihkan per jam atau bahkan per detik, tergantung pada:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Jenis Instance:</span> Kombinasi CPU, memori, dan penyimpanan.</li><li><span class="font-semibold">Model Pembelian:</span> On-Demand (fleksibel), Savings Plans/Reserved (lebih hemat), Spot (diskon besar tapi bisa dihentikan sewaktu-waktu).</li><li><span class="font-semibold">Transfer Data:</span> Biaya dikenakan untuk data yang keluar dari AWS.</li></ul>`
+                },
+                scores: { control: 10, simplicity: 2, portability: 7, monolith: 9, microservices: 5, 'event-driven': 2, stable: 9, unpredictable: 6, batch: 8 },
+                tags: ['control', 'monolith', 'stable', 'batch']
+            },
+            containers: {
+                title: 'Layanan Kontainer',
+                icon: '📦',
+                svg: '📦',
+                description: 'Menjalankan aplikasi di dalam kontainer yang ringan dan mudah dipindahkan (menggunakan ECS atau EKS), sehingga bisa berjalan konsisten di berbagai lingkungan.',
+                tabs: {
+                    'Ringkasan': `<h4 class="font-bold text-lg mb-2">Ringkasan</h4><p>AWS menyediakan layanan untuk mengelola aplikasi berbasis kontainer agar lebih mudah dijalankan, diskalakan, dan dihubungkan. Proses deployment jadi lebih otomatis dan efisien, tanpa harus mengatur semuanya secara manual.</p><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Amazon ECS:</span> Layanan manajemen kontainer buatan AWS, mudah digunakan dan terintegrasi dengan layanan AWS lainnya.</li><li><span class="font-semibold">Amazon EKS:</span> Versi Kubernetes terkelola, cocok untuk yang butuh fleksibilitas lebih dan ingin tetap pakai standar industri.</li><li><span class="font-semibold">AWS Fargate:</span> Jalankan kontainer tanpa perlu atur server—semuanya diurus otomatis oleh AWS.</li></ul>`,
+                    'Kasus Penggunaan': `<h4 class="font-bold text-lg mb-2">Kasus Penggunaan Umum</h4><ul class="list-disc list-inside mt-4 space-y-2"><li>Membangun arsitektur microservices.</li><li>Memindahkan aplikasi lama ke sistem kontainer yang lebih modern.</li><li>Membuat proses build dan deploy otomatis dengan CI/CD.</li><li>Aplikasi yang butuh bisa diskalakan dengan cepat saat trafik meningkat.</li></ul>`,
+                    'Harga': `<h4 class="font-bold text-lg mb-2">Model Harga</h4><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">ECS:</span> Gratis untuk pengelolaannya, hanya bayar sumber daya (seperti EC2 atau Fargate) yang dipakai.</li><li><span class="font-semibold">EKS:</span> Ada biaya tetap per jam untuk kontrol utamanya (<b>control plane</b>), plus biaya untuk server yang digunakan.</li><li><span class="font-semibold">Fargate:</span> Bayar berdasarkan jumlah vCPU dan memori yang dipakai, dihitung per detik.</li></ul>`
+                },
+                scores: { control: 6, simplicity: 6, portability: 9, monolith: 5, microservices: 10, 'event-driven': 4, stable: 7, unpredictable: 8, batch: 6 },
+                tags: ['portability', 'microservices', 'unpredictable']
+            },
+            platforms: {
+                title: 'Platform Terkelola',
+                icon: '⚙️',
+                svg: '⚙️',
+                description: 'Layanan PaaS seperti Lightsail dan Elastic Beanstalk yang menyederhanakan pengelolaan infrastruktur, cocok untuk deployment cepat dan praktis.',
+                tabs: {
+                    'Ringkasan': `<h4 class="font-bold text-lg mb-2">Ringkasan</h4><p>Layanan ini dibuat untuk mempermudah penggunaan cloud, terutama bagi yang ingin fokus ke aplikasi tanpa ribet mengurus detail teknis infrastruktur. Meskipun lebih praktis, ada sedikit pengurangan fleksibilitas dibanding layanan IaaS penuh.</p><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Amazon Lightsail:</span> VPS yang simpel dengan harga bulanan tetap. Cocok untuk pemula atau proyek kecil.</li><li><span class="font-semibold">AWS Elastic Beanstalk:</span> Jalankan dan skala aplikasi web hanya dengan unggah kode—pengelolaan server dan konfigurasi otomatis ditangani oleh Beanstalk.</li></ul>`,
+                    'Kasus Penggunaan': `<h4 class="font-bold text-lg mb-2">Kasus Penggunaan Umum</h4><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Lightsail:</span> Hosting WordPress, toko online kecil, atau server sederhana lainnya.</li><li><span class="font-semibold">Elastic Beanstalk:</span> Aplikasi web seperti PHP, Node.js, Python, serta backend API yang butuh deployment cepat.</li></ul>`,
+                    'Harga': `<h4 class="font-bold text-lg mb-2">Model Harga</h4><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Lightsail:</span> Paket harga tetap per bulan, jadi lebih mudah diprediksi dan dikelola.</li><li><span class="font-semibold">Elastic Beanstalk:</span> Tidak ada biaya tambahan untuk layanan ini. Cukup bayar sumber daya AWS (seperti EC2, RDS) yang digunakan oleh aplikasi.</li></ul>`
+                },
+                scores: { control: 4, simplicity: 9, portability: 5, monolith: 8, microservices: 3, 'event-driven': 1, stable: 8, unpredictable: 5, batch: 1 },
+                tags: ['simplicity', 'monolith', 'stable']
+            },
+            lambda: {
+                title: 'AWS Lambda',
+                icon: '💡',
+                svg: `
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <svg width="32px" height="32px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+                        <title>Icon-Architecture/64/Arch_AWS-Lambda_64</title>
+                        <desc>Created with Sketch.</desc>
+                        <defs>
+                            <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-1">
+                                <stop stop-color="#C8511B" offset="0%"></stop>
+                                <stop stop-color="#FF9900" offset="100%"></stop>
+                            </linearGradient>
+                        </defs>
+                        <g id="Icon-Architecture/64/Arch_AWS-Lambda_64" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Icon-Architecture-BG/64/Compute" fill="url(#linearGradient-1)">
+                                <rect id="Rectangle" x="0" y="0" width="80" height="80"></rect>
+                            </g>
+                            <path d="M28.0075352,66 L15.5907274,66 L29.3235885,37.296 L35.5460249,50.106 L28.0075352,66 Z M30.2196674,34.553 C30.0512768,34.208 29.7004629,33.989 29.3175745,33.989 L29.3145676,33.989 C28.9286723,33.99 28.5778583,34.211 28.4124746,34.558 L13.097944,66.569 C12.9495999,66.879 12.9706487,67.243 13.1550766,67.534 C13.3374998,67.824 13.6582439,68 14.0020416,68 L28.6420072,68 C29.0299071,68 29.3817234,67.777 29.5481094,67.428 L37.563706,50.528 C37.693006,50.254 37.6920037,49.937 37.5586944,49.665 L30.2196674,34.553 Z M64.9953491,66 L52.6587274,66 L32.866809,24.57 C32.7014253,24.222 32.3486067,24 31.9617091,24 L23.8899822,24 L23.8990031,14 L39.7197081,14 L59.4204149,55.429 C59.5857986,55.777 59.9386172,56 60.3255148,56 L64.9953491,56 L64.9953491,66 Z M65.9976745,54 L60.9599868,54 L41.25928,12.571 C41.0938963,12.223 40.7410777,12 40.3531778,12 L22.89768,12 C22.3453987,12 21.8963569,12.447 21.8953545,12.999 L21.884329,24.999 C21.884329,25.265 21.9885708,25.519 22.1780103,25.707 C22.3654452,25.895 22.6200358,26 22.8866544,26 L31.3292417,26 L51.1221625,67.43 C51.2885485,67.778 51.6393624,68 52.02626,68 L65.9976745,68 C66.5519605,68 67,67.552 67,67 L67,55 C67,54.448 66.5519605,54 65.9976745,54 L65.9976745,54 Z" id="AWS-Lambda_Icon_64_Squid" fill="#FFFFFF"></path>
+                        </g>
+                    </svg>
+                `,
+                description: 'Layanan komputasi serverless yang menjalankan kode secara otomatis sebagai respons terhadap peristiwa—tanpa perlu mengelola server.',
+                tabs: {
+                    'Ringkasan': `<h4 class="font-bold text-lg mb-2">Ringkasan</h4><p>AWS Lambda memungkinkan menjalankan potongan kode (fungsi) sebagai respons terhadap peristiwa, seperti permintaan HTTP, perubahan data, atau jadwal waktu tertentu. Tidak perlu mengurus server, penskalaan, atau manajemen infrastruktur—semuanya ditangani oleh AWS. Sangat cocok untuk beban kerja yang tidak selalu aktif.</p><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Tanpa Server:</span> Jalankan kode tanpa konfigurasi atau pengelolaan server.</li><li><span class="font-semibold">Penskalaan Otomatis:</span> Fungsi diskalakan otomatis dari nol hingga ribuan permintaan per detik.</li><li><span class="font-semibold">Bayar Sesuai Penggunaan:</span> Biaya hanya dikenakan saat fungsi dijalankan, berdasarkan jumlah permintaan dan lama eksekusinya.</li></ul>`,
+                    'Kasus Penggunaan': `<h4 class="font-bold text-lg mb-2">Kasus Penggunaan Umum</h4><ul class="list-disc list-inside mt-4 space-y-2"><li>Backend API ringan untuk aplikasi web dan seluler.</li><li>Memproses file atau data secara real-time, misalnya membuat thumbnail dari gambar.</li><li>Tugas otomatisasi seperti menjalankan proses terjadwal (*cron job*).</li><li>Menjalankan logika penghubung antar layanan AWS (event-driven workflows).</li></ul>`,
+                    'Harga': `<h4 class="font-bold text-lg mb-2">Model Harga</h4><p>Lambda menggunakan model harga berbasis penggunaan, sehingga lebih efisien untuk aplikasi dengan beban kerja tidak tetap:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><span class="font-semibold">Biaya per Permintaan:</span> Ada tarif tetap per setiap eksekusi fungsi.</li><li><span class="font-semibold">Biaya per Durasi:</span> Dihitung berdasarkan waktu eksekusi dan memori yang digunakan (dalam GB-detik).</li><li><span class="font-semibold">Free Tier:</span> Termasuk kuota gratis bulanan yang cukup besar untuk eksperimen atau proyek kecil.</li></ul>`
+                },
+                scores: { control: 1, simplicity: 10, portability: 6, monolith: 1, microservices: 8, 'event-driven': 10, stable: 5, unpredictable: 10, batch: 4 },
+                tags: ['simplicity', 'microservices', 'event-driven', 'unpredictable']
+            },
+            fargate: {
+                 title: 'AWS Fargate',
+                 icon: '🚀',
+                 svg: `
+                    <?xml version="1.0" encoding="UTF-8"?>
+                        <svg width="32px" height="32px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+                            <title>Icon-Architecture/64/Arch_AWS-Fargate_64</title>
+                            <desc>Created with Sketch.</desc>
+                            <defs>
+                                <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-1">
+                                    <stop stop-color="#C8511B" offset="0%"></stop>
+                                    <stop stop-color="#FF9900" offset="100%"></stop>
+                                </linearGradient>
+                            </defs>
+                            <g id="Icon-Architecture/64/Arch_AWS-Fargate_64" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="Icon-Architecture-BG/64/Compute" fill="url(#linearGradient-1)">
+                                    <rect id="Rectangle" x="0" y="0" width="80" height="80"></rect>
+                                </g>
+                                <g id="Icon-Service/64/AWS-Fargate" transform="translate(8.000000, 8.000000)" fill="#FFFFFF">
+                                    <path d="M44,48.523 L44,43.677 L47,42.477 L47,47.323 L44,48.523 Z M39,42.477 L42,43.677 L42,48.523 L39,47.323 L39,42.477 Z M33,55.523 L33,50.677 L36,49.477 L36,54.323 L33,55.523 Z M28,49.477 L31,50.677 L31,55.523 L28,54.323 L28,49.477 Z M22,48.523 L22,43.677 L25,42.477 L25,47.323 L22,48.523 Z M17,42.477 L20,43.677 L20,48.523 L17,47.323 L17,42.477 Z M21,40.077 L23.308,41 L21,41.923 L18.692,41 L21,40.077 Z M32,47.077 L34.308,48 L32,48.923 L29.692,48 L32,47.077 Z M43,40.077 L45.308,41 L43,41.923 L40.692,41 L43,40.077 Z M48.371,40.071 L43.371,38.071 C43.133,37.977 42.867,37.977 42.629,38.071 L37.629,40.071 C37.249,40.224 37,40.591 37,41 L37,46.923 L32.371,45.071 C32.133,44.977 31.867,44.977 31.629,45.071 L27,46.923 L27,41 C27,40.591 26.751,40.224 26.371,40.071 L21.371,38.071 C21.133,37.977 20.867,37.977 20.629,38.071 L15.629,40.071 C15.249,40.224 15,40.591 15,41 L15,48 C15,48.409 15.249,48.776 15.629,48.929 L20.629,50.929 C20.748,50.976 20.874,51 21,51 C21.126,51 21.252,50.976 21.371,50.929 L26,49.077 L26,55 C26,55.409 26.249,55.776 26.629,55.929 L31.629,57.929 C31.748,57.976 31.874,58 32,58 C32.126,58 32.252,57.976 32.371,57.929 L37.371,55.929 C37.751,55.776 38,55.409 38,55 L38,49.077 L42.629,50.929 C42.748,50.976 42.874,51 43,51 C43.126,51 43.252,50.976 43.371,50.929 L48.371,48.929 C48.751,48.776 49,48.409 49,48 L49,41 C49,40.591 48.751,40.224 48.371,40.071 L48.371,40.071 Z M57,27.938 C57,33.783 44.119,36.938 32,36.938 C19.881,36.938 7,33.783 7,27.938 C7,25.147 10.095,22.69 15.715,21.019 L16.285,22.936 C11.791,24.272 9,26.189 9,27.938 C9,31.249 18.445,34.938 32,34.938 C45.555,34.938 55,31.249 55,27.938 C55,26.189 52.209,24.272 47.715,22.936 L48.285,21.019 C53.905,22.69 57,25.147 57,27.938 L57,27.938 Z M32,9.071 L42.214,13 L32,16.929 L21.786,13 L32,9.071 Z M42.58,28.842 C40.694,29.686 37.528,30.669 33,30.801 L33,18.687 L44,14.457 L44,26.648 C44,27.599 43.444,28.46 42.58,28.842 L42.58,28.842 Z M20,26.648 L20,14.457 L31,18.687 L31,30.801 C26.472,30.669 23.306,29.686 21.416,28.84 C20.556,28.46 20,27.599 20,26.648 L20,26.648 Z M20.604,30.667 C22.805,31.652 26.569,32.827 32,32.827 C37.431,32.827 41.195,31.652 43.393,30.669 C44.977,29.968 46,28.39 46,26.648 L46,13 C46,12.586 45.745,12.215 45.359,12.066 L32.359,7.066 C32.127,6.978 31.873,6.978 31.641,7.066 L18.641,12.066 C18.255,12.215 18,12.586 18,13 L18,26.648 C18,28.39 19.023,29.968 20.604,30.667 L20.604,30.667 Z" id="AWS-Fargate_Icon_64_Squid"></path>
+                                </g>
+                            </g>
+                        </svg>
+                 `,
+                 description: 'Mesin komputasi *serverless* untuk kontainer. Jalankan ECS atau EKS tanpa perlu mengelola instance EC2.',
+                 scores: { control: 3, simplicity: 9, portability: 8, monolith: 3, microservices: 10, 'event-driven': 5, stable: 6, unpredictable: 10, batch: 5 },
+                 tags: ['simplicity', 'microservices', 'unpredictable']
+            },
+            batch: {
+                title: 'AWS Batch',
+                icon: '📊',
+                svg: `
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <svg width="32px" height="32px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+                        <title>Icon-Architecture/64/Arch_AWS-Batch_64</title>
+                        <desc>Created with Sketch.</desc>
+                        <defs>
+                            <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-1">
+                                <stop stop-color="#C8511B" offset="0%"></stop>
+                                <stop stop-color="#FF9900" offset="100%"></stop>
+                            </linearGradient>
+                        </defs>
+                        <g id="Icon-Architecture/64/Arch_AWS-Batch_64" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Icon-Architecture-BG/64/Compute" fill="url(#linearGradient-1)">
+                                <rect id="Rectangle" x="0" y="0" width="80" height="80"></rect>
+                            </g>
+                            <path d="M40.2258065,58.897 C41.4647177,58.897 42.4707661,59.894 42.4707661,61.124 C42.4707661,62.354 41.4647177,63.351 40.2258065,63.351 C38.9868952,63.351 37.9808468,62.354 37.9808468,61.124 C37.9808468,59.894 38.9868952,58.897 40.2258065,58.897 M21.3014113,40.876 C21.3014113,42.106 20.2953629,43.103 19.0564516,43.103 C17.8175403,43.103 16.8114919,42.106 16.8114919,40.876 C16.8114919,39.647 17.8175403,38.649 19.0564516,38.649 C20.2953629,38.649 21.3014113,39.647 21.3014113,40.876 M61.3790323,66 C58.797379,66 56.7752016,64.066 56.7752016,61.598 C56.7752016,59.08 58.8407258,57.031 61.3790323,57.031 C63.9183468,57.031 65.983871,59.08 65.983871,61.598 C65.983871,64.066 63.9616935,66 61.3790323,66 M56.7752016,41 C56.7752016,38.482 58.8407258,36.433 61.3790323,36.433 C63.9183468,36.433 65.983871,38.482 65.983871,41 C65.983871,43.518 63.9183468,45.567 61.3790323,45.567 C58.8407258,45.567 56.7752016,43.518 56.7752016,41 M40.2258065,45.567 C37.6864919,45.567 35.6219758,43.518 35.6219758,41 C35.6219758,38.482 37.6864919,36.433 40.2258065,36.433 C42.765121,36.433 44.8296371,38.482 44.8296371,41 C44.8296371,43.518 42.765121,45.567 40.2258065,45.567 M45.266129,61 C45.266129,63.851 43.0997984,66 40.2258065,66 C37.3518145,66 35.1854839,63.851 35.1854839,61 C35.1854839,58.149 37.3518145,56 40.2258065,56 C43.0997984,56 45.266129,58.149 45.266129,61 M34.1774194,21 C34.1774194,17.86 37.0594758,15 40.2258065,15 C43.3921371,15 46.2741935,17.86 46.2741935,21 C46.2741935,24.14 43.3921371,27 40.2258065,27 C37.0594758,27 34.1774194,24.14 34.1774194,21 M19.0564516,46 C16.1824597,46 14.016129,43.851 14.016129,41 C14.016129,38.106 16.2772177,35.752 19.0564516,35.752 C21.8356855,35.752 24.0967742,38.106 24.0967742,41 C24.0967742,43.851 21.9304435,46 19.0564516,46 M23.6451613,61.564 C23.6451613,64.051 21.6229839,66 19.0403226,66 C16.4586694,66 14.4364919,64.051 14.4364919,61.564 C14.4364919,59.045 16.5020161,56.997 19.0403226,56.997 C21.5796371,56.997 23.6451613,59.045 23.6451613,61.564 M62.3870968,55.115 L62.3870968,47.482 C65.5594758,46.999 68,44.28 68,41 C68,37.379 65.0292339,34.433 61.3790323,34.433 C58.0725806,34.433 55.3316532,36.853 54.8447581,40 L46.7600806,40 C46.3235887,37.18 44.0766129,34.951 41.233871,34.518 L41.233871,28.923 C45.09375,28.397 48.2903226,24.924 48.2903226,21 C48.2903226,16.738 44.5221774,13 40.2258065,13 C35.9294355,13 32.1612903,16.738 32.1612903,21 C32.1612903,24.924 35.3578629,28.397 39.2177419,28.923 L39.2177419,34.518 C36.375,34.951 34.1280242,37.18 33.6915323,40 L26.0383065,40 C25.5604839,36.477 22.6159274,33.752 19.0564516,33.752 C15.1663306,33.752 12,37.004 12,41 C12,44.584 14.5866935,47.451 18.0483871,47.924 L18.0483871,55.079 C14.8689516,55.556 12.4203629,58.278 12.4203629,61.564 C12.4203629,65.173 15.328629,68 19.0403226,68 C22.7530242,68 25.6612903,65.173 25.6612903,61.564 C25.6612903,58.289 23.2298387,55.574 20.0645161,55.084 L20.0645161,47.924 C23.1955645,47.496 25.6048387,45.107 26.0362903,42 L33.6915323,42 C34.1280242,44.82 36.375,47.049 39.2177419,47.482 L39.2177419,54.076 C35.7560484,54.549 33.1693548,57.416 33.1693548,61 C33.1693548,64.925 36.2691532,68 40.2258065,68 C44.1824597,68 47.2822581,64.925 47.2822581,61 C47.2822581,57.416 44.6955645,54.549 41.233871,54.076 L41.233871,47.482 C44.0766129,47.049 46.3235887,44.82 46.7600806,42 L54.8447581,42 C55.2822581,44.82 57.5282258,47.049 60.3709677,47.482 L60.3709677,55.115 C57.1995968,55.599 54.7590726,58.318 54.7590726,61.598 C54.7590726,65.188 57.6673387,68 61.3790323,68 C65.0917339,68 68,65.188 68,61.598 C68,58.318 65.5594758,55.599 62.3870968,55.115" id="AWS-Batch_Icon_64_Squid" fill="#FFFFFF"></path>
+                        </g>
+                    </svg>
+                `,
+                description: 'Layanan terkelola untuk menjalankan pekerjaan komputasi batch skala besar secara efisien.',
+                scores: { control: 7, simplicity: 6, portability: 7, monolith: 1, microservices: 2, 'event-driven': 2, stable: 5, unpredictable: 9, batch: 10 },
+                tags: ['control', 'batch']
+            }
+        };
+
+        const chartConfig = {
+            labels: ['Kendali', 'Kemudahan', 'Portabilitas', 'Monolitik', 'Layanan Mikro', 'Berbasis Peristiwa', 'Lalu Lintas Stabil', 'Lalu Lintas Melonjak', 'Batch'],
+            keys: ['control', 'simplicity', 'portability', 'monolith', 'microservices', 'event-driven', 'stable', 'unpredictable', 'batch']
+        };
+
+        const contentArea = document.getElementById('content-area');
+        let comparisonChart;
+        let selectedForComparison = [];
+
+        function createServiceContent(serviceKey) {
+            const service = serviceData[serviceKey];
+            const contentId = `${serviceKey}-content`;
+            let contentDiv = document.getElementById(contentId);
+            
+            if (!contentDiv) {
+                contentDiv = document.createElement('div');
+                contentDiv.id = contentId;
+                contentDiv.className = 'content-section';
+                contentArea.appendChild(contentDiv);
+            }
+
+            contentDiv.innerHTML = `
+                <div class="flex flex-col md:flex-row items-start md:items-center mb-6">
+                    <span class="text-6xl mr-6 mb-4 md:mb-0">${service.icon}</span>
+                    <div>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-800">${service.title}</h3>
+                        <p class="text-slate-600 mt-1">${service.description}</p>
+                    </div>
+                </div>
+                <div class="border-b border-slate-200 mb-4">
+                    <nav id="${serviceKey}-tabs" class="flex space-x-4 -mb-px overflow-x-auto" aria-label="Tabs">
+                        ${Object.keys(service.tabs).map((tabKey, index) => `
+                            <button type="button" data-target="${serviceKey}-${tabKey.replace(/ /g, '_')}" class="tab-button whitespace-nowrap py-4 px-2 border-b-2 font-medium text-sm text-slate-500 hover:text-teal-600 hover:border-teal-300 ${index === 0 ? 'active' : ''}">
+                                ${tabKey}
+                            </button>
+                        `).join('')}
+                    </nav>
+                </div>
+                <div>
+                    ${Object.entries(service.tabs).map(([tabKey, tabContent], index) => `
+                        <div id="${serviceKey}-${tabKey.replace(/ /g, '_')}-content" class="tab-content ${index === 0 ? 'active' : ''}">
+                            ${tabContent}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            const nav = contentDiv.querySelector(`#${serviceKey}-tabs`);
+            const contentPanelsContainer = nav.parentElement.nextElementSibling;
+            const tabButtons = nav.querySelectorAll('.tab-button');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    if (contentPanelsContainer) {
+                        contentPanelsContainer.querySelectorAll('.tab-content').forEach(panel => panel.classList.remove('active'));
+                    }
+                    
+                    button.classList.add('active');
+                    const targetPanel = contentPanelsContainer.querySelector(`#${button.dataset.target}-content`);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        function updateActiveView(targetId) {
+            const allContentPanes = document.querySelectorAll('.content-section');
+            allContentPanes.forEach(pane => {
+                pane.classList.remove('active');
+                pane.classList.add('hidden');
+            });
+
+            const targetContent = document.getElementById(`${targetId}-content`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('active');
+            }
+            
+            document.querySelectorAll('#spectrum-nav .nav-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            const activeButton = document.querySelector(`button[data-target="${targetId}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        document.getElementById('spectrum-nav').addEventListener('click', (e) => {
+            const button = e.target.closest('.nav-button');
+            if (button) {
+                const targetId = button.dataset.target;
+                updateActiveView(targetId);
+            }
+        });
+
+        Object.keys(serviceData).forEach(key => {
+            if (serviceData[key].tabs) {
+                 createServiceContent(key);
+            }
+        });
+
+        const decisionFilters = document.getElementById('decision-filters');
+        const recommendationContainer = document.getElementById('recommendations');
+        const noRecommendation = document.getElementById('no-recommendation');
+        const allServicesForRec = ['ec2', 'containers', 'platforms', 'lambda', 'fargate', 'batch'];
+
+        function renderRecommendations(filterTags = []) {
+            recommendationContainer.innerHTML = '';
+            
+            if (filterTags.length === 0) {
+                 noRecommendation.classList.remove('hidden');
+                 return;
+            }
+
+            noRecommendation.classList.add('hidden');
+            
+            const recommendedServices = allServicesForRec.filter(key => {
+                const service = serviceData[key];
+                return filterTags.every(tag => service.tags.includes(tag));
+            });
+            
+            allServicesForRec.forEach(key => {
+                const service = serviceData[key];
+                const card = document.createElement('div');
+                card.className = `recommendation-card border-2 p-4 rounded-lg duration-300 hover:shadow-xl hover:-translate-y-1 ${recommendedServices.includes(key) ? 'highlight' : 'opacity-40'}`;
+                card.dataset.target = key;
+                card.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-3">${service.svg || '🛠️'}</span>
+                        <h5 class="font-bold text-slate-800">${service.title}</h5>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-3">${service.description.split('.')[0]}.</p>
+                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold text-teal-600 hover:text-teal-800 w-full text-left relative z-10">
+                        ${selectedForComparison.includes(key) ? 'Hapus dari Perbandingan' : 'Bandingkan +'}
+                    </button>
+                `;
+                recommendationContainer.appendChild(card);
+            });
+        }
+        
+        decisionFilters.addEventListener('click', (e) => {
+             const button = e.target.closest('.decision-button');
+            if (button) {
+                button.classList.toggle('selected');
+                const selectedButtons = decisionFilters.querySelectorAll('.decision-button.selected');
+                const activeFilters = Array.from(selectedButtons).map(btn => btn.dataset.filter);
+                renderRecommendations(activeFilters);
+            }
+        });
+
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        const chartPlaceholder = document.getElementById('chart-placeholder');
+        const clearComparisonBtn = document.getElementById('clear-comparison');
+
+        function updateChart() {
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+            
+            if (selectedForComparison.length === 0) {
+                chartPlaceholder.classList.remove('hidden');
+                clearComparisonBtn.disabled = true;
+                return;
+            }
+            
+            chartPlaceholder.classList.add('hidden');
+            clearComparisonBtn.disabled = false;
+
+            const datasets = selectedForComparison.map((serviceKey, index) => {
+                const service = serviceData[serviceKey];
+                const scores = service.scores;
+                const colors = [
+                    'rgba(13, 148, 136, 0.4)', // teal-600
+                    'rgba(245, 158, 11, 0.4)',  // amber-500
+                ];
+                const color = colors[index % colors.length];
+
+                return {
+                    label: service.title,
+                    data: chartConfig.keys.map(key => scores[key] || 0),
+                    backgroundColor: color,
+                    borderColor: color.replace('0.4', '1'),
+                    pointBackgroundColor: color.replace('0.4', '1'),
+                };
+            });
+            
+            comparisonChart = new Chart(ctx, {
+                type: 'radar',
+                data: { labels: chartConfig.labels, datasets: datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }, tooltip: {}},
+                    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#e5e7eb' }, angleLines: { color: '#e5e7eb' }, pointLabels: { font: { size: 10 } } } }
+                }
+            });
+        }
+        
+        function updateComparisonPills() {
+            const pillContainer = document.getElementById('comparison-pills');
+            pillContainer.innerHTML = selectedForComparison.map(key => `<span class="bg-teal-100 text-teal-800 text-sm font-medium px-2.5 py-0.5 rounded-full">${serviceData[key].title}</span>`).join('');
+        }
+        
+        function showComparisonAlert() {
+            const alertBox = document.getElementById('comparison-alert');
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        function toggleComparison(serviceKey) {
+            const isSelected = selectedForComparison.includes(serviceKey);
+            if (!isSelected && selectedForComparison.length >= 2) {
+                showComparisonAlert();
+                return;
+            }
+
+            if (isSelected) {
+                selectedForComparison = selectedForComparison.filter(s => s !== serviceKey);
+            } else {
+                selectedForComparison.push(serviceKey);
+            }
+
+            updateChart();
+            updateComparisonPills();
+            const activeFilters = Array.from(decisionFilters.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+            renderRecommendations(activeFilters);
+        }
+
+        function navigateToServiceView(serviceKey) {
+            let mainViewKey = serviceKey;
+            if (!serviceData[serviceKey].tabs) {
+                if (['fargate'].includes(serviceKey)) mainViewKey = 'containers';
+                else if (['batch'].includes(serviceKey)) mainViewKey = 'ec2';
+                else { // Default fallback
+                    mainViewKey = 'ec2';
+                }
+            }
+            
+            const mainContentElement = document.getElementById(`${mainViewKey}-content`);
+            if (mainContentElement) {
+                updateActiveView(mainViewKey);
+                document.getElementById('content-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        recommendationContainer.addEventListener('click', e => {
+            const compareButton = e.target.closest('.compare-button');
+            if (compareButton) {
+                e.stopPropagation();
+                const serviceKey = compareButton.dataset.service;
+                toggleComparison(serviceKey);
+                return;
+            }
+
+            const card = e.target.closest('.recommendation-card[data-target]');
+            if (card) {
+                const serviceKey = card.dataset.target;
+                navigateToServiceView(serviceKey);
+            }
+        });
+        
+        clearComparisonBtn.addEventListener('click', () => {
+             selectedForComparison = [];
+             updateChart();
+             updateComparisonPills();
+             const activeFilters = Array.from(decisionFilters.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+             renderRecommendations(activeFilters);
+        });
+
+        // Initial state
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRecommendations([]);
+            updateChart();
+            updateActiveView('welcome');
+        });
+
+    </script>
+</body>
+</html>

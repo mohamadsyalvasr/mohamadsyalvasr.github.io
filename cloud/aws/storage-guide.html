@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif AWS Storage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Cool Neutrals - Background: Slate 50, Text: Slate 800, Primary Accent: Sky 600, Secondary Accent: Violet 500 -->
+    <!-- Application Structure Plan: This application is a vertical dashboard based on logical storage categories. Structure: 1. Header with language switcher and back button. 2. Main navigation via interactive cards for categories (Object, Block, File, Backup, etc.). 3. A dynamic content area showing services within the selected category, with tabs for details. 4. A "Solution Finder" with filters for data type and access patterns. 5. A Radar Chart for comparing up to two services on key attributes. This structure is chosen to handle the large number of services logically and provide a clear, user-friendly exploration path. -->
+    <!-- Visualization & Content Choices: 1. Category Navigation (HTML/CSS Cards): Goal=Organize/Navigate, Method=Clickable flexbox cards. Interaction=Reveals service details via JS. Justification=Logically groups a large number of storage services. 2. Service Comparison (Radar Chart - Chart.js): Goal=Compare, Method=Radar chart. Interaction=Dynamically updated. Justification=Simplifies multi-attribute comparisons. 3. Solution Finder (HTML/JS Filters): Goal=Guide/Inform, Method=Filter buttons. Interaction=Highlights relevant services. Justification=Provides practical guidance. 4. Service Details (HTML/JS Tabs): Goal=Inform, Method=Switchable content panes. Justification=Organizes dense information cleanly. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .category-card.active {
+            border-color: #0284c7; /* sky-600 */
+            box-shadow: 0 10px 15px -3px rgb(2 132 199 / 0.1), 0 4px 6px -4px rgb(2 132 199 / 0.1);
+        }
+        .category-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #0284c7; /* sky-600 */
+            color: #0284c7;
+        }
+        .content-section, .tab-content {
+            display: none;
+        }
+        .content-section.active, .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .decision-button.selected {
+            background-color: #7c3aed; /* violet-600 */
+            color: white;
+        }
+        .recommendation-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .recommendation-card.highlight {
+            border-color: #0284c7; /* sky-600 */
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
+        }
+        .lang-switcher button.active {
+            background-color: #0284c7;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="relative text-center mb-12 py-4">
+            <a href="index.html" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-sky-600 transition-colors duration-200">
+                <span class="text-2xl">&larr;</span>
+                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
+             </a>
+             <div class="lang-switcher absolute top-4 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
+                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            </div>
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-2 pt-12 md:pt-0">Panduan Interaktif AWS Storage</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.</p>
+        </header>
+
+        <section id="category-nav-section" class="mb-12">
+            <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Kategori Layanan Storage</h2>
+            <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.</p>
+            <div id="category-nav" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Category cards will be dynamically generated -->
+            </div>
+        </section>
+
+        <main id="content-area" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[500px] transition-all duration-300">
+            <div id="welcome-content" class="content-section text-center flex flex-col justify-center items-center h-full">
+                <span class="text-6xl mb-4">🗄️</span>
+                <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
+                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih kategori layanan di atas untuk memulai.</p>
+            </div>
+            <!-- Dynamic content sections will be added here -->
+        </main>
+
+        <section id="decision-tool" class="mt-16">
+            <h2 data-lang-key="finderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi Storage</h2>
+            <p data-lang-key="finderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk menemukan layanan AWS Storage yang paling sesuai untuk tugas Anda.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div id="decision-filters" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 data-lang-key="filter1Title" class="font-bold mb-3 text-slate-700">1. Apa Tipe Data Anda?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="object" data-lang-key="filterObject" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Objek (Gambar, Video, Backup)</button>
+                            <button type="button" data-filter="block" data-lang-key="filterBlock" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Blok (Database, OS Filesystem)</button>
+                            <button type="button" data-filter="file" data-lang-key="filterFile" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">File (Shared Content, Media Workflows)</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 data-lang-key="filter2Title" class="font-bold mb-3 text-slate-700">2. Apa Kebutuhan Utama Anda?</h4>
+                        <div class="flex flex-col space-y-2">
+                             <button type="button" data-filter="backup" data-lang-key="filterBackup" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Backup & Archive</button>
+                             <button type="button" data-filter="transfer" data-lang-key="filterTransfer" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Data Transfer & Migration</button>
+                             <button type="button" data-filter="performance" data-lang-key="filterPerformance" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">High Performance</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-8 border-slate-200">
+
+                <div>
+                    <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-center mb-6 text-slate-800">Layanan yang Direkomendasikan</h3>
+                    <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Recommendation cards will be injected here -->
+                    </div>
+                     <div id="no-recommendation" class="text-center text-slate-500 py-8 hidden">
+                        <p data-lang-key="noRecommendation">Pilih filter di atas untuk melihat rekomendasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comparison-chart-section" class="mt-16">
+            <h2 data-lang-key="comparisonTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Visualisasi Perbandingan Layanan</h2>
+            <p data-lang-key="comparisonSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 relative">
+                <div id="comparison-alert" class="hidden absolute top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg z-20" role="alert">
+                </div>
+                <div class="text-center mb-4" id="comparison-controls">
+                     <p data-lang-key="comparisonLabel" class="text-slate-600 mb-2">Layanan untuk dibandingkan:</p>
+                     <div id="comparison-pills" class="flex flex-wrap justify-center gap-2 min-h-[24px]"></div>
+                     <button type="button" id="clear-comparison" data-lang-key="clearButton" class="mt-4 text-sm text-sky-600 hover:text-sky-800 disabled:opacity-50 disabled:cursor-not-allowed">Bersihkan Pilihan</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                    <div id="chart-placeholder" class="absolute inset-0 flex justify-center items-center text-slate-500">
+                        <p data-lang-key="chartPlaceholder">Pilih layanan dari rekomendasi untuk mulai membandingkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const storageData = {
+            categories: {
+                object: {
+                    title: { id: "Penyimpanan Objek", en: "Object Storage" },
+                    description: { id: "Sangat skalabel untuk data tak terstruktur seperti gambar, video, dan backup.", en: "Massively scalable for unstructured data like images, videos, and backups." },
+                    icon: '🗃️',
+                    services: ['s3', 's3-glacier', 's3-outposts']
+                },
+                block: {
+                    title: { id: "Penyimpanan Blok", en: "Block Storage" },
+                    description: { id: "Penyimpanan berkinerja tinggi untuk database dan aplikasi.", en: "High-performance storage for databases and applications." },
+                    icon: '�',
+                    services: ['ebs']
+                },
+                file: {
+                    title: { id: "Penyimpanan File", en: "File Storage" },
+                    description: { id: "Sistem file bersama yang dapat diakses oleh banyak server.", en: "Shared file systems accessible by many servers." },
+                    icon: '📂',
+                    services: ['efs', 'fsx-windows', 'fsx-lustre', 'fsx-ontap', 'fsx-openzfs', 'file-cache']
+                },
+                backup: {
+                    title: { id: "Backup & Pemulihan", en: "Backup & Recovery" },
+                    description: { id: "Layanan terpusat untuk mengelola dan mengotomatiskan perlindungan data.", en: "Centralized services to manage and automate data protection." },
+                    icon: '💽',
+                    services: ['backup', 'drs']
+                },
+                transfer: {
+                    title: { id: "Transfer Data", en: "Data Transfer" },
+                    description: { id: "Pindahkan data dalam jumlah besar ke dan dari AWS.", en: "Move large amounts of data to and from AWS." },
+                    icon: '🚚',
+                    services: ['snow-family', 'datasync', 'transfer-family', 'storage-gateway']
+                }
+            },
+            services: {
+                's3': { title: 'Amazon S3', icon: '🗃️', parent: 'object', tabs: {'Summary': {id: 'Penyimpanan objek yang tahan lama dan skalabel.', en: 'Durable and scalable object storage.'}, 'Use Case': {id: 'Menyimpan aset situs web, backup, dan danau data.', en: 'Storing website assets, backups, and data lakes.'}, 'Pricing': {id: 'Bayar untuk kapasitas (GB/bulan), permintaan, dan transfer data.', en: 'Pay for capacity (GB/month), requests, and data transfer.'}}, scores: {durability: 10, performance: 6, cost: 9}, tags: ['object', 'backup', 'performance'] },
+                'ebs': { title: 'Amazon EBS', icon: '💾', parent: 'block', tabs: {'Summary': {id: 'Volume penyimpanan blok berkinerja tinggi untuk EC2.', en: 'High-performance block storage volumes for EC2.'}, 'Use Case': {id: 'Sebagai hard drive untuk server virtual EC2, menjalankan database.', en: 'As a hard drive for EC2 virtual servers, running databases.'}, 'Pricing': {id: 'Berdasarkan kapasitas (GB/bulan) yang disediakan, tipe volume, dan IOPS.', en: 'Based on provisioned capacity (GB/month), volume type, and IOPS.'}}, dependency: {id: 'Membutuhkan EC2', en: 'Requires EC2'}, scores: {durability: 8, performance: 9, cost: 6}, tags: ['block', 'performance'] },
+                'efs': { title: 'Amazon EFS', icon: '📂', parent: 'file', tabs: {'Summary': {id: 'Sistem file bersama yang elastis untuk Linux.', en: 'Elastic shared file system for Linux.'}, 'Use Case': {id: 'Direktori home bersama, sistem manajemen konten.', en: 'Shared home directories, content management systems.'}, 'Pricing': {id: 'Bayar hanya untuk penyimpanan yang digunakan.', en: 'Pay only for the storage you use.'}}, scores: {durability: 9, performance: 7, cost: 5}, tags: ['file', 'performance'] },
+                'fsx-windows': { title: 'FSx for Windows', icon: '🪟', parent: 'file', tabs: {'Summary': {id: 'Sistem file Windows native yang terkelola sepenuhnya.', en: 'Fully managed native Windows file system.'}, 'Use Case': {id: 'File share untuk aplikasi Windows, direktori home pengguna.', en: 'File shares for Windows applications, user home directories.'}, 'Pricing': {id: 'Berdasarkan kapasitas penyimpanan, throughput, dan backup.', en: 'Based on storage capacity, throughput, and backups.'}}, scores: {durability: 9, performance: 8, cost: 4}, tags: ['file'] },
+                'fsx-lustre': { title: 'FSx for Lustre', icon: '🏎️', parent: 'file', tabs: {'Summary': {id: 'Sistem file berkinerja tinggi yang dioptimalkan untuk HPC.', en: 'High-performance file system optimized for HPC.'}, 'Use Case': {id: 'Beban kerja Machine Learning, pemrosesan video, dan analisis keuangan.', en: 'Machine Learning workloads, video processing, and financial analytics.'}, 'Pricing': {id: 'Berdasarkan kapasitas penyimpanan, throughput, dan backup.', en: 'Based on storage capacity, throughput, and backups.'}}, scores: {durability: 9, performance: 10, cost: 3}, tags: ['file', 'performance'] },
+                 'fsx-ontap': { title: 'FSx for ONTAP', icon: '🗄️', parent: 'file', tabs: {'Summary': {id: 'Penyimpanan file multi-protokol dari NetApp ONTAP.', en: 'Multi-protocol file storage powered by NetApp ONTAP.'}, 'Use Case': {id: 'Database, aplikasi enterprise, dan file share yang membutuhkan fitur ONTAP.', en: 'Databases, enterprise apps, and file shares needing ONTAP features.'}, 'Pricing': {id: 'Berdasarkan kapasitas, throughput, dan fitur ONTAP yang digunakan.', en: 'Based on capacity, throughput, and utilized ONTAP features.'}}, scores: {durability: 9, performance: 9, cost: 4}, tags: ['file', 'performance'] },
+                'fsx-openzfs': { title: 'FSx for OpenZFS', icon: '⚡', parent: 'file', tabs: {'Summary': {id: 'Sistem file berkinerja tinggi berbasis OpenZFS.', en: 'High-performance file system powered by OpenZFS.'}, 'Use Case': {id: 'Beban kerja sensitif latensi, database, dan build code.', en: 'Latency-sensitive workloads, databases, and code builds.'}, 'Pricing': {id: 'Berdasarkan kapasitas penyimpanan, throughput, dan IOPS.', en: 'Based on storage capacity, throughput, and IOPS.'}}, scores: {durability: 9, performance: 10, cost: 4}, tags: ['file', 'performance'] },
+                'file-cache': { title: 'Amazon File Cache', icon: '💨', parent: 'file', tabs: {'Summary': {id: 'Cache berkinerja tinggi untuk beban kerja file di cloud.', en: 'A high-speed cache for file workloads in the cloud.'}, 'Use Case': {id: 'Mempercepat akses ke data dari on-premise atau S3.', en: 'Accelerating access to data from on-premises or S3.'}, 'Pricing': {id: 'Berdasarkan kapasitas cache dan permintaan metadata.', en: 'Based on cache capacity and metadata requests.'}}, scores: {durability: 7, performance: 10, cost: 5}, tags: ['file', 'performance'] },
+                'backup': { title: 'AWS Backup', icon: '🛡️', parent: 'backup', tabs: {'Summary': {id: 'Layanan backup terpusat untuk mengotomatiskan perlindungan data.', en: 'Centralized backup service to automate data protection.'}, 'Use Case': {id: 'Membuat kebijakan backup untuk layanan AWS seperti EC2, EBS, RDS.', en: 'Creating backup policies for AWS services like EC2, EBS, RDS.'}, 'Pricing': {id: 'Berdasarkan jumlah penyimpanan backup dan restorasi data.', en: 'Based on amount of backup storage and data restores.'}}, scores: {durability: 10, performance: 5, cost: 8}, tags: ['backup'] },
+                's3-glacier': { title: 'S3 Glacier', icon: '🧊', parent: 'object', tabs: {'Summary': {id: 'Penyimpanan arsip berbiaya sangat rendah untuk data jangka panjang.', en: 'Extremely low-cost archive storage for long-term data.'}, 'Use Case': {id: 'Mengarsipkan data medis, file media, atau data kepatuhan.', en: 'Archiving medical records, media files, or compliance data.'}, 'Pricing': {id: 'Biaya sangat rendah untuk penyimpanan, biaya lebih tinggi untuk pengambilan data.', en: 'Very low cost for storage, higher cost for data retrieval.'}}, scores: {durability: 10, performance: 2, cost: 10}, tags: ['backup', 'object'] },
+                'drs': { title: 'Elastic Disaster Recovery', icon: '🚑', parent: 'backup', tabs: {'Summary': {id: 'Meminimalkan downtime dengan pemulihan cepat server fisik dan virtual.', en: 'Minimize downtime with fast recovery of physical and virtual servers.'}, 'Use Case': {id: 'Pemulihan bencana untuk aplikasi on-premise atau cloud.', en: 'Disaster recovery for on-premises or cloud applications.'}, 'Pricing': {id: 'Biaya per jam untuk setiap server yang direplikasi.', en: 'Per-hour fee for each replicating server.'}}, scores: {durability: 9, performance: 8, cost: 5}, tags: ['backup'] },
+                'snow-family': { title: 'AWS Snow Family', icon: '❄️', parent: 'transfer', tabs: {'Summary': {id: 'Perangkat fisik (Snowcone, Snowball, Snowmobile) untuk memindahkan data dalam jumlah besar.', en: 'Physical devices (Snowcone, Snowball, Snowmobile) to move huge amounts of data.'}, 'Use Case': {id: 'Migrasi data pusat data berskala petabyte.', en: 'Petabyte-scale data center migrations.'}, 'Pricing': {id: 'Biaya per pekerjaan per perangkat, ditambah biaya pengiriman.', en: 'Per-job fee per device, plus shipping costs.'}}, scores: {durability: 9, performance: 10, cost: 3}, tags: ['transfer'] },
+                'datasync': { title: 'AWS DataSync', icon: '🔄', parent: 'transfer', tabs: {'Summary': {id: 'Layanan transfer data online yang menyederhanakan dan mempercepat pemindahan data.', en: 'Online data transfer service that simplifies and accelerates data movement.'}, 'Use Case': {id: 'Migrasi data yang sedang berlangsung dari on-premise ke S3 atau EFS.', en: 'Ongoing data migration from on-premises to S3 or EFS.'}, 'Pricing': {id: 'Biaya per GB yang ditransfer.', en: 'Per-GB fee for data transferred.'}}, scores: {durability: 8, performance: 7, cost: 7}, tags: ['transfer', 'file'] },
+                'transfer-family': { title: 'AWS Transfer Family', icon: '🤝', parent: 'transfer', tabs: {'Summary': {id: 'Layanan transfer file terkelola sepenuhnya untuk SFTP, FTPS, dan FTP.', en: 'Fully managed file transfer service for SFTP, FTPS, and FTP.'}, 'Use Case': {id: 'Berbagi file secara aman dengan mitra bisnis menggunakan protokol standar.', en: 'Securely sharing files with business partners using standard protocols.'}, 'Pricing': {id: 'Biaya per jam untuk endpoint aktif dan per GB yang ditransfer.', en: 'Per-hour fee for active endpoints and per-GB transferred.'}}, scores: {durability: 8, performance: 6, cost: 6}, tags: ['transfer', 'file'] },
+                'storage-gateway': { title: 'Storage Gateway', icon: '🚪', parent: 'transfer', tabs: {'Summary': {id: 'Menyediakan akses on-premise ke penyimpanan cloud yang hampir tak terbatas.', en: 'Provides on-premises access to virtually unlimited cloud storage.'}, 'Use Case': {id: 'Backup on-premise ke S3, menyediakan file share latensi rendah yang didukung oleh S3.', en: 'On-premises backup to S3, providing low-latency file shares backed by S3.'}, 'Pricing': {id: 'Berdasarkan jenis gateway dan volume data yang disimpan/ditransfer.', en: 'Based on gateway type and volume of data stored/transferred.'}}, scores: {durability: 9, performance: 7, cost: 7}, tags: ['transfer', 'backup'] },
+                's3-outposts': { title: 'S3 on Outposts', icon: '🏢', parent: 'object', tabs: {'Summary': {id: 'Menyediakan penyimpanan objek S3 di infrastruktur AWS Outposts Anda.', en: 'Provides S3 object storage on your AWS Outposts infrastructure.'}, 'Use Case': {id: 'Memproses data secara lokal yang perlu tetap on-premise.', en: 'Processing data locally that needs to remain on-premises.'}, 'Pricing': {id: 'Bayar untuk kapasitas penyimpanan dan permintaan S3 di Outposts.', en: 'Pay for S3 storage capacity and requests on Outposts.'}}, dependency: {id: 'Membutuhkan AWS Outposts', en: 'Requires AWS Outposts'}, scores: {durability: 9, performance: 8, cost: 3}, tags: ['object'] },
+            }
+        };
+
+        const translations = {
+            homeButton: { id: "Halaman Utama", en: "Home" },
+            mainTitle: { id: "Panduan Interaktif AWS Storage", en: "Interactive AWS Storage Guide" },
+            mainSubtitle: { id: "Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.", en: "Find the right storage solution, from object and block to file storage for all data types." },
+            categoryTitle: { id: "Kategori Layanan Storage", en: "Storage Service Categories" },
+            categorySubtitle: { id: "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.", en: "Select a category to explore the relevant services within it." },
+            welcomeTitle: { id: "Selamat Datang!", en: "Welcome!" },
+            welcomeSubtitle: { id: "Pilih kategori layanan di atas untuk memulai.", en: "Select a service category above to get started." },
+            finderTitle: { id: "Pencari Solusi Storage", en: "Storage Solution Finder" },
+            finderSubtitle: { id: "Gunakan filter ini untuk menemukan layanan AWS Storage yang paling sesuai untuk tugas Anda.", en: "Use these filters to find the right AWS Storage service for your task." },
+            filter1Title: { id: "1. Apa Tipe Data Anda?", en: "1. What is your Data Type?" },
+            filterObject: { id: "Objek (Gambar, Video, Backup)", en: "Object (Images, Videos, Backups)" },
+            filterBlock: { id: "Blok (Database, OS Filesystem)", en: "Block (Databases, OS Filesystem)" },
+            filterFile: { id: "File (Shared Content, Media Workflows)", en: "File (Shared Content, Media Workflows)" },
+            filter2Title: { id: "2. Apa Kebutuhan Utama Anda?", en: "2. What is your Main Need?" },
+            filterBackup: { id: "Backup & Archive", en: "Backup & Archive" },
+            filterTransfer: { id: "Data Transfer & Migration", en: "Data Transfer & Migration" },
+            filterPerformance: { id: "High Performance", en: "High Performance" },
+            recommendationTitle: { id: "Layanan yang Direkomendasikan", en: "Recommended Services" },
+            noRecommendation: { id: "Pilih filter di atas untuk melihat rekomendasi.", en: "Select a filter above to see recommendations." },
+            comparisonTitle: { id: "Visualisasi Perbandingan Layanan", en: "Service Comparison Visualizer" },
+            comparisonSubtitle: { id: "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.", en: "Compare up to two services visually on key attributes." },
+            comparisonLabel: { id: "Layanan untuk dibandingkan:", en: "Services to compare:" },
+            clearButton: { id: "Bersihkan Pilihan", en: "Clear Selection" },
+            chartPlaceholder: { id: "Pilih layanan dari rekomendasi untuk mulai membandingkan.", en: "Select a service from the recommendations to start comparing." },
+        };
+        
+        const chartConfig = {
+            labels: { id: ['Durabilitas', 'Kinerja', 'Biaya Efektif'], en: ['Durability', 'Performance', 'Cost-Effectiveness'] },
+            keys: ['durability', 'performance', 'cost']
+        };
+
+        let currentLang = 'id';
+        let comparisonChart;
+        let selectedForComparison = [];
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.innerHTML = translations[key][lang];
+                }
+            });
+            
+            createCategoryCards();
+            const activeCategory = document.querySelector('.category-card.active')?.dataset.target;
+            if (activeCategory) {
+                createServiceContent(activeCategory);
+                updateActiveView(activeCategory);
+            } else {
+                updateActiveView('welcome');
+            }
+            renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+            updateChart();
+            
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        };
+        
+        function createCategoryCards() {
+            const navContainer = document.getElementById('category-nav');
+            navContainer.innerHTML = '';
+            for (const key in storageData.categories) {
+                const category = storageData.categories[key];
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.dataset.target = key;
+                card.className = 'category-card text-left bg-white p-6 rounded-lg shadow-md hover:shadow-xl border-2 border-transparent';
+                card.innerHTML = `
+                    <span class="text-4xl">${category.icon}</span>
+                    <h3 class="text-xl font-bold mt-2 text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-sm text-slate-500 mt-1">${category.description[currentLang]}</p>
+                `;
+                navContainer.appendChild(card);
+            }
+        }
+        
+        function createServiceContent(categoryKey) {
+            const category = storageData.categories[categoryKey];
+            const contentId = `${categoryKey}-content`;
+            let contentDiv = document.getElementById(contentId);
+            
+            if (!contentDiv) {
+                contentDiv = document.createElement('div');
+                contentDiv.id = contentId;
+                contentDiv.className = 'content-section';
+                document.getElementById('content-area').appendChild(contentDiv);
+            }
+            
+            contentDiv.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-slate-600 mt-1">${category.description[currentLang]}</p>
+                </div>
+                <div class="border-b border-slate-200 mb-4">
+                    <nav id="${categoryKey}-tabs" class="flex space-x-4 -mb-px overflow-x-auto" aria-label="Tabs"></nav>
+                </div>
+                <div id="${categoryKey}-tab-content"></div>
+            `;
+            
+            const tabsNav = contentDiv.querySelector(`#${categoryKey}-tabs`);
+            const tabsContent = contentDiv.querySelector(`#${categoryKey}-tab-content`);
+            
+            category.services.forEach((svcKey, index) => {
+                const service = storageData.services[svcKey];
+                const tabButton = document.createElement('button');
+                tabButton.type = 'button';
+                tabButton.dataset.target = `${svcKey}-pane`;
+                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-sky-600 hover:border-sky-300 ${index === 0 ? 'active' : ''}`;
+                tabButton.textContent = service.title;
+                tabsNav.appendChild(tabButton);
+
+                const tabPane = document.createElement('div');
+                tabPane.id = `${svcKey}-pane`;
+                tabPane.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                
+                tabPane.innerHTML = Object.entries(service.tabs).map(([tabKey, tabContent]) => {
+                    const tabTitle = tabKey === 'Use Case' ? (currentLang === 'id' ? 'Contoh Kasus' : 'Use Case') : tabKey;
+                    return `
+                    <div class="mb-6">
+                        <h5 class="font-semibold text-lg mb-2 text-sky-700">${tabTitle}</h5>
+                        <div class="text-slate-600">${tabContent[currentLang]}</div>
+                    </div>`
+                }).join('');
+                tabsContent.appendChild(tabPane);
+            });
+
+            tabsNav.addEventListener('click', e => {
+                if (e.target.classList.contains('tab-button')) {
+                    tabsNav.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    tabsContent.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
+                    e.target.classList.add('active');
+                    document.getElementById(e.target.dataset.target).classList.add('active');
+                }
+            });
+        }
+        
+        function updateActiveView(targetId) {
+            document.querySelectorAll('.content-section').forEach(pane => pane.classList.remove('active'));
+            const targetContent = document.getElementById(`${targetId}-content`);
+            if (targetContent) {
+                 targetContent.classList.add('active');
+            }
+            
+            document.querySelectorAll('#category-nav .category-card').forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`button[data-target="${targetId}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+        
+        function renderRecommendations(filterTags = []) {
+            const recContainer = document.getElementById('recommendations');
+            recContainer.innerHTML = '';
+            
+            if (filterTags.length === 0) {
+                 document.getElementById('no-recommendation').classList.remove('hidden');
+                 return;
+            }
+
+            document.getElementById('no-recommendation').classList.add('hidden');
+            
+            const recommendedServices = Object.keys(storageData.services).filter(key => {
+                const service = storageData.services[key];
+                return filterTags.every(tag => service.tags.includes(tag));
+            });
+            
+            Object.keys(storageData.services).forEach(key => {
+                const service = storageData.services[key];
+                const card = document.createElement('div');
+                const dependencyHTML = service.dependency ? `<p class="text-xs text-amber-600 italic mt-1">${service.dependency[currentLang]}</p>` : '';
+                card.className = `recommendation-card border-2 p-4 rounded-lg duration-300 hover:shadow-xl hover:-translate-y-1 ${recommendedServices.includes(key) ? 'highlight' : 'opacity-40'}`;
+                card.dataset.target = key;
+                card.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-3">${service.icon || '⚙️'}</span>
+                        <h5 class="font-bold text-slate-800">${service.title}</h5>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
+                    ${dependencyHTML}
+                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold text-sky-600 hover:text-sky-800 w-full text-left relative z-10 mt-3">
+                        ${selectedForComparison.includes(key) ? (currentLang === 'id' ? 'Hapus' : 'Remove') : (currentLang === 'id' ? 'Bandingkan +' : 'Compare +')}
+                    </button>
+                `;
+                recContainer.appendChild(card);
+            });
+        }
+        
+        function updateChart() {
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+
+            const chartLabels = chartConfig.labels[currentLang];
+            const placeholder = document.getElementById('chart-placeholder');
+            
+            if (selectedForComparison.length === 0) {
+                placeholder.classList.remove('hidden');
+                document.getElementById('clear-comparison').disabled = true;
+                return;
+            }
+            
+            placeholder.classList.add('hidden');
+            document.getElementById('clear-comparison').disabled = false;
+
+            const datasets = selectedForComparison.map((serviceKey, index) => {
+                const service = storageData.services[serviceKey];
+                const scores = service.scores;
+                const colors = ['rgba(2, 132, 199, 0.4)', 'rgba(124, 58, 237, 0.4)'];
+                
+                return {
+                    label: service.title,
+                    data: chartConfig.keys.map(key => scores[key] || 0),
+                    backgroundColor: colors[index % 2],
+                    borderColor: colors[index % 2].replace('0.4', '1'),
+                };
+            });
+            
+            comparisonChart = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
+                type: 'radar',
+                data: { labels: chartLabels, datasets: datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }},
+                    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#e5e7eb' }, pointLabels: { font: { size: 10 } } } }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+
+            for (const key in storageData.categories) {
+                createServiceContent(key);
+            }
+            
+            document.getElementById('category-nav').addEventListener('click', (e) => {
+                const button = e.target.closest('.category-card');
+                if (button) {
+                    updateActiveView(button.dataset.target);
+                }
+            });
+
+            document.getElementById('decision-filters').addEventListener('click', (e) => {
+                const button = e.target.closest('.decision-button');
+                if (button) {
+                    button.classList.toggle('selected');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                }
+            });
+
+            document.getElementById('recommendations').addEventListener('click', e => {
+                const compareButton = e.target.closest('.compare-button');
+                if (compareButton) {
+                    e.stopPropagation();
+                    const serviceKey = compareButton.dataset.service;
+                    const isSelected = selectedForComparison.includes(serviceKey);
+                    if (!isSelected && selectedForComparison.length >= 2) {
+                        const alertBox = document.getElementById('comparison-alert');
+                        alertBox.innerHTML = `<strong class="font-bold">${currentLang === 'id' ? 'Batas tercapai!' : 'Limit Reached!'}</strong><span class="block sm:inline"> ${currentLang === 'id' ? 'Hanya bisa 2 layanan.' : 'Only 2 services.'}</span>`;
+                        alertBox.classList.remove('hidden');
+                        setTimeout(() => alertBox.classList.add('hidden'), 3000);
+                        return;
+                    }
+                    selectedForComparison = isSelected ? selectedForComparison.filter(s => s !== serviceKey) : [...selectedForComparison, serviceKey];
+                    updateChart();
+                    document.getElementById('comparison-pills').innerHTML = selectedForComparison.map(key => `<span class="bg-sky-100 text-sky-800 text-sm font-medium px-2.5 py-0.5 rounded-full">${storageData.services[key].title}</span>`).join('');
+                    renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+                }
+            });
+
+            document.getElementById('clear-comparison').addEventListener('click', () => {
+                selectedForComparison = [];
+                updateChart();
+                document.getElementById('comparison-pills').innerHTML = '';
+                renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+            });
+
+            const preferredLanguage = localStorage.getItem('language') || 'id';
+            setLanguage(preferredLanguage);
+            updateActiveView('welcome');
+            renderRecommendations([]);
+        });
+    </script>
+</body>
+</html>

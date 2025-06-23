@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif AWS Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Secure Blues - Background: Slate 50, Text: Slate 800, Primary Accent: Blue 700, Secondary Accent: Amber 500 -->
+    <!-- Application Structure Plan: This app is a dashboard organized by security pillars. Structure: 1. Header with language switcher & home button. 2. Main navigation via interactive cards for categories (Identity, Detection, Protection, etc.). 3. A dynamic content area showing services within a category. 4. A "Solution Finder" with filters for security tasks. 5. A Radar Chart for comparing up to two services. This structure logically groups a large number of security services for clear user exploration. -->
+    <!-- Visualization & Content Choices: 1. Category Navigation (HTML/CSS Cards): Goal=Organize/Navigate, Method=Clickable flexbox cards. Interaction=Reveals service details via JS. Justification=Aligns with how AWS categorizes its security services. 2. Service Comparison (Radar Chart - Chart.js): Goal=Compare, Method=Radar chart. Interaction=Dynamically updated. Justification=Simplifies multi-attribute comparisons. 3. Solution Finder (HTML/JS Filters): Goal=Guide/Inform, Method=Filter buttons. Interaction=Highlights relevant services. Justification=Provides practical guidance. 4. Service Details (HTML/JS Tabs): Goal=Inform, Method=Switchable content panes. Justification=Organizes dense information cleanly. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .category-card.active {
+            border-color: #1d4ed8; /* blue-700 */
+            box-shadow: 0 10px 15px -3px rgb(29 78 216 / 0.1), 0 4px 6px -4px rgb(29 78 216 / 0.1);
+        }
+        .category-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #1d4ed8; /* blue-700 */
+            color: #1d4ed8;
+        }
+        .content-section, .tab-content {
+            display: none;
+        }
+        .content-section.active, .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .decision-button.selected {
+            background-color: #f59e0b; /* amber-500 */
+            color: white;
+        }
+        .recommendation-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .recommendation-card.highlight {
+            border-color: #1d4ed8; /* blue-700 */
+            box-shadow: 0 0 15px rgba(29, 78, 216, 0.2);
+        }
+        .lang-switcher button.active {
+            background-color: #1d4ed8;
+            color: white;
+        }
+        .lang-content { display: none; }
+        html[lang="id"] .lang-id { display: block; }
+        html[lang="en"] .lang-en { display: block; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="relative text-center mb-12 py-4">
+             <a href="index.html" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-blue-600 transition-colors duration-200">
+                <span class="text-2xl">&larr;</span>
+                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
+             </a>
+             <div class="lang-switcher absolute top-4 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
+                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            </div>
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-2 pt-12 md:pt-0">Panduan Interaktif AWS Security</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi rangkaian layanan AWS untuk identitas, deteksi ancaman, perlindungan infrastruktur, dan kepatuhan.</p>
+        </header>
+
+        <section id="category-nav-section" class="mb-12">
+            <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Pilar Keamanan AWS</h2>
+            <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Pilih pilar keamanan untuk menjelajahi layanan-layanan yang relevan di dalamnya.</p>
+            <div id="category-nav" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Category cards will be dynamically generated -->
+            </div>
+        </section>
+
+        <main id="content-area" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[500px] transition-all duration-300">
+            <div id="welcome-content" class="content-section text-center flex flex-col justify-center items-center h-full">
+                <span class="text-6xl mb-4">🛡️</span>
+                <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
+                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih pilar keamanan di atas untuk memulai.</p>
+            </div>
+            <!-- Dynamic content sections will be added here -->
+        </main>
+
+        <section id="decision-tool" class="mt-16">
+            <h2 data-lang-key="finderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi Keamanan</h2>
+            <p data-lang-key="finderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk menemukan layanan keamanan AWS yang paling sesuai untuk tugas Anda.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div id="decision-filters" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 data-lang-key="filter1Title" class="font-bold mb-3 text-slate-700">1. Apa Tugas Keamanan Utama Anda?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="identity" data-lang-key="filterIdentity" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Manajemen Identitas & Akses</button>
+                            <button type="button" data-filter="detection" data-lang-key="filterDetection" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Deteksi Ancaman</button>
+                            <button type="button" data-filter="protection" data-lang-key="filterProtection" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Perlindungan Jaringan & Aplikasi</button>
+                            <button type="button" data-filter="encryption" data-lang-key="filterEncryption" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Enkripsi & Perlindungan Data</button>
+                            <button type="button" data-filter="compliance" data-lang-key="filterCompliance" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Kepatuhan & Audit</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 data-lang-key="filter2Title" class="font-bold mb-3 text-slate-700">2. Berapa Tingkat Manajemen yang Anda Inginkan?</h4>
+                        <div class="flex flex-col space-y-2">
+                             <button type="button" data-filter="managed" data-lang-key="filterManaged" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Layanan Terkelola (Otomatis)</button>
+                             <button type="button" data-filter="configurable" data-lang-key="filterConfigurable" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Dapat Dikonfigurasi (Kontrol lebih)</button>
+                             <button type="button" data-filter="governance" data-lang-key="filterGovernance" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Tata Kelola & Kebijakan</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-8 border-slate-200">
+
+                <div>
+                    <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-center mb-6 text-slate-800">Layanan yang Direkomendasikan</h3>
+                    <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Recommendation cards will be injected here -->
+                    </div>
+                     <div id="no-recommendation" class="text-center text-slate-500 py-8 hidden">
+                        <p data-lang-key="noRecommendation">Pilih filter di atas untuk melihat rekomendasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comparison-chart-section" class="mt-16">
+            <h2 data-lang-key="comparisonTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Visualisasi Perbandingan Layanan</h2>
+            <p data-lang-key="comparisonSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 relative">
+                <div id="comparison-alert" class="hidden absolute top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg z-20" role="alert">
+                </div>
+                <div class="text-center mb-4" id="comparison-controls">
+                     <p data-lang-key="comparisonLabel" class="text-slate-600 mb-2">Layanan untuk dibandingkan:</p>
+                     <div id="comparison-pills" class="flex flex-wrap justify-center gap-2 min-h-[24px]"></div>
+                     <button type="button" id="clear-comparison" data-lang-key="clearButton" class="mt-4 text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed">Bersihkan Pilihan</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                    <div id="chart-placeholder" class="absolute inset-0 flex justify-center items-center text-slate-500">
+                        <p data-lang-key="chartPlaceholder">Pilih layanan dari rekomendasi untuk mulai membandingkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const securityData = {
+            categories: {
+                identity: {
+                    title: { id: "Identitas & Kontrol Akses", en: "Identity & Access Control" },
+                    description: { id: "Kelola identitas pengguna dan kontrol siapa yang dapat mengakses apa.", en: "Manage user identities and control who can access what." },
+                    icon: '👤',
+                    services: ['iam', 'identity-center', 'cognito', 'ram', 'directory-service', 'organizations']
+                },
+                detection: {
+                    title: { id: "Deteksi Ancaman", en: "Threat Detection" },
+                    description: { id: "Pantau dan deteksi potensi ancaman keamanan secara otomatis.", en: "Automatically monitor and detect potential security threats." },
+                    icon: '🚨',
+                    services: ['guardduty', 'security-hub', 'inspector', 'detective', 'macie']
+                },
+                protection: {
+                    title: { id: "Perlindungan Infrastruktur", en: "Infrastructure Protection" },
+                    description: { id: "Lindungi aplikasi dan jaringan Anda dari serangan eksternal.", en: "Protect your applications and networks from external attacks." },
+                    icon: '🧱',
+                    services: ['shield', 'waf', 'firewall-manager', 'network-firewall']
+                },
+                 data_protection: {
+                    title: { id: "Perlindungan Data", en: "Data Protection" },
+                    description: { id: "Kelola kunci enkripsi dan lindungi data sensitif Anda.", en: "Manage encryption keys and protect your sensitive data." },
+                    icon: '🔒',
+                    services: ['kms', 'cloudhsm', 'secrets-manager', 'acm']
+                },
+                 compliance: {
+                    title: { id: "Kepatuhan & Audit", en: "Compliance & Audit" },
+                    description: { id: "Otomatiskan audit dan kelola kepatuhan terhadap standar industri.", en: "Automate audits and manage compliance with industry standards." },
+                    icon: '�',
+                    services: ['artifact', 'audit-manager', 'config']
+                }
+            },
+            services: {
+                'iam': { title: 'IAM', icon: '🔑', parent: 'identity', tabs: {'Summary': {id: 'Kelola akses ke layanan dan sumber daya AWS dengan aman.', en: 'Securely manage access to AWS services and resources.'}, 'Use Case': {id: 'Membuat pengguna, grup, dan peran dengan izin spesifik.', en: 'Creating users, groups, and roles with specific permissions.'}, 'Pricing': {id: 'Gratis.', en: 'Free.'}}, scores: {automation: 2, granularity: 10, easeOfUse: 7}, tags: ['identity', 'configurable'] },
+                'identity-center': { title: 'IAM Identity Center', icon: '🏢', parent: 'identity', tabs: {'Summary': {id: 'Pusat untuk mengelola akses masuk tunggal (SSO) ke beberapa akun AWS.', en: 'A central place to manage single sign-on (SSO) access to multiple AWS accounts.'}, 'Use Case': {id: 'Memberikan akses SSO kepada karyawan ke semua akun AWS perusahaan.', en: 'Providing employees with SSO access to all company AWS accounts.'}, 'Pricing': {id: 'Gratis.', en: 'Free.'}}, scores: {automation: 8, granularity: 7, easeOfUse: 9}, tags: ['identity', 'managed'] },
+                'cognito': { title: 'Cognito', icon: '📱', parent: 'identity', tabs: {'Summary': {id: 'Menambahkan pendaftaran dan masuk pengguna ke aplikasi web dan seluler.', en: 'Add user sign-up and sign-in to your web and mobile apps.'}, 'Use Case': {id: 'Mengelola basis pengguna untuk aplikasi seluler pelanggan.', en: 'Managing the user base for a customer-facing mobile app.'}, 'Pricing': {id: 'Berdasarkan Pengguna Aktif Bulanan (MAU).', en: 'Based on Monthly Active Users (MAUs).'}}, scores: {automation: 9, granularity: 6, easeOfUse: 8}, tags: ['identity', 'managed'] },
+                'ram': { title: 'Resource Access Manager', icon: '🤝', parent: 'identity', tabs: {'Summary': {id: 'Bagikan sumber daya AWS Anda dengan aman di seluruh akun AWS.', en: 'Securely share your AWS resources across AWS accounts.'}, 'Use Case': {id: 'Berbagi subnet VPC atau lisensi perangkat lunak dengan akun lain.', en: 'Sharing a VPC subnet or software licenses with another account.'}, 'Pricing': {id: 'Gratis.', en: 'Free.'}}, scores: {automation: 8, granularity: 7, easeOfUse: 9}, tags: ['identity', 'governance'] },
+                'directory-service': { title: 'Directory Service', icon: '🗂️', parent: 'identity', tabs: {'Summary': {id: 'Layanan Microsoft Active Directory terkelola di AWS.', en: 'A managed Microsoft Active Directory service in AWS.'}, 'Use Case': {id: 'Mengintegrasikan beban kerja Windows dengan direktori yang ada.', en: 'Integrating Windows workloads with an existing directory.'}, 'Pricing': {id: 'Bayar per jam berdasarkan ukuran dan jenis direktori.', en: 'Pay per hour based on the directory size and type.'}}, scores: {automation: 7, granularity: 8, easeOfUse: 6}, tags: ['identity', 'managed'] },
+                'organizations': { title: 'Organizations', icon: '🏛️', parent: 'identity', tabs: {'Summary': {id: 'Mengelola dan mengatur beberapa akun AWS secara terpusat.', en: 'Centrally manage and govern multiple AWS accounts.'}, 'Use Case': {id: 'Menerapkan kebijakan keamanan (SCP) di semua akun perusahaan.', en: 'Applying security policies (SCPs) across all company accounts.'}, 'Pricing': {id: 'Gratis.', en: 'Free.'}}, scores: {automation: 8, granularity: 9, easeOfUse: 8}, tags: ['identity', 'governance'] },
+                'guardduty': { title: 'GuardDuty', icon: '👮', parent: 'detection', tabs: {'Summary': {id: 'Layanan deteksi ancaman cerdas yang terus memantau aktivitas berbahaya.', en: 'An intelligent threat detection service that continuously monitors for malicious activity.'}, 'Use Case': {id: 'Mendeteksi instans EC2 yang disusupi atau akses tidak sah ke data S3.', en: 'Detecting compromised EC2 instances or unauthorized access to S3 data.'}, 'Pricing': {id: 'Berdasarkan volume data log yang dianalisis.', en: 'Based on the volume of log data analyzed.'}}, scores: {automation: 10, granularity: 5, easeOfUse: 9}, tags: ['detection', 'managed'] },
+                'security-hub': { title: 'Security Hub', icon: ' HUB', parent: 'detection', tabs: {'Summary': {id: 'Tampilan terpusat dari peringatan keamanan dan postur kepatuhan Anda.', en: 'A centralized view of your security alerts and compliance posture.'}, 'Use Case': {id: 'Mengagregasi temuan dari GuardDuty, Inspector, dan Macie di satu tempat.', en: 'Aggregating findings from GuardDuty, Inspector, and Macie in one place.'}, 'Pricing': {id: 'Berdasarkan jumlah pemeriksaan kepatuhan dan temuan yang dicerna.', en: 'Based on the number of compliance checks and findings ingested.'}}, scores: {automation: 9, granularity: 6, easeOfUse: 9}, tags: ['detection', 'compliance', 'governance'] },
+                'inspector': { title: 'Inspector', icon: '🔬', parent: 'detection', tabs: {'Summary': {id: 'Manajemen kerentanan otomatis untuk beban kerja AWS.', en: 'Automated vulnerability management for AWS workloads.'}, 'Use Case': {id: 'Memindai instans EC2 dan gambar kontainer untuk kerentanan perangkat lunak.', en: 'Scanning EC2 instances and container images for software vulnerabilities.'}, 'Pricing': {id: 'Berdasarkan jumlah instans dan gambar yang dipindai.', en: 'Based on the number of instances and images scanned.'}}, scores: {automation: 9, granularity: 6, easeOfUse: 8}, tags: ['detection', 'managed'] },
+                'detective': { title: 'Detective', icon: '🕵️', parent: 'detection', tabs: {'Summary': {id: 'Menganalisis dan menyelidiki akar penyebab masalah keamanan.', en: 'Analyze and investigate the root cause of security issues.'}, 'Use Case': {id: 'Menyelidiki peringatan GuardDuty untuk memahami cakupan penuh suatu insiden.', en: 'Investigating a GuardDuty alert to understand the full scope of an incident.'}, 'Pricing': {id: 'Berdasarkan volume data yang dicerna dari sumber data AWS.', en: 'Based on the volume of data ingested from AWS data sources.'}}, scores: {automation: 8, granularity: 7, easeOfUse: 7}, tags: ['detection', 'managed'] },
+                'macie': { title: 'Macie', icon: '📁', parent: 'detection', tabs: {'Summary': {id: 'Layanan perlindungan data yang menemukan dan melindungi data sensitif di S3.', en: 'A data protection service that discovers and protects sensitive data in S3.'}, 'Use Case': {id: 'Menemukan PII atau kredensial yang tidak sengaja diekspos di bucket S3.', en: 'Finding accidentally exposed PII or credentials in S3 buckets.'}, 'Pricing': {id: 'Berdasarkan jumlah data yang diproses dan pekerjaan penemuan data.', en: 'Based on amount of data processed and data discovery jobs.'}}, scores: {automation: 9, granularity: 5, easeOfUse: 8}, tags: ['detection', 'encryption', 'governance'] },
+                'shield': { title: 'Shield', icon: '🛡️', parent: 'protection', tabs: {'Summary': {id: 'Perlindungan Distributed Denial of Service (DDoS) terkelola.', en: 'Managed Distributed Denial of Service (DDoS) protection.'}, 'Use Case': {id: 'Melindungi aplikasi web dari serangan DDoS Layer 3, 4, dan 7.', en: 'Protecting web applications from Layer 3, 4, and 7 DDoS attacks.'}, 'Pricing': {id: 'Standard gratis; Advanced adalah biaya bulanan tetap.', en: 'Standard is free; Advanced is a fixed monthly fee.'}}, scores: {automation: 10, granularity: 3, easeOfUse: 9}, tags: ['protection', 'managed'] },
+                'waf': { title: 'WAF', icon: '🕸️', parent: 'protection', tabs: {'Summary': {id: 'Firewall aplikasi web yang melindungi dari eksploitasi web umum.', en: 'A web application firewall that protects against common web exploits.'}, 'Use Case': {id: 'Memblokir serangan SQL injection dan cross-site scripting (XSS).', en: 'Blocking SQL injection and cross-site scripting (XSS) attacks.'}, 'Pricing': {id: 'Berdasarkan jumlah aturan dan jumlah permintaan web.', en: 'Based on the number of rules and the number of web requests.'}}, scores: {automation: 6, granularity: 9, easeOfUse: 7}, tags: ['protection', 'configurable'] },
+                'firewall-manager': { title: 'Firewall Manager', icon: ' centrally', parent: 'protection', tabs: {'Summary': {id: 'Mengelola dan menerapkan aturan firewall secara terpusat di seluruh akun.', en: 'Centrally manage and deploy firewall rules across accounts.'}, 'Use Case': {id: 'Memastikan semua aplikasi dilindungi oleh WAF dengan seperangkat aturan dasar.', en: 'Ensuring all applications are protected by a baseline set of WAF rules.'}, 'Pricing': {id: 'Biaya per kebijakan per wilayah, ditambah biaya untuk aturan WAF.', en: 'Fee per policy per region, plus costs for WAF rules.'}}, scores: {automation: 8, granularity: 8, easeOfUse: 7}, tags: ['protection', 'governance'] },
+                'network-firewall': { title: 'Network Firewall', icon: '🧱', parent: 'protection', tabs: {'Summary': {id: 'Layanan firewall jaringan terkelola untuk VPC Anda.', en: 'A managed network firewall service for your VPC.'}, 'Use Case': {id: 'Memfilter lalu lintas di tingkat jaringan, seperti memblokir domain berbahaya.', en: 'Filtering traffic at the network level, such as blocking malicious domains.'}, 'Pricing': {id: 'Bayar per jam per endpoint firewall dan per GB yang diproses.', en: 'Pay per hour per firewall endpoint and per GB processed.'}}, scores: {automation: 5, granularity: 9, easeOfUse: 6}, tags: ['protection', 'configurable'] },
+                'kms': { title: 'KMS', icon: '🔐', parent: 'data_protection', tabs: {'Summary': {id: 'Buat dan kelola kunci enkripsi untuk mengenkripsi data Anda.', en: 'Create and manage encryption keys to encrypt your data.'}, 'Use Case': {id: 'Mengenkripsi volume EBS, bucket S3, dan database RDS.', en: 'Encrypting EBS volumes, S3 buckets, and RDS databases.'}, 'Pricing': {id: 'Biaya bulanan kecil per kunci dan per permintaan API.', en: 'Small monthly fee per key and per API request.'}}, scores: {automation: 8, granularity: 8, easeOfUse: 8}, tags: ['encryption', 'managed'] },
+                'cloudhsm': { title: 'CloudHSM', icon: ' HSM', parent: 'data_protection', tabs: {'Summary': {id: 'Modul keamanan perangkat keras (HSM) berbasis cloud.', en: 'A cloud-based hardware security module (HSM).'}, 'Use Case': {id: 'Memenuhi persyaratan kepatuhan yang ketat untuk manajemen kunci.', en: 'Meeting strict compliance requirements for key management.'}, 'Pricing': {id: 'Bayar per jam untuk setiap HSM yang disediakan.', en: 'Pay per hour for each HSM provisioned.'}}, scores: {automation: 3, granularity: 10, easeOfUse: 4}, tags: ['encryption', 'configurable'] },
+                'secrets-manager': { title: 'Secrets Manager', icon: '🤫', parent: 'data_protection', tabs: {'Summary': {id: 'Kelola, rotasi, dan ambil rahasia dengan aman.', en: 'Securely manage, rotate, and retrieve secrets.'}, 'Use Case': {id: 'Menyimpan kredensial database, kunci API, dan rahasia lainnya.', en: 'Storing database credentials, API keys, and other secrets.'}, 'Pricing': {id: 'Bayar per rahasia per bulan dan per 10.000 panggilan API.', en: 'Pay per secret per month and per 10,000 API calls.'}}, scores: {automation: 9, granularity: 7, easeOfUse: 9}, tags: ['encryption', 'managed'] },
+                'acm': { title: 'Certificate Manager', icon: '📜', parent: 'data_protection', tabs: {'Summary': {id: 'Sediakan, kelola, dan sebarkan sertifikat SSL/TLS.', en: 'Provision, manage, and deploy SSL/TLS certificates.'}, 'Use Case': {id: 'Mengamankan lalu lintas ke situs web Anda dengan HTTPS.', en: 'Securing traffic to your website with HTTPS.'}, 'Pricing': {id: 'Sertifikat SSL/TLS publik gratis. Biaya untuk sertifikat pribadi.', en: 'Public SSL/TLS certificates are free. Charges for private certificates.'}}, scores: {automation: 10, granularity: 5, easeOfUse: 9}, tags: ['encryption', 'managed'] },
+                'artifact': { title: 'Artifact', icon: '📄', parent: 'compliance', tabs: {'Summary': {id: 'Akses sesuai permintaan ke laporan kepatuhan AWS.', en: 'On-demand access to AWS compliance reports.'}, 'Use Case': {id: 'Mengunduh laporan SOC 2 atau sertifikasi ISO untuk keperluan audit.', en: 'Downloading SOC 2 reports or ISO certifications for audit purposes.'}, 'Pricing': {id: 'Gratis.', en: 'Free.'}}, scores: {automation: 10, granularity: 2, easeOfUse: 10}, tags: ['compliance', 'governance'] },
+                'audit-manager': { title: 'Audit Manager', icon: '🧐', parent: 'compliance', tabs: {'Summary': {id: 'Terus-menerus mengaudit penggunaan AWS Anda untuk menyederhanakan manajemen risiko.', en: 'Continuously audit your AWS usage to simplify risk management.'}, 'Use Case': {id: 'Mengumpulkan bukti secara otomatis untuk kepatuhan PCI DSS atau HIPAA.', en: 'Automatically collecting evidence for PCI DSS or HIPAA compliance.'}, 'Pricing': {id: 'Berdasarkan jumlah penilaian sumber daya yang dievaluasi.', en: 'Based on the number of resource assessments evaluated.'}}, scores: {automation: 9, granularity: 7, easeOfUse: 8}, tags: ['compliance', 'governance'] },
+                'config': { title: 'Config', icon: '📝', parent: 'compliance', tabs: {'Summary': {id: 'Lacak dan nilai konfigurasi sumber daya AWS Anda.', en: 'Track and assess the configurations of your AWS resources.'}, 'Use Case': {id: 'Memastikan semua bucket S3 tidak dapat diakses publik.', en: 'Ensuring all S3 buckets are not publicly accessible.'}, 'Pricing': {id: 'Berdasarkan jumlah item konfigurasi yang direkam dan aturan yang dievaluasi.', en: 'Based on number of configuration items recorded and rules evaluated.'}}, scores: {automation: 7, granularity: 9, easeOfUse: 7}, tags: ['compliance', 'governance', 'configurable'] }
+            }
+        };
+
+        const translations = {
+            homeButton: { id: "Halaman Utama", en: "Home" },
+            mainTitle: { id: "Panduan Interaktif AWS Security", en: "Interactive AWS Security Guide" },
+            mainSubtitle: { id: "Jelajahi rangkaian layanan AWS untuk identitas, deteksi ancaman, perlindungan infrastruktur, dan kepatuhan.", en: "Explore the AWS suite of services for identity, threat detection, infrastructure protection, and compliance." },
+            categoryTitle: { id: "Pilar Keamanan AWS", en: "Pillars of AWS Security" },
+            categorySubtitle: { id: "Pilih pilar keamanan untuk menjelajahi layanan-layanan yang relevan di dalamnya.", en: "Select a security pillar to explore the relevant services within it." },
+            welcomeTitle: { id: "Selamat Datang!", en: "Welcome!" },
+            welcomeSubtitle: { id: "Pilih pilar keamanan di atas untuk memulai.", en: "Select a security pillar above to get started." },
+            finderTitle: { id: "Pencari Solusi Keamanan", en: "Security Solution Finder" },
+            finderSubtitle: { id: "Gunakan filter ini untuk menemukan layanan keamanan AWS yang paling sesuai untuk tugas Anda.", en: "Use these filters to find the right AWS Security service for your task." },
+            filter1Title: { id: "1. Apa Tugas Keamanan Utama Anda?", en: "1. What is your Primary Security Task?" },
+            filterIdentity: { id: "Manajemen Identitas & Akses", en: "Identity & Access Management" },
+            filterDetection: { id: "Deteksi Ancaman", en: "Threat Detection" },
+            filterProtection: { id: "Perlindungan Jaringan & Aplikasi", en: "Network & Application Protection" },
+            filterEncryption: { id: "Enkripsi & Perlindungan Data", en: "Encryption & Data Protection" },
+            filterCompliance: { id: "Kepatuhan & Audit", en: "Compliance & Audit" },
+            filter2Title: { id: "2. Berapa Tingkat Manajemen yang Anda Inginkan?", en: "2. How much Management do you want?" },
+            filterManaged: { id: "Layanan Terkelola (Otomatis)", en: "Managed Service (Automated)" },
+            filterConfigurable: { id: "Dapat Dikonfigurasi (Kontrol lebih)", en: "Configurable (More control)" },
+            filterGovernance: { id: "Tata Kelola & Kebijakan", en: "Governance & Policy" },
+            recommendationTitle: { id: "Layanan yang Direkomendasikan", en: "Recommended Services" },
+            noRecommendation: { id: "Pilih filter di atas untuk melihat rekomendasi.", en: "Select a filter above to see recommendations." },
+            comparisonTitle: { id: "Visualisasi Perbandingan Layanan", en: "Service Comparison Visualizer" },
+            comparisonSubtitle: { id: "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.", en: "Compare up to two services visually on key attributes." },
+            comparisonLabel: { id: "Layanan untuk dibandingkan:", en: "Services to compare:" },
+            clearButton: { id: "Bersihkan Pilihan", en: "Clear Selection" },
+            chartPlaceholder: { id: "Pilih layanan dari rekomendasi untuk mulai membandingkan.", en: "Select a service from the recommendations to start comparing." },
+        };
+        
+        const chartConfig = {
+            labels: { id: ['Otomatisasi', 'Granularitas Kontrol', 'Kemudahan Penggunaan'], en: ['Automation', 'Granularity of Control', 'Ease of Use'] },
+            keys: ['automation', 'granularity', 'easeOfUse']
+        };
+
+        let currentLang = 'id';
+        let comparisonChart;
+        let selectedForComparison = [];
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.innerHTML = translations[key][lang];
+                }
+            });
+            
+            createCategoryCards();
+            const activeCategory = document.querySelector('.category-card.active')?.dataset.target;
+            if (activeCategory) {
+                createServiceContent(activeCategory);
+                updateActiveView(activeCategory);
+            } else {
+                updateActiveView('welcome');
+            }
+            renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+            updateChart();
+            
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        };
+        
+        function createCategoryCards() {
+            const navContainer = document.getElementById('category-nav');
+            navContainer.innerHTML = '';
+            for (const key in securityData.categories) {
+                const category = securityData.categories[key];
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.dataset.target = key;
+                card.className = 'category-card text-left bg-white p-6 rounded-lg shadow-md hover:shadow-xl border-2 border-transparent';
+                card.innerHTML = `
+                    <span class="text-4xl">${category.icon}</span>
+                    <h3 class="text-xl font-bold mt-2 text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-sm text-slate-500 mt-1">${category.description[currentLang]}</p>
+                `;
+                navContainer.appendChild(card);
+            }
+        }
+        
+        function createServiceContent(categoryKey) {
+            const category = securityData.categories[categoryKey];
+            const contentId = `${categoryKey}-content`;
+            let contentDiv = document.getElementById(contentId);
+            
+            if (!contentDiv) {
+                contentDiv = document.createElement('div');
+                contentDiv.id = contentId;
+                contentDiv.className = 'content-section';
+                document.getElementById('content-area').appendChild(contentDiv);
+            }
+            
+            contentDiv.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-slate-600 mt-1">${category.description[currentLang]}</p>
+                </div>
+                <div class="border-b border-slate-200 mb-4">
+                    <nav id="${categoryKey}-tabs" class="flex space-x-4 -mb-px overflow-x-auto" aria-label="Tabs"></nav>
+                </div>
+                <div id="${categoryKey}-tab-content"></div>
+            `;
+            
+            const tabsNav = contentDiv.querySelector(`#${categoryKey}-tabs`);
+            const tabsContent = contentDiv.querySelector(`#${categoryKey}-tab-content`);
+            
+            category.services.forEach((svcKey, index) => {
+                const service = securityData.services[svcKey];
+                const tabButton = document.createElement('button');
+                tabButton.type = 'button';
+                tabButton.dataset.target = `${svcKey}-pane`;
+                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-blue-600 hover:border-blue-300 ${index === 0 ? 'active' : ''}`;
+                tabButton.textContent = service.title;
+                tabsNav.appendChild(tabButton);
+
+                const tabPane = document.createElement('div');
+                tabPane.id = `${svcKey}-pane`;
+                tabPane.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                
+                tabPane.innerHTML = Object.entries(service.tabs).map(([tabKey, tabContent]) => {
+                    const tabTitle = tabKey === 'Use Case' ? (currentLang === 'id' ? 'Contoh Kasus' : 'Use Case') : tabKey;
+                    return `
+                    <div class="mb-6">
+                        <h5 class="font-semibold text-lg mb-2 text-blue-700">${tabTitle}</h5>
+                        <div class="text-slate-600">${tabContent[currentLang]}</div>
+                    </div>`
+                }).join('');
+                tabsContent.appendChild(tabPane);
+            });
+
+            tabsNav.addEventListener('click', e => {
+                if (e.target.classList.contains('tab-button')) {
+                    tabsNav.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    tabsContent.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
+                    e.target.classList.add('active');
+                    document.getElementById(e.target.dataset.target).classList.add('active');
+                }
+            });
+        }
+        
+        function updateActiveView(targetId) {
+            document.querySelectorAll('.content-section').forEach(pane => pane.classList.remove('active'));
+            const targetContent = document.getElementById(`${targetId}-content`);
+            if (targetContent) {
+                 targetContent.classList.add('active');
+            }
+            
+            document.querySelectorAll('#category-nav .category-card').forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`button[data-target="${targetId}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+        
+        function renderRecommendations(filterTags = []) {
+            const recContainer = document.getElementById('recommendations');
+            recContainer.innerHTML = '';
+            
+            if (filterTags.length === 0) {
+                 document.getElementById('no-recommendation').classList.remove('hidden');
+                 return;
+            }
+
+            document.getElementById('no-recommendation').classList.add('hidden');
+            
+            const recommendedServices = Object.keys(securityData.services).filter(key => {
+                const service = securityData.services[key];
+                return filterTags.every(tag => service.tags.includes(tag));
+            });
+            
+            Object.keys(securityData.services).forEach(key => {
+                const service = securityData.services[key];
+                const card = document.createElement('div');
+                const dependencyHTML = service.dependency ? `<p class="text-xs text-amber-600 italic mt-1">${service.dependency[currentLang]}</p>` : '';
+                card.className = `recommendation-card border-2 p-4 rounded-lg duration-300 hover:shadow-xl hover:-translate-y-1 ${recommendedServices.includes(key) ? 'highlight' : 'opacity-40'}`;
+                card.dataset.target = key;
+                card.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-3">${service.icon || '⚙️'}</span>
+                        <h5 class="font-bold text-slate-800">${service.title}</h5>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
+                    ${dependencyHTML}
+                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold text-blue-600 hover:text-blue-800 w-full text-left relative z-10 mt-3">
+                        ${selectedForComparison.includes(key) ? (currentLang === 'id' ? 'Hapus' : 'Remove') : (currentLang === 'id' ? 'Bandingkan +' : 'Compare +')}
+                    </button>
+                `;
+                recContainer.appendChild(card);
+            });
+        }
+        
+        function updateChart() {
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+
+            const chartLabels = chartConfig.labels[currentLang];
+            const placeholder = document.getElementById('chart-placeholder');
+            
+            if (selectedForComparison.length === 0) {
+                placeholder.classList.remove('hidden');
+                document.getElementById('clear-comparison').disabled = true;
+                return;
+            }
+            
+            placeholder.classList.add('hidden');
+            document.getElementById('clear-comparison').disabled = false;
+
+            const datasets = selectedForComparison.map((serviceKey, index) => {
+                const service = securityData.services[serviceKey];
+                const scores = service.scores;
+                const colors = ['rgba(29, 78, 216, 0.4)', 'rgba(244, 63, 94, 0.4)'];
+                
+                return {
+                    label: service.title,
+                    data: chartConfig.keys.map(key => scores[key] || 0),
+                    backgroundColor: colors[index % 2],
+                    borderColor: colors[index % 2].replace('0.4', '1'),
+                };
+            });
+            
+            comparisonChart = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
+                type: 'radar',
+                data: { labels: chartLabels, datasets: datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }},
+                    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#e5e7eb' }, pointLabels: { font: { size: 10 } } } }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+
+            for (const key in securityData.categories) {
+                createServiceContent(key);
+            }
+            
+            document.getElementById('category-nav').addEventListener('click', (e) => {
+                const button = e.target.closest('.category-card');
+                if (button) {
+                    updateActiveView(button.dataset.target);
+                }
+            });
+
+            document.getElementById('decision-filters').addEventListener('click', (e) => {
+                const button = e.target.closest('.decision-button');
+                if (button) {
+                    button.classList.toggle('selected');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                }
+            });
+
+            document.getElementById('recommendations').addEventListener('click', e => {
+                const compareButton = e.target.closest('.compare-button');
+                if (compareButton) {
+                    e.stopPropagation();
+                    const serviceKey = compareButton.dataset.service;
+                    const isSelected = selectedForComparison.includes(serviceKey);
+                    if (!isSelected && selectedForComparison.length >= 2) {
+                        const alertBox = document.getElementById('comparison-alert');
+                        alertBox.innerHTML = `<strong class="font-bold">${currentLang === 'id' ? 'Batas tercapai!' : 'Limit Reached!'}</strong><span class="block sm:inline"> ${currentLang === 'id' ? 'Hanya bisa 2 layanan.' : 'Only 2 services.'}</span>`;
+                        alertBox.classList.remove('hidden');
+                        setTimeout(() => alertBox.classList.add('hidden'), 3000);
+                        return;
+                    }
+                    selectedForComparison = isSelected ? selectedForComparison.filter(s => s !== serviceKey) : [...selectedForComparison, serviceKey];
+                    updateChart();
+                    document.getElementById('comparison-pills').innerHTML = selectedForComparison.map(key => `<span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full">${securityData.services[key].title}</span>`).join('');
+                    renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+                }
+            });
+
+            document.getElementById('clear-comparison').addEventListener('click', () => {
+                selectedForComparison = [];
+                updateChart();
+                document.getElementById('comparison-pills').innerHTML = '';
+                renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+            });
+
+            const preferredLanguage = localStorage.getItem('language') || 'id';
+            setLanguage(preferredLanguage);
+            updateActiveView('welcome');
+            renderRecommendations([]);
+        });
+    </script>
+</body>
+</html>
+�

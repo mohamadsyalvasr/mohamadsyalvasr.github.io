@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif AWS Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Data-Driven Greens - Background: Stone 100, Text: Slate 800, Primary Accent: Emerald 600, Secondary Accent: Cyan 500 -->
+    <!-- Application Structure Plan: This application is a vertical dashboard based on the analytics workflow. Structure: 1. Header with language switcher and back button. 2. Main navigation via interactive cards for categories (Data Movement, Data Lake & Warehouse, Analytics & BI). 3. A dynamic content area showing services within the selected category, with tabs for details. 4. An improved "Solution Finder" with specific filters for analytics tasks, goals, and management styles. 5. A Radar Chart for visually comparing key attributes of up to two selected services. This workflow-based structure is chosen to logically guide users through the complex AWS analytics portfolio. -->
+    <!-- Visualization & Content Choices: 1. Workflow Navigation (HTML/CSS Cards): Goal=Organize/Navigate, Method=Clickable flexbox cards. Interaction=Reveals service details via JS. Justification=Mirrors the logical flow of a typical data analytics pipeline. 2. Service Comparison (Radar Chart - Chart.js): Goal=Compare, Method=Radar chart. Interaction=Dynamically updated. Justification=Simplifies multi-attribute comparisons. 3. Solution Finder (HTML/JS Filters): Goal=Guide/Inform, Method=Filter buttons. Interaction=Highlights relevant services. Justification=Provides practical guidance. 4. Service Details (HTML/JS Tabs): Goal=Inform, Method=Switchable content panes. Justification=Organizes dense information cleanly. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .workflow-card.active {
+            border-color: #059669; /* emerald-600 */
+            box-shadow: 0 10px 15px -3px rgb(5 150 105 / 0.1), 0 4px 6px -4px rgb(5 150 105 / 0.1);
+            transform: translateY(-4px);
+        }
+        .workflow-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #059669; /* emerald-600 */
+            color: #059669;
+        }
+        .content-section, .tab-content {
+            display: none;
+        }
+        .content-section.active, .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .decision-button.selected {
+            background-color: #06b6d4; /* cyan-500 */
+            color: white;
+        }
+        .recommendation-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .recommendation-card.highlight {
+            border-color: #059669; /* emerald-600 */
+            box-shadow: 0 0 15px rgba(5, 150, 105, 0.2);
+        }
+        .lang-switcher button.active {
+            background-color: #059669;
+            color: white;
+        }
+        .lang-content { display: none; }
+        html[lang="id"] .lang-id { display: block; }
+        html[lang="en"] .lang-en { display: block; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="relative text-center mb-12 py-4">
+             <a href="index.html" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-emerald-600 transition-colors duration-200">
+                <span class="text-2xl">&larr;</span>
+                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
+             </a>
+             <div class="lang-switcher absolute top-4 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
+                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            </div>
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-2 pt-12 md:pt-0">Panduan Interaktif AWS Analytics</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi rangkaian layanan AWS yang komprehensif untuk pergerakan, penyimpanan, pemrosesan, dan visualisasi data.</p>
+        </header>
+
+        <section id="workflow-nav-section" class="mb-12">
+            <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Alur Kerja Analitik di AWS</h2>
+            <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Proyek analitik mengikuti alur yang umum. Pilih sebuah tahapan untuk menjelajahi layanan-layanan kunci yang terlibat.</p>
+            <div id="category-nav" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Category cards will be dynamically generated -->
+            </div>
+        </section>
+
+        <main id="content-area" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[500px] transition-all duration-300">
+            <div id="welcome-content" class="content-section text-center flex flex-col justify-center items-center h-full">
+                <span class="text-6xl mb-4">📈</span>
+                <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
+                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih tahapan alur kerja di atas untuk memulai.</p>
+            </div>
+            <!-- Dynamic content sections will be added here -->
+        </main>
+
+        <section id="decision-tool" class="mt-16">
+            <h2 data-lang-key="finderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi Analitik</h2>
+            <p data-lang-key="finderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk menemukan layanan AWS Analytics yang tepat untuk tugas Anda.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div id="decision-filters" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 data-lang-key="filter1Title" class="font-bold mb-3 text-slate-700">1. Apa Tugas Utama Anda?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="streaming" data-lang-key="filterStreaming" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Real-time Data Streaming</button>
+                            <button type="button" data-filter="etl" data-lang-key="filterEtl" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Data Preparation & ETL</button>
+                            <button type="button" data-filter="query" data-lang-key="filterQuery" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Interactive SQL Queries</button>
+                             <button type="button" data-filter="big-data" data-lang-key="filterBigData" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Big Data Processing</button>
+                        </div>
+                    </div>
+                     <div>
+                        <h4 data-lang-key="filter2Title" class="font-bold mb-3 text-slate-700">2. Apa Tujuan Utama Anda?</h4>
+                        <div class="flex flex-col space-y-2">
+                           <button type="button" data-filter="dashboard" data-lang-key="filterDashboard" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Dashboards & Visualization (BI)</button>
+                           <button type="button" data-filter="search" data-lang-key="filterSearch" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Search & Log Analytics</button>
+                           <button type="button" data-filter="governance" data-lang-key="filterGovernance" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Data Governance & Cataloging</button>
+                           <button type="button" data-filter="sharing" data-lang-key="filterSharing" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Secure Data Sharing</button>
+                        </div>
+                    </div>
+                     <div>
+                        <h4 data-lang-key="filter3Title" class="font-bold mb-3 text-slate-700">3. Berapa Tingkat Manajemen yang Anda Inginkan?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="serverless" data-lang-key="filterServerless" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Serverless (Manajemen minimal)</button>
+                            <button type="button" data-filter="managed" data-lang-key="filterManaged" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Managed Cluster (Kontrol seimbang)</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-8 border-slate-200">
+
+                <div>
+                    <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-center mb-6 text-slate-800">Layanan yang Direkomendasikan</h3>
+                    <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Recommendation cards will be injected here -->
+                    </div>
+                     <div id="no-recommendation" class="text-center text-slate-500 py-8 hidden">
+                        <p data-lang-key="noRecommendation">Pilih filter di atas untuk melihat rekomendasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comparison-chart-section" class="mt-16">
+            <h2 data-lang-key="comparisonTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Visualisasi Perbandingan Layanan</h2>
+            <p data-lang-key="comparisonSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 relative">
+                <div id="comparison-alert" class="hidden absolute top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg z-20" role="alert">
+                </div>
+                <div class="text-center mb-4" id="comparison-controls">
+                     <p data-lang-key="comparisonLabel" class="text-slate-600 mb-2">Layanan untuk dibandingkan:</p>
+                     <div id="comparison-pills" class="flex flex-wrap justify-center gap-2 min-h-[24px]"></div>
+                     <button type="button" id="clear-comparison" data-lang-key="clearButton" class="mt-4 text-sm text-emerald-600 hover:text-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed">Bersihkan Pilihan</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                    <div id="chart-placeholder" class="absolute inset-0 flex justify-center items-center text-slate-500">
+                        <p data-lang-key="chartPlaceholder">Pilih layanan dari rekomendasi untuk mulai membandingkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const analyticsData = {
+            categories: {
+                'data-movement': {
+                    title: { id: "Pergerakan Data", en: "Data Movement" },
+                    description: { id: "Layanan untuk mengumpulkan, memproses, dan menganalisis data streaming secara real-time.", en: "Services for collecting, processing, and analyzing streaming data in real-time." },
+                    icon: '🌊',
+                    services: ['kinesis-streams', 'kinesis-firehose', 'kinesis-analytics-sql', 'flink-managed', 'kinesis-video', 'msk', 'data-pipeline']
+                },
+                'data-lake': {
+                    title: { id: "Katalog & Gudang Data", en: "Data Catalogs & Warehouses" },
+                    description: { id: "Pusatkan, katalogkan, atur, dan amankan data terstruktur dan tidak terstruktur Anda.", en: "Centralize, catalog, govern, and secure your structured and unstructured data." },
+                    icon: '🏞️',
+                    services: ['glue', 'glue-databrew', 'glue-elastic-views', 'lake-formation', 'redshift', 'datazone', 'clean-rooms', 'data-exchange']
+                },
+                'analytics-bi': {
+                    title: { id: "Pemrosesan, Analitik & BI", en: "Processing, Analytics & BI" },
+                    description: { id: "Ekstrak wawasan dari data Anda melalui kueri, pemrosesan big data, dan visualisasi interaktif.", en: "Extract insights from your data through querying, big data processing, and interactive visualizations." },
+                    icon: '📊',
+                    services: ['athena', 'emr', 'quicksight', 'opensearch', 'cloudsearch', 'finspace']
+                }
+            },
+            services: {
+                'kinesis-streams': { title: 'Kinesis Data Streams', icon: '🌊', parent: 'data-movement', tabs: {'Summary': {id: 'Layanan streaming data real-time yang tahan lama dan skalabel.', en: 'A durable and scalable real-time data streaming service.'}, 'Use Case': {id: 'Mengumpulkan log dan data peristiwa dari ribuan sumber secara bersamaan.', en: 'Collecting log and event data from thousands of sources concurrently.'}, 'Pricing': {id: 'Berdasarkan jam shard dan data yang dimasukkan (PUT Payload Units).', en: 'Based on shard hours and data ingested (PUT Payload Units).'},}, scores: {managed: 9, performance: 8, cost: 6, easeOfUse: 7}, tags: ['streaming', 'serverless'] },
+                'kinesis-firehose': { title: 'Kinesis Firehose', icon: '🔥', parent: 'data-movement', tabs: {'Summary': {id: 'Cara termudah untuk memuat data streaming ke danau data dan layanan analitik.', en: 'The easiest way to load streaming data into data lakes and analytics services.'}, 'Use Case': {id: 'Mengirim data log IoT langsung ke S3, Redshift, atau OpenSearch.', en: 'Sending IoT log data directly to S3, Redshift, or OpenSearch.'}, 'Pricing': {id: 'Berdasarkan volume data (per GB) yang dicerna.', en: 'Based on the volume of data (per GB) ingested.'},}, scores: {managed: 10, performance: 7, cost: 7, easeOfUse: 9}, tags: ['streaming', 'etl', 'serverless'] },
+                'kinesis-analytics-sql': { title: 'Kinesis Data Analytics for SQL', icon: '⚙️', parent: 'data-movement', tabs: {'Summary': {id: 'Proses dan analisis data streaming secara real time dengan SQL standar.', en: 'Process and analyze streaming data in real time with standard SQL.'}, 'Use Case': {id: 'Membuat dasbor real-time, analitik deret waktu sederhana.', en: 'Creating real-time dashboards, simple time-series analytics.'}, 'Pricing': {id: 'Berdasarkan jumlah Unit Pemrosesan Kinesis (KPU) per jam.', en: 'Based on the number of Kinesis Processing Units (KPUs) per hour.'},}, scores: {managed: 9, performance: 7, cost: 7, easeOfUse: 8}, tags: ['streaming', 'query', 'serverless'] },
+                'flink-managed': { title: 'Managed Service for Apache Flink', icon: '🐦', parent: 'data-movement', tabs: {'Summary': {id: 'Jalankan aplikasi Apache Flink sepenuhnya terkelola untuk pemrosesan stateful.', en: 'Run fully managed Apache Flink applications for stateful processing.'}, 'Use Case': {id: 'Analitik log & peristiwa real-time yang kompleks, deteksi anomali streaming.', en: 'Complex real-time log & event analytics, streaming anomaly detection.'}, 'Pricing': {id: 'Berdasarkan jam KPU, ditambah penyimpanan aplikasi dan snapshot.', en: 'Based on KPU hours, plus application and snapshot storage.'},}, scores: {managed: 8, performance: 9, cost: 6, easeOfUse: 6}, tags: ['streaming', 'big-data', 'managed'] },
+                'kinesis-video': { title: 'Kinesis Video Streams', icon: '📹', parent: 'data-movement', tabs: {'Summary': {id: 'Streaming video dengan aman dari perangkat yang terhubung ke AWS untuk analitik.', en: 'Securely stream video from connected devices to AWS for analytics.'}, 'Use Case': {id: 'Pemantauan keamanan rumah pintar, pemutaran ulang video acara.', en: 'Smart home security monitoring, event video playback.'}, 'Pricing': {id: 'Berdasarkan volume data yang dicerna, disimpan, dan dikonsumsi.', en: 'Based on volume of data ingested, stored, and consumed.'},}, scores: {managed: 9, performance: 8, cost: 6, easeOfUse: 7}, tags: ['streaming', 'serverless'] },
+                'msk': { title: 'Managed Streaming for Kafka', icon: 'kafka', parent: 'data-movement', tabs: {'Summary': {id: 'Layanan terkelola sepenuhnya untuk Apache Kafka.', en: 'A fully managed service for Apache Kafka.'}, 'Use Case': {id: 'Membangun arsitektur berbasis peristiwa, memisahkan layanan mikro.', en: 'Building event-driven architectures, decoupling microservices.'}, 'Pricing': {id: 'Biaya per jam untuk setiap broker dan volume penyimpanan.', en: 'Per-hour charge for each broker and storage volume.'},}, scores: {managed: 7, performance: 9, cost: 5, easeOfUse: 6}, tags: ['streaming', 'managed'] },
+                'data-pipeline': { title: 'Data Pipeline', icon: '🔗', parent: 'data-movement', tabs: {'Summary': {id: 'Pindahkan data antara berbagai layanan komputasi dan penyimpanan AWS.', en: 'Move data between different AWS compute and storage services.'}, 'Use Case': {id: 'Alur kerja ETL terjadwal, misalnya memindahkan log web setiap hari.', en: 'Scheduled ETL workflows, e.g., moving daily web logs.'}, 'Pricing': {id: 'Berdasarkan frekuensi dan kompleksitas aktivitas.', en: 'Based on activity frequency and complexity.'},}, scores: {managed: 8, performance: 5, cost: 7, easeOfUse: 6}, tags: ['etl', 'managed'] },
+                'glue': { title: 'Glue', icon: '✨', parent: 'data-lake', tabs: {'Summary': {id: 'Layanan integrasi data serverless (Katalog Data & ETL).', en: 'Serverless data integration service (Data Catalog & ETL).'}, 'Use Case': {id: 'Membangun Katalog Data, menjalankan pekerjaan ETL.', en: 'Building a Data Catalog, running ETL jobs.'}, 'Pricing': {id: 'Bayar per jam DPU (Data Processing Unit) yang dikonsumsi.', en: 'Pay per DPU (Data Processing Unit) hour consumed.'},}, scores: {managed: 10, performance: 6, cost: 7, easeOfUse: 8}, tags: ['etl', 'governance', 'serverless'] },
+                'glue-databrew': { title: 'Glue DataBrew', icon: '☕', parent: 'data-lake', tabs: {'Summary': {id: 'Alat persiapan data visual untuk membersihkan dan menormalkan data tanpa kode.', en: 'Visual data preparation tool to clean and normalize data without code.'}, 'Use Case': {id: 'Analis bisnis membersihkan data penjualan sebelum visualisasi.', en: 'Business analysts cleaning sales data before visualization.'}, 'Pricing': {id: 'Bayar per sesi dan saat pekerjaan dijalankan.', en: 'Pay per session and when jobs are run.'},}, dependency: {id: 'Bagian dari ekosistem Glue', en: 'Part of the Glue ecosystem'}, scores: {managed: 10, performance: 5, cost: 7, easeOfUse: 10}, tags: ['etl', 'serverless'] },
+                'glue-elastic-views': { title: 'Glue Elastic Views', icon: '👓', parent: 'data-lake', tabs: {'Summary': {id: 'Buat tampilan terwujud yang menggabungkan data di berbagai datastore.', en: 'Create materialized views that combine data across different datastores.'}, 'Use Case': {id: 'Menyederhanakan kueri data yang tersebar di beberapa database.', en: 'Simplifying queries for data spread across multiple databases.'}, 'Pricing': {id: 'Bayar per jam DPU, mirip dengan Glue ETL.', en: 'Pay per DPU hour, similar to Glue ETL.'},}, scores: {managed: 9, performance: 7, cost: 7, easeOfUse: 8}, tags: ['etl', 'query', 'serverless'] },
+                'lake-formation': { title: 'Lake Formation', icon: '🏞️', parent: 'data-lake', tabs: {'Summary': {id: 'Siapkan dan kelola danau data yang aman dengan mudah.', en: 'Easily set up and manage a secure data lake.'}, 'Use Case': {id: 'Memusatkan data dan menerapkan kontrol akses tingkat halus.', en: 'Centralizing data and applying fine-grained access controls.'}, 'Pricing': {id: 'Tidak ada biaya tambahan, bayar untuk layanan dasar yang digunakan.', en: 'No additional charge, pay for underlying services used.'},}, scores: {managed: 10, performance: 5, cost: 9, easeOfUse: 9}, tags: ['governance', 'serverless'] },
+                'redshift': { title: 'Redshift', icon: ' warehousing', parent: 'data-lake', tabs: {'Summary': {id: 'Gudang data skala petabyte yang cepat dan terkelola.', en: 'A fast, managed, petabyte-scale data warehouse.'}, 'Use Case': {id: 'Intelijen bisnis skala besar, kueri SQL yang kompleks.', en: 'Large-scale business intelligence, complex SQL queries.'}, 'Pricing': {id: 'Bayar per jam untuk node yang disediakan, dengan opsi serverless.', en: 'Pay per hour for provisioned nodes, with a serverless option.'},}, scores: {managed: 7, performance: 10, cost: 4, easeOfUse: 6}, tags: ['query', 'dashboard', 'managed'] },
+                'datazone': { title: 'DataZone', icon: '🗺️', parent: 'data-lake', tabs: {'Summary': {id: 'Layanan manajemen data untuk mengatur, menemukan, dan berbagi data.', en: 'A data management service to catalog, discover, and share data.'}, 'Use Case': {id: 'Membuat katalog data bisnis untuk tata kelola di seluruh perusahaan.', en: 'Creating a business data catalog for enterprise-wide governance.'}, 'Pricing': {id: 'Model berlangganan bulanan ditambah biaya per pengguna.', en: 'Monthly subscription model plus per-user fees.'},}, scores: {managed: 10, performance: 5, cost: 6, easeOfUse: 8}, tags: ['governance', 'serverless'] },
+                'clean-rooms': { title: 'Clean Rooms', icon: '🤝', parent: 'data-lake', tabs: {'Summary': {id: 'Berkolaborasi dengan aman pada kumpulan data kolektif tanpa berbagi data mentah.', en: 'Securely collaborate on collective datasets without sharing raw data.'}, 'Use Case': {id: 'Analisis kampanye pemasaran bersama, penelitian aman.', en: 'Joint marketing campaign analysis, secure research.'}, 'Pricing': {id: 'Bayar per Unit Komputasi Ruang Bersih (CRCU) yang digunakan.', en: 'Pay per Clean Rooms Compute Unit (CRCU) consumed.'},}, scores: {managed: 10, performance: 6, cost: 5, easeOfUse: 7}, tags: ['sharing', 'governance', 'serverless'] },
+                'data-exchange': { title: 'Data Exchange', icon: '💹', parent: 'data-lake', tabs: {'Summary': {id: 'Temukan, berlangganan, dan gunakan data pihak ketiga di cloud.', en: 'Find, subscribe to, and use third-party data in the cloud.'}, 'Use Case': {id: 'Melisensikan data keuangan atau kesehatan untuk analisis.', en: 'Licensing financial or healthcare data for analysis.'}, 'Pricing': {id: 'Bayar biaya berlangganan yang ditetapkan oleh penyedia data.', en: 'Pay the subscription fee set by the data provider.'},}, scores: {managed: 10, performance: 5, cost: 5, easeOfUse: 9}, tags: ['sharing', 'serverless'] },
+                'athena': { title: 'Athena', icon: '🏛️', parent: 'analytics-bi', tabs: {'Summary': {id: 'Layanan kueri interaktif untuk data di S3 menggunakan SQL standar.', en: 'Interactive query service for data in S3 using standard SQL.'}, 'Use Case': {id: 'Kueri ad-hoc data di danau data, analisis file log cepat.', en: 'Ad-hoc querying of data lake data, quick log file analysis.'}, 'Pricing': {id: 'Bayar per kueri (berdasarkan data yang dipindai).', en: 'Pay per query (based on data scanned).'},}, scores: {managed: 10, performance: 7, cost: 9, easeOfUse: 9}, tags: ['query', 'serverless'] },
+                'emr': { title: 'EMR', icon: '🐘', parent: 'analytics-bi', tabs: {'Summary': {id: 'Platform big data cloud untuk pemrosesan data terdistribusi.', en: 'Cloud big data platform for distributed data processing.'}, 'Use Case': {id: 'Pekerjaan ETL skala besar menggunakan Spark, analisis genomik.', en: 'Large-scale ETL jobs using Spark, genomic analysis.'}, 'Pricing': {id: 'Bayar per detik untuk setiap instans dalam klaster.', en: 'Pay per second for each instance in the cluster.'},}, scores: {managed: 6, performance: 9, cost: 5, easeOfUse: 5}, tags: ['big-data', 'etl', 'managed'] },
+                'quicksight': { title: 'QuickSight', icon: '📊', parent: 'analytics-bi', tabs: {'Summary': {id: 'Layanan Intelijen Bisnis (BI) bertenaga ML yang skalabel dan serverless.', en: 'A scalable, serverless, ML-powered Business Intelligence (BI) service.'}, 'Use Case': {id: 'Membuat dasbor analitik bisnis, menyematkan analitik dalam aplikasi.', en: 'Creating business analytics dashboards, embedding analytics in applications.'}, 'Pricing': {id: 'Berdasarkan peran pengguna (Author/Reader) dan per sesi.', en: 'Based on user role (Author/Reader) and per-session.'},}, scores: {managed: 10, performance: 7, cost: 8, easeOfUse: 10}, tags: ['dashboard', 'serverless'] },
+                'opensearch': { title: 'OpenSearch Service', icon: '🔍', parent: 'analytics-bi', tabs: {'Summary': {id: 'Layanan terkelola untuk analitik log interaktif dan pencarian.', en: 'Managed service for interactive log analytics and search.'}, 'Use Case': {id: 'Analitik log operasional, pemantauan aplikasi, pencarian teks lengkap.', en: 'Operational log analytics, application monitoring, full-text search.'}, 'Pricing': {id: 'Berdasarkan jam instans, penyimpanan, dan transfer data.', en: 'Based on instance hours, storage, and data transfer.'},}, scores: {managed: 7, performance: 8, cost: 6, easeOfUse: 7}, tags: ['search', 'query', 'managed'] },
+                'cloudsearch': { title: 'CloudSearch', icon: '☁️🔍', parent: 'analytics-bi', tabs: {'Summary': {id: 'Layanan pencarian terkelola yang sederhana dan hemat biaya.', en: 'A simple and cost-effective managed search service.'}, 'Use Case': {id: 'Pencarian untuk situs web atau aplikasi, pencarian dokumen.', en: 'Search for websites or applications, document search.'}, 'Pricing': {id: 'Bayar per jam instans pencarian dan biaya pemrosesan dokumen.', en: 'Pay per search instance-hour and document processing fees.'},}, scores: {managed: 9, performance: 6, cost: 8, easeOfUse: 9}, tags: ['search', 'serverless'] },
+                'finspace': { title: 'FinSpace', icon: '💼', parent: 'analytics-bi', tabs: {'Summary': {id: 'Layanan analitik yang dibuat khusus untuk industri jasa keuangan.', en: 'An analytics service purpose-built for the financial services industry.'}, 'Use Case': {id: 'Analisis kuantitatif keuangan, pemodelan manajemen risiko.', en: 'Quantitative financial analysis, risk management modeling.'}, 'Pricing': {id: 'Berdasarkan pengguna, penyimpanan, dan jam komputasi cluster.', en: 'Based on users, storage, and cluster compute hours.'},}, scores: {managed: 9, performance: 8, cost: 4, easeOfUse: 7}, tags: ['big-data', 'managed'] }
+            }
+        };
+
+        const translations = {
+            homeButton: { id: "Halaman Utama", en: "Home" },
+            mainTitle: { id: "Panduan Interaktif AWS Analytics", en: "Interactive AWS Analytics Guide" },
+            mainSubtitle: { id: "Jelajahi rangkaian layanan AWS yang komprehensif untuk pergerakan, penyimpanan, pemrosesan, dan visualisasi data.", en: "Explore the comprehensive suite of AWS services for data movement, storage, processing, and visualization." },
+            categoryTitle: { id: "Alur Kerja Analitik di AWS", en: "The Analytics Workflow on AWS" },
+            categorySubtitle: { id: "Proyek analitik mengikuti alur yang umum. Pilih sebuah tahapan untuk menjelajahi layanan-layanan kunci yang terlibat.", en: "Analytics projects follow a common path. Select a stage to explore the key services involved." },
+            welcomeTitle: { id: "Selamat Datang!", en: "Welcome!" },
+            welcomeSubtitle: { id: "Pilih tahapan alur kerja di atas untuk memulai.", en: "Select a workflow stage above to begin." },
+            finderTitle: { id: "Pencari Solusi Analitik", en: "Analytics Solution Finder" },
+            finderSubtitle: { id: "Gunakan filter ini untuk menemukan layanan AWS Analytics yang tepat untuk tugas Anda.", en: "Use these filters to find the right AWS Analytics service for your task." },
+            filter1Title: { id: "1. Apa Tugas Utama Anda?", en: "1. What is your primary Task?" },
+            filterStreaming: { id: "Real-time Data Streaming", en: "Real-time Data Streaming" },
+            filterEtl: { id: "Data Preparation & ETL", en: "Data Preparation & ETL" },
+            filterQuery: { id: "Interactive SQL Queries", en: "Interactive SQL Queries" },
+            filterBigData: { id: "Big Data Processing", en: "Big Data Processing" },
+            filter2Title: { id: "2. Apa Tujuan Utama Anda?", en: "2. What is your primary Goal?" },
+            filterDashboard: { id: "Dashboards & Visualization (BI)", en: "Dashboards & Visualization (BI)" },
+            filterSearch: { id: "Search & Log Analytics", en: "Search & Log Analytics" },
+            filterGovernance: { id: "Data Governance & Cataloging", en: "Data Governance & Cataloging" },
+            filterSharing: { id: "Secure Data Sharing", en: "Secure Data Sharing" },
+            filter3Title: { id: "3. Berapa Tingkat Manajemen yang Anda Inginkan?", en: "3. How much management do you want?" },
+            filterServerless: { id: "Serverless (Manajemen minimal)", en: "Serverless (Minimal management)" },
+            filterManaged: { id: "Managed Cluster (Kontrol seimbang)", en: "Managed Cluster (Balanced control)" },
+            recommendationTitle: { id: "Layanan yang Direkomendasikan", en: "Recommended Services" },
+            noRecommendation: { id: "Pilih filter di atas untuk melihat rekomendasi.", en: "Select a filter above to see recommendations." },
+            comparisonTitle: { id: "Visualisasi Perbandingan Layanan", en: "Service Comparison Visualizer" },
+            comparisonSubtitle: { id: "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.", en: "Compare up to two services visually on key attributes." },
+            comparisonLabel: { id: "Layanan untuk dibandingkan:", en: "Services to compare:" },
+            clearButton: { id: "Bersihkan Pilihan", en: "Clear Selection" },
+            chartPlaceholder: { id: "Pilih layanan dari rekomendasi untuk mulai membandingkan.", en: "Select a service from the recommendations to start comparing." },
+        };
+        
+        const chartConfig = {
+            labels: { id: ['Sangat Terkelola', 'Kinerja', 'Biaya Efektif', 'Kemudahan Penggunaan'], en: ['Highly Managed', 'Performance', 'Cost-Effectiveness', 'Ease of Use'] },
+            keys: ['managed', 'performance', 'cost', 'easeOfUse']
+        };
+
+        let currentLang = 'id';
+        let comparisonChart;
+        let selectedForComparison = [];
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.innerHTML = translations[key][lang];
+                }
+            });
+            
+            createCategoryCards();
+            const activeCategory = document.querySelector('.workflow-card.active')?.dataset.target;
+            if (activeCategory) {
+                createServiceContent(activeCategory);
+                updateActiveView(activeCategory);
+            } else {
+                updateActiveView('welcome');
+            }
+            renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+            updateChart();
+            
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        };
+        
+        function createCategoryCards() {
+            const navContainer = document.getElementById('category-nav');
+            navContainer.innerHTML = '';
+            for (const key in analyticsData.categories) {
+                const category = analyticsData.categories[key];
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.dataset.target = key;
+                card.className = 'workflow-card text-left bg-white p-6 rounded-lg shadow-md hover:shadow-xl border-2 border-transparent';
+                card.innerHTML = `
+                    <span class="text-4xl">${category.icon}</span>
+                    <h3 class="text-xl font-bold mt-2 text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-sm text-slate-500 mt-1">${category.description[currentLang]}</p>
+                `;
+                navContainer.appendChild(card);
+            }
+        }
+        
+        function createServiceContent(categoryKey) {
+            const category = analyticsData.categories[categoryKey];
+            const contentId = `${categoryKey}-content`;
+            let contentDiv = document.getElementById(contentId);
+            
+            if (!contentDiv) {
+                contentDiv = document.createElement('div');
+                contentDiv.id = contentId;
+                contentDiv.className = 'content-section';
+                document.getElementById('content-area').appendChild(contentDiv);
+            }
+            
+            contentDiv.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-slate-600 mt-1">${category.description[currentLang]}</p>
+                </div>
+                <div class="border-b border-slate-200 mb-4">
+                    <nav id="${categoryKey}-tabs" class="flex space-x-4 -mb-px overflow-x-auto" aria-label="Tabs"></nav>
+                </div>
+                <div id="${categoryKey}-tab-content"></div>
+            `;
+            
+            const tabsNav = contentDiv.querySelector(`#${categoryKey}-tabs`);
+            const tabsContent = contentDiv.querySelector(`#${categoryKey}-tab-content`);
+            
+            category.services.forEach((svcKey, index) => {
+                const service = analyticsData.services[svcKey];
+                const tabButton = document.createElement('button');
+                tabButton.type = 'button';
+                tabButton.dataset.target = `${svcKey}-pane`;
+                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-emerald-600 hover:border-emerald-300 ${index === 0 ? 'active' : ''}`;
+                tabButton.textContent = service.title;
+                tabsNav.appendChild(tabButton);
+
+                const tabPane = document.createElement('div');
+                tabPane.id = `${svcKey}-pane`;
+                tabPane.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                
+                tabPane.innerHTML = Object.entries(service.tabs).map(([tabKey, tabContent]) => {
+                    const tabTitle = tabKey === 'Use Case' ? (currentLang === 'id' ? 'Contoh Kasus' : 'Use Case') : tabKey;
+                    return `
+                    <div class="mb-6">
+                        <h5 class="font-semibold text-lg mb-2 text-emerald-700">${tabTitle}</h5>
+                        <div class="text-slate-600">${tabContent[currentLang]}</div>
+                    </div>`
+                }).join('');
+                tabsContent.appendChild(tabPane);
+            });
+
+            tabsNav.addEventListener('click', e => {
+                if (e.target.classList.contains('tab-button')) {
+                    tabsNav.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    tabsContent.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
+                    e.target.classList.add('active');
+                    document.getElementById(e.target.dataset.target).classList.add('active');
+                }
+            });
+        }
+        
+        function updateActiveView(targetId) {
+            document.querySelectorAll('.content-section').forEach(pane => pane.classList.remove('active'));
+            const targetContent = document.getElementById(`${targetId}-content`);
+            if (targetContent) {
+                 targetContent.classList.add('active');
+            }
+            
+            document.querySelectorAll('#category-nav .workflow-card').forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`button[data-target="${targetId}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+        
+        function renderRecommendations(filterTags = []) {
+            const recContainer = document.getElementById('recommendations');
+            recContainer.innerHTML = '';
+            
+            if (filterTags.length === 0) {
+                 document.getElementById('no-recommendation').classList.remove('hidden');
+                 return;
+            }
+
+            document.getElementById('no-recommendation').classList.add('hidden');
+            
+            const recommendedServices = Object.keys(analyticsData.services).filter(key => {
+                const service = analyticsData.services[key];
+                return filterTags.every(tag => service.tags.includes(tag));
+            });
+            
+            Object.keys(analyticsData.services).forEach(key => {
+                const service = analyticsData.services[key];
+                const card = document.createElement('div');
+                const dependencyHTML = service.dependency ? `<p class="text-xs text-amber-600 italic mt-1">${service.dependency[currentLang]}</p>` : '';
+                card.className = `recommendation-card border-2 p-4 rounded-lg duration-300 hover:shadow-xl hover:-translate-y-1 ${recommendedServices.includes(key) ? 'highlight' : 'opacity-40'}`;
+                card.dataset.target = key;
+                card.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-3">${service.icon || '⚙️'}</span>
+                        <h5 class="font-bold text-slate-800">${service.title}</h5>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
+                    ${dependencyHTML}
+                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold text-emerald-600 hover:text-emerald-800 w-full text-left relative z-10 mt-3">
+                        ${selectedForComparison.includes(key) ? (currentLang === 'id' ? 'Hapus' : 'Remove') : (currentLang === 'id' ? 'Bandingkan +' : 'Compare +')}
+                    </button>
+                `;
+                recContainer.appendChild(card);
+            });
+        }
+        
+        function updateChart() {
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+
+            const chartLabels = chartConfig.labels[currentLang];
+            const placeholder = document.getElementById('chart-placeholder');
+            
+            if (selectedForComparison.length === 0) {
+                placeholder.classList.remove('hidden');
+                document.getElementById('clear-comparison').disabled = true;
+                return;
+            }
+            
+            placeholder.classList.add('hidden');
+            document.getElementById('clear-comparison').disabled = false;
+
+            const datasets = selectedForComparison.map((serviceKey, index) => {
+                const service = analyticsData.services[serviceKey];
+                const scores = service.scores;
+                const colors = ['rgba(5, 150, 105, 0.4)', 'rgba(6, 182, 212, 0.4)'];
+                
+                return {
+                    label: service.title,
+                    data: chartConfig.keys.map(key => scores[key] || 0),
+                    backgroundColor: colors[index % 2],
+                    borderColor: colors[index % 2].replace('0.4', '1'),
+                };
+            });
+            
+            comparisonChart = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
+                type: 'radar',
+                data: { labels: chartLabels, datasets: datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }},
+                    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#e5e7eb' }, pointLabels: { font: { size: 10 } } } }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+
+            for (const key in analyticsData.categories) {
+                createServiceContent(key);
+            }
+            
+            document.getElementById('category-nav').addEventListener('click', (e) => {
+                const button = e.target.closest('.workflow-card');
+                if (button) {
+                    updateActiveView(button.dataset.target);
+                }
+            });
+
+            document.getElementById('decision-filters').addEventListener('click', (e) => {
+                const button = e.target.closest('.decision-button');
+                if (button) {
+                    button.classList.toggle('selected');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                }
+            });
+
+            document.getElementById('recommendations').addEventListener('click', e => {
+                const compareButton = e.target.closest('.compare-button');
+                if (compareButton) {
+                    e.stopPropagation();
+                    const serviceKey = compareButton.dataset.service;
+                    const isSelected = selectedForComparison.includes(serviceKey);
+                    if (!isSelected && selectedForComparison.length >= 2) {
+                        const alertBox = document.getElementById('comparison-alert');
+                        alertBox.innerHTML = `<strong class="font-bold">${currentLang === 'id' ? 'Batas tercapai!' : 'Limit Reached!'}</strong><span class="block sm:inline"> ${currentLang === 'id' ? 'Hanya bisa 2 layanan.' : 'Only 2 services.'}</span>`;
+                        alertBox.classList.remove('hidden');
+                        setTimeout(() => alertBox.classList.add('hidden'), 3000);
+                        return;
+                    }
+                    selectedForComparison = isSelected ? selectedForComparison.filter(s => s !== serviceKey) : [...selectedForComparison, serviceKey];
+                    updateChart();
+                    document.getElementById('comparison-pills').innerHTML = selectedForComparison.map(key => `<span class="bg-emerald-100 text-emerald-800 text-sm font-medium px-2.5 py-0.5 rounded-full">${analyticsData.services[key].title}</span>`).join('');
+                    renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+                }
+            });
+
+            document.getElementById('clear-comparison').addEventListener('click', () => {
+                selectedForComparison = [];
+                updateChart();
+                document.getElementById('comparison-pills').innerHTML = '';
+                renderRecommendations(Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter));
+            });
+
+            const preferredLanguage = localStorage.getItem('language') || 'id';
+            setLanguage(preferredLanguage);
+            updateActiveView('welcome');
+            renderRecommendations([]);
+        });
+    </script>
+</body>
+</html>
