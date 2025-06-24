@@ -16,15 +16,15 @@
             color: #1e293b; /* slate-800 */
         }
         .category-card.active {
-            border-color: #0284c7; /* sky-600 */
+            border-color: #478d28; /* sky-600 */
             box-shadow: 0 10px 15px -3px rgb(2 132 199 / 0.1), 0 4px 6px -4px rgb(2 132 199 / 0.1);
         }
         .category-card {
             transition: all 0.3s ease-in-out;
         }
         .tab-button.active {
-            border-bottom: 2px solid #0284c7; /* sky-600 */
-            color: #0284c7;
+            border-bottom: 2px solid #478d28; /* sky-600 */
+            color: #478d28;
         }
         .content-section, .tab-content {
             display: none;
@@ -45,7 +45,7 @@
             }
         }
         .decision-button.selected {
-            background-color: #7c3aed; /* violet-600 */
+            background-color: #478d28; /* violet-600 */
             color: white;
         }
         .recommendation-card {
@@ -53,11 +53,11 @@
             cursor: pointer;
         }
         .recommendation-card.highlight {
-            border-color: #0284c7; /* sky-600 */
-            box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
+            border-color: #478d28; /* sky-600 */
+            box-shadow: 0 0 15px rgba(45, 199, 2, 0.2);
         }
         .lang-switcher button.active {
-            background-color: #0284c7;
+            background-color: #478d28;
             color: white;
         }
     </style>
@@ -67,7 +67,7 @@
     <div class="container mx-auto p-4 md:p-8">
         
         <header class="relative text-center mb-12 py-4">
-            <a href="../index.html" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-sky-600 transition-colors duration-200">
+            <a href="/cloud/aws/" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-sky-600 transition-colors duration-200">
                 <span class="text-2xl">&larr;</span>
                 <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
              </a>
@@ -272,7 +272,7 @@
                 const tabButton = document.createElement('button');
                 tabButton.type = 'button';
                 tabButton.dataset.target = `${svcKey}-pane-${categoryKey}`;
-                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-sky-600 hover:border-sky-300 ${index === 0 ? 'active' : ''}`;
+                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-green-600 hover:border-green-300 ${index === 0 ? 'active' : ''}`;
                 tabButton.textContent = service.title;
                 tabsNav.appendChild(tabButton);
 
@@ -288,7 +288,7 @@
 
                     return `
                     <div class="mb-6">
-                        <h5 class="font-semibold text-lg mb-2 text-sky-700">${tabTitle}</h5>
+                        <h5 class="font-semibold text-lg mb-2 text-green-700">${tabTitle}</h5>
                         <div class="text-slate-600">${tabContent[currentLang]}</div>
                     </div>`
                 }).join('');
@@ -306,19 +306,22 @@
         }
         
         function updateActiveView(targetId) {
-            document.querySelectorAll('.content-section').forEach(pane => pane.classList.remove('active'));
+            const allSections = document.querySelectorAll('.content-section');
             const targetContent = document.getElementById(`${targetId}-content`);
+            const welcomeContent = document.getElementById('welcome-content');
+
+            allSections.forEach(pane => pane.classList.remove('active'));
+
             if (targetContent) {
-                 targetContent.classList.add('active');
-            } else {
-                document.getElementById('welcome-content').classList.add('active');
+                targetContent.classList.add('active');
+                welcomeContent.classList.add('hidden');
+            } else if (welcomeContent) {
+                welcomeContent.classList.add('active');
             }
-            
-            document.querySelectorAll('#category-nav .category-card').forEach(button => button.classList.remove('active'));
-            const activeButton = document.querySelector(`button[data-target="${targetId}"]`);
-            if (activeButton) {
-                activeButton.classList.add('active');
-            }
+
+            document.querySelectorAll('#category-nav .category-card').forEach(button => {
+                button.classList.toggle('active', button.dataset.target === targetId);
+            });
         }
         
         function renderRecommendations(filterTags = []) {

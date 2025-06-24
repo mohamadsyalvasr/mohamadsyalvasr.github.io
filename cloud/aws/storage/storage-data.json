@@ -117,7 +117,7 @@
       },
       "ebs": {
         "title": "Amazon EBS",
-        "icon": "💾",
+        "icon": "./assets/icons/Elastic-Block-Store.svg",
         "parent": "block",
         "tabs": {
           "Summary": {
@@ -150,7 +150,7 @@
       },
       "efs": {
         "title": "Amazon EFS",
-        "icon": "📂",
+        "icon": "./assets/icons/EFS.svg",
         "parent": "file",
         "tabs": {
           "Summary": {
@@ -179,7 +179,7 @@
       },
       "fsx-windows": {
         "title": "FSx for Windows",
-        "icon": "🪟",
+        "icon": "./assets/icons/FSx-for-WFS.svg",
         "parent": "file",
         "tabs": {
           "Summary": {
@@ -207,7 +207,7 @@
       },
       "fsx-lustre": {
         "title": "FSx for Lustre",
-        "icon": "🏎️",
+        "icon": "./assets/icons/FSx-for-Lustre.svg",
         "parent": "file",
         "tabs": {
           "Summary": {
@@ -236,7 +236,7 @@
       },
       "fsx-ontap": {
         "title": "FSx for ONTAP",
-        "icon": "🗄️",
+        "icon": "./assets/icons/FSx-for-NetApp-ONTAP.svg",
         "parent": "file",
         "tabs": {
           "Summary": {
@@ -266,7 +266,7 @@
       },
       "fsx-openzfs": {
         "title": "FSx for OpenZFS",
-        "icon": "⚡",
+        "icon": "./assets/icons/FSx-for-OpenZFS.svg",
         "parent": "file",
         "tabs": {
           "Summary": {
@@ -295,7 +295,7 @@
       },
       "file-cache": {
         "title": "Amazon File Cache",
-        "icon": "💨",
+        "icon": "./assets/icons/File-Cache.svg",
         "parent": "file",
         "tabs": {
           "Summary": {
@@ -324,7 +324,7 @@
       },
       "backup": {
         "title": "AWS Backup",
-        "icon": "🛡️",
+        "icon": "./assets/icons/Backup.svg",
         "parent": "backup",
         "tabs": {
           "Summary": {
@@ -353,7 +353,7 @@
       },
       "s3-glacier": {
         "title": "S3 Glacier",
-        "icon": "🧊",
+        "icon": "./assets/icons/Simple-Storage-Service-Glacier.svg",
         "parent": "object",
         "tabs": {
           "Summary": {
@@ -382,7 +382,7 @@
       },
       "drs": {
         "title": "Elastic Disaster Recovery",
-        "icon": "🚑",
+        "icon": "./assets/icons/Elastic-Disaster-Recovery.svg",
         "parent": "backup",
         "tabs": {
           "Summary": {
@@ -410,7 +410,7 @@
       },
       "snow-family": {
         "title": "AWS Snow Family",
-        "icon": "❄️",
+        "icon": "./assets/icons/Snowball.svg",
         "parent": "transfer",
         "tabs": {
           "Summary": {
@@ -437,7 +437,7 @@
       },
       "datasync": {
         "title": "AWS DataSync",
-        "icon": "🔄",
+        "icon": "./assets/icons/DataSync.svg",
         "parent": "transfer",
         "tabs": {
           "Summary": {
@@ -465,7 +465,7 @@
       },
       "transfer-family": {
         "title": "AWS Transfer Family",
-        "icon": "🤝",
+        "icon": "./assets/icons/Transfer-Family.svg",
         "parent": "transfer",
         "tabs": {
           "Summary": {
@@ -493,7 +493,7 @@
       },
       "storage-gateway": {
         "title": "Storage Gateway",
-        "icon": "🚪",
+        "icon": "./assets/icons/Storage-Gateway.svg",
         "parent": "transfer",
         "tabs": {
           "Summary": {
@@ -523,7 +523,7 @@
       },
       "s3-outposts": {
         "title": "S3 on Outposts",
-        "icon": "🏢",
+        "icon": "./assets/icons/S3-on-Outposts.svg",
         "parent": "object",
         "tabs": {
           "Summary": {

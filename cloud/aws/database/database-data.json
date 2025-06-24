@@ -81,7 +81,7 @@
     "services": {
       "rds": {
         "title": "RDS",
-        "icon": "🐘",
+        "icon": "./assets/icons/RDS.svg",
         "parent": "relational",
         "tabs": {
           "Summary": {
@@ -109,7 +109,7 @@
       },
       "aurora": {
         "title": "Aurora",
-        "icon": "✨",
+        "icon": "./assets/icons/Aurora.svg",
         "parent": "relational",
         "tabs": {
           "Summary": {
@@ -138,7 +138,7 @@
       },
       "rds-vmware": {
         "title": "RDS on VMware",
-        "icon": "🤝",
+        "icon": "./assets/icons/RDS-on-VMware.svg",
         "parent": "relational",
         "tabs": {
           "Summary": {
@@ -166,7 +166,7 @@
       },
       "dynamodb": {
         "title": "DynamoDB",
-        "icon": "🚀",
+        "icon": "./assets/icons/DynamoDB.svg",
         "parent": "key_value",
         "tabs": {
           "Summary": {
@@ -196,7 +196,7 @@
       },
       "documentdb": {
         "title": "DocumentDB",
-        "icon": "📜",
+        "icon": "./assets/icons/DocumentDB.svg",
         "parent": "key_value",
         "tabs": {
           "Summary": {
@@ -224,7 +224,7 @@
       },
       "keyspaces": {
         "title": "Keyspaces",
-        "icon": "🔑",
+        "icon": "./assets/icons/Keyspaces.svg",
         "parent": "key_value",
         "tabs": {
           "Summary": {
@@ -252,7 +252,7 @@
       },
       "elasticache": {
         "title": "ElastiCache",
-        "icon": "💨",
+        "icon": "./assets/icons/ElastiCache.svg",
         "parent": "in_memory",
         "tabs": {
           "Summary": {
@@ -281,7 +281,7 @@
       },
       "memorydb": {
         "title": "MemoryDB for Redis",
-        "icon": "🧠",
+        "icon": "./assets/icons/MemoryDB-for-Redis.svg",
         "parent": "in_memory",
         "tabs": {
           "Summary": {
@@ -310,7 +310,7 @@
       },
       "neptune": {
         "title": "Neptune",
-        "icon": "🕸️",
+        "icon": "./assets/icons/Neptune.svg",
         "parent": "specialized",
         "tabs": {
           "Summary": {
@@ -338,7 +338,7 @@
       },
       "timestream": {
         "title": "Timestream",
-        "icon": "⏳",
+        "icon": "./assets/icons/Timestream.svg",
         "parent": "specialized",
         "tabs": {
           "Summary": {
@@ -366,7 +366,7 @@
       },
       "dms": {
         "title": "Database Migration Service",
-        "icon": "✈️",
+        "icon": "./assets/icons/Database-Migration-Service.svg",
         "parent": "migration",
         "tabs": {
           "Summary": {

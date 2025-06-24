@@ -73,25 +73,25 @@
             </div>
             <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0">Panduan Cloud Interaktif</h1>
             <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Pilih penyedia cloud untuk memulai perjalanan Anda dalam menjelajahi layanan-layanan cloud terkemuka.</p>
+            
+            <div class="mt-8 max-w-xl mx-auto">
+                <input type="search" id="search-input" class="w-full px-5 py-3 rounded-full border-2 border-slate-300 focus:border-orange-500 focus:ring-orange-500 transition-colors" placeholder="Cari provider...">
+            </div>
         </header>
 
         <main>
-            <!-- Provider cards will be dynamically inserted here -->
             <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Loading state -->
                 <p class="col-span-full text-center text-slate-500">Memuat data provider...</p>
             </div>
         </main>
         
-        <!-- E-Book Section -->
         <section id="ebooks-section" class="mt-20 pt-10 border-t border-slate-200">
              <header class="text-center mb-12">
                 <h2 id="ebook-section-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-3">E-Book Eksklusif</h2>
                 <p id="ebook-section-subtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Tingkatkan keahlian Anda dengan panduan mendalam yang kami siapkan khusus untuk Anda.</p>
             </header>
             <div id="ebooks" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 <!-- Loading state -->
-                <p class="col-span-full text-center text-slate-500">Memuat data e-book...</p>
+                 <p class="col-span-full text-center text-slate-500">Memuat data e-book...</p>
             </div>
             <div class="text-center mt-12">
                 <a href="/cloud/ebooks/" id="view-all-ebooks-btn" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
@@ -127,12 +127,19 @@
             }
         };
 
-        const renderProviderCards = (lang) => {
+        const renderProviderCards = (providersToRender, lang) => {
             const guidesContainer = document.getElementById('guides');
-            if (!guidesContainer || !cloudProviders.length) return;
+            if (!guidesContainer) return;
             
             guidesContainer.innerHTML = ''; // Clear existing cards
-            cloudProviders.forEach(provider => {
+
+            if (providersToRender.length === 0) {
+                const noResultsMessage = translations.noResults?.[lang] || 'No providers found.';
+                guidesContainer.innerHTML = `<p class="col-span-full text-center text-slate-500 text-lg">${noResultsMessage}</p>`;
+                return;
+            }
+
+            providersToRender.forEach(provider => {
                 const title = translations[provider.titleKey]?.[lang] || provider.titleKey;
                 const description = translations[provider.descKey]?.[lang] || provider.descKey;
                 
@@ -159,6 +166,20 @@
                 }
             });
         };
+
+        const filterAndRenderProviders = () => {
+            const lang = localStorage.getItem('language') || 'id';
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+            if (!cloudProviders.length) return;
+
+            const filteredProviders = cloudProviders.filter(provider => {
+                const title = translations[provider.titleKey]?.[lang] || provider.titleKey;
+                return title.toLowerCase().includes(searchTerm);
+            });
+
+            renderProviderCards(filteredProviders, lang);
+        };
         
         const renderEbookCards = (lang) => {
             const ebooksContainer = document.getElementById('ebooks');
@@ -166,7 +187,6 @@
 
             ebooksContainer.innerHTML = ''; // Clear existing cards
             
-            // Display only the top 3 e-books
             const topEbooks = ebooks.slice(0, 3);
 
             topEbooks.forEach(book => {
@@ -180,7 +200,6 @@
                         <p class="text-slate-500 mt-2 flex-grow">${description}</p>
                     </div>`;
 
-                // Price rendering logic
                 const price = book.price?.[lang] || book.price?.id;
                 const discountPrice = book.discountPrice?.[lang] || book.discountPrice?.id;
                 const buttonText = book.buttonText?.[lang] || book.buttonText?.id;
@@ -239,11 +258,17 @@
                 }
             });
 
+            // Update search placeholder
+            const searchInput = document.getElementById('search-input');
+            if (searchInput && translations.searchPlaceholder) {
+                searchInput.placeholder = translations.searchPlaceholder[lang];
+            }
+
             document.getElementById('ebook-section-title').innerHTML = ebookSectionTranslations.title[lang];
             document.getElementById('ebook-section-subtitle').innerHTML = ebookSectionTranslations.subtitle[lang];
             document.getElementById('view-all-ebooks-btn').innerHTML = ebookSectionTranslations.viewAllButton[lang];
 
-            renderProviderCards(lang);
+            filterAndRenderProviders(); // Re-filter and render providers with the new language
             renderEbookCards(lang);
 
             document.getElementById('lang-id').classList.toggle('active', lang === 'id');
@@ -268,10 +293,11 @@
                 translations = await translationsResponse.json();
                 ebooks = await ebooksResponse.json();
 
-                const langIdButton = document.getElementById('lang-id');
-                const langEnButton = document.getElementById('lang-en');
-                langIdButton.addEventListener('click', () => setLanguage('id'));
-                langEnButton.addEventListener('click', () => setLanguage('en'));
+                // Add event listeners
+                document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+                document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+                document.getElementById('search-input').addEventListener('input', filterAndRenderProviders);
+
 
                 const preferredLanguage = localStorage.getItem('language') || 'id';
                 setLanguage(preferredLanguage);

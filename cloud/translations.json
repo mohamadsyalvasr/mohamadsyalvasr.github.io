@@ -7,6 +7,10 @@
     "id": "Pilih penyedia cloud untuk memulai perjalanan Anda dalam menjelajahi layanan-layanan cloud terkemuka.",
     "en": "Select a cloud provider to begin your journey exploring leading cloud services."
   },
+  "searchPlaceholder" : {
+    "id": "Cari penyedia layanan cloud",
+    "en": "Search cloud service provider"
+  },
   "awsTitle": {
     "id": "Amazon Web Services",
     "en": "Amazon Web Services"
