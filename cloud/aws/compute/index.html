@@ -16,15 +16,15 @@
             color: #1e293b; /* slate-800 */
         }
         .category-card.active {
-            border-color: #0d9488; /* teal-600 */
-            box-shadow: 0 10px 15px -3px rgb(13 148 136 / 0.1), 0 4px 6px -4px rgb(13 148 136 / 0.1);
+            border-color: #f59e0b; /* teal-600 */
+            box-shadow: 0 10px 15px -3px rgba(148, 119, 13, 0.1), 0 4px 6px -4px rgb(13 148 136 / 0.1);
         }
         .category-card {
             transition: all 0.3s ease-in-out;
         }
         .tab-button.active {
-            border-bottom: 2px solid #0d9488; /* teal-600 */
-            color: #0d9488;
+            border-bottom: 2px solid #f59e0b; /* teal-600 */
+            color: #f59e0b;
         }
         .content-section, .tab-content {
             display: none;
@@ -53,11 +53,11 @@
             cursor: pointer;
         }
         .recommendation-card.highlight {
-            border-color: #0d9488; /* teal-600 */
-            box-shadow: 0 0 15px rgba(13, 148, 136, 0.2);
+            border-color: #f59e0b; /* teal-600 */
+            box-shadow: 0 0 15px rgba(148, 141, 13, 0.2);
         }
         .lang-switcher button.active {
-            background-color: #0d9488;
+            background-color: #f59e0b;
             color: white;
         }
     </style>
@@ -92,7 +92,7 @@
                 <span class="text-6xl mb-4">🚀</span>
                 <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
                 <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih kategori layanan di atas untuk memulai.</p>
-            </div>
+            </div> 
             <!-- Dynamic content sections will be added here -->
         </main>
 
@@ -274,7 +274,7 @@
                 const tabButton = document.createElement('button');
                 tabButton.type = 'button';
                 tabButton.dataset.target = `${svcKey}-pane-${categoryKey}`;
-                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-teal-600 hover:border-teal-300 ${index === 0 ? 'active' : ''}`;
+                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-amber-600 hover:border-amber-300 ${index === 0 ? 'active' : ''}`;
                 tabButton.textContent = service.title;
                 tabsNav.appendChild(tabButton);
 
@@ -290,7 +290,7 @@
                     
                     return `
                     <div class="mb-6">
-                        <h5 class="font-semibold text-lg mb-2 text-teal-700">${tabTitle}</h5>
+                        <h5 class="font-semibold text-lg mb-2 text-amber-700">${tabTitle}</h5>
                         <div class="text-slate-600">${tabContent[currentLang]}</div>
                     </div>`
                 }).join('');
