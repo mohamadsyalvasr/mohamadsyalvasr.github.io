@@ -1,0 +1,672 @@
+{
+  "storageData": {
+    "categories": {
+      "object": {
+        "title": {
+          "id": "Penyimpanan Objek",
+          "en": "Object Storage"
+        },
+        "description": {
+          "id": "Sangat skalabel untuk data tak terstruktur seperti gambar, video, dan backup.",
+          "en": "Massively scalable for unstructured data like images, videos, and backups."
+        },
+        "icon": "🗃️",
+        "services": [
+          "s3",
+          "s3-glacier",
+          "s3-outposts"
+        ]
+      },
+      "block": {
+        "title": {
+          "id": "Penyimpanan Blok",
+          "en": "Block Storage"
+        },
+        "description": {
+          "id": "Penyimpanan berkinerja tinggi untuk database dan aplikasi.",
+          "en": "High-performance storage for databases and applications."
+        },
+        "icon": "💾",
+        "services": [
+          "ebs"
+        ]
+      },
+      "file": {
+        "title": {
+          "id": "Penyimpanan File",
+          "en": "File Storage"
+        },
+        "description": {
+          "id": "Sistem file bersama yang dapat diakses oleh banyak server.",
+          "en": "Shared file systems accessible by many servers."
+        },
+        "icon": "📂",
+        "services": [
+          "efs",
+          "fsx-windows",
+          "fsx-lustre",
+          "fsx-ontap",
+          "fsx-openzfs",
+          "file-cache"
+        ]
+      },
+      "backup": {
+        "title": {
+          "id": "Backup & Pemulihan",
+          "en": "Backup & Recovery"
+        },
+        "description": {
+          "id": "Layanan terpusat untuk mengelola dan mengotomatiskan perlindungan data.",
+          "en": "Centralized services to manage and automate data protection."
+        },
+        "icon": "💽",
+        "services": [
+          "backup",
+          "drs"
+        ]
+      },
+      "transfer": {
+        "title": {
+          "id": "Transfer Data",
+          "en": "Data Transfer"
+        },
+        "description": {
+          "id": "Pindahkan data dalam jumlah besar ke dan dari AWS.",
+          "en": "Move large amounts of data to and from AWS."
+        },
+        "icon": "🚚",
+        "services": [
+          "snow-family",
+          "datasync",
+          "transfer-family",
+          "storage-gateway"
+        ]
+      }
+    },
+    "services": {
+      "s3": {
+        "title": "Amazon S3",
+        "icon": "./assets/icons/Simple-Storage-Service.svg",
+        "parent": "object",
+        "tabs": {
+          "Summary": {
+            "id": "Penyimpanan objek yang tahan lama dan skalabel.",
+            "en": "Durable and scalable object storage."
+          },
+          "Use Case": {
+            "id": "Menyimpan aset situs web, backup, dan danau data.",
+            "en": "Storing website assets, backups, and data lakes."
+          },
+          "Pricing": {
+            "id": "Bayar untuk kapasitas (GB/bulan), permintaan, dan transfer data.",
+            "en": "Pay for capacity (GB/month), requests, and data transfer."
+          }
+        },
+        "scores": {
+          "durability": 10,
+          "performance": 6,
+          "cost": 9
+        },
+        "tags": [
+          "object",
+          "backup",
+          "performance",
+          "frequent",
+          "infrequent"
+        ]
+      },
+      "ebs": {
+        "title": "Amazon EBS",
+        "icon": "💾",
+        "parent": "block",
+        "tabs": {
+          "Summary": {
+            "id": "Volume penyimpanan blok berkinerja tinggi untuk EC2.",
+            "en": "High-performance block storage volumes for EC2."
+          },
+          "Use Case": {
+            "id": "Sebagai hard drive untuk server virtual EC2, menjalankan database.",
+            "en": "As a hard drive for EC2 virtual servers, running databases."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas (GB/bulan) yang disediakan, tipe volume, dan IOPS.",
+            "en": "Based on provisioned capacity (GB/month), volume type, and IOPS."
+          }
+        },
+        "dependency": {
+          "id": "Membutuhkan EC2",
+          "en": "Requires EC2"
+        },
+        "scores": {
+          "durability": 8,
+          "performance": 9,
+          "cost": 6
+        },
+        "tags": [
+          "block",
+          "performance",
+          "frequent"
+        ]
+      },
+      "efs": {
+        "title": "Amazon EFS",
+        "icon": "📂",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Sistem file bersama yang elastis untuk Linux.",
+            "en": "Elastic shared file system for Linux."
+          },
+          "Use Case": {
+            "id": "Direktori home bersama, sistem manajemen konten.",
+            "en": "Shared home directories, content management systems."
+          },
+          "Pricing": {
+            "id": "Bayar hanya untuk penyimpanan yang digunakan.",
+            "en": "Pay only for the storage you use."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 7,
+          "cost": 5
+        },
+        "tags": [
+          "file",
+          "performance",
+          "frequent"
+        ]
+      },
+      "fsx-windows": {
+        "title": "FSx for Windows",
+        "icon": "🪟",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Sistem file Windows native yang terkelola sepenuhnya.",
+            "en": "Fully managed native Windows file system."
+          },
+          "Use Case": {
+            "id": "File share untuk aplikasi Windows, direktori home pengguna.",
+            "en": "File shares for Windows applications, user home directories."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas penyimpanan, throughput, dan backup.",
+            "en": "Based on storage capacity, throughput, and backups."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 8,
+          "cost": 4
+        },
+        "tags": [
+          "file",
+          "frequent"
+        ]
+      },
+      "fsx-lustre": {
+        "title": "FSx for Lustre",
+        "icon": "🏎️",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Sistem file berkinerja tinggi yang dioptimalkan untuk HPC.",
+            "en": "High-performance file system optimized for HPC."
+          },
+          "Use Case": {
+            "id": "Beban kerja Machine Learning, pemrosesan video, dan analisis keuangan.",
+            "en": "Machine Learning workloads, video processing, and financial analytics."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas penyimpanan, throughput, dan backup.",
+            "en": "Based on storage capacity, throughput, and backups."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 10,
+          "cost": 3
+        },
+        "tags": [
+          "file",
+          "performance",
+          "frequent"
+        ]
+      },
+      "fsx-ontap": {
+        "title": "FSx for ONTAP",
+        "icon": "🗄️",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Penyimpanan file multi-protokol dari NetApp ONTAP.",
+            "en": "Multi-protocol file storage powered by NetApp ONTAP."
+          },
+          "Use Case": {
+            "id": "Database, aplikasi enterprise, dan file share yang membutuhkan fitur ONTAP.",
+            "en": "Databases, enterprise apps, and file shares needing ONTAP features."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas, throughput, dan fitur ONTAP yang digunakan.",
+            "en": "Based on capacity, throughput, and utilized ONTAP features."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 9,
+          "cost": 4
+        },
+        "tags": [
+          "file",
+          "performance",
+          "frequent",
+          "infrequent"
+        ]
+      },
+      "fsx-openzfs": {
+        "title": "FSx for OpenZFS",
+        "icon": "⚡",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Sistem file berkinerja tinggi berbasis OpenZFS.",
+            "en": "High-performance file system powered by OpenZFS."
+          },
+          "Use Case": {
+            "id": "Beban kerja sensitif latensi, database, dan build code.",
+            "en": "Latency-sensitive workloads, databases, and code builds."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas penyimpanan, throughput, dan IOPS.",
+            "en": "Based on storage capacity, throughput, and IOPS."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 10,
+          "cost": 4
+        },
+        "tags": [
+          "file",
+          "performance",
+          "frequent"
+        ]
+      },
+      "file-cache": {
+        "title": "Amazon File Cache",
+        "icon": "💨",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Cache berkinerja tinggi untuk beban kerja file di cloud.",
+            "en": "A high-speed cache for file workloads in the cloud."
+          },
+          "Use Case": {
+            "id": "Mempercepat akses ke data dari on-premise atau S3.",
+            "en": "Accelerating access to data from on-premises or S3."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas cache dan permintaan metadata.",
+            "en": "Based on cache capacity and metadata requests."
+          }
+        },
+        "scores": {
+          "durability": 7,
+          "performance": 10,
+          "cost": 5
+        },
+        "tags": [
+          "file",
+          "performance",
+          "frequent"
+        ]
+      },
+      "backup": {
+        "title": "AWS Backup",
+        "icon": "🛡️",
+        "parent": "backup",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan backup terpusat untuk mengotomatiskan perlindungan data.",
+            "en": "Centralized backup service to automate data protection."
+          },
+          "Use Case": {
+            "id": "Membuat kebijakan backup untuk layanan AWS seperti EC2, EBS, RDS.",
+            "en": "Creating backup policies for AWS services like EC2, EBS, RDS."
+          },
+          "Pricing": {
+            "id": "Berdasarkan jumlah penyimpanan backup dan restorasi data.",
+            "en": "Based on amount of backup storage and data restores."
+          }
+        },
+        "scores": {
+          "durability": 10,
+          "performance": 5,
+          "cost": 8
+        },
+        "tags": [
+          "backup",
+          "infrequent",
+          "archive"
+        ]
+      },
+      "s3-glacier": {
+        "title": "S3 Glacier",
+        "icon": "🧊",
+        "parent": "object",
+        "tabs": {
+          "Summary": {
+            "id": "Penyimpanan arsip berbiaya sangat rendah untuk data jangka panjang.",
+            "en": "Extremely low-cost archive storage for long-term data."
+          },
+          "Use Case": {
+            "id": "Mengarsipkan data medis, file media, atau data kepatuhan.",
+            "en": "Archiving medical records, media files, or compliance data."
+          },
+          "Pricing": {
+            "id": "Biaya sangat rendah untuk penyimpanan, biaya lebih tinggi untuk pengambilan data.",
+            "en": "Very low cost for storage, higher cost for data retrieval."
+          }
+        },
+        "scores": {
+          "durability": 10,
+          "performance": 2,
+          "cost": 10
+        },
+        "tags": [
+          "backup",
+          "object",
+          "archive"
+        ]
+      },
+      "drs": {
+        "title": "Elastic Disaster Recovery",
+        "icon": "🚑",
+        "parent": "backup",
+        "tabs": {
+          "Summary": {
+            "id": "Meminimalkan downtime dengan pemulihan cepat server fisik dan virtual.",
+            "en": "Minimize downtime with fast recovery of physical and virtual servers."
+          },
+          "Use Case": {
+            "id": "Pemulihan bencana untuk aplikasi on-premise atau cloud.",
+            "en": "Disaster recovery for on-premises or cloud applications."
+          },
+          "Pricing": {
+            "id": "Biaya per jam untuk setiap server yang direplikasi.",
+            "en": "Per-hour fee for each replicating server."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 8,
+          "cost": 5
+        },
+        "tags": [
+          "backup",
+          "infrequent"
+        ]
+      },
+      "snow-family": {
+        "title": "AWS Snow Family",
+        "icon": "❄️",
+        "parent": "transfer",
+        "tabs": {
+          "Summary": {
+            "id": "Perangkat fisik (Snowcone, Snowball, Snowmobile) untuk memindahkan data dalam jumlah besar.",
+            "en": "Physical devices (Snowcone, Snowball, Snowmobile) to move huge amounts of data."
+          },
+          "Use Case": {
+            "id": "Migrasi data pusat data berskala petabyte.",
+            "en": "Petabyte-scale data center migrations."
+          },
+          "Pricing": {
+            "id": "Biaya per pekerjaan per perangkat, ditambah biaya pengiriman.",
+            "en": "Per-job fee per device, plus shipping costs."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 10,
+          "cost": 3
+        },
+        "tags": [
+          "transfer"
+        ]
+      },
+      "datasync": {
+        "title": "AWS DataSync",
+        "icon": "🔄",
+        "parent": "transfer",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan transfer data online yang menyederhanakan dan mempercepat pemindahan data.",
+            "en": "Online data transfer service that simplifies and accelerates data movement."
+          },
+          "Use Case": {
+            "id": "Migrasi data yang sedang berlangsung dari on-premise ke S3 atau EFS.",
+            "en": "Ongoing data migration from on-premises to S3 or EFS."
+          },
+          "Pricing": {
+            "id": "Biaya per GB yang ditransfer.",
+            "en": "Per-GB fee for data transferred."
+          }
+        },
+        "scores": {
+          "durability": 8,
+          "performance": 7,
+          "cost": 7
+        },
+        "tags": [
+          "transfer",
+          "file"
+        ]
+      },
+      "transfer-family": {
+        "title": "AWS Transfer Family",
+        "icon": "🤝",
+        "parent": "transfer",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan transfer file terkelola sepenuhnya untuk SFTP, FTPS, dan FTP.",
+            "en": "Fully managed file transfer service for SFTP, FTPS, and FTP."
+          },
+          "Use Case": {
+            "id": "Berbagi file secara aman dengan mitra bisnis menggunakan protokol standar.",
+            "en": "Securely sharing files with business partners using standard protocols."
+          },
+          "Pricing": {
+            "id": "Biaya per jam untuk endpoint aktif dan per GB yang ditransfer.",
+            "en": "Per-hour fee for active endpoints and per-GB transferred."
+          }
+        },
+        "scores": {
+          "durability": 8,
+          "performance": 6,
+          "cost": 6
+        },
+        "tags": [
+          "transfer",
+          "file"
+        ]
+      },
+      "storage-gateway": {
+        "title": "Storage Gateway",
+        "icon": "🚪",
+        "parent": "transfer",
+        "tabs": {
+          "Summary": {
+            "id": "Menyediakan akses on-premise ke penyimpanan cloud yang hampir tak terbatas.",
+            "en": "Provides on-premises access to virtually unlimited cloud storage."
+          },
+          "Use Case": {
+            "id": "Backup on-premise ke S3, menyediakan file share latensi rendah yang didukung oleh S3.",
+            "en": "On-premises backup to S3, providing low-latency file shares backed by S3."
+          },
+          "Pricing": {
+            "id": "Berdasarkan jenis gateway dan volume data yang disimpan/ditransfer.",
+            "en": "Based on gateway type and volume of data stored/transferred."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 7,
+          "cost": 7
+        },
+        "tags": [
+          "transfer",
+          "backup",
+          "frequent",
+          "infrequent"
+        ]
+      },
+      "s3-outposts": {
+        "title": "S3 on Outposts",
+        "icon": "🏢",
+        "parent": "object",
+        "tabs": {
+          "Summary": {
+            "id": "Menyediakan penyimpanan objek S3 di infrastruktur AWS Outposts Anda.",
+            "en": "Provides S3 object storage on your AWS Outposts infrastructure."
+          },
+          "Use Case": {
+            "id": "Memproses data secara lokal yang perlu tetap on-premise.",
+            "en": "Processing data locally that needs to remain on-premises."
+          },
+          "Pricing": {
+            "id": "Bayar untuk kapasitas penyimpanan dan permintaan S3 di Outposts.",
+            "en": "Pay for S3 storage capacity and requests on Outposts."
+          }
+        },
+        "dependency": {
+          "id": "Membutuhkan AWS Outposts",
+          "en": "Requires AWS Outposts"
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 8,
+          "cost": 3
+        },
+        "tags": [
+          "object",
+          "frequent"
+        ]
+      }
+    }
+  },
+  "translations": {
+    "homeButton": {
+      "id": "Halaman Utama",
+      "en": "Home"
+    },
+    "mainTitle": {
+      "id": "Panduan Interaktif AWS Storage",
+      "en": "Interactive AWS Storage Guide"
+    },
+    "mainSubtitle": {
+      "id": "Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.",
+      "en": "Find the right storage solution, from object and block to file storage for all data types."
+    },
+    "categoryTitle": {
+      "id": "Kategori Layanan Storage",
+      "en": "Storage Service Categories"
+    },
+    "categorySubtitle": {
+      "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.",
+      "en": "Select a category to explore the relevant services within it."
+    },
+    "welcomeTitle": {
+      "id": "Selamat Datang!",
+      "en": "Welcome!"
+    },
+    "welcomeSubtitle": {
+      "id": "Pilih kategori layanan di atas untuk memulai.",
+      "en": "Select a service category above to get started."
+    },
+    "finderTitle": {
+      "id": "Pencari Solusi Storage",
+      "en": "Storage Solution Finder"
+    },
+    "finderSubtitle": {
+      "id": "Gunakan filter ini untuk menemukan layanan AWS Storage yang paling sesuai untuk tugas Anda.",
+      "en": "Use these filters to find the right AWS Storage service for your task."
+    },
+    "filter1Title": {
+      "id": "1. Apa Tipe Data Anda?",
+      "en": "1. What is your Data Type?"
+    },
+    "filterObject": {
+      "id": "Objek (Gambar, Video, Backup)",
+      "en": "Object (Images, Videos, Backups)"
+    },
+    "filterBlock": {
+      "id": "Blok (Database, OS Filesystem)",
+      "en": "Block (Databases, OS Filesystem)"
+    },
+    "filterFile": {
+      "id": "File (Shared Content, Media Workflows)",
+      "en": "File (Shared Content, Media Workflows)"
+    },
+    "filter2Title": {
+      "id": "2. Apa Kebutuhan Utama Anda?",
+      "en": "2. What is your Main Need?"
+    },
+    "filterBackup": {
+      "id": "Backup & Archive",
+      "en": "Backup & Archive"
+    },
+    "filterTransfer": {
+      "id": "Data Transfer & Migration",
+      "en": "Data Transfer & Migration"
+    },
+    "filterPerformance": {
+      "id": "High Performance",
+      "en": "High Performance"
+    },
+    "filter3Title": {
+      "id": "3. Bagaimana Pola Aksesnya?",
+      "en": "3. What is the Access Pattern?"
+    },
+    "filterAccessFrequent": {
+      "id": "Akses Sering (Latensi Rendah)",
+      "en": "Frequent Access (Low Latency)"
+    },
+    "filterAccessInfrequent": {
+      "id": "Akses Jarang",
+      "en": "Infrequent Access"
+    },
+    "filterAccessArchive": {
+      "id": "Arsip Jangka Panjang",
+      "en": "Long-term Archive"
+    },
+    "recommendationTitle": {
+      "id": "Layanan yang Direkomendasikan",
+      "en": "Recommended Services"
+    },
+    "noRecommendation": {
+      "id": "Pilih filter di atas untuk melihat rekomendasi.",
+      "en": "Select a filter above to see recommendations."
+    },
+    "comparisonTitle": {
+      "id": "Visualisasi Perbandingan Layanan",
+      "en": "Service Comparison Visualizer"
+    },
+    "comparisonSubtitle": {
+      "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.",
+      "en": "Compare up to two services visually on key attributes."
+    },
+    "comparisonLabel": {
+      "id": "Layanan untuk dibandingkan:",
+      "en": "Services to compare:"
+    },
+    "clearButton": {
+      "id": "Bersihkan Pilihan",
+      "en": "Clear Selection"
+    },
+    "chartPlaceholder": {
+      "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.",
+      "en": "Select a service from the recommendations to start comparing."
+    }
+  }
+}

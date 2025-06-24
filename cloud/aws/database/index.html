@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif AWS Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .category-card.active {
+            border-color: #2563eb; /* blue-600 */
+            box-shadow: 0 10px 15px -3px rgb(37 99 235 / 0.1), 0 4px 6px -4px rgb(37 99 235 / 0.1);
+        }
+        .category-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #2563eb; /* blue-600 */
+            color: #2563eb;
+        }
+        .content-section, .tab-content {
+            display: none;
+        }
+        .content-section.active, .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .decision-button.selected {
+            background-color: #f43f5e; /* rose-500 */
+            color: white;
+        }
+        .recommendation-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .recommendation-card.highlight {
+            border-color: #2563eb; /* blue-600 */
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+        }
+        .lang-switcher button.active {
+            background-color: #2563eb;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="relative text-center mb-12 py-4">
+             <a href="../index.html" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-blue-600 transition-colors duration-200">
+                <span class="text-2xl">&larr;</span>
+                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
+             </a>
+             <div class="lang-switcher absolute top-4 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
+                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            </div>
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-2 pt-12 md:pt-0">Panduan Interaktif AWS Database</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi portofolio lengkap layanan database AWS, dari relasional hingga NoSQL dan seterusnya.</p>
+        </header>
+
+        <section id="category-nav-section" class="mb-12">
+            <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Kategori Layanan Database</h2>
+            <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.</p>
+            <div id="category-nav" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Category cards will be dynamically generated -->
+            </div>
+        </section>
+
+        <main id="content-area" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[500px] transition-all duration-300">
+            <div id="welcome-content" class="content-section text-center flex flex-col justify-center items-center h-full">
+                <span class="text-6xl mb-4">🗄️</span>
+                <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
+                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih kategori layanan di atas untuk memulai.</p>
+            </div>
+            <!-- Dynamic content sections will be added here -->
+        </main>
+
+        <section id="decision-tool" class="mt-16">
+            <h2 data-lang-key="finderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi Database</h2>
+            <p data-lang-key="finderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk menemukan layanan AWS Database yang paling sesuai untuk aplikasi Anda.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div id="decision-filters" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 data-lang-key="filter1Title" class="font-bold mb-3 text-slate-700">1. Apa Model Database Anda?</h4>
+                        <div class="flex flex-col space-y-2">
+                            <button type="button" data-filter="relational" data-lang-key="filterRelational" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Relasional (SQL)</button>
+                            <button type="button" data-filter="key-value" data-lang-key="filterKeyValue" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Key-Value</button>
+                            <button type="button" data-filter="document" data-lang-key="filterDocument" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Dokumen</button>
+                             <button type="button" data-filter="in-memory" data-lang-key="filterInMemory" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">In-Memory</button>
+                            <button type="button" data-filter="graph" data-lang-key="filterGraph" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Graf</button>
+                            <button type="button" data-filter="time-series" data-lang-key="filterTimeSeries" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Deret Waktu (Time Series)</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 data-lang-key="filter2Title" class="font-bold mb-3 text-slate-700">2. Apa Kasus Penggunaan Utama Anda?</h4>
+                        <div class="flex flex-col space-y-2">
+                             <button type="button" data-filter="web-app" data-lang-key="filterWebApp" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Aplikasi Web & Seluler</button>
+                             <button type="button" data-filter="gaming" data-lang-key="filterGaming" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Gaming</button>
+                             <button type="button" data-filter="caching" data-lang-key="filterCaching" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Caching</button>
+                             <button type="button" data-filter="iot" data-lang-key="filterIot" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">IoT & Data Sensor</button>
+                             <button type="button" data-filter="migration" data-lang-key="filterMigration" class="decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200">Migrasi & Transfer</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-8 border-slate-200">
+
+                <div>
+                    <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-center mb-6 text-slate-800">Layanan yang Direkomendasikan</h3>
+                    <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Recommendation cards will be injected here -->
+                    </div>
+                     <div id="no-recommendation" class="text-center text-slate-500 py-8 hidden">
+                        <p data-lang-key="noRecommendation">Pilih filter di atas untuk melihat rekomendasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comparison-chart-section" class="mt-16">
+            <h2 data-lang-key="comparisonTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Visualisasi Perbandingan Layanan</h2>
+            <p data-lang-key="comparisonSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 relative">
+                <div id="comparison-alert" class="hidden absolute top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg z-20" role="alert">
+                </div>
+                <div class="text-center mb-4" id="comparison-controls">
+                     <p data-lang-key="comparisonLabel" class="text-slate-600 mb-2">Layanan untuk dibandingkan:</p>
+                     <div id="comparison-pills" class="flex flex-wrap justify-center gap-2 min-h-[24px]"></div>
+                     <button type="button" id="clear-comparison" data-lang-key="clearButton" class="mt-4 text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed">Bersihkan Pilihan</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                    <div id="chart-placeholder" class="absolute inset-0 flex justify-center items-center text-slate-500">
+                        <p data-lang-key="chartPlaceholder">Pilih layanan dari rekomendasi untuk mulai membandingkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="text-center mt-20 py-8 bg-slate-100">
+        <div class="container mx-auto">
+            <p data-lang-key="footer" class="text-slate-500 text-sm px-4"></p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA SECTION ---
+        let databaseData = {};
+        let translations = {};
+
+        // --- CONFIGURATION ---
+        const chartConfig = {
+            labels: { id: ['Kinerja', 'Skalabilitas', 'Kemudahan Penggunaan'], en: ['Performance', 'Scalability', 'Ease of Use'] },
+            keys: ['performance', 'scalability', 'easeOfUse']
+        };
+
+        // --- GLOBAL VARIABLES ---
+        let currentLang = 'id';
+        let comparisonChart;
+        let selectedForComparison = [];
+
+        // --- FUNCTIONS ---
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.innerHTML = translations[key][lang];
+                }
+            });
+            
+            createCategoryCards();
+            const activeCategory = document.querySelector('.category-card.active')?.dataset.target;
+
+            if (databaseData.categories) {
+                for (const key in databaseData.categories) {
+                    createServiceContent(key);
+                }
+            }
+            
+            if (activeCategory) {
+                updateActiveView(activeCategory);
+            } else {
+                updateActiveView('welcome');
+            }
+
+            const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+            renderRecommendations(activeFilters);
+            updateChart();
+            
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        };
+        
+        function createCategoryCards() {
+            const navContainer = document.getElementById('category-nav');
+            navContainer.innerHTML = '';
+            for (const key in databaseData.categories) {
+                const category = databaseData.categories[key];
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.dataset.target = key;
+                card.className = 'category-card text-left bg-white p-6 rounded-lg shadow-md hover:shadow-xl border-2 border-transparent';
+                card.innerHTML = `
+                    <span class="text-4xl">${category.icon}</span>
+                    <h3 class="text-xl font-bold mt-2 text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-sm text-slate-500 mt-1">${category.description[currentLang]}</p>
+                `;
+                navContainer.appendChild(card);
+            }
+        }
+        
+        function createServiceContent(categoryKey) {
+            const category = databaseData.categories[categoryKey];
+            const contentId = `${categoryKey}-content`;
+            let contentDiv = document.getElementById(contentId);
+            
+            if (!contentDiv) {
+                contentDiv = document.createElement('div');
+                contentDiv.id = contentId;
+                contentDiv.className = 'content-section';
+                document.getElementById('content-area').appendChild(contentDiv);
+            }
+            
+            contentDiv.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-slate-600 mt-1">${category.description[currentLang]}</p>
+                </div>
+                <div class="border-b border-slate-200 mb-4">
+                    <nav id="${categoryKey}-tabs" class="flex space-x-4 -mb-px overflow-x-auto" aria-label="Tabs"></nav>
+                </div>
+                <div id="${categoryKey}-tab-content"></div>
+            `;
+            
+            const tabsNav = contentDiv.querySelector(`#${categoryKey}-tabs`);
+            const tabsContent = contentDiv.querySelector(`#${categoryKey}-tab-content`);
+            
+            category.services.forEach((svcKey, index) => {
+                const service = databaseData.services[svcKey];
+                const tabButton = document.createElement('button');
+                tabButton.type = 'button';
+                tabButton.dataset.target = `${svcKey}-pane-${categoryKey}`;
+                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 hover:text-blue-600 hover:border-blue-300 ${index === 0 ? 'active' : ''}`;
+                tabButton.textContent = service.title;
+                tabsNav.appendChild(tabButton);
+
+                const tabPane = document.createElement('div');
+                tabPane.id = `${svcKey}-pane-${categoryKey}`;
+                tabPane.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                
+                tabPane.innerHTML = Object.entries(service.tabs).map(([tabKey, tabContent]) => {
+                    let tabTitle = tabKey;
+                     if(tabKey === 'Summary') tabTitle = currentLang === 'id' ? 'Ringkasan' : 'Summary';
+                    if(tabKey === 'Use Case') tabTitle = currentLang === 'id' ? 'Contoh Kasus' : 'Use Case';
+                    if(tabKey === 'Pricing') tabTitle = currentLang === 'id' ? 'Harga' : 'Pricing';
+
+                    return `
+                    <div class="mb-6">
+                        <h5 class="font-semibold text-lg mb-2 text-blue-700">${tabTitle}</h5>
+                        <div class="text-slate-600">${tabContent[currentLang]}</div>
+                    </div>`
+                }).join('');
+                tabsContent.appendChild(tabPane);
+            });
+
+            tabsNav.addEventListener('click', e => {
+                if (e.target.classList.contains('tab-button')) {
+                    tabsNav.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    tabsContent.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
+                    e.target.classList.add('active');
+                    document.getElementById(e.target.dataset.target).classList.add('active');
+                }
+            });
+        }
+        
+        function updateActiveView(targetId) {
+            document.querySelectorAll('.content-section').forEach(pane => pane.classList.remove('active'));
+            const targetContent = document.getElementById(`${targetId}-content`);
+            if (targetContent) {
+                 targetContent.classList.add('active');
+            } else {
+                 document.getElementById('welcome-content').classList.add('active');
+            }
+            
+            document.querySelectorAll('#category-nav .category-card').forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`button[data-target="${targetId}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+        
+        function renderRecommendations(filterTags = []) {
+            const recContainer = document.getElementById('recommendations');
+            recContainer.innerHTML = '';
+            
+            if (filterTags.length === 0) {
+                 document.getElementById('no-recommendation').classList.remove('hidden');
+                 return;
+            }
+
+            document.getElementById('no-recommendation').classList.add('hidden');
+            
+            const recommendedServices = Object.keys(databaseData.services).filter(key => {
+                const service = databaseData.services[key];
+                return filterTags.every(tag => service.tags.includes(tag));
+            });
+            
+            Object.keys(databaseData.services).forEach(key => {
+                const service = databaseData.services[key];
+                const card = document.createElement('div');
+                card.className = `recommendation-card border-2 p-4 rounded-lg duration-300 hover:shadow-xl hover:-translate-y-1 ${recommendedServices.includes(key) ? 'highlight' : 'opacity-40'}`;
+                card.dataset.target = key;
+                card.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-3">${service.icon || '⚙️'}</span>
+                        <h5 class="font-bold text-slate-800">${service.title}</h5>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
+                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold text-blue-600 hover:text-blue-800 w-full text-left relative z-10 mt-3">
+                        ${selectedForComparison.includes(key) ? (currentLang === 'id' ? 'Hapus dari Perbandingan' : 'Remove from Comparison') : (currentLang === 'id' ? 'Bandingkan +' : 'Compare +')}
+                    </button>
+                `;
+                recContainer.appendChild(card);
+            });
+        }
+        
+        function updateChart() {
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+
+            const chartLabels = chartConfig.labels[currentLang];
+            const placeholder = document.getElementById('chart-placeholder');
+            
+            if (selectedForComparison.length === 0) {
+                placeholder.classList.remove('hidden');
+                document.getElementById('clear-comparison').disabled = true;
+                return;
+            }
+            
+            placeholder.classList.add('hidden');
+            document.getElementById('clear-comparison').disabled = false;
+
+            const datasets = selectedForComparison.map((serviceKey, index) => {
+                const service = databaseData.services[serviceKey];
+                const colors = ['rgba(37, 99, 235, 0.4)', 'rgba(244, 63, 94, 0.4)'];
+                
+                return {
+                    label: service.title,
+                    data: chartConfig.keys.map(key => service.scores[key] || 0),
+                    backgroundColor: colors[index % 2],
+                    borderColor: colors[index % 2].replace('0.4', '1'),
+                };
+            });
+            
+            comparisonChart = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
+                type: 'radar',
+                data: { labels: chartLabels, datasets: datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }},
+                    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#e5e7eb' }, pointLabels: { font: { size: 10 } } } }
+                }
+            });
+        }
+
+        async function initializeApp() {
+            try {
+                // Fetch both data files at the same time
+                const [dbResponse, footerResponse] = await Promise.all([
+                    fetch('./database-data.json'),
+                    fetch('../footer-data.json')
+                ]);
+
+                if (!dbResponse.ok || !footerResponse.ok) {
+                    throw new Error(`HTTP error! Could not fetch one of the JSON files.`);
+                }
+
+                const dbData = await dbResponse.json();
+                const footerData = await footerResponse.json();
+
+                // Assign data to variables
+                databaseData = dbData.databaseData;
+                // Merge footer translations into the main translations object
+                translations = Object.assign(dbData.translations, footerData);
+
+            } catch (error) {
+                console.error('Error loading page data:', error);
+                document.getElementById('content-area').innerHTML = '<div class="text-center p-8"><p class="text-red-600">Gagal memuat data konten. Silakan periksa file JSON dan coba lagi.</p></div>';
+                return;
+            }
+
+            // Set up language switchers
+            document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+
+            // Set up event listeners
+            document.getElementById('category-nav').addEventListener('click', (e) => {
+                const button = e.target.closest('.category-card');
+                if (button) {
+                    updateActiveView(button.dataset.target);
+                }
+            });
+
+            document.getElementById('decision-filters').addEventListener('click', (e) => {
+                const button = e.target.closest('.decision-button');
+                if (button) {
+                    button.classList.toggle('selected');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                }
+            });
+
+            document.getElementById('recommendations').addEventListener('click', e => {
+                const compareButton = e.target.closest('.compare-button');
+                if (compareButton) {
+                    e.stopPropagation();
+                    const serviceKey = compareButton.dataset.service;
+                    const isSelected = selectedForComparison.includes(serviceKey);
+                    if (!isSelected && selectedForComparison.length >= 2) {
+                        const alertBox = document.getElementById('comparison-alert');
+                        alertBox.innerHTML = `<strong class="font-bold">${currentLang === 'id' ? 'Batas tercapai!' : 'Limit Reached!'}</strong><span class="block sm:inline"> ${currentLang === 'id' ? 'Hanya bisa membandingkan 2 layanan.' : 'You can only compare 2 services.'}</span>`;
+                        alertBox.classList.remove('hidden');
+                        setTimeout(() => alertBox.classList.add('hidden'), 3000);
+                        return;
+                    }
+                    selectedForComparison = isSelected ? selectedForComparison.filter(s => s !== serviceKey) : [...selectedForComparison, serviceKey];
+                    updateChart();
+                    document.getElementById('comparison-pills').innerHTML = selectedForComparison.map(key => `<span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full">${databaseData.services[key].title}</span>`).join('');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                }
+            });
+
+            document.getElementById('clear-comparison').addEventListener('click', () => {
+                selectedForComparison = [];
+                updateChart();
+                document.getElementById('comparison-pills').innerHTML = '';
+                const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                renderRecommendations(activeFilters);
+            });
+
+            // Initial load
+            const preferredLanguage = localStorage.getItem('language') || 'id';
+            setLanguage(preferredLanguage);
+            updateActiveView('welcome');
+            renderRecommendations([]);
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+    </script>
+</body>
+</html>

@@ -32,6 +32,10 @@
     <div class="container mx-auto px-6 py-12 md:py-20">
         
         <header class="relative text-center mb-16">
+            <a href="../index.html" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-teal-600 transition-colors duration-200">
+                <span class="text-2xl">&larr;</span>
+                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
+             </a>
             <div class="lang-switcher absolute top-0 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
                 <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
                 <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
@@ -41,184 +45,104 @@
         </header>
 
         <main>
-            <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <!-- Compute Card -->
-                <a href="./compute-guide.html" class="guide-card flex flex-col bg-white p-8 rounded-xl shadow-md">
-                    <div class="flex-grow">
-                        <span class="text-5xl">💻</span>
-                        <h2 data-lang-key="computeTitle" class="text-2xl font-bold mt-4 text-slate-800">AWS Compute</h2>
-                        <p data-lang-key="computeDesc" class="text-slate-500 mt-2">Jelajahi spektrum layanan komputasi, dari mesin virtual EC2 hingga Lambda yang serverless.</p>
-                    </div>
-                    <div class="mt-6">
-                        <div data-lang-key="exploreButton" class="inline-block font-semibold text-white bg-teal-600 px-4 py-2 rounded-lg">
-                            Jelajahi Sekarang
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Storage Card -->
-                <a href="./storage-guide.html" class="guide-card flex flex-col bg-white p-8 rounded-xl shadow-md">
-                    <div class="flex-grow">
-                        <span class="text-5xl">🗃️</span>
-                        <h2 data-lang-key="storageTitle" class="text-2xl font-bold mt-4 text-slate-800">AWS Storage</h2>
-                        <p data-lang-key="storageDesc" class="text-slate-500 mt-2">Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.</p>
-                    </div>
-                    <div class="mt-6">
-                        <div data-lang-key="exploreButton" class="inline-block font-semibold text-white bg-sky-600 px-4 py-2 rounded-lg">
-                            Jelajahi Sekarang
-                        </div>
-                    </div>
-                </a>
-
-                <!-- AI / ML Card -->
-                <a href="./aiml-guide.html" class="guide-card flex flex-col bg-white p-8 rounded-xl shadow-md">
-                    <div class="flex-grow">
-                        <span class="text-5xl">🤖</span>
-                        <h2 data-lang-key="aimlTitle" class="text-2xl font-bold mt-4 text-slate-800">AWS AI & ML</h2>
-                        <p data-lang-key="aimlDesc" class="text-slate-500 mt-2">Pahami tumpukan layanan AI & ML, dari API siap pakai hingga platform untuk membangun model kustom.</p>
-                    </div>
-                    <div class="mt-6">
-                        <div data-lang-key="exploreButton" class="inline-block font-semibold text-white bg-indigo-600 px-4 py-2 rounded-lg">
-                            Jelajahi Sekarang
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Analytics Card -->
-                <a href="./analytics-guide.html" class="guide-card flex flex-col bg-white p-8 rounded-xl shadow-md">
-                    <div class="flex-grow">
-                        <span class="text-5xl">📊</span>
-                        <h2 data-lang-key="analyticsTitle" class="text-2xl font-bold mt-4 text-slate-800">AWS Analytics</h2>
-                        <p data-lang-key="analyticsDesc" class="text-slate-500 mt-2">Ubah data mentah menjadi wawasan berharga dengan layanan analitik, dari streaming hingga BI.</p>
-                    </div>
-                    <div class="mt-6">
-                        <div data-lang-key="exploreButton" class="inline-block font-semibold text-white bg-emerald-600 px-4 py-2 rounded-lg">
-                            Jelajahi Sekarang
-                        </div>
-                    </div>
-                </a>
-                
-                <!-- Database Card -->
-                <a href="./database-guide.html" class="guide-card flex flex-col bg-white p-8 rounded-xl shadow-md">
-                    <div class="flex-grow">
-                        <span class="text-5xl">🗄️</span>
-                        <h2 data-lang-key="databaseTitle" class="text-2xl font-bold mt-4 text-slate-800">AWS Database</h2>
-                        <p data-lang-key="databaseDesc" class="text-slate-500 mt-2">Jelajahi database yang dibuat khusus, dari relasional hingga NoSQL, untuk semua kebutuhan aplikasi Anda.</p>
-                    </div>
-                    <div class="mt-6">
-                        <div data-lang-key="exploreButton" class="inline-block font-semibold text-white bg-rose-600 px-4 py-2 rounded-lg">
-                            Jelajahi Sekarang
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Security Card -->
-                <a href="./security-guide.html" class="guide-card flex flex-col bg-white p-8 rounded-xl shadow-md">
-                    <div class="flex-grow">
-                        <span class="text-5xl">🛡️</span>
-                        <h2 data-lang-key="securityTitle" class="text-2xl font-bold mt-4 text-slate-800">AWS Security</h2>
-                        <p data-lang-key="securityDesc" class="text-slate-500 mt-2">Amankan cloud Anda dengan layanan untuk identitas, deteksi, perlindungan, dan respons.</p>
-                    </div>
-                    <div class="mt-6">
-                        <div data-lang-key="exploreButton" class="inline-block font-semibold text-white bg-amber-600 px-4 py-2 rounded-lg">
-                            Jelajahi Sekarang
-                        </div>
-                    </div>
-                </a>
-
-            </div>
+            <!-- Kontainer ini akan diisi secara dinamis oleh JavaScript -->
+            <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </main>
 
-        <footer class="text-center mt-20">
-            <p data-lang-key="footer" class="text-slate-500 text-sm">&copy; 2025 Panduan AWS Interaktif. Semua hak dilindungi.</p>
+         <footer class="text-center mt-20">
+            <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
         </footer>
 
     </div>
     <script>
+        // --- DATA SOURCE ---
+        // Semua data untuk kartu dan terjemahan sekarang ada di sini.
+        
         const translations = {
-            mainTitle: {
-                id: "Panduan Interaktif Layanan AWS",
-                en: "Interactive AWS Service Guides"
-            },
-            mainSubtitle: {
-                id: "Jelajahi, bandingkan, dan temukan layanan AWS yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.",
-                en: "Explore, compare, and find the right AWS services for your needs through curated visual guides."
-            },
-            computeTitle: {
-                id: "AWS Compute",
-                en: "AWS Compute"
-            },
-            computeDesc: {
-                id: "Jelajahi spektrum layanan komputasi, dari mesin virtual EC2 hingga Lambda yang serverless.",
-                en: "Explore the spectrum of compute services, from EC2 virtual machines to serverless Lambda."
-            },
-            storageTitle: {
-                id: "AWS Storage",
-                en: "AWS Storage"
-            },
-            storageDesc: {
-                id: "Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.",
-                en: "Find the right storage solution, from object and block to file storage for all data types."
-            },
-            aimlTitle: {
-                id: "AWS AI & ML",
-                en: "AWS AI & ML"
-            },
-            aimlDesc: {
-                id: "Pahami tumpukan layanan AI & ML, dari API siap pakai hingga platform untuk membangun model kustom.",
-                en: "Understand the AI & ML stack, from ready-to-use APIs to platforms for building custom models."
-            },
-            analyticsTitle: {
-                id: "AWS Analytics",
-                en: "AWS Analytics"
-            },
-            analyticsDesc: {
-                id: "Ubah data mentah menjadi wawasan berharga dengan layanan analitik, dari streaming hingga BI.",
-                en: "Turn raw data into valuable insights with analytics services, from streaming to BI."
-            },
-            databaseTitle: {
-                id: "AWS Database",
-                en: "AWS Database"
-            },
-            databaseDesc: {
-                id: "Jelajahi database yang dibuat khusus, dari relasional hingga NoSQL, untuk semua kebutuhan aplikasi Anda.",
-                en: "Explore purpose-built databases, from relational to NoSQL, for all your application needs."
-            },
-            securityTitle: {
-                id: "AWS Security",
-                en: "AWS Security"
-            },
-            securityDesc: {
-                id: "Amankan cloud Anda dengan layanan untuk identitas, deteksi, perlindungan, dan respons.",
-                en: "Secure your cloud with services for identity, detection, protection, and response."
-            },
-            exploreButton: {
-                id: "Jelajahi Sekarang",
-                en: "Explore Now"
-            },
-            footer: {
-                id: "&copy; 2025 Panduan AWS Interaktif. Semua hak dilindungi.",
-                en: "&copy; 2025 Interactive AWS Guides. All rights reserved."
-            }
+            mainTitle: { id: "Panduan Interaktif Layanan AWS", en: "Interactive AWS Service Guides" },
+            mainSubtitle: { id: "Jelajahi, bandingkan, dan temukan layanan AWS yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.", en: "Explore, compare, and find the right AWS services for your needs through curated visual guides." },
+            homeButton: { id: "Halaman Utama", en: "Home Page" },
+            computeTitle: { id: "AWS Compute", en: "AWS Compute" },
+            computeDesc: { id: "Jelajahi spektrum layanan komputasi, dari mesin virtual EC2 hingga Lambda yang serverless.", en: "Explore the spectrum of compute services, from EC2 virtual machines to serverless Lambda." },
+            storageTitle: { id: "AWS Storage", en: "AWS Storage" },
+            storageDesc: { id: "Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.", en: "Find the right storage solution, from object and block to file storage for all data types." },
+            aimlTitle: { id: "AWS AI & ML", en: "AWS AI & ML" },
+            aimlDesc: { id: "Pahami tumpukan layanan AI & ML, dari API siap pakai hingga platform untuk membangun model kustom.", en: "Understand the AI & ML stack, from ready-to-use APIs to platforms for building custom models." },
+            analyticsTitle: { id: "AWS Analytics", en: "AWS Analytics" },
+            analyticsDesc: { id: "Ubah data mentah menjadi wawasan berharga dengan layanan analitik, dari streaming hingga BI.", en: "Turn raw data into valuable insights with analytics services, from streaming to BI." },
+            databaseTitle: { id: "AWS Database", en: "AWS Database" },
+            databaseDesc: { id: "Jelajahi database yang dibuat khusus, dari relasional hingga NoSQL, untuk semua kebutuhan aplikasi Anda.", en: "Explore purpose-built databases, from relational to NoSQL, for all your application needs." },
+            securityTitle: { id: "AWS Security", en: "AWS Security" },
+            securityDesc: { id: "Amankan cloud Anda dengan layanan untuk identitas, deteksi, perlindungan, dan respons.", en: "Secure your cloud with services for identity, detection, protection, and response." },
+            exploreButton: { id: "Jelajahi Sekarang", en: "Explore Now" },
+            comingSoonButton: { id: "Segera Hadir", en: "Coming Soon" },
+            footer: { id: "&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ dan sedikit caffeine ☕️ untuk para cloud explorer di mana pun berada. <br>Semua logo dan merek dagang adalah milik pemiliknya masing-masing—kami hanya ingin bantu menjelaskan, bukan mewakili.", en: "&copy; 2025 Interactive Cloud Guides. Compiled with ❤️, curiosity, and a touch of caffeine ☕️ for cloud explorers everywhere. <br>All trademarks and logos belong to their respective owners — we're just here to decode the cloud, not represent the giants." }
         };
 
-        const setLanguage = (lang) => {
-            document.documentElement.lang = lang;
-            localStorage.setItem('language', lang);
+        const guidesData = [
+            { id: 'compute', status: 'active', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonColorClass: 'bg-amber-600', href: './compute/' },
+            { id: 'storage', status: 'coming-soon', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonColorClass: 'bg-green-500', href: './storage/' },
+            { id: 'database', status: 'coming-soon', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonColorClass: 'bg-rose-600', href: './database/' },
+            { id: 'aiml', status: 'coming-soon', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc' },
+            { id: 'analytics', status: 'coming-soon', emoji: '📊', titleKey: 'analyticsTitle', descriptionKey: 'analyticsDesc' },
+            { id: 'security', status: 'coming-soon', emoji: '🛡️', titleKey: 'securityTitle', descriptionKey: 'securityDesc' },
+        ];
 
-            document.querySelectorAll('[data-lang-key]').forEach(element => {
-                const key = element.getAttribute('data-lang-key');
-                if (translations[key] && translations[key][lang]) {
-                    element.innerHTML = translations[key][lang];
-                }
-            });
-
-            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
-            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-        };
+        // --- DYNAMIC RENDERING LOGIC ---
 
         document.addEventListener('DOMContentLoaded', () => {
+            const guidesContainer = document.getElementById('guides');
+            
+            // Fungsi untuk membuat HTML untuk satu kartu
+            const createCardHTML = (guide) => {
+                const isComingSoon = guide.status === 'coming-soon';
+
+                const cardTag = isComingSoon ? 'div' : 'a';
+                const cardHref = isComingSoon ? '' : `href="${guide.href}"`;
+                const cardClasses = isComingSoon 
+                    ? 'flex flex-col bg-white p-8 rounded-xl shadow-md opacity-60 cursor-not-allowed'
+                    : `guide-card flex flex-col bg-white p-8 rounded-xl shadow-md`;
+                
+                const buttonKey = isComingSoon ? 'comingSoonButton' : 'exploreButton';
+                const buttonColor = isComingSoon ? 'bg-slate-400' : guide.buttonColorClass;
+
+                return `
+                    <${cardTag} ${cardHref} class="${cardClasses}">
+                        <div class="flex-grow">
+                            <span class="text-5xl">${guide.emoji}</span>
+                            <h2 data-lang-key="${guide.titleKey}" class="text-2xl font-bold mt-4 text-slate-800"></h2>
+                            <p data-lang-key="${guide.descriptionKey}" class="text-slate-500 mt-2"></p>
+                        </div>
+                        <div class="mt-6">
+                            <div data-lang-key="${buttonKey}" class="inline-block font-semibold text-white ${buttonColor} px-4 py-2 rounded-lg">
+                            </div>
+                        </div>
+                    </${cardTag}>
+                `;
+            };
+
+            // Generate semua kartu dan masukkan ke dalam kontainer
+            guidesContainer.innerHTML = guidesData.map(createCardHTML).join('');
+
+            // --- LANGUAGE SWITCHER LOGIC ---
+            
+            // Fungsi untuk menerapkan terjemahan ke halaman
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                localStorage.setItem('language', lang);
+
+                document.querySelectorAll('[data-lang-key]').forEach(element => {
+                    const key = element.getAttribute('data-lang-key');
+                    if (translations[key] && translations[key][lang]) {
+                        element.innerHTML = translations[key][lang];
+                    }
+                });
+
+                document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            };
+            
+            // Inisialisasi tombol dan atur bahasa awal
             const langIdButton = document.getElementById('lang-id');
             const langEnButton = document.getElementById('lang-en');
 
@@ -228,7 +152,6 @@
             const preferredLanguage = localStorage.getItem('language') || 'id';
             setLanguage(preferredLanguage);
         });
-
     </script>
 </body>
 </html>

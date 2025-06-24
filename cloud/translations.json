@@ -1,0 +1,102 @@
+{
+  "mainTitle": {
+    "id": "Panduan Cloud Interaktif",
+    "en": "Interactive Cloud Guides"
+  },
+  "mainSubtitle": {
+    "id": "Pilih penyedia cloud untuk memulai perjalanan Anda dalam menjelajahi layanan-layanan cloud terkemuka.",
+    "en": "Select a cloud provider to begin your journey exploring leading cloud services."
+  },
+  "awsTitle": {
+    "id": "Amazon Web Services",
+    "en": "Amazon Web Services"
+  },
+  "awsDesc": {
+    "id": "Jelajahi ekosistem layanan cloud paling komprehensif dan banyak digunakan di dunia.",
+    "en": "Explore the world’s most comprehensive and broadly adopted cloud services ecosystem."
+  },
+  "gcpTitle": {
+    "id": "Google Cloud Platform",
+    "en": "Google Cloud Platform"
+  },
+  "gcpDesc": {
+    "id": "Platform yang dikenal dengan kekuatan dalam data, analitik, dan machine learning.",
+    "en": "A platform known for its strengths in data, analytics, and machine learning."
+  },
+  "azureTitle": {
+    "id": "Microsoft Azure",
+    "en": "Microsoft Azure"
+  },
+  "azureDesc": {
+    "id": "Solusi cloud hybrid yang kuat dengan integrasi mendalam ke produk enterprise Microsoft.",
+    "en": "Powerful hybrid cloud solutions with deep integration into Microsoft's enterprise products."
+  },
+  "alibabaTitle": {
+    "id": "Alibaba Cloud",
+    "en": "Alibaba Cloud"
+  },
+  "alibabaDesc": {
+    "id": "Pemimpin pasar di Asia dengan penawaran e-commerce dan analitik data yang kuat.",
+    "en": "The market leader in Asia with strong e-commerce and data analytics offerings."
+  },
+  "oracleTitle": {
+    "id": "Oracle Cloud",
+    "en": "Oracle Cloud"
+  },
+  "oracleDesc": {
+    "id": "Dikenal dengan keunggulan pada database dan aplikasi enterprise untuk korporasi besar.",
+    "en": "Known for its strengths in database and enterprise applications for large corporations."
+  },
+  "ibmTitle": {
+    "id": "IBM Cloud",
+    "en": "IBM Cloud"
+  },
+  "ibmDesc": {
+    "id": "Menawarkan ragam layanan dengan fokus kuat pada solusi hybrid cloud, AI, dan enterprise.",
+    "en": "Offers a range of services with a strong focus on hybrid cloud, AI, and enterprise solutions."
+  },
+  "doTitle": {
+    "id": "DigitalOcean",
+    "en": "DigitalOcean"
+  },
+  "doDesc": {
+    "id": "Cloud yang disukai developer karena kesederhanaan, harga transparan, dan komunitasnya.",
+    "en": "A cloud beloved by developers for its simplicity, transparent pricing, and community."
+  },
+  "huaweiTitle": {
+    "id": "Huawei Cloud",
+    "en": "Huawei Cloud"
+  },
+  "huaweiDesc": {
+    "id": "Menawarkan berbagai solusi AI, komputasi, dan jaringan dengan jangkauan global.",
+    "en": "Offers a variety of AI, computing, and networking solutions with a global reach."
+  },
+  "tencentTitle": {
+    "id": "Tencent Cloud",
+    "en": "Tencent Cloud"
+  },
+  "tencentDesc": {
+    "id": "Salah satu pemain cloud terbesar di China, kuat dalam solusi game, media, dan enterprise.",
+    "en": "One of the largest cloud players in China, strong in gaming, media, and enterprise solutions."
+  },
+  "byteplusTitle": {
+    "id": "BytePlus",
+    "en": "BytePlus"
+  },
+  "byteplusDesc": {
+    "id": "Platform layanan cloud dari ByteDance, menawarkan solusi untuk berbagai industri.",
+    "en": "Cloud services platform from ByteDance, offering solutions for various industries."
+  },
+  "exploreButton": {
+    "id": "Mulai Jelajahi",
+    "en": "Start Exploring"
+  },
+  "comingSoon": {
+    "id": "Segera Hadir",
+    "en": "Coming Soon"
+  },
+  "footer": {
+    "id": "&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ dan sedikit caffeine ☕️ untuk para cloud explorer di mana pun berada. <br>Semua logo dan merek dagang adalah milik pemiliknya masing-masing—kami hanya ingin bantu menjelaskan, bukan mewakili.",
+    "en": "&copy; 2025 Interactive Cloud Guides. Compiled with ❤️, curiosity, and a touch of caffeine ☕️ for cloud explorers everywhere. <br>All trademarks and logos belong to their respective owners — we're just here to decode the cloud, not represent the giants."
+  }
+}

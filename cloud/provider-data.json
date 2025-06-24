@@ -1,0 +1,82 @@
+[
+  {
+    "id": "aws",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+    "status": "active",
+    "link": "./aws/",
+    "titleKey": "awsTitle",
+    "descKey": "awsDesc"
+  },
+  {
+    "id": "gcp",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "gcpTitle",
+    "descKey": "gcpDesc"
+  },
+  {
+    "id": "azure",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "azureTitle",
+    "descKey": "azureDesc"
+  },
+  {
+    "id": "alibaba",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b3/AlibabaCloudLogo.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "alibabaTitle",
+    "descKey": "alibabaDesc"
+  },
+  {
+    "id": "oracle",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "oracleTitle",
+    "descKey": "oracleDesc"
+  },
+  {
+    "id": "ibm",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/2/24/IBM_Cloud_logo.png",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "ibmTitle",
+    "descKey": "ibmDesc"
+  },
+  {
+    "id": "digitalocean",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/f/ff/DigitalOcean_logo.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "doTitle",
+    "descKey": "doDesc"
+  },
+  {
+    "id": "huawei",
+    "logo": "https://upload.wikimedia.org/wikipedia/en/0/04/Huawei_Standard_logo.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "huaweiTitle",
+    "descKey": "huaweiDesc"
+  },
+  {
+    "id": "tencent",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Tencent_Cloud_Logo.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "tencentTitle",
+    "descKey": "tencentDesc"
+  },
+  {
+    "id": "byteplus",
+    "logo": "https://assets.byteplus.com/obj/byteplus-assets/navigation/byteplus-logo.svg",
+    "status": "coming-soon",
+    "link": "#",
+    "titleKey": "byteplusTitle",
+    "descKey": "byteplusDesc"
+  }
+]
