@@ -14,20 +14,35 @@
             background-color: #f1f5f9; /* slate-100 */
             color: #1e293b; /* slate-800 */
         }
-        .provider-card {
+        .card-base {
             transition: all 0.3s ease-in-out;
             border: 2px solid transparent;
             display: flex;
             flex-direction: column;
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* shadow-md */
         }
-        .provider-card.active-card:hover {
+        .card-base:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .provider-card.active-card:hover {
             border-color: #f97316; /* orange-500 */
         }
         .provider-card.inactive-card {
             filter: grayscale(80%);
             cursor: not-allowed;
+        }
+        .provider-card.inactive-card:hover {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .ebook-card:hover {
+             border-color: #2563eb; /* blue-600 */
+        }
+        .ebook-card.inactive-card:hover {
+             border-color: transparent;
         }
         .coming-soon-badge {
             position: absolute;
@@ -39,6 +54,7 @@
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
+            z-index: 10;
         }
         .lang-switcher button.active {
             background-color: #1e293b; /* slate-800 */
@@ -66,6 +82,23 @@
                 <p class="col-span-full text-center text-slate-500">Memuat data provider...</p>
             </div>
         </main>
+        
+        <!-- E-Book Section -->
+        <section id="ebooks-section" class="mt-20 pt-10 border-t border-slate-200">
+             <header class="text-center mb-12">
+                <h2 id="ebook-section-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-3">E-Book Eksklusif</h2>
+                <p id="ebook-section-subtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Tingkatkan keahlian Anda dengan panduan mendalam yang kami siapkan khusus untuk Anda.</p>
+            </header>
+            <div id="ebooks" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                 <!-- Loading state -->
+                <p class="col-span-full text-center text-slate-500">Memuat data e-book...</p>
+            </div>
+            <div class="text-center mt-12">
+                <a href="/cloud/ebooks/" id="view-all-ebooks-btn" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    Lihat Semua E-Book
+                </a>
+            </div>
+        </section>
 
         <footer class="text-center mt-20">
             <p data-lang-key="footer" class="text-slate-500 text-sm">&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ dan sedikit caffeine ☕️ untuk para cloud explorer di mana pun berada. Semua logo dan merek dagang adalah milik pemiliknya masing-masing—kami hanya ingin bantu menjelaskan, bukan mewakili.</p>
@@ -75,17 +108,30 @@
     <script>
         // Global variables to hold the fetched data
         let cloudProviders = [];
+        let ebooks = [];
         let translations = {};
+        
+        // Static translations for the E-Book section
+        const ebookSectionTranslations = {
+            title: {
+                id: "E-Book Eksklusif",
+                en: "Exclusive E-Books"
+            },
+            subtitle: {
+                id: "Tingkatkan keahlian Anda dengan panduan mendalam yang kami siapkan khusus untuk Anda.",
+                en: "Level up your skills with our in-depth guides prepared just for you."
+            },
+            viewAllButton: {
+                id: "Lihat Semua E-Book",
+                en: "View All E-Books"
+            }
+        };
 
         const renderProviderCards = (lang) => {
             const guidesContainer = document.getElementById('guides');
-            if (!guidesContainer || !cloudProviders.length || !Object.keys(translations).length) {
-                console.error("Container or data not ready for rendering.");
-                guidesContainer.innerHTML = '<p class="text-center text-red-500 col-span-full">Data tidak siap untuk ditampilkan.</p>';
-                return;
-            }
+            if (!guidesContainer || !cloudProviders.length) return;
+            
             guidesContainer.innerHTML = ''; // Clear existing cards
-
             cloudProviders.forEach(provider => {
                 const title = translations[provider.titleKey]?.[lang] || provider.titleKey;
                 const description = translations[provider.descKey]?.[lang] || provider.descKey;
@@ -99,71 +145,131 @@
                 `;
 
                 if (provider.status === 'active') {
-                    const cardHTML = `
-                        <a href="${provider.link}" class="provider-card active-card bg-white p-8 rounded-xl shadow-md">
+                    guidesContainer.innerHTML += `
+                        <a href="${provider.link}" class="card-base provider-card active-card p-8">
                             ${cardContent}
-                            <div class="mt-6">
-                                <div class="inline-block font-semibold text-white bg-orange-500 px-4 py-2 rounded-lg">
-                                    ${translations.exploreButton[lang]}
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                    guidesContainer.innerHTML += cardHTML;
+                            <div class="mt-6"><div class="inline-block font-semibold text-white bg-orange-500 px-4 py-2 rounded-lg">${translations.exploreButton[lang]}</div></div>
+                        </a>`;
                 } else {
-                    const cardHTML = `
-                        <div class="provider-card inactive-card relative bg-white p-8 rounded-xl shadow-md">
+                    guidesContainer.innerHTML += `
+                        <div class="card-base provider-card inactive-card relative p-8">
                             <div class="coming-soon-badge">${translations.comingSoon[lang]}</div>
                             ${cardContent}
+                        </div>`;
+                }
+            });
+        };
+        
+        const renderEbookCards = (lang) => {
+            const ebooksContainer = document.getElementById('ebooks');
+            if (!ebooksContainer || !ebooks.length) return;
+
+            ebooksContainer.innerHTML = ''; // Clear existing cards
+            
+            // Display only the top 3 e-books
+            const topEbooks = ebooks.slice(0, 3);
+
+            topEbooks.forEach(book => {
+                const title = book.title?.[lang] || book.title?.id;
+                const description = book.description?.[lang] || book.description?.id;
+
+                const cardContent = `
+                    <img src="${book.coverImage}" alt="Cover E-Book ${title}" class="w-full h-64 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x256/e2e8f0/475569?text=Image+Not+Found';">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-slate-800">${title}</h3>
+                        <p class="text-slate-500 mt-2 flex-grow">${description}</p>
+                    </div>`;
+
+                // Price rendering logic
+                const price = book.price?.[lang] || book.price?.id;
+                const discountPrice = book.discountPrice?.[lang] || book.discountPrice?.id;
+                const buttonText = book.buttonText?.[lang] || book.buttonText?.id;
+                let priceHTML = '';
+
+                if (discountPrice) {
+                    priceHTML = `
+                        <div class="text-left">
+                            <span class="text-xl font-bold text-red-600">${discountPrice}</span>
+                            <span class="ml-2 text-base text-slate-500 line-through">${price}</span>
                         </div>
                     `;
-                    guidesContainer.innerHTML += cardHTML;
+                } else {
+                    priceHTML = `<span class="text-xl font-bold text-blue-600">${price}</span>`;
+                }
+
+                if (book.status === 'coming_soon') {
+                    const comingSoonText = translations.comingSoon?.[lang] || 'Coming Soon';
+                    
+                    ebooksContainer.innerHTML += `
+                    <div class="card-base ebook-card inactive-card relative overflow-hidden">
+                        <div class="coming-soon-badge">${comingSoonText}</div>
+                        ${cardContent}
+                        <div class="p-6 pt-0 mt-auto">
+                           <div class="flex justify-between items-center">
+                                <span class="text-xl font-bold text-slate-500">${price}</span>
+                                <div class="inline-block font-semibold text-white bg-slate-400 px-5 py-2 rounded-lg cursor-not-allowed">${buttonText}</div>
+                            </div>
+                        </div>
+                    </div>`;
+                } else { 
+                    ebooksContainer.innerHTML += `
+                        <a href="${book.link}" class="card-base ebook-card overflow-hidden">
+                            ${cardContent}
+                            <div class="p-6 pt-0 mt-auto">
+                                <div class="flex justify-between items-center">
+                                    ${priceHTML}
+                                    <div class="inline-block font-semibold text-white bg-blue-600 px-5 py-2 rounded-lg">${buttonText}</div>
+                                </div>
+                            </div>
+                        </a>`;
                 }
             });
         };
 
         const setLanguage = (lang) => {
-            // Ensure data is loaded before proceeding
             if (!Object.keys(translations).length) return;
 
             document.documentElement.lang = lang;
             localStorage.setItem('language', lang);
 
-            // Translate static elements
             document.querySelectorAll('[data-lang-key]').forEach(element => {
                 const key = element.getAttribute('data-lang-key');
                 if (translations[key] && translations[key][lang]) {
                     element.innerHTML = translations[key][lang];
                 }
             });
-            
-            // Re-render dynamic cards with the correct language
+
+            document.getElementById('ebook-section-title').innerHTML = ebookSectionTranslations.title[lang];
+            document.getElementById('ebook-section-subtitle').innerHTML = ebookSectionTranslations.subtitle[lang];
+            document.getElementById('view-all-ebooks-btn').innerHTML = ebookSectionTranslations.viewAllButton[lang];
+
             renderProviderCards(lang);
+            renderEbookCards(lang);
 
             document.getElementById('lang-id').classList.toggle('active', lang === 'id');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
         };
 
         const initApp = async () => {
+            const guidesContainer = document.getElementById('guides');
+            const ebooksContainer = document.getElementById('ebooks');
             try {
-                // Fetch both JSON files concurrently
-                const [providersResponse, translationsResponse] = await Promise.all([
-                    fetch('./provider-data.json'),
-                    fetch('./translations.json')
+                const [providersResponse, translationsResponse, ebooksResponse] = await Promise.all([
+                    fetch('./providers-data.json'),
+                    fetch('./translations.json'),
+                    fetch('./ebooks-data.json') 
                 ]);
 
-                if (!providersResponse.ok || !translationsResponse.ok) {
+                if (!providersResponse.ok || !translationsResponse.ok || !ebooksResponse.ok) {
                     throw new Error('Network response was not ok.');
                 }
                 
-                // Parse the JSON data and store it globally
                 cloudProviders = await providersResponse.json();
                 translations = await translationsResponse.json();
+                ebooks = await ebooksResponse.json();
 
-                // Setup language switchers and initial render
                 const langIdButton = document.getElementById('lang-id');
                 const langEnButton = document.getElementById('lang-en');
-
                 langIdButton.addEventListener('click', () => setLanguage('id'));
                 langEnButton.addEventListener('click', () => setLanguage('en'));
 
@@ -172,11 +278,12 @@
 
             } catch (error) {
                 console.error('Failed to load initial data:', error);
-                document.getElementById('guides').innerHTML = '<p class="text-center text-red-500 col-span-full">Gagal memuat data provider. Pastikan file provider-data.json dan translations.json berada di direktori yang sama.</p>';
+                const errorMsg = 'Gagal memuat data. Pastikan semua file .json yang diperlukan ada.';
+                if (guidesContainer) guidesContainer.innerHTML = `<p class="text-center text-red-500 col-span-full">${errorMsg}</p>`;
+                if (ebooksContainer) ebooksContainer.innerHTML = `<p class="text-center text-red-500 col-span-full">${errorMsg}</p>`;
             }
         };
 
-        // Initialize the application once the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', initApp);
 
     </script>
