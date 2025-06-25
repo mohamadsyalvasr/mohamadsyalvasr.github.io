@@ -60,6 +60,50 @@
             background-color: #f59e0b;
             color: white;
         }
+        /* Styling untuk popup release note */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal-hidden {
+            pointer-events: none;
+        }
+        .modal-hidden .modal-overlay {
+            opacity: 0;
+        }
+        .modal-hidden .modal-container {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* --- Efek untuk Tombol Rilis Baru --- */
+        @keyframes pulse-animation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 0 15px rgba(56, 189, 248, 0);
+            }
+        }
+        #release-note-btn.new-release {
+            animation: pulse-animation 1.5s infinite;
+        }
+        .notification-dot {
+            display: none; /* Sembunyikan secara default */
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 9999px;
+            background-color: #ef4444; /* red-500 */
+            border: 2px solid #f8fafc; /* slate-50 */
+        }
+        #release-note-btn.new-release .notification-dot {
+            display: block; /* Tampilkan jika ada rilis baru */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -78,6 +122,14 @@
             <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-2 pt-12 md:pt-0">Panduan Interaktif AWS Compute</h1>
             <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi portofolio lengkap layanan komputasi AWS, dari server virtual hingga pemrosesan khusus.</p>
         </header>
+
+        <!-- Tombol Release Note dengan elemen notifikasi -->
+        <div class="text-center mb-12">
+            <button id="release-note-btn" class="relative inline-block bg-sky-100 text-sky-700 font-semibold px-4 py-2 rounded-full hover:bg-sky-200 transition duration-300 text-sm">
+                Lihat Catatan Rilis
+                <span class="notification-dot"></span>
+            </button>
+        </div>
 
         <section id="category-nav-section" class="mb-12">
             <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Kategori Layanan Compute</h2>
@@ -171,6 +223,26 @@
             <p data-lang-key="footer" class="text-slate-500 text-sm px-4"></p>
         </div>
     </footer>
+
+    <!-- Popup/Modal untuk Release Note -->
+    <div id="release-note-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div class="modal-overlay absolute inset-0 bg-black/50"></div>
+        
+        <!-- Kontainer Modal -->
+        <div class="modal-container bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-2xl font-bold text-slate-800">Catatan Rilis</h2>
+                    <button id="close-modal-btn" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button>
+                </div>
+                <div id="release-note-content" class="prose max-w-none text-slate-600">
+                    <!-- Konten dari JSON akan dimuat di sini -->
+                    <p>Memuat...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // --- DATA SECTION ---
@@ -352,7 +424,7 @@
                 card.innerHTML = `
                     <div class="flex items-center mb-2">
                         ${service.icon
-                            ? `<img src="${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />`
+                            ? `<img src="../assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />`
                             : `<span class="text-2xl mr-3">⚙️</span>`}
                         <h5 class="font-bold text-slate-800">${service.title}</h5>
                     </div>
@@ -406,11 +478,79 @@
                 }
             });
         }
+        
+        // --- FUNGSI UNTUK RELEASE NOTE ---
+        async function setupReleaseNotes() {
+            const modal = document.getElementById('release-note-modal');
+            const openBtn = document.getElementById('release-note-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const overlay = modal.querySelector('.modal-overlay');
+            const contentDiv = document.getElementById('release-note-content');
+            const releaseNoteButtonText = openBtn;
+
+            // --- Logika untuk membuka modal ---
+            async function openModal() {
+                // Berdasarkan permintaan, notifikasi tidak lagi dihapus saat diklik agar tetap aktif.
+                // openBtn.classList.remove('new-release');
+
+                modal.classList.remove('modal-hidden');
+                contentDiv.innerHTML = '<p>Memuat...</p>';
+
+                try {
+                    const response = await fetch('../assets/release/compute-guide.json');
+                    if (!response.ok) {
+                        throw new Error('Gagal memuat catatan rilis.');
+                    }
+                    const notes = await response.json();
+
+                     if (notes.length > 0) {
+                        const latestVersion = notes[0].version;
+                        releaseNoteButtonText.textContent = `Lihat Catatan Rilis (v${latestVersion})`;
+                    }
+                    
+                    let html = '';
+                    notes.forEach(note => {
+                        html += `<div class="mb-6">`;
+                        html += `<h3 class="text-xl font-semibold text-slate-700">${note.version} - <span class="text-base font-normal text-slate-500">${note.date}</span></h3>`;
+                        html += '<ul class="list-disc list-inside mt-2 space-y-1">';
+                        note.changes.forEach(change => {
+                            let tagClass = '';
+                            switch(change.type.toLowerCase()) {
+                                case 'new': tagClass = 'bg-blue-100 text-blue-800'; break;
+                                case 'fix': tagClass = 'bg-orange-100 text-orange-800'; break;
+                                case 'improvement': tagClass = 'bg-green-100 text-green-800'; break;
+                                default: tagClass = 'bg-slate-100 text-slate-800';
+                            }
+                            html += `<li><span class="text-xs font-semibold mr-2 px-2 py-0.5 rounded-full ${tagClass}">${change.type}</span> ${change.description}</li>`;
+                        });
+                        html += '</ul></div>';
+                    });
+                    contentDiv.innerHTML = html;
+
+                } catch (error) {
+                    contentDiv.innerHTML = `<p class="text-red-500">${error.message}</p>`;
+                }
+            }
+
+            // --- Logika untuk menutup modal ---
+            function closeModal() {
+                modal.classList.add('modal-hidden');
+            }
+
+            // --- Tambahkan event listeners ---
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
+            
+            // --- Efek notifikasi diaktifkan secara terus menerus ---
+            // Cukup tambahkan kelas 'new-release' untuk mengaktifkan animasi dan titik notifikasi.
+            openBtn.classList.add('new-release');
+        }
 
         async function initializeApp() {
             try {
                 const [computeResponse, footerResponse] = await Promise.all([
-                    fetch('./compute-data.json'),
+                    fetch('../assets/data/compute-data.json'),
                     fetch('../footer-data.json')
                 ]);
 
@@ -485,6 +625,8 @@
             setLanguage(preferredLanguage);
             updateActiveView('welcome');
             renderRecommendations([]);
+            // Memanggil fungsi untuk mengaktifkan fitur catatan rilis
+            setupReleaseNotes(); 
         }
         
         document.addEventListener('DOMContentLoaded', initializeApp);

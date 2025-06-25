@@ -122,7 +122,7 @@
     "services": {
       "ec2": {
         "title": "EC2",
-        "icon": "./assets/icons/EC2.svg",
+        "icon": "compute/EC2.svg",
         "parent": "core",
         "tabs": {
           "Summary": {
@@ -151,7 +151,7 @@
       },
       "fargate": {
         "title": "Fargate",
-        "icon": "./assets/icons/Fargate.svg",
+        "icon": "compute/Fargate.svg",
         "parent": "containers",
         "tabs": {
           "Summary": {
@@ -185,7 +185,7 @@
       },
       "lambda": {
         "title": "Lambda",
-        "icon": "./assets/icons/Lambda.svg",
+        "icon": "compute/Lambda.svg",
         "parent": "core",
         "tabs": {
           "Summary": {
@@ -214,7 +214,7 @@
       },
       "lightsail": {
         "title": "Lightsail",
-        "icon": "./assets/icons/Lightsail.svg",
+        "icon": "compute/Lightsail.svg",
         "parent": "core",
         "tabs": {
           "Summary": {
@@ -243,7 +243,7 @@
       },
       "ecs": {
         "title": "ECS",
-        "icon": "./assets/icons/Elastic-Container-Service.svg",
+        "icon": "compute/Elastic-Container-Service.svg",
         "parent": "containers",
         "tabs": {
           "Summary": {
@@ -276,7 +276,7 @@
       },
       "eks": {
         "title": "EKS",
-        "icon": "./assets/icons/Elastic-Kubernetes-Service.svg",
+        "icon": "compute/Elastic-Kubernetes-Service.svg",
         "parent": "containers",
         "tabs": {
           "Summary": {
@@ -310,7 +310,7 @@
       },
       "app-runner": {
         "title": "App Runner",
-        "icon": "./assets/icons/App-Runner.svg",
+        "icon": "compute/App-Runner.svg",
         "parent": "containers",
         "tabs": {
           "Summary": {
@@ -340,7 +340,7 @@
       },
       "bottlerocket": {
         "title": "Bottlerocket",
-        "icon": "./assets/icons/Bottlerocket.svg",
+        "icon": "compute/Bottlerocket.svg",
         "parent": "containers",
         "tabs": {
           "Summary": {
@@ -373,7 +373,7 @@
       },
       "ec2-auto-scaling": {
         "title": "EC2 Auto Scaling",
-        "icon": "./assets/icons/EC2-Auto-Scaling.svg",
+        "icon": "compute/EC2-Auto-Scaling.svg",
         "parent": "scaling",
         "tabs": {
           "Summary": {
@@ -405,7 +405,7 @@
       },
       "app-auto-scaling": {
         "title": "Application Auto Scaling",
-        "icon": "./assets/icons/Application-Auto-Scaling.svg",
+        "icon": "compute/Application-Auto-Scaling.svg",
         "parent": "scaling",
         "tabs": {
           "Summary": {
@@ -433,7 +433,7 @@
       },
       "compute-optimizer": {
         "title": "Compute Optimizer",
-        "icon": "./assets/icons/Compute-Optimizer.svg",
+        "icon": "compute/Compute-Optimizer.svg",
         "parent": "scaling",
         "tabs": {
           "Summary": {
@@ -461,7 +461,7 @@
       },
       "image-builder": {
         "title": "EC2 Image Builder",
-        "icon": "./assets/icons/EC2-Image-Builder.svg",
+        "icon": "compute/EC2-Image-Builder.svg",
         "parent": "scaling",
         "tabs": {
           "Summary": {
@@ -493,7 +493,7 @@
       },
       "elastic-beanstalk": {
         "title": "Elastic Beanstalk",
-        "icon": "./assets/icons/Elastic-Beanstalk.svg",
+        "icon": "compute/Elastic-Beanstalk.svg",
         "parent": "platform",
         "tabs": {
           "Summary": {
@@ -522,7 +522,7 @@
       },
       "serverless-repo": {
         "title": "Serverless Application Repository",
-        "icon": "./assets/icons/Serverless-Application-Repository.svg",
+        "icon": "compute/Serverless-Application-Repository.svg",
         "parent": "platform",
         "tabs": {
           "Summary": {
@@ -550,7 +550,7 @@
       },
       "batch": {
         "title": "Batch",
-        "icon": "./assets/icons/Batch.svg",
+        "icon": "compute/Batch.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -579,7 +579,7 @@
       },
       "parallel-cluster": {
         "title": "ParallelCluster",
-        "icon": "./assets/icons/ParallelCluster.svg",
+        "icon": "compute/ParallelCluster.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -608,7 +608,7 @@
       },
       "simspace-weaver": {
         "title": "SimSpace Weaver",
-        "icon": "./assets/icons/SimSpace-Weaver.svg",
+        "icon": "compute/SimSpace-Weaver.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -637,7 +637,7 @@
       },
       "thinkbox-suite": {
         "title": "Thinkbox",
-        "icon": "./assets/icons/Thinkbox-Krakatoa.svg",
+        "icon": "compute/Thinkbox-Krakatoa.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -665,7 +665,7 @@
       },
       "nice-dcv": {
         "title": "NICE DCV",
-        "icon": "./assets/icons/NICE-DCV.svg",
+        "icon": "compute/NICE-DCV.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -693,7 +693,7 @@
       },
       "genomics-cli": {
         "title": "Genomics CLI",
-        "icon": "./assets/icons/Genomics-CLI.svg",
+        "icon": "compute/Genomics-CLI.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -721,7 +721,7 @@
       },
       "nitro-enclaves": {
         "title": "Nitro Enclaves",
-        "icon": "./assets/icons/Nitro-Enclaves.svg",
+        "icon": "compute/Nitro-Enclaves.svg",
         "parent": "specialized_infra",
         "tabs": {
           "Summary": {
@@ -754,7 +754,7 @@
       },
       "efa": {
         "title": "Elastic Fabric Adapter",
-        "icon": "./assets/icons/Elastic-Fabric-Adapter.svg",
+        "icon": "compute/Elastic-Fabric-Adapter.svg",
         "parent": "specialized_infra",
         "tabs": {
           "Summary": {
@@ -787,7 +787,7 @@
       },
       "outposts": {
         "title": "Outposts",
-        "icon": "./assets/icons/Outposts-family.svg",
+        "icon": "compute/Outposts-family.svg",
         "parent": "hybrid",
         "tabs": {
           "Summary": {
@@ -815,7 +815,7 @@
       },
       "local-zones": {
         "title": "Local Zones",
-        "icon": "./assets/icons/Local-Zones.svg",
+        "icon": "compute/Local-Zones.svg",
         "parent": "hybrid",
         "tabs": {
           "Summary": {
@@ -844,7 +844,7 @@
       },
       "wavelength": {
         "title": "Wavelength",
-        "icon": "./assets/icons/Wavelength.svg",
+        "icon": "compute/Wavelength.svg",
         "parent": "hybrid",
         "tabs": {
           "Summary": {
@@ -873,7 +873,7 @@
       },
       "vmware-cloud": {
         "title": "VMware Cloud on AWS",
-        "icon": "./assets/icons/VMware-Cloud-on-AWS.svg",
+        "icon": "compute/VMware-Cloud-on-AWS.svg",
         "parent": "hybrid",
         "tabs": {
           "Summary": {

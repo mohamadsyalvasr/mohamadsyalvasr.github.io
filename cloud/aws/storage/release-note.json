@@ -1,0 +1,20 @@
+[
+  {
+    "version": "1.0.0",
+    "date": "2024-06-25",
+    "changes": [
+      {
+        "type": "New",
+        "description": "Rilis awal Panduan Interaktif AWS Storage."
+      },
+      {
+        "type": "New",
+        "description": "Menambahkan Storage Solution Finder dan Service Comparison Visualizer."
+      },
+      {
+        "type": "New",
+        "description": "Implementasi fungsionalitas pengalihan bahasa (Indonesia & Inggris)."
+      }
+    ]
+  }
+]

@@ -16,14 +16,14 @@
             color: #1e293b; /* slate-800 */
         }
         .category-card.active {
-            border-color: #478d28; /* sky-600 */
-            box-shadow: 0 10px 15px -3px rgb(2 132 199 / 0.1), 0 4px 6px -4px rgb(2 132 199 / 0.1);
+            border-color: #478d28; /* custom green */
+            box-shadow: 0 10px 15px -3px rgb(71 141 40 / 0.1), 0 4px 6px -4px rgb(71 141 40 / 0.1);
         }
         .category-card {
             transition: all 0.3s ease-in-out;
         }
         .tab-button.active {
-            border-bottom: 2px solid #478d28; /* sky-600 */
+            border-bottom: 2px solid #478d28; /* custom green */
             color: #478d28;
         }
         .content-section, .tab-content {
@@ -45,7 +45,7 @@
             }
         }
         .decision-button.selected {
-            background-color: #478d28; /* violet-600 */
+            background-color: #478d28; /* custom green */
             color: white;
         }
         .recommendation-card {
@@ -53,12 +53,56 @@
             cursor: pointer;
         }
         .recommendation-card.highlight {
-            border-color: #478d28; /* sky-600 */
-            box-shadow: 0 0 15px rgba(45, 199, 2, 0.2);
+            border-color: #478d28; /* custom green */
+            box-shadow: 0 0 15px rgba(71, 141, 40, 0.2);
         }
         .lang-switcher button.active {
             background-color: #478d28;
             color: white;
+        }
+        /* Styling untuk popup release note */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal-hidden {
+            pointer-events: none;
+        }
+        .modal-hidden .modal-overlay {
+            opacity: 0;
+        }
+        .modal-hidden .modal-container {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* --- Efek untuk Tombol Rilis Baru --- */
+        @keyframes pulse-animation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 0 15px rgba(56, 189, 248, 0);
+            }
+        }
+        #release-note-btn.new-release {
+            animation: pulse-animation 1.5s infinite;
+        }
+        .notification-dot {
+            display: none; /* Sembunyikan secara default */
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 9999px;
+            background-color: #ef4444; /* red-500 */
+            border: 2px solid #f8fafc; /* slate-50 */
+        }
+        #release-note-btn.new-release .notification-dot {
+            display: block; /* Tampilkan jika ada rilis baru */
         }
     </style>
 </head>
@@ -66,7 +110,7 @@
 
     <div class="container mx-auto p-4 md:p-8">
         
-        <header class="relative text-center mb-12 py-4">
+        <header class="relative text-center mb-8 py-4">
             <a href="/cloud/aws/" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-sky-600 transition-colors duration-200">
                 <span class="text-2xl">&larr;</span>
                 <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
@@ -79,11 +123,19 @@
             <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.</p>
         </header>
 
+        <!-- Tombol Release Note dengan elemen notifikasi -->
+        <div class="text-center mb-12">
+            <button id="release-note-btn" class="relative inline-block bg-sky-100 text-sky-700 font-semibold px-4 py-2 rounded-full hover:bg-sky-200 transition duration-300 text-sm">
+                Lihat Catatan Rilis
+                <span class="notification-dot"></span>
+            </button>
+        </div>
+
         <section id="category-nav-section" class="mb-12">
             <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Kategori Layanan Storage</h2>
             <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.</p>
             <div id="category-nav" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Category cards will be dynamically generated -->
+                <!-- Category cards akan dibuat secara dinamis -->
             </div>
         </section>
 
@@ -93,7 +145,7 @@
                 <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
                 <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih kategori layanan di atas untuk memulai.</p>
             </div>
-            <!-- Dynamic content sections will be added here -->
+            <!-- Konten dinamis akan ditambahkan di sini -->
         </main>
 
         <section id="decision-tool" class="mt-16">
@@ -133,7 +185,7 @@
                 <div>
                     <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-center mb-6 text-slate-800">Layanan yang Direkomendasikan</h3>
                     <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- Recommendation cards will be injected here -->
+                        <!-- Kartu rekomendasi akan disuntikkan di sini -->
                     </div>
                      <div id="no-recommendation" class="text-center text-slate-500 py-8 hidden">
                         <p data-lang-key="noRecommendation">Pilih filter di atas untuk melihat rekomendasi.</p>
@@ -169,6 +221,27 @@
             <p data-lang-key="footer" class="text-slate-500 text-sm px-4"></p>
         </div>
     </footer>
+
+    <!-- Popup/Modal untuk Release Note -->
+    <div id="release-note-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div class="modal-overlay absolute inset-0 bg-black/50"></div>
+        
+        <!-- Kontainer Modal -->
+        <div class="modal-container bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-2xl font-bold text-slate-800">Catatan Rilis</h2>
+                    <button id="close-modal-btn" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button>
+                </div>
+                <div id="release-note-content" class="prose max-w-none text-slate-600">
+                    <!-- Konten dari JSON akan dimuat di sini -->
+                    <p>Memuat...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // --- DATA SECTION ---
@@ -405,6 +478,69 @@
             });
         }
 
+        // --- FUNGSI UNTUK RELEASE NOTE ---
+        async function setupReleaseNotes() {
+            const modal = document.getElementById('release-note-modal');
+            const openBtn = document.getElementById('release-note-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const overlay = modal.querySelector('.modal-overlay');
+            const contentDiv = document.getElementById('release-note-content');
+            const releaseNoteButtonText = openBtn;
+
+            async function openModal() {
+                modal.classList.remove('modal-hidden');
+                contentDiv.innerHTML = '<p>Memuat...</p>';
+
+                try {
+                    const response = await fetch('./release-note.json');
+                    if (!response.ok) {
+                        throw new Error('Gagal memuat catatan rilis.');
+                    }
+                    const notes = await response.json();
+                    
+                    if (notes.length > 0) {
+                        const latestVersion = notes[0].version;
+                        releaseNoteButtonText.textContent = `Lihat Catatan Rilis (v${latestVersion})`;
+                    }
+
+                    let html = '';
+                    notes.forEach(note => {
+                        html += `<div class="mb-6">`;
+                        html += `<h3 class="text-xl font-semibold text-slate-700">${note.version} - <span class="text-base font-normal text-slate-500">${note.date}</span></h3>`;
+                        html += '<ul class="list-disc list-inside mt-2 space-y-1">';
+                        note.changes.forEach(change => {
+                            let tagClass = '';
+                            switch(change.type.toLowerCase()) {
+                                case 'new': tagClass = 'bg-blue-100 text-blue-800'; break;
+                                case 'fix': tagClass = 'bg-orange-100 text-orange-800'; break;
+                                case 'improvement': tagClass = 'bg-green-100 text-green-800'; break;
+                                default: tagClass = 'bg-slate-100 text-slate-800';
+                            }
+                            html += `<li><span class="text-xs font-semibold mr-2 px-2 py-0.5 rounded-full ${tagClass}">${change.type}</span> ${change.description}</li>`;
+                        });
+                        html += '</ul></div>';
+                    });
+                    contentDiv.innerHTML = html;
+
+                } catch (error) {
+                    contentDiv.innerHTML = `<p class="text-red-500">${error.message}</p>`;
+                }
+            }
+
+            function closeModal() {
+                modal.classList.add('modal-hidden');
+            }
+
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
+            
+            // --- Efek notifikasi diaktifkan secara terus menerus ---
+            // Cukup tambahkan kelas 'new-release' untuk mengaktifkan animasi dan titik notifikasi.
+            openBtn.classList.add('new-release');
+        }
+
+
         async function initializeApp() {
             try {
                 const [storageResponse, footerResponse] = await Promise.all([
@@ -483,6 +619,7 @@
             setLanguage(preferredLanguage);
             updateActiveView('welcome');
             renderRecommendations([]);
+            setupReleaseNotes(); // Panggil fungsi baru di sini
         }
 
         document.addEventListener('DOMContentLoaded', initializeApp);
