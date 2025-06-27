@@ -15,26 +15,26 @@
             color: #1e293b; 
         }
         .guide-card {
-            transition: all 0.25s ease-in-out; /* Transisi lebih cepat */
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.06); /* Bayangan dasar yang lembut */
-            border: 1px solid #e2e8f0; /* Border slate-200 */
+            transition: all 0.25s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+            border: 1px solid #e2e8f0;
         }
         .guide-card:hover {
-            transform: translateY(-6px); /* Gerakan ke atas lebih sedikit */
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* Bayangan yang lebih lembut saat hover */
-            border-color: #f59e0b; /* amber-500 */
+            transform: translateY(-6px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            border-color: #f59e0b;
         }
         .lang-switcher button.active {
-            background-color: #f59e0b; /* amber-500 */
+            background-color: #f59e0b;
             color: white;
         }
         .control-button.active {
-            background-color: #1e293b; /* slate-800 */
+            background-color: #1e293b;
             color: white;
             border-color: #1e293b;
         }
         .text-gradient {
-            background: linear-gradient(to right, #f59e0b, #ea580c); /* from-amber-500 to-orange-600 */
+            background: linear-gradient(to right, #f59e0b, #ea580c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -46,6 +46,19 @@
         }
         .btn-gradient:hover {
             background-position: right center;
+        }
+        #roadmap-modal-content {
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -67,7 +80,13 @@
                     <li><a href="#" class="font-semibold text-slate-700 hover:text-amber-600 transition-colors">AWS</a></li>
                 </ol>
             </nav>
-            <div class="flex items-center space-x-2 md:space-x-4">
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <button type="button" id="roadmap-btn" class="flex items-center space-x-1.5 text-slate-600 hover:text-amber-600 transition-colors font-medium text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                    <span data-lang-key="roadmapButton">Roadmap</span>
+                </button>
                 <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
                     <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">ID</button>
                     <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">EN</button>
@@ -112,15 +131,76 @@
         </footer>
     </div>
 
+    <!-- Roadmap Modal -->
+    <div id="roadmap-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div id="roadmap-modal-content" class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative">
+            <button id="roadmap-close-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-3xl font-bold text-center mb-8 text-gradient" data-lang-key="roadmapTitle">Peta Jalan Pengembangan</h2>
+            
+            <!-- Roadmap content will be dynamically inserted here -->
+            <div id="roadmap-container" class="space-y-10"></div>
+        </div>
+    </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- DATA SOURCE ---
+
+            // Data untuk panduan layanan
+            const guidesData = [
+                { id: 'compute', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Compute_64.svg', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonGradient: 'from-orange-500 to-amber-500', href: './svc?data=compute' },
+                { id: 'storage', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Storage_64.svg', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonGradient: 'from-lime-600 to-green-500', href: './svc?data=storage' },
+                { id: 'database', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Database_64.svg', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonGradient: 'from-fuchsia-500 to-purple-500', href: './svc?data=database' },
+                { id: 'aiml', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Artificial-Intelligence_64.svg', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc', buttonGradient: 'from-teal-500 to-cyan-500', href: './svc?data=aiml' },
+                { id: 'analytics', status: 'coming-soon', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Analytics_64.svg', emoji: '📊', titleKey: 'analyticsTitle', descriptionKey: 'analyticsDesc', buttonGradient: 'from-violet-500 to-indigo-500', href: './svc?data=analytics' },
+                { id: 'security', status: 'coming-soon', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Security-Identity-Compliance_64.svg', emoji: '🛡️', titleKey: 'securityTitle', descriptionKey: 'securityDesc' , buttonGradient: 'from-red-600 to-rose-500', href: './svc?data=security' },
+            ];
+
+            // Data untuk roadmap (dinamis)
+            const roadmapData = [
+                {
+                    badgeLabel: 'Q3',
+                    badgeColor: 'bg-amber-500',
+                    titleKey: 'roadmapQ3Title',
+                    descriptionKey: 'roadmapQ3Desc',
+                    listKey: 'roadmapQ3List'
+                },
+                {
+                    badgeLabel: 'Q4',
+                    badgeColor: 'bg-orange-600',
+                    titleKey: 'roadmapQ4Title',
+                    descriptionKey: 'roadmapQ4Desc',
+                    listKey: 'roadmapQ4List'
+                },
+                {
+                    badgeLabel: '26',
+                    badgeColor: 'bg-red-600',
+                    titleKey: 'roadmap2026Title',
+                    descriptionKey: 'roadmap2026Desc',
+                    listKey: 'roadmap2026List'
+                }
+            ];
+
+            // Semua teks terjemahan
             const translations = {
+                // ... Teks umum
                 mainTitle: { id: "Panduan Interaktif Layanan AWS", en: "Interactive AWS Service Guides" },
                 mainSubtitle: { id: "Jelajahi, bandingkan, dan temukan layanan AWS yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.", en: "Explore, compare, and find the right AWS services for your needs through curated visual guides." },
                 sortLabel: { id: "Urutkan:", en: "Sort by:"},
                 noResultsTitle: { id: "Tidak Ada Hasil", en: "No Results Found"},
-                noResultsSubtitle: { id: "Try another keyword or clear the filters.", en: "Coba kata kunci lain atau hapus filter."},
+                noResultsSubtitle: { id: "Coba kata kunci lain atau hapus filter.", en: "Try another keyword or clear the filters."},
+                exploreButton: { id: "Jelajahi Sekarang", en: "Explore Now" },
+                comingSoonButton: { id: "Segera Hadir", en: "Coming Soon" },
+                footer: { id: "&copy; 2025 Interactive Cloud Guides. Dibuat dengan ❤️ untuk para penjelajah cloud di mana pun berada. <br>Semua merek dagang adalah milik pemiliknya masing-masing.", en: "&copy; 2025 Interactive Cloud Guides. Made with ❤️ for cloud explorers everywhere. <br>All trademarks belong to their respective owners." },
+                roadmapButton: { id: "Peta Jalan", en: "Roadmap" },
+                roadmapTitle: { id: "Peta Jalan Pengembangan", en: "Development Roadmap" },
+
+                // ... Teks untuk kartu layanan
                 computeTitle: { id: "AWS Compute", en: "AWS Compute" },
                 computeDesc: { id: "Jelajahi spektrum layanan komputasi, dari mesin virtual EC2 hingga Lambda yang serverless.", en: "Explore the spectrum of compute services, from EC2 virtual machines to serverless Lambda." },
                 storageTitle: { id: "AWS Storage", en: "AWS Storage" },
@@ -133,20 +213,29 @@
                 databaseDesc: { id: "Jelajahi database yang dibuat khusus, dari relasional hingga NoSQL, untuk semua kebutuhan aplikasi Anda.", en: "Explore purpose-built databases, from relational to NoSQL, for all your application needs." },
                 securityTitle: { id: "AWS Security", en: "AWS Security" },
                 securityDesc: { id: "Amankan cloud Anda dengan layanan untuk identitas, deteksi, perlindungan, dan respons.", en: "Secure your cloud with services for identity, detection, protection, and response." },
-                exploreButton: { id: "Jelajahi Sekarang", en: "Explore Now" },
-                comingSoonButton: { id: "Segera Hadir", en: "Coming Soon" },
-                footer: { id: "&copy; 2025 Interactive Cloud Guides. Dibuat dengan ❤️ untuk para penjelajah cloud di mana pun berada. <br>Semua merek dagang adalah milik pemiliknya masing-masing.", en: "&copy; 2025 Interactive Cloud Guides. Made with ❤️ for cloud explorers everywhere. <br>All trademarks belong to their respective owners." }
+
+                // ... Teks untuk roadmap
+                roadmapQ3Title: { id: "Q3 2025", en: "Q3 2025" },
+                roadmapQ3Desc: { id: "Fokus pada Layanan Inti & Jaringan", en: "Focus on Core & Networking Services" },
+                roadmapQ3List: { 
+                    id: `<li><span class="font-semibold text-slate-700">Panduan AWS Networking:</span> Cakupan VPC, Route 53, dan Direct Connect.</li><li><span class="font-semibold text-slate-700">Mode Perbandingan Layanan:</span> Bandingkan 2-3 layanan secara berdampingan.</li><li>Peningkatan UI/UX berdasarkan masukan pengguna.</li>`,
+                    en: `<li><span class="font-semibold text-slate-700">AWS Networking Guide:</span> Covering VPC, Route 53, and Direct Connect.</li><li><span class="font-semibold text-slate-700">Service Comparison Mode:</span> Compare 2-3 services side-by-side.</li><li>UI/UX improvements based on user feedback.</li>`
+                },
+                roadmapQ4Title: { id: "Q4 2025", en: "Q4 2025" },
+                roadmapQ4Desc: { id: "Ekspansi ke DevOps & Keamanan", en: "Expansion into DevOps & Security" },
+                roadmapQ4List: { 
+                    id: `<li>Rilis panduan <span class="font-semibold text-slate-700">AWS Security</span> dan <span class="font-semibold text-slate-700">AWS Analytics</span>.</li><li><span class="font-semibold text-slate-700">Fitur Kuis:</span> Uji pengetahuan Anda setelah mempelajari setiap kategori.</li>`,
+                    en: `<li>Release of <span class="font-semibold text-slate-700">AWS Security</span> and <span class="font-semibold text-slate-700">AWS Analytics</span> guides.</li><li><span class="font-semibold text-slate-700">Quiz Feature:</span> Test your knowledge after studying each category.</li>`
+                },
+                roadmap2026Title: { id: "2026", en: "2026" },
+                roadmap2026Desc: { id: "Panduan Lanjutan & Komunitas", en: "Advanced Guides & Community" },
+                roadmap2026List: {
+                    id: `<li>Panduan untuk skenario arsitektur (contoh: Web Hosting, Big Data).</li><li>Integrasi dengan platform lain (GCP, Azure - Eksplorasi).</li><li>Fitur kontribusi dari komunitas.</li>`,
+                    en: `<li>Guides for architectural scenarios (e.g., Web Hosting, Big Data).</li><li>Integration with other platforms (GCP, Azure - Exploratory).</li><li>Community contribution features.</li>`
+                }
             };
-
-            const guidesData = [
-                { id: 'compute', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Compute_64.svg', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonGradient: 'from-orange-500 to-amber-500', href: './svc?data=compute' },
-                { id: 'storage', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Storage_64.svg', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonGradient: 'from-lime-600 to-green-500', href: './svc?data=storage' },
-                { id: 'database', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Database_64.svg', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonGradient: 'from-fuchsia-500 to-purple-500', href: './svc?data=database' },
-                { id: 'aiml', status: 'active', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Artificial-Intelligence_64.svg', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc', buttonGradient: 'from-teal-500 to-cyan-500', href: './svc?data=aiml' },
-                { id: 'analytics', status: 'coming-soon', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Analytics_64.svg', emoji: '📊', titleKey: 'analyticsTitle', descriptionKey: 'analyticsDesc', buttonGradient: 'from-violet-500 to-indigo-500', href: './svc?data=analytics' },
-                { id: 'security', status: 'coming-soon', iconPath: './assets/icons/official/Category-Icons_02072025/Arch-Category_64/Arch-Category_Security-Identity-Compliance_64.svg', emoji: '🛡️', titleKey: 'securityTitle', descriptionKey: 'securityDesc' , buttonGradient: 'from-red-600 to-rose-500', href: './svc?data=security' },
-            ];
-
+            
+            // --- DOM Elements ---
             const guidesContainer = document.getElementById('guides');
             const noResultsContainer = document.getElementById('no-results');
             const searchInput = document.getElementById('search-input');
@@ -154,9 +243,16 @@
             const sortZaButton = document.getElementById('sort-za');
             const langIdButton = document.getElementById('lang-id');
             const langEnButton = document.getElementById('lang-en');
-            
+            const roadmapBtn = document.getElementById('roadmap-btn');
+            const roadmapModal = document.getElementById('roadmap-modal');
+            const roadmapCloseBtn = document.getElementById('roadmap-close-btn');
+            const roadmapContainer = document.getElementById('roadmap-container');
+
+            // --- State Management ---
             let currentLang = localStorage.getItem('language') || 'id';
             let currentSort = null;
+            
+            // --- Rendering Functions ---
 
             const createCardHTML = (guide) => {
                 const isComingSoon = guide.status === 'coming-soon';
@@ -193,18 +289,28 @@
                     </${cardTag}>
                 `;
             };
-            
+
             const renderGuides = (dataToRender) => {
                 guidesContainer.innerHTML = dataToRender.map(createCardHTML).join('');
-                if (dataToRender.length === 0) {
-                    noResultsContainer.style.display = 'block';
-                    guidesContainer.style.display = 'none';
-                } else {
-                    noResultsContainer.style.display = 'none';
-                    guidesContainer.style.display = 'grid';
-                }
+                noResultsContainer.style.display = dataToRender.length === 0 ? 'block' : 'none';
+                guidesContainer.style.display = dataToRender.length === 0 ? 'none' : 'grid';
             };
             
+            const renderRoadmap = () => {
+                roadmapContainer.innerHTML = roadmapData.map(phase => `
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 ${phase.badgeColor} text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg">${phase.badgeLabel}</div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-slate-800">${translations[phase.titleKey][currentLang]}</h3>
+                                <p class="text-slate-500">${translations[phase.descriptionKey][currentLang]}</p>
+                            </div>
+                        </div>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-slate-600">${translations[phase.listKey][currentLang]}</ul>
+                    </div>
+                `).join('');
+            };
+
             const updateDisplay = () => {
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 
@@ -226,11 +332,14 @@
                 renderGuides(filteredGuides);
             };
 
+            // --- FUNCTION setLanguage (TELAH DIPERBAIKI) ---
             const setLanguage = (lang) => {
                 currentLang = lang;
                 document.documentElement.lang = lang;
                 localStorage.setItem('language', lang);
 
+                // Menerjemahkan semua elemen statis yang tidak ada di dalam kartu panduan.
+                // Ini sekarang akan menyertakan judul roadmap.
                 document.querySelectorAll('[data-lang-key]').forEach(element => {
                     const key = element.getAttribute('data-lang-key');
                     if (translations[key] && translations[key][lang]) {
@@ -245,30 +354,54 @@
                 
                 searchInput.placeholder = lang === 'id' ? 'Cari layanan AWS...' : 'Search AWS services...';
 
+                // Render ulang kartu panduan dengan bahasa baru.
                 updateDisplay();
+
+                // Jika modal roadmap sedang terbuka, render ulang kontennya untuk mencerminkan perubahan bahasa.
+                if (!roadmapModal.classList.contains('hidden')) {
+                    renderRoadmap();
+                }
             };
+            
+            // --- EVENT LISTENERS ---
             
             searchInput.addEventListener('input', updateDisplay);
 
             sortAzButton.addEventListener('click', () => {
-                currentSort = currentSort === 'az' ? null : 'az'; // Toggle sort
+                currentSort = currentSort === 'az' ? null : 'az';
                 sortAzButton.classList.toggle('active', currentSort === 'az');
                 sortZaButton.classList.remove('active');
-                if (currentSort === null) sortZaButton.classList.remove('active');
                 updateDisplay();
             });
 
             sortZaButton.addEventListener('click', () => {
-                currentSort = currentSort === 'za' ? null : 'za'; // Toggle sort
+                currentSort = currentSort === 'za' ? null : 'za';
                 sortZaButton.classList.toggle('active', currentSort === 'za');
                 sortAzButton.classList.remove('active');
-                 if (currentSort === null) sortAzButton.classList.remove('active');
                 updateDisplay();
             });
 
             langIdButton.addEventListener('click', () => setLanguage('id'));
             langEnButton.addEventListener('click', () => setLanguage('en'));
+            
+            if(roadmapBtn && roadmapModal && roadmapCloseBtn) {
+                roadmapBtn.addEventListener('click', () => {
+                    renderRoadmap();
+                    roadmapModal.classList.remove('hidden');
+                });
 
+                roadmapCloseBtn.addEventListener('click', () => {
+                    roadmapModal.classList.add('hidden');
+                });
+
+                roadmapModal.addEventListener('click', (e) => {
+                    if (e.target === roadmapModal) {
+                        roadmapModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- INITIALIZATION ---
             setLanguage(currentLang);
         });
     </script>
