@@ -5,11 +5,11 @@
     "changes": [
       {
         "type": "New",
-        "description": "Rilis awal Panduan Interaktif AWS Compute."
+        "description": "Rilis awal Panduan Interaktif AWS Database."
       },
       {
         "type": "New",
-        "description": "Menambahkan Compute Solution Finder dan Service Comparison Visualizer."
+        "description": "Menambahkan Database Solution Finder dan Service Comparison Visualizer."
       },
       {
         "type": "New",

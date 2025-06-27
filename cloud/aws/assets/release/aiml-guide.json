@@ -1,15 +1,15 @@
 [
   {
     "version": "1.0.0",
-    "date": "2025-06-25",
+    "date": "2025-06-27",
     "changes": [
       {
         "type": "New",
-        "description": "Rilis awal Panduan Interaktif AWS Storage."
+        "description": "Rilis awal Panduan Interaktif AWS AI & ML."
       },
       {
         "type": "New",
-        "description": "Menambahkan Storage Solution Finder dan Service Comparison Visualizer."
+        "description": "Menambahkan AI & ML Solution Finder dan Service Comparison Visualizer."
       },
       {
         "type": "New",
