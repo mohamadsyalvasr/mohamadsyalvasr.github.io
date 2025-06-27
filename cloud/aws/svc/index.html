@@ -288,15 +288,10 @@
         let pageData = {};
         let translations = {};
 
-        // --- CONFIGURATION ---
-        const chartConfig = {
-            labels: { id: ['Kemudahan Penggunaan', 'Kendali', 'Biaya Efektif'], en: ['Ease of Use', 'Control', 'Cost-Effectiveness'] },
-            keys: ['easeOfUse', 'control', 'cost']
-        };
-
         // --- GLOBAL VARIABLES ---
         let currentLang = 'id';
         let comparisonChart;
+        let chartConfig = {}; // Variabel untuk menampung konfigurasi chart, diisi secara dinamis
         let selectedForComparison = [];
         let activeTheme = {};
         let sortOrder = 'default';
@@ -309,7 +304,6 @@
             return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
         }
 
-        // **DIUBAH**: CSS lebih spesifik untuk memastikan override
         function applyTheme(theme) {
             const styleOverrides = `
                 /* Main Accent Colors */
@@ -577,7 +571,6 @@
             });
         }
         
-        // **DIUBAH**: Logika render rekomendasi diperbarui secara signifikan
         function renderRecommendations(filterTags = []) {
             const recContainer = document.getElementById('recommendations');
             const noRecDiv = document.getElementById('no-recommendation');
@@ -655,6 +648,11 @@
         function updateChart() {
             if (comparisonChart) {
                 comparisonChart.destroy();
+            }
+
+            if (!chartConfig || !chartConfig.labels || !chartConfig.keys || !pageData.services) {
+                console.warn("Konfigurasi chart atau data layanan belum siap.");
+                return;
             }
 
             const chartLabels = chartConfig.labels[currentLang];
@@ -781,6 +779,15 @@
             const releaseNotePath = `${dataFile}-guide`;
             document.title = `Panduan Interaktif AWS ${dataFile.charAt(0).toUpperCase() + dataFile.slice(1)}`;
 
+            // **DIUBAH**: Menetapkan konfigurasi chart default dari HTML
+            const defaultChartConfig = {
+                labels: { 
+                    id: ['Kemudahan Penggunaan', 'Kendali', 'Biaya Efektif'], 
+                    en: ['Ease of Use', 'Control', 'Cost-Effectiveness'] 
+                },
+                keys: ['easeOfUse', 'control', 'cost']
+            };
+
             try {
                 const [dataResponse, footerResponse] = await Promise.all([
                     fetch(jsonDataPath),
@@ -798,6 +805,9 @@
                 const footerJSON = footerResponse.ok ? await footerResponse.json() : {};
 
                 pageData = dataJSON.pageData || dataJSON.computeData; 
+                
+                chartConfig = pageData.chartConfig || defaultChartConfig;
+
                 translations = Object.assign(dataJSON.translations, footerJSON);
                 
                 const defaultTheme = {
@@ -836,8 +846,9 @@
 
             } catch (error) {
                 console.error('Error loading page data:', error);
+                chartConfig = defaultChartConfig; // Gunakan default jika fetch gagal
                 document.getElementById('content-area').innerHTML = `<div class="text-center p-8"><p class="text-red-600">Gagal memuat data konten. Silakan periksa file JSON dan coba lagi. <br><small>Path: ${jsonDataPath}</small></p></div>`;
-                return;
+                // Tetap jalankan sisa inisialisasi dengan data default
             }
 
             document.getElementById('category-selector').addEventListener('change', e => {
