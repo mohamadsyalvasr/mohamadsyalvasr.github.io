@@ -631,7 +631,7 @@
                 card.innerHTML = `
                     <div class="flex items-center mb-2">
                         ${service.icon
-                            ? `<img src="../aws/assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />`
+                            ? `<img src="../assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />`
                             : `<span class="text-2xl mr-3">⚙️</span>`}
                         <h5 class="font-bold text-slate-800">${service.title}</h5>
                     </div>
@@ -708,7 +708,7 @@
                 contentDiv.innerHTML = '<p>Memuat...</p>';
 
                 try {
-                    const response = await fetch(`../aws/assets/release/${releaseNoteFile}.json`);
+                    const response = await fetch(`../assets/release/${releaseNoteFile}.json`);
                     if (!response.ok) throw new Error('Gagal memuat catatan rilis.');
                     const notes = await response.json();
 
@@ -775,7 +775,7 @@
             // Set dropdown value to match URL parameter
             document.getElementById('category-selector').value = dataFile;
             
-            const jsonDataPath = `../aws/assets/data/${dataFile}-data.json`;
+            const jsonDataPath = `../assets/data/${dataFile}-data.json`;
             const releaseNotePath = `${dataFile}-guide`;
             document.title = `Panduan Interaktif AWS ${dataFile.charAt(0).toUpperCase() + dataFile.slice(1)}`;
 
@@ -791,7 +791,7 @@
             try {
                 const [dataResponse, footerResponse] = await Promise.all([
                     fetch(jsonDataPath),
-                    fetch('../aws/footer-data.json')
+                    fetch('../footer-data.json')
                 ]);
 
                 if (!dataResponse.ok) {
