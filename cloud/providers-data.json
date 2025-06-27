@@ -3,25 +3,28 @@
     "id": "aws",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
     "status": "active",
-    "link": "./aws/",
+    "link": "/cloud/aws/",
     "titleKey": "awsTitle",
-    "descKey": "awsDesc"
+    "descKey": "awsDesc",
+    "themeColor": "#FF9900"
   },
   {
     "id": "gcp",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg",
     "status": "coming-soon",
-    "link": "#",
+    "link": "/cloud/gcp/",
     "titleKey": "gcpTitle",
-    "descKey": "gcpDesc"
+    "descKey": "gcpDesc",
+    "themeColor": "#4285F4"
   },
   {
     "id": "azure",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg",
     "status": "coming-soon",
-    "link": "#",
+    "link": "/cloud/azure/",
     "titleKey": "azureTitle",
-    "descKey": "azureDesc"
+    "descKey": "azureDesc",
+    "themeColor": "#0078D4"
   },
   {
     "id": "alibaba",
@@ -29,7 +32,8 @@
     "status": "coming-soon",
     "link": "#",
     "titleKey": "alibabaTitle",
-    "descKey": "alibabaDesc"
+    "descKey": "alibabaDesc",
+    "themeColor": "#FF6A00"
   },
   {
     "id": "oracle",
@@ -37,7 +41,8 @@
     "status": "coming-soon",
     "link": "#",
     "titleKey": "oracleTitle",
-    "descKey": "oracleDesc"
+    "descKey": "oracleDesc",
+    "themeColor": "#F80000"
   },
   {
     "id": "ibm",
@@ -45,7 +50,8 @@
     "status": "coming-soon",
     "link": "#",
     "titleKey": "ibmTitle",
-    "descKey": "ibmDesc"
+    "descKey": "ibmDesc",
+    "themeColor": "#0530AD"
   },
   {
     "id": "digitalocean",
@@ -53,7 +59,8 @@
     "status": "coming-soon",
     "link": "#",
     "titleKey": "doTitle",
-    "descKey": "doDesc"
+    "descKey": "doDesc",
+    "themeColor": "#0080FF"
   },
   {
     "id": "huawei",
@@ -61,7 +68,8 @@
     "status": "coming-soon",
     "link": "#",
     "titleKey": "huaweiTitle",
-    "descKey": "huaweiDesc"
+    "descKey": "huaweiDesc",
+    "themeColor": "#CA1324"
   },
   {
     "id": "tencent",
@@ -69,7 +77,8 @@
     "status": "coming-soon",
     "link": "#",
     "titleKey": "tencentTitle",
-    "descKey": "tencentDesc"
+    "descKey": "tencentDesc",
+    "themeColor": "#0052D9"
   },
   {
     "id": "byteplus",
@@ -77,6 +86,7 @@
     "status": "coming-soon",
     "link": "#",
     "titleKey": "byteplusTitle",
-    "descKey": "byteplusDesc"
+    "descKey": "byteplusDesc",
+    "themeColor": "#3C59FF"
   }
 ]

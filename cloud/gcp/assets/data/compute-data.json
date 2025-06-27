@@ -1,0 +1,157 @@
+{
+  "computeData": {
+    "categories": {
+      "vms": {
+        "title": { "id": "Virtual Machines", "en": "Virtual Machines" },
+        "description": { "id": "Dasar dari infrastruktur cloud, menyediakan mesin virtual yang dapat disesuaikan.", "en": "The foundation of cloud infrastructure, providing customizable virtual machines." },
+        "icon": "💻",
+        "services": [ "compute-engine" ]
+      },
+      "containers": {
+        "title": { "id": "Containers", "en": "Containers" },
+        "description": { "id": "Menjalankan, mengelola, dan melakukan orkestrasi aplikasi dalam kontainer.", "en": "Run, manage, and orchestrate containerized applications." },
+        "icon": "📦",
+        "services": [ "gke", "cloud-run-containers" ]
+      },
+      "serverless": {
+        "title": { "id": "Serverless", "en": "Serverless" },
+        "description": { "id": "Fokus pada kode tanpa perlu mengelola infrastruktur server.", "en": "Focus on your code without managing any server infrastructure." },
+        "icon": "🚀",
+        "services": [ "cloud-run", "cloud-functions", "app-engine" ]
+      },
+      "hpc": {
+        "title": { "id": "HPC & Batch", "en": "HPC & Batch" },
+        "description": { "id": "Solusi untuk komputasi kinerja tinggi dan pemrosesan batch skala besar.", "en": "Solutions for high-performance computing and large-scale batch processing." },
+        "icon": "🔬",
+        "services": [ "batch" ]
+      },
+      "hybrid": {
+        "title": { "id": "Hybrid & Edge", "en": "Hybrid & Edge" },
+        "description": { "id": "Memperluas GCP ke lingkungan on-premise dan edge Anda.", "en": "Extend GCP to your on-premises and edge environments." },
+        "icon": "🌐",
+        "services": [ "anthos", "gdc-edge" ]
+      }
+    },
+    "services": {
+      "compute-engine": {
+        "title": "Compute Engine",
+        "icon": "💻",
+        "tabs": {
+          "Summary": { "id": "Mesin virtual berperforma tinggi yang dapat disesuaikan.", "en": "Customizable, high-performance virtual machines." },
+          "Use Case": { "id": "Menjalankan aplikasi skala besar, database, atau server game.", "en": "Running large-scale applications, databases, or game servers." },
+          "Pricing": { "id": "Bayar per detik penggunaan dengan diskon untuk penggunaan berkelanjutan.", "en": "Pay-per-second billing with discounts for sustained use." }
+        },
+        "scores": { "easeOfUse": 5, "control": 10, "cost": 6 },
+        "tags": [ "general", "cloud", "iaas" ]
+      },
+      "gke": {
+        "title": "Google Kubernetes Engine (GKE)",
+        "icon": "⚙️",
+        "tabs": {
+          "Summary": { "id": "Layanan Kubernetes terkelola untuk orkestrasi kontainer.", "en": "Managed Kubernetes service for container orchestration." },
+          "Use Case": { "id": "Menyebarkan, mengelola, dan menskalakan aplikasi dalam kontainer.", "en": "Deploying, managing, and scaling containerized applications." },
+          "Pricing": { "id": "Tingkat gratis untuk satu klaster. Bayar untuk node dan biaya manajemen klaster.", "en": "Free tier for one cluster. Pay for nodes and cluster management fees." }
+        },
+        "scores": { "easeOfUse": 6, "control": 9, "cost": 7 },
+        "tags": [ "container", "cloud", "hybrid", "caas" ]
+      },
+      "cloud-run": {
+        "title": "Cloud Run",
+        "icon": "🏃",
+        "tabs": {
+          "Summary": { "id": "Menjalankan kontainer stateless di platform terkelola penuh.", "en": "Run stateless containers on a fully managed platform." },
+          "Use Case": { "id": "Membangun API web, webhook, atau layanan mikro backend.", "en": "Building web APIs, webhooks, or backend microservices." },
+          "Pricing": { "id": "Bayar hanya saat kode berjalan, diukur hingga 100 milidetik terdekat.", "en": "Pay only when your code is running, billed to the nearest 100 milliseconds." }
+        },
+        "scores": { "easeOfUse": 9, "control": 5, "cost": 9 },
+        "tags": [ "container", "serverless", "cloud", "paas" ]
+      },
+      "cloud-functions": {
+        "title": "Cloud Functions",
+        "icon": "⚡",
+        "tabs": {
+          "Summary": { "id": "Platform komputasi event-driven dan serverless.", "en": "Event-driven, serverless compute platform." },
+          "Use Case": { "id": "Memproses unggahan file, otentikasi pengguna, atau analisis log.", "en": "Processing file uploads, user authentications, or log analysis." },
+          "Pricing": { "id": "Bayar berdasarkan jumlah pemanggilan, durasi, dan sumber daya yang digunakan.", "en": "Pay based on number of invocations, duration, and resources consumed." }
+        },
+        "scores": { "easeOfUse": 10, "control": 3, "cost": 9 },
+        "tags": [ "serverless", "cloud", "faas" ]
+      },
+      "app-engine": {
+        "title": "App Engine",
+        "icon": "🛠️",
+        "tabs": {
+          "Summary": { "id": "Platform terkelola penuh untuk membangun aplikasi web dan seluler.", "en": "Fully managed platform for building web and mobile applications." },
+          "Use Case": { "id": "Menyebarkan aplikasi dengan cepat tanpa mengelola infrastruktur.", "en": "Deploying applications quickly without managing infrastructure." },
+          "Pricing": { "id": "Lingkungan standar memiliki tingkat gratis; lingkungan fleksibel berbasis sumber daya.", "en": "Standard environment has a free tier; flexible environment is resource-based." }
+        },
+        "scores": { "easeOfUse": 8, "control": 6, "cost": 7 },
+        "tags": [ "general", "serverless", "cloud", "paas" ]
+      },
+      "batch": {
+        "title": "Batch",
+        "icon": "🧪",
+        "tabs": {
+          "Summary": { "id": "Menjadwalkan dan menjalankan pekerjaan batch dalam skala besar.", "en": "Schedule and run batch jobs at scale." },
+          "Use Case": { "id": "Pemrosesan data, transcoding media, atau simulasi ilmiah.", "en": "Data processing, media transcoding, or scientific simulations." },
+          "Pricing": { "id": "Tidak ada biaya tambahan, hanya bayar untuk sumber daya Compute Engine yang digunakan.", "en": "No additional charge, only pay for the Compute Engine resources used." }
+        },
+        "scores": { "easeOfUse": 7, "control": 7, "cost": 8 },
+        "tags": [ "hpc", "cloud", "paas" ]
+      },
+      "anthos": {
+        "title": "Google Distributed Cloud (Anthos)",
+        "icon": "🌐",
+        "tabs": {
+          "Summary": { "id": "Platform hybrid dan multi-cloud untuk modernisasi aplikasi.", "en": "A hybrid and multi-cloud platform for application modernization." },
+          "Use Case": { "id": "Mengelola klaster Kubernetes di GCP, on-premise, dan cloud lain.", "en": "Managing Kubernetes clusters across GCP, on-premises, and other clouds." },
+          "Pricing": { "id": "Berbasis langganan per vCPU dari klaster yang dikelola.", "en": "Subscription-based per vCPU of managed clusters." }
+        },
+        "scores": { "easeOfUse": 5, "control": 9, "cost": 4 },
+        "tags": [ "container", "hybrid", "caas" ]
+      },
+       "gdc-edge": {
+        "title": "Google Distributed Cloud Edge",
+        "icon": "📡",
+        "tabs": {
+          "Summary": { "id": "Menjalankan infrastruktur dan layanan GCP di lokasi edge.", "en": "Run GCP infrastructure and services at edge locations." },
+          "Use Case": { "id": "Aplikasi latensi rendah untuk ritel, manufaktur, atau telekomunikasi.", "en": "Low-latency applications for retail, manufacturing, or telecommunications." },
+          "Pricing": { "id": "Harga kustom berbasis perangkat keras dan perangkat lunak yang disebarkan.", "en": "Custom pricing based on deployed hardware and software." }
+        },
+        "scores": { "easeOfUse": 4, "control": 9, "cost": 3 },
+        "tags": [ "edge", "hybrid", "iaas" ]
+      }
+    }
+  },
+  "translations": {
+    "mainTitle": { "id": "Panduan Interaktif GCP Compute", "en": "Interactive GCP Compute Guide" },
+    "mainSubtitle": { "id": "Jelajahi portofolio lengkap layanan komputasi GCP, dari mesin virtual hingga komputasi tanpa server.", "en": "Explore the full portfolio of GCP compute services, from virtual machines to serverless." },
+    "categoryTitle": { "id": "Kategori Layanan Compute", "en": "Compute Service Categories" },
+    "categorySubtitle": { "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.", "en": "Select a category to explore the relevant services within it." },
+    "welcomeTitle": { "id": "Selamat Datang!", "en": "Welcome!" },
+    "welcomeSubtitle": { "id": "Pilih kategori layanan di atas untuk memulai.", "en": "Select a service category above to get started." },
+    "finderTitle": { "id": "Pencari Solusi Compute", "en": "Compute Solution Finder" },
+    "finderSubtitle": { "id": "Gunakan filter ini untuk menemukan layanan GCP Compute yang paling sesuai untuk tugas Anda.", "en": "Use these filters to find the right GCP Compute service for your task." },
+    "filter1Title": { "id": "1. Apa Kasus Penggunaan Anda?", "en": "1. What is your Use Case?" },
+    "filterGeneral": { "id": "General Purpose & Web Hosting", "en": "General Purpose & Web Hosting" },
+    "filterContainer": { "id": "Containers", "en": "Containers" },
+    "filterServerless": { "id": "Serverless & Event-driven", "en": "Serverless & Event-driven" },
+    "filterHpc": { "id": "HPC & Batch", "en": "HPC & Batch" },
+    "filter2Title": { "id": "2. Di Mana Anda Ingin Menjalankannya?", "en": "2. Where do you want to run it?" },
+    "filterCloud": { "id": "GCP Cloud Regions", "en": "GCP Cloud Regions" },
+    "filterHybrid": { "id": "Hybrid & On-Premises", "en": "Hybrid & On-Premises" },
+    "filterEdge": { "id": "Edge Locations", "en": "Edge Locations" },
+    "filter3Title": { "id": "3. Apa Model Manajemen Anda?", "en": "3. What is your Management Model?" },
+    "filterIaas": { "id": "Infrastructure-as-a-Service (IaaS)", "en": "Infrastructure-as-a-Service (IaaS)" },
+    "filterCaas": { "id": "Containers-as-a-Service (CaaS)", "en": "Containers-as-a-Service (CaaS)" },
+    "filterPaas": { "id": "Platform-as-a-Service (PaaS)", "en": "Platform-as-a-Service (PaaS)" },
+    "filterFaas": { "id": "Function-as-a-Service (Serverless)", "en": "Function-as-a-Service (Serverless)" },
+    "recommendationTitle": { "id": "Layanan yang Direkomendasikan", "en": "Recommended Services" },
+    "noRecommendation": { "id": "Pilih filter di atas untuk melihat rekomendasi.", "en": "Select a filter above to see recommendations." },
+    "comparisonTitle": { "id": "Visualisasi Perbandingan Layanan", "en": "Service Comparison Visualizer" },
+    "comparisonSubtitle": { "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.", "en": "Compare up to two services visually on key attributes." },
+    "comparisonLabel": { "id": "Layanan untuk dibandingkan:", "en": "Services to compare:" },
+    "clearButton": { "id": "Bersihkan Pilihan", "en": "Clear Selection" },
+    "chartPlaceholder": { "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.", "en": "Select a service from the recommendations to start comparing." }
+  }
+}

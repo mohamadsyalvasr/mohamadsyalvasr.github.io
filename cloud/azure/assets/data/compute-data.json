@@ -1,0 +1,192 @@
+{
+  "computeData": {
+    "categories": {
+      "vms": {
+        "title": { "id": "Virtual Machines", "en": "Virtual Machines" },
+        "description": { "id": "Menyediakan mesin virtual Linux dan Windows yang aman dan dapat diskalakan.", "en": "Provision secure, scalable Linux and Windows virtual machines." },
+        "icon": "💻",
+        "services": [ "virtual-machines", "vm-scale-sets" ]
+      },
+      "containers": {
+        "title": { "id": "Containers", "en": "Containers" },
+        "description": { "id": "Membangun dan mengelola aplikasi modern dalam kontainer.", "en": "Build and manage modern, container-based applications." },
+        "icon": "📦",
+        "services": [ "aks", "container-apps", "container-instances" ]
+      },
+      "serverless": {
+        "title": { "id": "Serverless & App Platforms", "en": "Serverless & App Platforms" },
+        "description": { "id": "Platform terkelola untuk membangun aplikasi web dan fungsi tanpa server.", "en": "Managed platforms to build web apps and serverless functions." },
+        "icon": "🚀",
+        "services": [ "app-service", "functions", "static-web-apps" ]
+      },
+      "hpc": {
+        "title": { "id": "HPC & Batch", "en": "HPC & Batch" },
+        "description": { "id": "Menjalankan pekerjaan komputasi skala besar dan kinerja tinggi.", "en": "Run large-scale, high-performance computing jobs." },
+        "icon": "🔬",
+        "services": [ "batch", "hpc-cache" ]
+      },
+      "hybrid": {
+        "title": { "id": "Hybrid & Multicloud", "en": "Hybrid & Multicloud" },
+        "description": { "id": "Mengelola dan mengatur sumber daya di berbagai lingkungan.", "en": "Manage and govern resources across different environments." },
+        "icon": "🌐",
+        "services": [ "arc" ]
+      }
+    },
+    "services": {
+      "virtual-machines": {
+        "title": "Virtual Machines",
+        "icon": "💻",
+        "tabs": {
+          "Summary": { "id": "Server virtual sesuai permintaan untuk berbagai beban kerja.", "en": "On-demand virtual servers for a wide range of workloads." },
+          "Use Case": { "id": "Menghosting aplikasi, database, atau memperluas pusat data Anda.", "en": "Hosting applications, databases, or extending your datacenter." },
+          "Pricing": { "id": "Bayar sesuai pemakaian per detik. Opsi Reserved Instances dan Spot tersedia.", "en": "Pay-as-you-go per-second billing. Reserved Instances and Spot options available." }
+        },
+        "scores": { "easeOfUse": 5, "control": 10, "cost": 6 },
+        "tags": [ "general", "cloud", "iaas" ]
+      },
+      "vm-scale-sets": {
+        "title": "VM Scale Sets",
+        "icon": "📊",
+        "tabs": {
+          "Summary": { "id": "Membuat dan mengelola sekelompok VM yang identik dan seimbang.", "en": "Create and manage a group of identical, load-balanced VMs." },
+          "Use Case": { "id": "Membangun aplikasi skala besar dengan penskalaan otomatis.", "en": "Building large-scale applications with auto-scaling." },
+          "Pricing": { "id": "Tidak ada biaya tambahan selain VM yang mendasarinya.", "en": "No additional cost on top of the underlying VMs." }
+        },
+        "dependency": { "id": "Fitur dari Virtual Machines", "en": "Feature of Virtual Machines" },
+        "scores": { "easeOfUse": 6, "control": 8, "cost": 8 },
+        "tags": [ "general", "cloud", "iaas" ]
+      },
+      "aks": {
+        "title": "Azure Kubernetes Service (AKS)",
+        "icon": "⚙️",
+        "tabs": {
+          "Summary": { "id": "Menyederhanakan penyebaran, pengelolaan, dan operasi Kubernetes.", "en": "Simplify the deployment, management, and operations of Kubernetes." },
+          "Use Case": { "id": "Orkestrasi aplikasi dalam kontainer dengan keamanan dan tata kelola tingkat enterprise.", "en": "Orchestrating containerized applications with enterprise-grade security and governance." },
+          "Pricing": { "id": "Manajemen klaster gratis. Bayar hanya untuk node VM, penyimpanan, dan jaringan.", "en": "Free cluster management. Pay only for the VM nodes, storage, and networking." }
+        },
+        "scores": { "easeOfUse": 7, "control": 9, "cost": 7 },
+        "tags": [ "container", "cloud", "hybrid", "caas" ]
+      },
+      "container-apps": {
+        "title": "Container Apps",
+        "icon": "📦",
+        "tabs": {
+          "Summary": { "id": "Membangun layanan mikro serverless berdasarkan kontainer.", "en": "Build serverless microservices based on containers." },
+          "Use Case": { "id": "Menjalankan API, pemrosesan latar belakang, atau aplikasi event-driven.", "en": "Running APIs, background processing, or event-driven applications." },
+          "Pricing": { "id": "Berdasarkan sumber daya yang digunakan (vCPU/memori) dan jumlah permintaan.", "en": "Based on consumed resources (vCPU/memory) and number of requests." }
+        },
+        "dependency": { "id": "Dibangun di atas Kubernetes", "en": "Built on Kubernetes" },
+        "scores": { "easeOfUse": 9, "control": 6, "cost": 8 },
+        "tags": [ "container", "serverless", "cloud", "paas" ]
+      },
+      "container-instances": {
+        "title": "Container Instances",
+        "icon": "💨",
+        "tabs": {
+          "Summary": { "id": "Cara tercepat dan termudah untuk menjalankan kontainer di Azure.", "en": "The fastest and simplest way to run a container in Azure." },
+          "Use Case": { "id": "Tugas sederhana, otomatisasi, atau pekerjaan build.", "en": "Simple tasks, automation, or build jobs." },
+          "Pricing": { "id": "Bayar per detik untuk alokasi vCPU dan memori.", "en": "Pay per-second for vCPU and memory allocation." }
+        },
+        "scores": { "easeOfUse": 10, "control": 4, "cost": 9 },
+        "tags": [ "container", "serverless", "cloud" ]
+      },
+      "app-service": {
+        "title": "App Service",
+        "icon": "🌐",
+        "tabs": {
+          "Summary": { "id": "Platform terkelola penuh untuk membangun, menyebarkan, dan menskalakan aplikasi web.", "en": "Fully managed platform for building, deploying, and scaling web apps." },
+          "Use Case": { "id": "Menghosting aplikasi web, API RESTful, dan backend seluler.", "en": "Hosting web apps, RESTful APIs, and mobile backends." },
+          "Pricing": { "id": "Berbasis paket (App Service Plan) dengan tingkat gratis yang tersedia.", "en": "Based on plans (App Service Plan) with a free tier available." }
+        },
+        "scores": { "easeOfUse": 8, "control": 7, "cost": 7 },
+        "tags": [ "general", "cloud", "paas" ]
+      },
+      "functions": {
+        "title": "Azure Functions",
+        "icon": "⚡",
+        "tabs": {
+          "Summary": { "id": "Platform komputasi serverless yang didorong oleh peristiwa.", "en": "An event-driven, serverless compute platform." },
+          "Use Case": { "id": "Menjalankan blok kode kecil sebagai respons terhadap pemicu (trigger).", "en": "Running small blocks of code in response to triggers." },
+          "Pricing": { "id": "Paket konsumsi (bayar per eksekusi) atau paket premium/App Service.", "en": "Consumption plan (pay-per-execution) or Premium/App Service plans." }
+        },
+        "scores": { "easeOfUse": 10, "control": 3, "cost": 9 },
+        "tags": [ "serverless", "cloud", "faas" ]
+      },
+      "static-web-apps": {
+        "title": "Static Web Apps",
+        "icon": "📄",
+        "tabs": {
+          "Summary": { "id": "Membangun dan menyebarkan aplikasi web statis modern dan API serverless.", "en": "Build and deploy modern static web apps and serverless APIs." },
+          "Use Case": { "id": "Hosting situs Jamstack (JavaScript, API, Markup) dari repositori kode.", "en": "Hosting Jamstack (JavaScript, APIs, Markup) sites from a code repository." },
+          "Pricing": { "id": "Tingkat gratis yang murah hati dan paket standar berbiaya rendah.", "en": "Generous free tier and a low-cost standard plan." }
+        },
+        "scores": { "easeOfUse": 9, "control": 5, "cost": 10 },
+        "tags": [ "general", "serverless", "cloud", "paas" ]
+      },
+      "batch": {
+        "title": "Azure Batch",
+        "icon": "🧪",
+        "tabs": {
+          "Summary": { "id": "Menjalankan pekerjaan komputasi paralel dan HPC skala besar.", "en": "Run large-scale parallel and high-performance computing (HPC) jobs." },
+          "Use Case": { "id": "Rendering, analisis risiko keuangan, atau simulasi rekayasa.", "en": "Rendering, financial risk analysis, or engineering simulations." },
+          "Pricing": { "id": "Tidak ada biaya tambahan, hanya bayar untuk VM dan sumber daya yang digunakan.", "en": "No additional charge, only pay for the VMs and resources consumed." }
+        },
+        "scores": { "easeOfUse": 6, "control": 8, "cost": 7 },
+        "tags": [ "hpc", "cloud", "paas" ]
+      },
+      "hpc-cache": {
+        "title": "Azure HPC Cache",
+        "icon": "💾",
+        "tabs": {
+            "Summary": { "id": "Mempercepat akses file untuk beban kerja HPC.", "en": "Accelerates file access for HPC workloads." },
+            "Use Case": { "id": "Menyediakan cache file untuk klaster HPC yang membaca data dari penyimpanan NAS atau Blob.", "en": "Providing a file cache for HPC clusters reading data from NAS or Blob storage." },
+            "Pricing": { "id": "Berdasarkan jam dan throughput cache yang disediakan.", "en": "Based on provisioned cache hours and throughput." }
+        },
+        "scores": { "easeOfUse": 5, "control": 7, "cost": 5 },
+        "tags": [ "hpc", "cloud" ]
+      },
+      "arc": {
+        "title": "Azure Arc",
+        "icon": "🌐",
+        "tabs": {
+          "Summary": { "id": "Memperluas manajemen dan layanan Azure ke infrastruktur mana pun.", "en": "Extend Azure management and services to any infrastructure." },
+          "Use Case": { "id": "Mengelola server on-premise, klaster Kubernetes, dan database dari Azure.", "en": "Governing on-premises servers, Kubernetes clusters, and databases from Azure." },
+          "Pricing": { "id": "Beberapa fitur gratis, fitur lain dikenakan biaya per server/klaster yang dikelola.", "en": "Some features are free, others are charged per managed server/cluster." }
+        },
+        "scores": { "easeOfUse": 6, "control": 9, "cost": 6 },
+        "tags": [ "hybrid", "edge", "iaas", "caas" ]
+      }
+    }
+  },
+  "translations": {
+    "mainTitle": { "id": "Panduan Interaktif Azure Compute", "en": "Interactive Azure Compute Guide" },
+    "mainSubtitle": { "id": "Jelajahi portofolio lengkap layanan komputasi Azure, dari mesin virtual hingga aplikasi tanpa server.", "en": "Explore the full portfolio of Azure compute services, from virtual machines to serverless apps." },
+    "categoryTitle": { "id": "Kategori Layanan Compute", "en": "Compute Service Categories" },
+    "categorySubtitle": { "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.", "en": "Select a category to explore the relevant services within it." },
+    "welcomeTitle": { "id": "Selamat Datang!", "en": "Welcome!" },
+    "welcomeSubtitle": { "id": "Pilih kategori layanan di atas untuk memulai.", "en": "Select a service category above to get started." },
+    "finderTitle": { "id": "Pencari Solusi Compute", "en": "Compute Solution Finder" },
+    "finderSubtitle": { "id": "Gunakan filter ini untuk menemukan layanan Azure Compute yang paling sesuai untuk tugas Anda.", "en": "Use these filters to find the right Azure Compute service for your task." },
+    "filter1Title": { "id": "1. Apa Kasus Penggunaan Anda?", "en": "1. What is your Use Case?" },
+    "filterGeneral": { "id": "General Purpose & Web Apps", "en": "General Purpose & Web Apps" },
+    "filterContainer": { "id": "Containers", "en": "Containers" },
+    "filterServerless": { "id": "Serverless & Event-driven", "en": "Serverless & Event-driven" },
+    "filterHpc": { "id": "HPC & Batch", "en": "HPC & Batch" },
+    "filter2Title": { "id": "2. Di Mana Anda Ingin Menjalankannya?", "en": "2. Where do you want to run it?" },
+    "filterCloud": { "id": "Azure Cloud Regions", "en": "Azure Cloud Regions" },
+    "filterHybrid": { "id": "Hybrid & Multicloud", "en": "Hybrid & Multicloud" },
+    "filterEdge": { "id": "Edge Locations", "en": "Edge Locations" },
+    "filter3Title": { "id": "3. Apa Model Manajemen Anda?", "en": "3. What is your Management Model?" },
+    "filterIaas": { "id": "Infrastructure-as-a-Service (IaaS)", "en": "Infrastructure-as-a-Service (IaaS)" },
+    "filterCaas": { "id": "Containers-as-a-Service (CaaS)", "en": "Containers-as-a-Service (CaaS)" },
+    "filterPaas": { "id": "Platform-as-a-Service (PaaS)", "en": "Platform-as-a-Service (PaaS)" },
+    "filterFaas": { "id": "Function-as-a-Service (Serverless)", "en": "Function-as-a-Service (Serverless)" },
+    "recommendationTitle": { "id": "Layanan yang Direkomendasikan", "en": "Recommended Services" },
+    "noRecommendation": { "id": "Pilih filter di atas untuk melihat rekomendasi.", "en": "Select a filter above to see recommendations." },
+    "comparisonTitle": { "id": "Visualisasi Perbandingan Layanan", "en": "Service Comparison Visualizer" },
+    "comparisonSubtitle": { "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.", "en": "Compare up to two services visually on key attributes." },
+    "comparisonLabel": { "id": "Layanan untuk dibandingkan:", "en": "Services to compare:" },
+    "clearButton": { "id": "Bersihkan Pilihan", "en": "Clear Selection" },
+    "chartPlaceholder": { "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.", "en": "Select a service from the recommendations to start comparing." }
+  }
+}

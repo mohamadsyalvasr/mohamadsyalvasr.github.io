@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif GCP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; }
+        .guide-card { transition: all 0.3s ease-in-out; }
+        .guide-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+        .lang-switcher button.active { background-color: #4285F4; color: white; }
+        #search-input::placeholder { color: #94a3b8; }
+        #search-input:focus { ring-color: #4285F4; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto px-6 py-12 md:py-20">
+        <header class="relative text-center mb-16">
+            <a href="/cloud/" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-sky-600 transition-colors duration-200">
+                <span class="text-2xl">&larr;</span>
+                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
+            </a>
+            <div class="lang-switcher absolute top-0 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
+                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            </div>
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0">Panduan Layanan GCP</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Jelajahi, bandingkan, dan temukan layanan GCP yang tepat untuk kebutuhan Anda.</p>
+        </header>
+        
+        <!-- Provider Info Section -->
+        <section class="bg-white rounded-xl shadow-md p-8 mb-12 flex flex-col md:flex-row items-center gap-8">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Logo GCP" class="h-16 md:h-20 w-auto">
+            <div>
+                <h2 data-lang-key="gcpIntroTitle" class="text-2xl font-bold text-slate-800 mb-2"></h2>
+                <p data-lang-key="gcpIntroDesc" class="text-slate-600"></p>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <div class="mb-8">
+            <input type="search" id="search-input" data-lang-placeholder="searchPlaceholder" class="w-full px-5 py-3 bg-white rounded-lg shadow-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2" placeholder="Cari kategori layanan...">
+        </div>
+
+        <main>
+            <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div id="no-results" class="text-center py-16 hidden">
+                <p data-lang-key="noResults" class="text-slate-500 text-lg"></p>
+            </div>
+        </main>
+
+        <footer class="text-center mt-20">
+            <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
+        </footer>
+    </div>
+    <script>
+        const translations = {
+            mainTitle: { id: "Panduan Interaktif Layanan GCP", en: "Interactive GCP Service Guides" },
+            mainSubtitle: { id: "Jelajahi, bandingkan, dan temukan layanan GCP yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.", en: "Explore, compare, and find the right GCP services for your needs through curated visual guides." },
+            homeButton: { id: "Halaman Utama", en: "Home Page" },
+            gcpIntroTitle: { id: "Tentang Google Cloud Platform", en: "About Google Cloud Platform" },
+            gcpIntroDesc: { id: "Google Cloud Platform adalah rangkaian layanan cloud computing yang berjalan di atas infrastruktur yang sama dengan yang digunakan Google secara internal untuk produk-produknya seperti Google Search, Gmail, dan YouTube.", en: "Google Cloud Platform is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, and YouTube." },
+            searchPlaceholder: { id: "Cari kategori layanan...", en: "Search service categories..." },
+            noResults: { id: "Tidak ada kategori yang cocok dengan pencarian Anda.", en: "No categories match your search." },
+            computeTitle: { id: "GCP Compute", en: "GCP Compute" },
+            computeDesc: { id: "Jelajahi layanan komputasi, dari Compute Engine VMs hingga Cloud Functions yang serverless.", en: "Explore compute services, from Compute Engine VMs to serverless Cloud Functions." },
+            storageTitle: { id: "GCP Storage", en: "GCP Storage" },
+            storageDesc: { id: "Temukan solusi penyimpanan, dari Cloud Storage, Persistent Disk, hingga Filestore.", en: "Find storage solutions, from Cloud Storage and Persistent Disk to Filestore." },
+            databaseTitle: { id: "GCP Database", en: "GCP Database" },
+            databaseDesc: { id: "Jelajahi database, dari Cloud SQL yang relasional hingga Firestore/Bigtable yang NoSQL.", en: "Explore databases, from relational Cloud SQL to NoSQL Firestore/Bigtable." },
+            aimlTitle: { id: "GCP AI & ML", en: "GCP AI & ML" },
+            aimlDesc: { id: "Pahami Vertex AI, dari model terlatih hingga platform untuk membangun solusi kustom.", en: "Understand Vertex AI, from pre-trained models to a platform for custom solutions." },
+            analyticsTitle: { id: "GCP Analytics", en: "GCP Analytics" },
+            analyticsDesc: { id: "Ubah data menjadi wawasan dengan BigQuery, dari data warehousing hingga BI.", en: "Turn data into insights with BigQuery, from data warehousing to BI." },
+            securityTitle: { id: "GCP Security", en: "GCP Security" },
+            securityDesc: { id: "Amankan cloud Anda dengan Security Command Center, IAM, dan BeyondCorp.", en: "Secure your cloud with Security Command Center, IAM, and BeyondCorp." },
+            exploreButton: { id: "Jelajahi Sekarang", en: "Explore Now" },
+            comingSoonButton: { id: "Segera Hadir", en: "Coming Soon" },
+            footer: { id: "&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ untuk para cloud explorer.", en: "&copy; 2025 Interactive Cloud Guides. Compiled with ❤️ for cloud explorers." }
+        };
+        const guidesData = [
+            { id: 'compute', status: 'active', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonColorClass: 'bg-blue-500', href: './compute/' },
+            { id: 'storage', status: 'active', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonColorClass: 'bg-red-500', href: './storage/' },
+            { id: 'database', status: 'active', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonColorClass: 'bg-yellow-500', href: './database/' },
+            { id: 'aiml', status: 'coming-soon', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc' },
+            { id: 'analytics', status: 'coming-soon', emoji: '📊', titleKey: 'analyticsTitle', descriptionKey: 'analyticsDesc' },
+            { id: 'security', status: 'coming-soon', emoji: '🛡️', titleKey: 'securityTitle', descriptionKey: 'securityDesc' },
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentLanguage = localStorage.getItem('language') || 'id';
+            const guidesContainer = document.getElementById('guides');
+            const searchInput = document.getElementById('search-input');
+            const noResultsMessage = document.getElementById('no-results');
+
+            const createCardHTML = (guide) => {
+                const isComingSoon = guide.status === 'coming-soon';
+                const cardTag = isComingSoon ? 'div' : 'a';
+                const cardHref = isComingSoon ? '' : `href="${guide.href}"`;
+                const cardClasses = isComingSoon 
+                    ? 'flex flex-col bg-white p-8 rounded-xl shadow-md opacity-60 cursor-not-allowed' 
+                    : `guide-card flex flex-col bg-white p-8 rounded-xl shadow-md`;
+                
+                const titleText = translations[guide.titleKey][currentLanguage];
+                const descText = translations[guide.descriptionKey][currentLanguage];
+                const buttonKey = isComingSoon ? 'comingSoonButton' : 'exploreButton';
+                const buttonText = translations[buttonKey][currentLanguage];
+                const buttonColor = isComingSoon ? 'bg-slate-400' : guide.buttonColorClass;
+
+                return `
+                    <${cardTag} ${cardHref} class="${cardClasses}">
+                        <div class="flex-grow">
+                            <span class="text-5xl">${guide.emoji}</span>
+                            <h2 class="text-2xl font-bold mt-4 text-slate-800">${titleText}</h2>
+                            <p class="text-slate-500 mt-2">${descText}</p>
+                        </div>
+                        <div class="mt-6">
+                            <div class="inline-block font-semibold text-white ${buttonColor} px-4 py-2 rounded-lg">${buttonText}</div>
+                        </div>
+                    </${cardTag}>`;
+            };
+
+            const renderGuides = (searchTerm = '') => {
+                const normalizedSearchTerm = searchTerm.toLowerCase().trim();
+                const filteredGuides = guidesData.filter(guide => {
+                    const title = translations[guide.titleKey][currentLanguage].toLowerCase();
+                    return title.includes(normalizedSearchTerm);
+                });
+
+                if (filteredGuides.length > 0) {
+                    guidesContainer.innerHTML = filteredGuides.map(createCardHTML).join('');
+                    guidesContainer.hidden = false;
+                    noResultsMessage.hidden = true;
+                } else {
+                    guidesContainer.hidden = true;
+                    noResultsMessage.hidden = false;
+                }
+            };
+
+            const setLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                localStorage.setItem('language', lang);
+
+                document.querySelectorAll('[data-lang-key]').forEach(element => {
+                    const key = element.getAttribute('data-lang-key');
+                    if (translations[key] && translations[key][lang]) {
+                        element.innerHTML = translations[key][lang];
+                    }
+                });
+                
+                // Update placeholder text for search input
+                const placeholderKey = searchInput.getAttribute('data-lang-placeholder');
+                 if (placeholderKey && translations[placeholderKey] && translations[placeholderKey][lang]) {
+                    searchInput.placeholder = translations[placeholderKey][lang];
+                }
+
+                document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                
+                renderGuides(searchInput.value); // Re-render guides with new language
+            };
+            
+            searchInput.addEventListener('input', (e) => {
+                renderGuides(e.target.value);
+            });
+
+            const langIdButton = document.getElementById('lang-id');
+            const langEnButton = document.getElementById('lang-en');
+            langIdButton.addEventListener('click', () => setLanguage('id'));
+            langEnButton.addEventListener('click', () => setLanguage('en'));
+            
+            // Initial Load
+            setLanguage(currentLanguage);
+        });
+    </script>
+</body>
+</html>

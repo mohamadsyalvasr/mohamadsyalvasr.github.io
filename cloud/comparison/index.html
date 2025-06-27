@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perbandingan Head-to-Head Cloud Compute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .provider-logo {
+            width: 24px;
+            height: 24px;
+        }
+        th {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        /* Custom border colors for branding */
+        .aws-border {
+            border-left: 4px solid #FF9900;
+        }
+        .azure-border {
+            border-left: 4px solid #0078D4;
+        }
+        .gcp-border {
+            border-left: 4px solid #4285F4;
+        }
+        tr:nth-child(even) {
+            background-color: #fdfdfe;
+        }
+        .collapsible-header {
+            cursor: pointer;
+            background-color: #f1f5f9;
+        }
+        .collapsible-header:hover {
+            background-color: #e2e8f0;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .arrow {
+            transition: transform 0.3s ease-out;
+        }
+        .arrow.rotated {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-2">Perbandingan Cloud Compute</h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">Perbandingan spesifikasi Virtual Machine (VM) head-to-head antara AWS, Microsoft Azure, dan Google Cloud Platform.</p>
+        </header>
+
+        <main>
+            <!-- Panduan Penggunaan -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-r-lg mb-10">
+                <h3 class="font-bold">Cara Membaca Tabel</h3>
+                <p class="mt-1 text-sm">Tabel di bawah ini membandingkan seri VM dari setiap provider berdasarkan kasus penggunaan umum. Perlu diingat bahwa ini adalah padanan terdekat; performa bisa bervariasi karena perbedaan arsitektur dasar, jenis penyimpanan, dan jaringan. Harga tidak disertakan karena sangat bervariasi berdasarkan wilayah, model reservasi, dan waktu.</p>
+                <p class="mt-2 text-sm">Klik pada judul setiap kategori untuk membuka atau menutup tabel perbandingan.</p>
+            </div>
+
+
+            <!-- Kategori: General Purpose - Burstable (T-series, B-series, E2-series) -->
+            <div class="bg-white rounded-xl shadow-lg mb-8">
+                <div id="header-burstable" class="collapsible-header flex justify-between items-center p-4 md:p-6 rounded-t-xl">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">General Purpose - Burstable</h2>
+                        <p class="text-slate-500 text-sm md:text-base">Ideal untuk beban kerja dengan lonjakan CPU tak terduga, seperti server web traffic rendah, atau lingkungan development.</p>
+                    </div>
+                    <div class="arrow text-2xl text-slate-500">▶</div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-slate-500">
+                            <thead class="text-xs text-slate-700 uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Spesifikasi</th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo" class="provider-logo mr-2">AWS (EC2)
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg" alt="Azure Logo" class="provider-logo mr-2">Azure VM
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="GCP Logo" class="provider-logo mr-2">GCP (Compute Engine)
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-slate-900">Seri Utama</td>
+                                    <td class="px-6 py-4">T3 / T4g</td>
+                                    <td class="px-6 py-4">B-series (e.g., B2s)</td>
+                                    <td class="px-6 py-4">E2-series</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Contoh Konfigurasi (2 vCPU, 8 GB RAM)</td>
+                                     <td class="px-6 py-4">t3.large</td>
+                                     <td class="px-6 py-4">Standard_B2s</td>
+                                     <td class="px-6 py-4">e2-standard-2</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Mekanisme Burst</td>
+                                     <td class="px-6 py-4">CPU Credits</td>
+                                     <td class="px-6 py-4">CPU Credits</td>
+                                     <td class="px-6 py-4">Performa dasar dengan burst singkat yang diizinkan</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kategori: General Purpose - Balanced (M-series, D-series, N-series) -->
+            <div class="bg-white rounded-xl shadow-lg mb-8">
+                 <div id="header-balanced" class="collapsible-header flex justify-between items-center p-4 md:p-6 rounded-t-xl">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">General Purpose - Balanced</h2>
+                        <p class="text-slate-500 text-sm md:text-base">Pilihan paling seimbang antara CPU dan Memori. Cocok untuk sebagian besar aplikasi, seperti database kecil-menengah dan server aplikasi.</p>
+                    </div>
+                     <div class="arrow text-2xl text-slate-500">▶</div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-slate-500">
+                             <thead class="text-xs text-slate-700 uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Spesifikasi</th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo" class="provider-logo mr-2">AWS (EC2)
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg" alt="Azure Logo" class="provider-logo mr-2">Azure VM
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="GCP Logo" class="provider-logo mr-2">GCP (Compute Engine)
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-slate-900">Seri Utama</td>
+                                    <td class="px-6 py-4">M5 / M6g</td>
+                                    <td class="px-6 py-4">D-series (e.g., Dsv5)</td>
+                                    <td class="px-6 py-4">N2 / N2D-series</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Contoh Konfigurasi (4 vCPU, 16 GB RAM)</td>
+                                     <td class="px-6 py-4">m5.xlarge</td>
+                                     <td class="px-6 py-4">Standard_D4s_v5</td>
+                                     <td class="px-6 py-4">n2-standard-4</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Rasio CPU:RAM</td>
+                                     <td class="px-6 py-4">1:4</td>
+                                     <td class="px-6 py-4">1:4</td>
+                                     <td class="px-6 py-4">1:4</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kategori: Compute Optimized (C-series, F-series) -->
+            <div class="bg-white rounded-xl shadow-lg mb-8">
+                <div id="header-compute" class="collapsible-header flex justify-between items-center p-4 md:p-6 rounded-t-xl">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Compute Optimized</h2>
+                        <p class="text-slate-500 text-sm md:text-base">Menawarkan vCPU dengan performa tinggi. Terbaik untuk aplikasi yang butuh pemrosesan intensif seperti batch processing, media transcoding, atau web server traffic tinggi.</p>
+                    </div>
+                    <div class="arrow text-2xl text-slate-500">▶</div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-slate-500">
+                             <thead class="text-xs text-slate-700 uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Spesifikasi</th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo" class="provider-logo mr-2">AWS (EC2)
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg" alt="Azure Logo" class="provider-logo mr-2">Azure VM
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="GCP Logo" class="provider-logo mr-2">GCP (Compute Engine)
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-slate-900">Seri Utama</td>
+                                    <td class="px-6 py-4">C5 / C6g</td>
+                                    <td class="px-6 py-4">F-series (e.g., Fsv2)</td>
+                                    <td class="px-6 py-4">C2 / C3-series</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Contoh Konfigurasi (4 vCPU, 8 GB RAM)</td>
+                                     <td class="px-6 py-4">c5.xlarge</td>
+                                     <td class="px-6 py-4">Standard_F4s_v2</td>
+                                     <td class="px-6 py-4">c2-standard-4</td>
+                                </tr>
+                                 <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Rasio CPU:RAM</td>
+                                     <td class="px-6 py-4">1:2</td>
+                                     <td class="px-6 py-4">1:2</td>
+                                     <td class="px-6 py-4">1:4 (C2) / 1:2 (C3)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kategori: Memory Optimized (R-series, E-series, M-series) -->
+            <div class="bg-white rounded-xl shadow-lg mb-8">
+                <div id="header-memory" class="collapsible-header flex justify-between items-center p-4 md:p-6 rounded-t-xl">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Memory Optimized</h2>
+                        <p class="text-slate-500 text-sm md:text-base">Dirancang untuk beban kerja yang memproses data besar di memori. Contoh: database in-memory, atau analisis big data.</p>
+                    </div>
+                    <div class="arrow text-2xl text-slate-500">▶</div>
+                </div>
+                <div class="collapsible-content">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-slate-500">
+                             <thead class="text-xs text-slate-700 uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Spesifikasi</th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo" class="provider-logo mr-2">AWS (EC2)
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg" alt="Azure Logo" class="provider-logo mr-2">Azure VM
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="GCP Logo" class="provider-logo mr-2">GCP (Compute Engine)
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-slate-900">Seri Utama</td>
+                                    <td class="px-6 py-4">R5 / R6g</td>
+                                    <td class="px-6 py-4">E-series (e.g., Esv5)</td>
+                                    <td class="px-6 py-4">M1 / M2 / M3-series</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Contoh Konfigurasi (4 vCPU, 32 GB RAM)</td>
+                                     <td class="px-6 py-4">r5.xlarge</td>
+                                     <td class="px-6 py-4">Standard_E4s_v5</td>
+                                     <td class="px-6 py-4">m3-ultramem-8 (2 vCPU, 60GB) atau custom</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                     <td class="px-6 py-4 font-medium text-slate-900">Rasio CPU:RAM</td>
+                                     <td class="px-6 py-4">1:8</td>
+                                     <td class="px-6 py-4">1:8</td>
+                                     <td class="px-6 py-4">Bervariasi (mulai dari 1:8 hingga 1:30+)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-12 text-sm text-slate-500">
+            <p>&copy; 2024. Informasi dikumpulkan dari dokumentasi publik masing-masing cloud provider. Logo adalah merek dagang dari pemiliknya masing-masing.</p>
+        </footer>
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Membuat semua kategori collapsible secara default
+            const allHeaders = document.querySelectorAll('.collapsible-header');
+            
+            // Buka kategori pertama secara default
+            const firstHeader = allHeaders[0];
+            if (firstHeader) {
+                const firstContent = firstHeader.nextElementSibling;
+                const firstArrow = firstHeader.querySelector('.arrow');
+                firstContent.style.maxHeight = firstContent.scrollHeight + "px";
+                firstArrow.classList.add('rotated');
+            }
+
+            allHeaders.forEach(header => {
+                header.addEventListener('click', function () {
+                    const content = this.nextElementSibling;
+                    const arrow = this.querySelector('.arrow');
+                    
+                    if (content.style.maxHeight) {
+                        // Collapse
+                        content.style.maxHeight = null;
+                        arrow.classList.remove('rotated');
+                    } else {
+                        // Expand
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        arrow.classList.add('rotated');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

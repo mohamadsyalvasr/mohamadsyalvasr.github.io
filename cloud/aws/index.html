@@ -22,26 +22,57 @@
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         .lang-switcher button.active {
-            background-color: #4f46e5; /* indigo-600 */
+            background-color: #f59e0b; /* indigo-600 */
             color: white;
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="container mx-auto px-6 py-12 md:py-20">
-        
-        <header class="relative text-center mb-16">
-            <a href="/cloud/" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-teal-600 transition-colors duration-200">
-                <span class="text-2xl">&larr;</span>
-                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
-             </a>
-            <div class="lang-switcher absolute top-0 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
-                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
-                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <!-- Breadcrumb di dalam Header -->
+            <nav aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex items-center text-sm">
+                    <li>
+                        <a href="/cloud/" class="flex items-center text-slate-600 hover:text-amber-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li><span class="mx-2 text-slate-300">/</span></li>
+                    <li><a href="/cloud/aws/" class="font-semibold text-slate-600 hover:text-amber-600">AWS</a></li>
+                </ol>
+            </nav>
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
+                    <!-- Tautan akan dibuat oleh JavaScript -->
+                </nav>
+                
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
             </div>
-            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0">Panduan Interaktif Layanan AWS</h1>
-            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Jelajahi, bandingkan, dan temukan layanan AWS yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.</p>
+        </div>
+        <div id="mobile-nav" class="hidden md:hidden border-t border-slate-200">
+            <nav class="px-2 pt-2 pb-4 space-y-1 sm:px-3">
+                 <!-- Tautan akan dibuat oleh JavaScript -->
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-12 md:py-20">
+        <header class="text-center mb-16">
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-3">Panduan Interaktif Layanan AWS</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi, bandingkan, dan temukan layanan AWS yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.</p>
         </header>
 
         <main>
@@ -49,15 +80,13 @@
             <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </main>
 
-         <footer class="text-center mt-20">
+        <footer class="text-center mt-20">
             <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
         </footer>
-
     </div>
+
     <script>
         // --- DATA SOURCE ---
-        // Semua data untuk kartu dan terjemahan sekarang ada di sini.
-        
         const translations = {
             mainTitle: { id: "Panduan Interaktif Layanan AWS", en: "Interactive AWS Service Guides" },
             mainSubtitle: { id: "Jelajahi, bandingkan, dan temukan layanan AWS yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.", en: "Explore, compare, and find the right AWS services for your needs through curated visual guides." },
@@ -80,10 +109,10 @@
         };
 
         const guidesData = [
-            { id: 'compute', status: 'active', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonColorClass: 'bg-amber-600', href: './compute/' },
-            { id: 'storage', status: 'active', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonColorClass: 'bg-green-500', href: './storage/' },
-            { id: 'database', status: 'active', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonColorClass: 'bg-blue-700', href: './database/' },
-            { id: 'aiml', status: 'coming-soon', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc' },
+            { id: 'compute', status: 'active', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonColorClass: 'bg-amber-600', href: './svc?data=compute' },
+            { id: 'storage', status: 'active', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonColorClass: 'bg-green-500', href: './svc?data=storage' },
+            { id: 'database', status: 'active', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonColorClass: 'bg-blue-700', href: './svc?data=database' },
+            { id: 'aiml', status: 'active', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc', buttonColorClass: 'bg-blue-700', href: './svc?data=aiml' },
             { id: 'analytics', status: 'coming-soon', emoji: '📊', titleKey: 'analyticsTitle', descriptionKey: 'analyticsDesc' },
             { id: 'security', status: 'coming-soon', emoji: '🛡️', titleKey: 'securityTitle', descriptionKey: 'securityDesc' },
         ];
@@ -149,7 +178,7 @@
             langIdButton.addEventListener('click', () => setLanguage('id'));
             langEnButton.addEventListener('click', () => setLanguage('en'));
 
-            const preferredLanguage = localStorage.getItem('language') || 'id';
+            const preferredLanguage = localStorage.getItem('language') || 'en';
             setLanguage(preferredLanguage);
         });
     </script>

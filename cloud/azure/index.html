@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Utama - Panduan Interaktif Microsoft Azure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* A slightly bluer slate-100 */
+            color: #1e293b; /* slate-800 */
+        }
+        .guide-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .guide-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .lang-switcher button.active {
+            background-color: #0078d4; /* Azure's primary blue */
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-6 py-12 md:py-20">
+        
+        <header class="relative text-center mb-16">
+            <a href="/cloud/" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-blue-600 transition-colors duration-200">
+                <span class="text-2xl">&larr;</span>
+                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
+            </a>
+            <div class="lang-switcher absolute top-0 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
+                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            </div>
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0">Panduan Interaktif Layanan Microsoft Azure</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Jelajahi, bandingkan, dan temukan layanan Azure yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.</p>
+        </header>
+
+        <main>
+            <!-- This container will be dynamically filled by JavaScript -->
+            <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </main>
+
+        <footer class="text-center mt-20">
+            <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
+        </footer>
+
+    </div>
+    <script>
+        // --- DATA SOURCE ---
+        // All data for cards and translations is now here.
+        
+        const translations = {
+            mainTitle: { id: "Panduan Interaktif Layanan Microsoft Azure", en: "Interactive Microsoft Azure Service Guides" },
+            mainSubtitle: { id: "Jelajahi, bandingkan, dan temukan layanan Azure yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.", en: "Explore, compare, and find the right Azure services for your needs through curated visual guides." },
+            homeButton: { id: "Halaman Utama", en: "Home Page" },
+            
+            computeTitle: { id: "Azure Compute", en: "Azure Compute" },
+            computeDesc: { id: "Jelajahi spektrum layanan komputasi, dari Azure Virtual Machines hingga Azure Functions yang serverless.", en: "Explore the spectrum of compute services, from Azure Virtual Machines to serverless Azure Functions." },
+            
+            storageTitle: { id: "Azure Storage", en: "Azure Storage" },
+            storageDesc: { id: "Temukan solusi penyimpanan yang tepat, dari Blob Storage, Disk Storage, hingga Azure Files untuk semua jenis data.", en: "Find the right storage solution, from Blob Storage and Disk Storage to Azure Files for all data types." },
+            
+            aimlTitle: { id: "Azure AI & Machine Learning", en: "Azure AI & Machine Learning" },
+            aimlDesc: { id: "Pahami tumpukan layanan AI, dari Azure Cognitive Services hingga platform Azure Machine Learning.", en: "Understand the AI stack, from ready-to-use Azure Cognitive Services to the Azure Machine Learning platform." },
+            
+            analyticsTitle: { id: "Azure Analytics", en: "Azure Analytics" },
+            analyticsDesc: { id: "Ubah data mentah menjadi wawasan berharga dengan Azure Synapse Analytics, dari streaming hingga BI.", en: "Turn raw data into valuable insights with Azure Synapse Analytics, from streaming to BI." },
+            
+            databaseTitle: { id: "Azure Database", en: "Azure Database" },
+            databaseDesc: { id: "Jelajahi database yang dibuat khusus, dari Azure SQL yang relasional hingga Cosmos DB yang NoSQL.", en: "Explore purpose-built databases, from relational Azure SQL to NoSQL Cosmos DB for all your application needs." },
+            
+            securityTitle: { id: "Azure Security", en: "Azure Security" },
+            securityDesc: { id: "Amankan cloud Anda dengan Microsoft Defender for Cloud, Microsoft Entra ID, dan layanan keamanan lainnya.", en: "Secure your cloud with Microsoft Defender for Cloud, Microsoft Entra ID, and other security services." },
+            
+            exploreButton: { id: "Jelajahi Sekarang", en: "Explore Now" },
+            comingSoonButton: { id: "Segera Hadir", en: "Coming Soon" },
+            footer: { id: "&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ dan sedikit caffeine ☕️ untuk para cloud explorer di mana pun berada. <br>Semua logo dan merek dagang adalah milik pemiliknya masing-masing—kami hanya ingin bantu menjelaskan, bukan mewakili.", en: "&copy; 2025 Interactive Cloud Guides. Compiled with ❤️, curiosity, and a touch of caffeine ☕️ for cloud explorers everywhere. <br>All trademarks and logos belong to their respective owners — we're just here to decode the cloud, not represent the giants." }
+        };
+
+        const guidesData = [
+            { id: 'compute', status: 'active', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonColorClass: 'bg-blue-600', href: './compute/' },
+            { id: 'storage', status: 'active', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonColorClass: 'bg-sky-500', href: './storage/' },
+            { id: 'database', status: 'active', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonColorClass: 'bg-indigo-700', href: './database/' },
+            { id: 'aiml', status: 'coming-soon', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc' },
+            { id: 'analytics', status: 'coming-soon', emoji: '📊', titleKey: 'analyticsTitle', descriptionKey: 'analyticsDesc' },
+            { id: 'security', status: 'coming-soon', emoji: '🛡️', titleKey: 'securityTitle', descriptionKey: 'securityDesc' },
+        ];
+
+        // --- DYNAMIC RENDERING LOGIC ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const guidesContainer = document.getElementById('guides');
+            
+            // Function to create the HTML for a single card
+            const createCardHTML = (guide) => {
+                const isComingSoon = guide.status === 'coming-soon';
+
+                const cardTag = isComingSoon ? 'div' : 'a';
+                const cardHref = isComingSoon ? '' : `href="${guide.href}"`;
+                const cardClasses = isComingSoon 
+                    ? 'flex flex-col bg-white p-8 rounded-xl shadow-md opacity-60 cursor-not-allowed'
+                    : `guide-card flex flex-col bg-white p-8 rounded-xl shadow-md`;
+                
+                const buttonKey = isComingSoon ? 'comingSoonButton' : 'exploreButton';
+                const buttonColor = isComingSoon ? 'bg-slate-400' : guide.buttonColorClass;
+
+                return `
+                    <${cardTag} ${cardHref} class="${cardClasses}">
+                        <div class="flex-grow">
+                            <span class="text-5xl">${guide.emoji}</span>
+                            <h2 data-lang-key="${guide.titleKey}" class="text-2xl font-bold mt-4 text-slate-800"></h2>
+                            <p data-lang-key="${guide.descriptionKey}" class="text-slate-500 mt-2"></p>
+                        </div>
+                        <div class="mt-6">
+                            <div data-lang-key="${buttonKey}" class="inline-block font-semibold text-white ${buttonColor} px-4 py-2 rounded-lg">
+                            </div>
+                        </div>
+                    </${cardTag}>
+                `;
+            };
+
+            // Generate all cards and insert them into the container
+            guidesContainer.innerHTML = guidesData.map(createCardHTML).join('');
+
+            // --- LANGUAGE SWITCHER LOGIC ---
+            
+            // Function to apply translations to the page
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                localStorage.setItem('language', lang);
+
+                document.querySelectorAll('[data-lang-key]').forEach(element => {
+                    const key = element.getAttribute('data-lang-key');
+                    if (translations[key] && translations[key][lang]) {
+                        element.innerHTML = translations[key][lang];
+                    }
+                });
+
+                document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            };
+            
+            // Initialize buttons and set the initial language
+            const langIdButton = document.getElementById('lang-id');
+            const langEnButton = document.getElementById('lang-en');
+
+            langIdButton.addEventListener('click', () => setLanguage('id'));
+            langEnButton.addEventListener('click', () => setLanguage('en'));
+
+            const preferredLanguage = localStorage.getItem('language') || 'id';
+            setLanguage(preferredLanguage);
+        });
+    </script>
+</body>
+</html>

@@ -16,7 +16,7 @@
         }
         .card-base {
             transition: all 0.3s ease-in-out;
-            border: 2px solid transparent;
+            border: 2px solid transparent; /* Border default transparan */
             display: flex;
             flex-direction: column;
             background-color: white;
@@ -27,9 +27,10 @@
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-        .provider-card.active-card:hover {
-            border-color: #f97316; /* orange-500 */
-        }
+        /* CSS rule di bawah ini tidak lagi diperlukan karena kita akan menggunakan inline style dari JS */
+        /* .provider-card.active-card:hover {
+            border-color: #f97316; 
+        } */
         .provider-card.inactive-card {
             filter: grayscale(80%);
             cursor: not-allowed;
@@ -64,13 +65,46 @@
 </head>
 <body class="antialiased">
 
-    <div class="container mx-auto px-6 py-12 md:py-20">
-        
-        <header class="relative text-center mb-16">
-            <div class="lang-switcher absolute top-0 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
-                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
-                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <!-- Breadcrumb di dalam Header -->
+            <nav aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex items-center text-sm">
+                    <li>
+                        <a href="/cloud/" class="flex items-center text-slate-600 hover:text-amber-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                            </svg>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
+                    <!-- Tautan akan dibuat oleh JavaScript -->
+                </nav>
+                
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
             </div>
+        </div>
+        <div id="mobile-nav" class="hidden md:hidden border-t border-slate-200">
+            <nav class="px-2 pt-2 pb-4 space-y-1 sm:px-3">
+                 <!-- Tautan akan dibuat oleh JavaScript -->
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-12 md:py-20">
+        <header class="relative text-center mb-16">
             <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0">Panduan Cloud Interaktif</h1>
             <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Pilih penyedia cloud untuk memulai perjalanan Anda dalam menjelajahi layanan-layanan cloud terkemuka.</p>
             
@@ -142,6 +176,7 @@
             providersToRender.forEach(provider => {
                 const title = translations[provider.titleKey]?.[lang] || provider.titleKey;
                 const description = translations[provider.descKey]?.[lang] || provider.descKey;
+                const themeColor = provider.themeColor || '#f97316'; // Fallback ke warna oranye
                 
                 const cardContent = `
                     <div class="flex-grow">
@@ -152,10 +187,21 @@
                 `;
 
                 if (provider.status === 'active') {
+                    // --- PERUBAHAN DI SINI ---
+                    // 1. Menambahkan event onmouseover dan onmouseout untuk mengubah warna border.
+                    // 2. Menggunakan inline style untuk background-color pada tombol.
                     guidesContainer.innerHTML += `
-                        <a href="${provider.link}" class="card-base provider-card active-card p-8">
+                        <a href="${provider.link}" 
+                           class="card-base provider-card active-card p-8"
+                           onmouseover="this.style.borderColor='${themeColor}'"
+                           onmouseout="this.style.borderColor='transparent'">
                             ${cardContent}
-                            <div class="mt-6"><div class="inline-block font-semibold text-white bg-orange-500 px-4 py-2 rounded-lg">${translations.exploreButton[lang]}</div></div>
+                            <div class="mt-6">
+                               <div class="inline-block font-semibold text-white px-4 py-2 rounded-lg" 
+                                    style="background-color: ${themeColor};">
+                                    ${translations.exploreButton[lang]}
+                               </div>
+                            </div>
                         </a>`;
                 } else {
                     guidesContainer.innerHTML += `
@@ -279,10 +325,11 @@
             const guidesContainer = document.getElementById('guides');
             const ebooksContainer = document.getElementById('ebooks');
             try {
+                // Pastikan path ke file JSON sudah benar
                 const [providersResponse, translationsResponse, ebooksResponse] = await Promise.all([
-                    fetch('./providers-data.json'),
-                    fetch('./translations.json'),
-                    fetch('./ebooks-data.json') 
+                    fetch('/cloud/providers-data.json'), // Menggunakan path relatif
+                    fetch('/cloud/translations.json'),
+                    fetch('/cloud/ebooks-data.json') 
                 ]);
 
                 if (!providersResponse.ok || !translationsResponse.ok || !ebooksResponse.ok) {

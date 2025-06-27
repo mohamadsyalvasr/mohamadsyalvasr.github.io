@@ -1,0 +1,1384 @@
+{
+  "pageData": {
+    "theme": {
+      "primary": "#388372",
+      "primaryDark": "#388372",
+      "primaryLight": "#4fb79f",
+      "secondary": "#6c757d",
+      "textOnPrimary": "#ffffff"
+    },
+    "chartConfig": {
+      "labels": {
+        "id": [
+          "Kemudahan Penggunaan",
+          "Kustomisasi",
+          "Tingkat Abstraksi"
+        ],
+        "en": [
+          "Ease of Use",
+          "Customization",
+          "Abstraction Level"
+        ]
+      },
+      "keys": [
+        "easeOfUse",
+        "customization",
+        "abstraction"
+      ]
+    },
+    "navigation": [
+      {
+        "id": "nav-categories",
+        "langKey": "navCategories",
+        "href": "#category-nav-section"
+      },
+      {
+        "id": "nav-finder",
+        "langKey": "navFinder",
+        "href": "#decision-tool"
+      },
+      {
+        "id": "nav-comparison",
+        "langKey": "navComparison",
+        "href": "#comparison-chart-section"
+      }
+    ],
+    "decisionFilters": [
+      {
+        "titleLangKey": "filter1Title",
+        "options": [
+          {
+            "filter": "vision",
+            "langKey": "filterVision"
+          },
+          {
+            "filter": "language",
+            "langKey": "filterLanguage"
+          },
+          {
+            "filter": "gen-ai",
+            "langKey": "filterGenAI"
+          },
+          {
+            "filter": "build",
+            "langKey": "filterBuild"
+          },
+          {
+            "filter": "devops",
+            "langKey": "filterDevOps"
+          }
+        ]
+      },
+      {
+        "titleLangKey": "filter2Title",
+        "options": [
+          {
+            "filter": "developer",
+            "langKey": "filterDeveloper"
+          },
+          {
+            "filter": "data-scientist",
+            "langKey": "filterDataScientist"
+          },
+          {
+            "filter": "expert",
+            "langKey": "filterExpert"
+          }
+        ]
+      }
+    ],
+    "categories": {
+      "ai_services": {
+        "title": {
+          "id": "Layanan AI",
+          "en": "AI Services"
+        },
+        "description": {
+          "id": "Tambahkan kecerdasan ke aplikasi melalui API, tanpa keahlian ML.",
+          "en": "Add intelligence to apps via APIs, with no ML expertise needed."
+        },
+        "icon": "✨",
+        "services": [
+          "q",
+          "rekognition",
+          "comprehend",
+          "comprehend-medical",
+          "textract",
+          "transcribe",
+          "polly",
+          "translate",
+          "lex",
+          "kendra",
+          "forecast",
+          "fraud-detector",
+          "personalize",
+          "codeguru",
+          "codewhisperer",
+          "lookout-vision",
+          "lookout-equipment",
+          "lookout-metrics",
+          "monitron",
+          "panorama",
+          "healthlake",
+          "omics"
+        ]
+      },
+      "ml_platforms": {
+        "title": {
+          "id": "Platform ML",
+          "en": "ML Platforms"
+        },
+        "description": {
+          "id": "Alat untuk membangun, melatih, dan men-deploy model ML kustom.",
+          "en": "Tools to build, train, and deploy custom ML models."
+        },
+        "icon": "🛠️",
+        "services": [
+          "sagemaker",
+          "bedrock",
+          "sagemaker-ground-truth",
+          "sagemaker-studio-lab",
+          "a2i",
+          "devops-guru"
+        ]
+      },
+      "infra": {
+        "title": {
+          "id": "Infrastruktur & Kerangka Kerja",
+          "en": "Infrastructure & Frameworks"
+        },
+        "description": {
+          "id": "Untuk para ahli yang membutuhkan kendali penuh atas perangkat keras dan kerangka kerja.",
+          "en": "For experts needing full control over hardware and frameworks."
+        },
+        "icon": "⚙️",
+        "services": [
+          "dl-amis",
+          "dl-containers",
+          "elastic-inference",
+          "neuron",
+          "tensorflow-on-aws",
+          "pytorch-on-aws",
+          "mxnet-on-aws"
+        ]
+      },
+      "learning": {
+        "title": {
+          "id": "Alat Pembelajaran ML",
+          "en": "ML Learning Tools"
+        },
+        "description": {
+          "id": "Perangkat keras dan layanan yang dirancang untuk pembelajaran langsung.",
+          "en": "Hardware and services designed for hands-on learning."
+        },
+        "icon": "🎓",
+        "services": [
+          "deepracer",
+          "deeplens",
+          "deepcomposer"
+        ]
+      }
+    },
+    "services": {
+      "q": {
+        "title": "Amazon Q",
+        "icon": "official/Architecture-Service-Icons_02072025/Arch_Artificial-Intelligence/64/Arch_Amazon-Q_64.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Asisten AI generatif untuk bisnis dan developer.",
+            "en": "A generative AI-powered assistant for businesses and developers."
+          },
+          "Use Case": {
+            "id": "Menjawab pertanyaan, menghasilkan konten, dan mengambil tindakan berdasarkan data perusahaan.",
+            "en": "Answering questions, generating content, and taking actions based on company data."
+          },
+          "Pricing": {
+            "id": "Model berlangganan per pengguna per bulan.",
+            "en": "Per-user per-month subscription model."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 5,
+          "abstraction": 9
+        },
+        "tags": [
+          "gen-ai",
+          "language",
+          "developer"
+        ]
+      },
+      "rekognition": {
+        "title": "Rekognition",
+        "icon": "aiml/Rekognition.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Analisis gambar dan video otomatis.",
+            "en": "Automated image and video analysis."
+          },
+          "Use Case": {
+            "id": "Moderasi konten, deteksi wajah, dan analisis objek.",
+            "en": "Content moderation, facial detection, and object analysis."
+          },
+          "Pricing": {
+            "id": "Bayar per gambar atau menit video yang diproses.",
+            "en": "Pay per image or minute of video processed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "customization": 2,
+          "abstraction": 9
+        },
+        "tags": [
+          "vision",
+          "developer"
+        ]
+      },
+      "comprehend": {
+        "title": "Comprehend",
+        "icon": "aiml/Comprehend.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Temukan wawasan dan hubungan dalam teks.",
+            "en": "Discover insights and relationships in text."
+          },
+          "Use Case": {
+            "id": "Analisis sentimen, ekstraksi entitas, dan pemodelan topik.",
+            "en": "Sentiment analysis, entity extraction, and topic modeling."
+          },
+          "Pricing": {
+            "id": "Bayar per 100 karakter yang dianalisis.",
+            "en": "Pay per 100 characters analyzed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 4,
+          "abstraction": 9
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "comprehend-medical": {
+        "title": "Comprehend Medical",
+        "icon": "aiml/Comprehend-Medical.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Ekstrak informasi kesehatan dari teks medis.",
+            "en": "Extract health information from medical text."
+          },
+          "Use Case": {
+            "id": "Analisis catatan dokter, manajemen uji klinis.",
+            "en": "Analyzing doctor’s notes, clinical trial management."
+          },
+          "Pricing": {
+            "id": "Bayar per 100 karakter yang dianalisis.",
+            "en": "Pay per 100 characters analyzed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 4,
+          "abstraction": 9
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "textract": {
+        "title": "Textract",
+        "icon": "aiml/Textract.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Ekstrak teks, tulisan tangan, dan data dari dokumen.",
+            "en": "Extract text, handwriting, and data from documents."
+          },
+          "Use Case": {
+            "id": "Otomatisasi pemrosesan faktur dan formulir.",
+            "en": "Automating invoice and form processing."
+          },
+          "Pricing": {
+            "id": "Bayar per halaman yang diproses.",
+            "en": "Pay per page processed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 2,
+          "abstraction": 9
+        },
+        "tags": [
+          "language",
+          "vision",
+          "developer"
+        ]
+      },
+      "transcribe": {
+        "title": "Transcribe",
+        "icon": "aiml/Transcribe.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Ubah ucapan menjadi teks (ASR).",
+            "en": "Convert speech to text (ASR)."
+          },
+          "Use Case": {
+            "id": "Transkripsi panggilan pelanggan, membuat subtitle video.",
+            "en": "Transcribing customer calls, creating video subtitles."
+          },
+          "Pricing": {
+            "id": "Bayar per detik audio yang ditranskripsikan.",
+            "en": "Pay per second of audio transcribed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 5,
+          "abstraction": 8
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "polly": {
+        "title": "Polly",
+        "icon": "aiml/Polly.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Ubah teks menjadi ucapan yang alami (TTS).",
+            "en": "Turn text into lifelike speech (TTS)."
+          },
+          "Use Case": {
+            "id": "Membuat konten audio, sistem respons suara.",
+            "en": "Creating audio content, voice response systems."
+          },
+          "Pricing": {
+            "id": "Bayar per jumlah karakter yang dikonversi.",
+            "en": "Pay per number of characters converted."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "customization": 3,
+          "abstraction": 10
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "translate": {
+        "title": "Translate",
+        "icon": "aiml/Translate.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Terjemahan bahasa yang cepat dan berkualitas tinggi.",
+            "en": "Fast, high-quality language translation."
+          },
+          "Use Case": {
+            "id": "Melokalkan situs web, menerjemahkan ulasan pengguna.",
+            "en": "Localizing websites, translating user reviews."
+          },
+          "Pricing": {
+            "id": "Bayar per jumlah karakter yang diterjemahkan.",
+            "en": "Pay per number of characters translated."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "customization": 4,
+          "abstraction": 9
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "lex": {
+        "title": "Lex",
+        "icon": "aiml/Lex.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Membangun chatbot dan antarmuka percakapan.",
+            "en": "Build chatbots and conversational interfaces."
+          },
+          "Use Case": {
+            "id": "Bot layanan pelanggan, bot pemesanan, asisten suara.",
+            "en": "Customer service bots, booking bots, voice assistants."
+          },
+          "Pricing": {
+            "id": "Bayar per permintaan ucapan atau teks yang diproses.",
+            "en": "Pay per speech or text request processed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 6,
+          "abstraction": 8
+        },
+        "tags": [
+          "language",
+          "gen-ai",
+          "developer"
+        ]
+      },
+      "kendra": {
+        "title": "Kendra",
+        "icon": "aiml/Kendra.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Pencarian cerdas bertenaga ML untuk perusahaan.",
+            "en": "Intelligent enterprise search powered by ML."
+          },
+          "Use Case": {
+            "id": "Membuat FAQ internal yang dapat dicari, pencarian dokumen.",
+            "en": "Creating searchable internal FAQs, document search."
+          },
+          "Pricing": {
+            "id": "Bayar per jam untuk setiap instans Kendra.",
+            "en": "Pay per hour for each Kendra instance."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 5,
+          "abstraction": 8
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "forecast": {
+        "title": "Forecast",
+        "icon": "aiml/Forecast.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Peramalan deret waktu yang akurat.",
+            "en": "Accurate time-series forecasting."
+          },
+          "Use Case": {
+            "id": "Memprediksi permintaan produk, perencanaan keuangan.",
+            "en": "Predicting product demand, financial planning."
+          },
+          "Pricing": {
+            "id": "Bayar per ramalan yang dihasilkan dan data yang disimpan.",
+            "en": "Pay per forecast generated and data stored."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 6,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "data-scientist"
+        ]
+      },
+      "fraud-detector": {
+        "title": "Fraud Detector",
+        "icon": "aiml/Fraud-Detector.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Deteksi penipuan online yang terkelola sepenuhnya.",
+            "en": "Fully managed online fraud detection."
+          },
+          "Use Case": {
+            "id": "Deteksi pembuatan akun palsu, penipuan pembayaran.",
+            "en": "Detecting fake account creation, payment fraud."
+          },
+          "Pricing": {
+            "id": "Bayar per prediksi penipuan, ditambah biaya pelatihan model.",
+            "en": "Pay per fraud prediction, plus model training costs."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 5,
+          "abstraction": 8
+        },
+        "tags": [
+          "build",
+          "developer"
+        ]
+      },
+      "personalize": {
+        "title": "Personalize",
+        "icon": "aiml/Personalize.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Membangun rekomendasi yang dipersonalisasi.",
+            "en": "Build personalized recommendations."
+          },
+          "Use Case": {
+            "id": "Rekomendasi produk, personalisasi konten.",
+            "en": "Product recommendations, content personalization."
+          },
+          "Pricing": {
+            "id": "Bayar untuk data yang diproses, pelatihan, dan permintaan rekomendasi.",
+            "en": "Pay for data processed, training, and recommendation requests."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 7,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "developer"
+        ]
+      },
+      "codeguru": {
+        "title": "CodeGuru",
+        "icon": "aiml/CodeGuru.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Rekomendasi cerdas untuk meningkatkan kualitas kode.",
+            "en": "Intelligent recommendations to improve code quality."
+          },
+          "Use Case": {
+            "id": "Tinjauan kode otomatis, pemrofilan kinerja aplikasi.",
+            "en": "Automated code reviews, application performance profiling."
+          },
+          "Pricing": {
+            "id": "Berdasarkan baris kode yang dianalisis.",
+            "en": "Based on lines of code analyzed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 1,
+          "abstraction": 8
+        },
+        "tags": [
+          "devops",
+          "developer"
+        ]
+      },
+      "codewhisperer": {
+        "title": "CodeWhisperer",
+        "icon": "aiml/CodeWhisperer.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Pendamping pengkodean AI, menghasilkan saran kode.",
+            "en": "An AI coding companion, generates code suggestions."
+          },
+          "Use Case": {
+            "id": "Mempercepat pengembangan di IDE seperti VS Code.",
+            "en": "Accelerating development in IDEs like VS Code."
+          },
+          "Pricing": {
+            "id": "Gratis untuk individu; tingkat berbayar untuk penggunaan profesional.",
+            "en": "Free for individuals; paid tier for professional use."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "customization": 2,
+          "abstraction": 9
+        },
+        "tags": [
+          "devops",
+          "developer"
+        ]
+      },
+      "lookout-vision": {
+        "title": "Lookout for Vision",
+        "icon": "aiml/Lookout-for-Vision.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Temukan cacat pada produk manufaktur menggunakan visi komputer.",
+            "en": "Find defects in manufactured products using computer vision."
+          },
+          "Use Case": {
+            "id": "Kontrol kualitas visual di lini produksi.",
+            "en": "Visual quality control on production lines."
+          },
+          "Pricing": {
+            "id": "Bayar per jam untuk pelatihan dan inferensi.",
+            "en": "Pay per hour for training and inference."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 8,
+          "abstraction": 7
+        },
+        "tags": [
+          "vision",
+          "data-scientist"
+        ]
+      },
+      "lookout-equipment": {
+        "title": "Lookout for Equipment",
+        "icon": "aiml/Lookout-for-Equipment.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Deteksi perilaku abnormal pada peralatan industri.",
+            "en": "Detect abnormal behavior in industrial equipment."
+          },
+          "Use Case": {
+            "id": "Pemeliharaan prediktif untuk mesin pabrik.",
+            "en": "Predictive maintenance for factory machinery."
+          },
+          "Pricing": {
+            "id": "Bayar per model yang digunakan dan data yang dicerna.",
+            "en": "Pay per model used and data ingested."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 7,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "data-scientist"
+        ]
+      },
+      "lookout-metrics": {
+        "title": "Lookout for Metrics",
+        "icon": "aiml/Lookout-for-Metrics.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Deteksi anomali secara otomatis dalam data deret waktu.",
+            "en": "Automatically detect anomalies in time-series data."
+          },
+          "Use Case": {
+            "id": "Memonitor metrik bisnis dan operasional.",
+            "en": "Monitoring business and operational metrics."
+          },
+          "Pricing": {
+            "id": "Bayar per metrik yang dianalisis.",
+            "en": "Pay per metric analyzed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 4,
+          "abstraction": 8
+        },
+        "tags": [
+          "build",
+          "developer"
+        ]
+      },
+      "monitron": {
+        "title": "Monitron",
+        "icon": "aiml/Monitron.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Sistem end-to-end untuk pemeliharaan prediktif.",
+            "en": "An end-to-end system for predictive maintenance."
+          },
+          "Use Case": {
+            "id": "Memonitor kesehatan motor, pompa, dan peralatan berputar lainnya.",
+            "en": "Monitoring the health of motors, pumps, and other rotating equipment."
+          },
+          "Pricing": {
+            "id": "Berdasarkan sensor dan gateway, dengan biaya layanan bulanan.",
+            "en": "Based on sensors and gateways, with a monthly service fee."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 2,
+          "abstraction": 9
+        },
+        "tags": [
+          "build",
+          "developer"
+        ]
+      },
+      "panorama": {
+        "title": "Panorama",
+        "icon": "aiml/Panorama.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Bawa visi komputer ke kamera on-premise Anda.",
+            "en": "Bring computer vision to your on-premises cameras."
+          },
+          "Use Case": {
+            "id": "Analisis keamanan situs, pemantauan kepatuhan keselamatan.",
+            "en": "Site security analysis, safety compliance monitoring."
+          },
+          "Pricing": {
+            "id": "Bayar per perangkat keras dan jam deployment perangkat lunak.",
+            "en": "Pay per hardware appliance and software deployment hours."
+          }
+        },
+        "scores": {
+          "easeOfUse": 6,
+          "customization": 8,
+          "abstraction": 6
+        },
+        "tags": [
+          "vision",
+          "data-scientist"
+        ]
+      },
+      "healthlake": {
+        "title": "HealthLake",
+        "icon": "aiml/HealthLake.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Penyimpanan data kesehatan yang aman dan dapat dianalisis.",
+            "en": "A secure and analyzable health data store."
+          },
+          "Use Case": {
+            "id": "Membuat tampilan kronologis dari riwayat medis pasien.",
+            "en": "Creating a chronological view of a patient’s medical history."
+          },
+          "Pricing": {
+            "id": "Berdasarkan penyimpanan data, permintaan kueri, dan pemrosesan NLP.",
+            "en": "Based on data storage, query requests, and NLP processing."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 3,
+          "abstraction": 8
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "omics": {
+        "title": "Omics",
+        "icon": "aiml/Omics.svg",
+        "parent": "ai_services",
+        "tabs": {
+          "Summary": {
+            "id": "Simpan, kueri, dan analisis data genomik dan biologis lainnya.",
+            "en": "Store, query, and analyze genomic and other biological data."
+          },
+          "Use Case": {
+            "id": "Penelitian genomik, penemuan obat.",
+            "en": "Genomic research, drug discovery."
+          },
+          "Pricing": {
+            "id": "Berdasarkan penyimpanan, analisis, dan permintaan kueri.",
+            "en": "Based on storage, analysis, and query requests."
+          }
+        },
+        "scores": {
+          "easeOfUse": 5,
+          "customization": 7,
+          "abstraction": 6
+        },
+        "tags": [
+          "build",
+          "data-scientist"
+        ]
+      },
+      "sagemaker": {
+        "title": "SageMaker",
+        "icon": "aiml/SageMaker.svg",
+        "parent": "ml_platforms",
+        "tabs": {
+          "Summary": {
+            "id": "Platform terkelola untuk membangun, melatih, dan menyebarkan model ML.",
+            "en": "A managed platform to build, train, and deploy ML models."
+          },
+          "Use Case": {
+            "id": "Seluruh siklus hidup ML, dari persiapan data hingga MLOps.",
+            "en": "The entire ML lifecycle, from data preparation to MLOps."
+          },
+          "Pricing": {
+            "id": "Bayar untuk penggunaan sumber daya (instans, penyimpanan, dll.).",
+            "en": "Pay for resource usage (instances, storage, etc.)."
+          }
+        },
+        "scores": {
+          "easeOfUse": 6,
+          "customization": 9,
+          "abstraction": 6
+        },
+        "tags": [
+          "build",
+          "data-scientist"
+        ]
+      },
+      "bedrock": {
+        "title": "Amazon Bedrock",
+        "icon": "official/Architecture-Service-Icons_02072025/Arch_Artificial-Intelligence/64/Arch_Amazon-Bedrock_64.svg",
+        "parent": "ml_platforms",
+        "tabs": {
+          "Summary": {
+            "id": "Akses model fondasi dari perusahaan AI terkemuka melalui satu API.",
+            "en": "Access foundation models from leading AI companies via a single API."
+          },
+          "Use Case": {
+            "id": "Membangun dan menskalakan aplikasi AI Generatif.",
+            "en": "Building and scaling Generative AI applications."
+          },
+          "Pricing": {
+            "id": "Bayar per token yang diproses, bervariasi tergantung model.",
+            "en": "Pay per token processed, varies by model."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 7,
+          "abstraction": 7
+        },
+        "tags": [
+          "gen-ai",
+          "developer",
+          "data-scientist"
+        ]
+      },
+      "sagemaker-ground-truth": {
+        "title": "SageMaker Ground Truth",
+        "icon": "aiml/SageMaker-Ground-Truth.svg",
+        "parent": "ml_platforms",
+        "tabs": {
+          "Summary": {
+            "id": "Pelabelan data berkualitas tinggi untuk data pelatihan ML.",
+            "en": "High-quality data labeling for ML training data."
+          },
+          "Use Case": {
+            "id": "Membuat dataset berlabel untuk model visi komputer atau NLP.",
+            "en": "Creating labeled datasets for computer vision or NLP models."
+          },
+          "Pricing": {
+            "id": "Bayar per objek yang dilabeli.",
+            "en": "Pay per object labeled."
+          }
+        },
+        "dependency": {
+          "id": "Bagian dari SageMaker",
+          "en": "Part of SageMaker"
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 8,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "data-scientist"
+        ]
+      },
+      "sagemaker-studio-lab": {
+        "title": "SageMaker Studio Lab",
+        "icon": "aiml/SageMaker-Studio-Lab.svg",
+        "parent": "ml_platforms",
+        "tabs": {
+          "Summary": {
+            "id": "Lingkungan pengembangan ML gratis berbasis JupyterLab.",
+            "en": "A free, JupyterLab-based ML development environment."
+          },
+          "Use Case": {
+            "id": "Belajar dan bereksperimen dengan ML tanpa biaya.",
+            "en": "Learning and experimenting with ML at no cost."
+          },
+          "Pricing": {
+            "id": "Gratis.",
+            "en": "Free."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 6,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "data-scientist",
+          "developer"
+        ]
+      },
+      "a2i": {
+        "title": "Augmented AI (A2I)",
+        "icon": "aiml/Augmented-AI-A2I.svg",
+        "parent": "ml_platforms",
+        "tabs": {
+          "Summary": {
+            "id": "Membangun alur kerja untuk tinjauan manusia terhadap prediksi ML.",
+            "en": "Build workflows for human review of ML predictions."
+          },
+          "Use Case": {
+            "id": "Menambahkan tinjauan manusia untuk memvalidasi output dari Textract atau Rekognition.",
+            "en": "Adding human review to validate output from Textract or Rekognition."
+          },
+          "Pricing": {
+            "id": "Bayar per objek yang ditinjau oleh manusia.",
+            "en": "Pay per object reviewed by a human."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 7,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "data-scientist"
+        ]
+      },
+      "devops-guru": {
+        "title": "DevOps Guru",
+        "icon": "aiml/DevOps-Guru.svg",
+        "parent": "ml_platforms",
+        "tabs": {
+          "Summary": {
+            "id": "Deteksi masalah operasional dan tingkatkan ketersediaan aplikasi.",
+            "en": "Detect operational issues and improve application availability."
+          },
+          "Use Case": {
+            "id": "Mendeteksi potensi pemadaman atau masalah kinerja secara proaktif.",
+            "en": "Proactively detecting potential outages or performance issues."
+          },
+          "Pricing": {
+            "id": "Berdasarkan sumber daya yang dianalisis.",
+            "en": "Based on resources analyzed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "customization": 3,
+          "abstraction": 8
+        },
+        "tags": [
+          "devops",
+          "developer"
+        ]
+      },
+      "dl-amis": {
+        "title": "Deep Learning AMIs",
+        "icon": "aiml/Deep-Learning-AMIs.svg",
+        "parent": "infra",
+        "tabs": {
+          "Summary": {
+            "id": "Image EC2 yang telah dikonfigurasi untuk deep learning.",
+            "en": "Pre-configured EC2 images for deep learning."
+          },
+          "Use Case": {
+            "id": "Menyiapkan lingkungan pelatihan kustom dengan cepat.",
+            "en": "Quickly setting up a custom training environment."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk instans EC2.",
+            "en": "No additional charge, pay for the EC2 instance."
+          }
+        },
+        "dependency": {
+          "id": "Berjalan di EC2",
+          "en": "Runs on EC2"
+        },
+        "scores": {
+          "easeOfUse": 4,
+          "customization": 10,
+          "abstraction": 2
+        },
+        "tags": [
+          "build",
+          "expert"
+        ]
+      },
+      "dl-containers": {
+        "title": "Deep Learning Containers",
+        "icon": "aiml/Deep-Learning-Containers.svg",
+        "parent": "infra",
+        "tabs": {
+          "Summary": {
+            "id": "Kontainer Docker dengan kerangka kerja deep learning yang telah diinstal.",
+            "en": "Docker containers with pre-installed deep learning frameworks."
+          },
+          "Use Case": {
+            "id": "Menjalankan pelatihan ML di lingkungan portabel seperti ECS atau EKS.",
+            "en": "Running ML training in portable environments like ECS or EKS."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya yang digunakan.",
+            "en": "No additional charge, pay for resources used."
+          }
+        },
+        "scores": {
+          "easeOfUse": 5,
+          "customization": 9,
+          "abstraction": 3
+        },
+        "tags": [
+          "build",
+          "expert"
+        ]
+      },
+      "elastic-inference": {
+        "title": "Elastic Inference",
+        "icon": "aiml/Elastic-Inference.svg",
+        "parent": "infra",
+        "tabs": {
+          "Summary": {
+            "id": "Tambahkan akselerasi GPU ke instans EC2 dengan biaya rendah.",
+            "en": "Add low-cost GPU acceleration to EC2 instances."
+          },
+          "Use Case": {
+            "id": "Mempercepat inferensi model deep learning.",
+            "en": "Accelerating deep learning model inference."
+          },
+          "Pricing": {
+            "id": "Bayar per jam untuk akselerator yang terpasang.",
+            "en": "Pay per hour for the attached accelerator."
+          }
+        },
+        "dependency": {
+          "id": "Bekerja dengan EC2/SageMaker",
+          "en": "Works with EC2/SageMaker"
+        },
+        "scores": {
+          "easeOfUse": 6,
+          "customization": 8,
+          "abstraction": 4
+        },
+        "tags": [
+          "build",
+          "expert"
+        ]
+      },
+      "neuron": {
+        "title": "Neuron",
+        "icon": "aiml/Neuron.svg",
+        "parent": "infra",
+        "tabs": {
+          "Summary": {
+            "id": "SDK untuk menjalankan inferensi berkinerja tinggi di chip AWS Inferentia.",
+            "en": "SDK to run high-performance inference on AWS Inferentia chips."
+          },
+          "Use Case": {
+            "id": "Mengoptimalkan model untuk kinerja inferensi maksimum dengan biaya terendah.",
+            "en": "Optimizing models for maximum inference performance at the lowest cost."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, hanya bayar untuk instans yang dilengkapi Inferentia.",
+            "en": "No additional charge, only pay for Inferentia-equipped instances."
+          }
+        },
+        "scores": {
+          "easeOfUse": 3,
+          "customization": 10,
+          "abstraction": 2
+        },
+        "tags": [
+          "build",
+          "expert"
+        ]
+      },
+      "tensorflow-on-aws": {
+        "title": "TensorFlow on AWS",
+        "icon": "aiml/TensorFlow-on-AWS.svg",
+        "parent": "infra",
+        "tabs": {
+          "Summary": {
+            "id": "Dukungan yang dioptimalkan untuk menjalankan TensorFlow di AWS.",
+            "en": "Optimized support for running TensorFlow on AWS."
+          },
+          "Use Case": {
+            "id": "Melatih dan men-deploy model TensorFlow dalam skala besar.",
+            "en": "Training and deploying TensorFlow models at scale."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya komputasi.",
+            "en": "No additional charge, pay for compute resources."
+          }
+        },
+        "scores": {
+          "easeOfUse": 4,
+          "customization": 10,
+          "abstraction": 3
+        },
+        "tags": [
+          "build",
+          "expert"
+        ]
+      },
+      "pytorch-on-aws": {
+        "title": "PyTorch on AWS",
+        "icon": "official/Architecture-Service-Icons_02072025/Arch_Artificial-Intelligence/64/Arch_PyTorch-on-AWS_64.svg",
+        "parent": "infra",
+        "tabs": {
+          "Summary": {
+            "id": "Dukungan yang dioptimalkan untuk menjalankan PyTorch di AWS.",
+            "en": "Optimized support for running PyTorch on AWS."
+          },
+          "Use Case": {
+            "id": "Melatih dan men-deploy model PyTorch dalam skala besar.",
+            "en": "Training and deploying PyTorch models at scale."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya komputasi.",
+            "en": "No additional charge, pay for compute resources."
+          }
+        },
+        "scores": {
+          "easeOfUse": 4,
+          "customization": 10,
+          "abstraction": 3
+        },
+        "tags": [
+          "build",
+          "expert"
+        ]
+      },
+      "mxnet-on-aws": {
+        "title": "Apache MXNet on AWS",
+        "icon": "aiml/Apache-MXNet-on-AWS.svg",
+        "parent": "infra",
+        "tabs": {
+          "Summary": {
+            "id": "Dukungan yang dioptimalkan untuk menjalankan Apache MXNet di AWS.",
+            "en": "Optimized support for running Apache MXNet on AWS."
+          },
+          "Use Case": {
+            "id": "Melatih dan men-deploy model MXNet dalam skala besar.",
+            "en": "Training and deploying MXNet models at scale."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya komputasi.",
+            "en": "No additional charge, pay for compute resources."
+          }
+        },
+        "scores": {
+          "easeOfUse": 4,
+          "customization": 10,
+          "abstraction": 3
+        },
+        "tags": [
+          "build",
+          "expert"
+        ]
+      },
+      "deepracer": {
+        "title": "DeepRacer",
+        "icon": "aiml/DeepRacer.svg",
+        "parent": "learning",
+        "tabs": {
+          "Summary": {
+            "id": "Mobil balap otonom skala 1/18 untuk belajar reinforcement learning.",
+            "en": "A 1/18th scale autonomous race car to learn reinforcement learning."
+          },
+          "Use Case": {
+            "id": "Pembelajaran langsung tentang reinforcement learning melalui balapan.",
+            "en": "Hands-on learning of reinforcement learning through racing."
+          },
+          "Pricing": {
+            "id": "Bayar untuk sumber daya pelatihan di SageMaker dan untuk perangkat fisik.",
+            "en": "Pay for training resources in SageMaker and for the physical device."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 5,
+          "abstraction": 8
+        },
+        "tags": [
+          "build",
+          "developer"
+        ]
+      },
+      "deeplens": {
+        "title": "DeepLens",
+        "icon": "aiml/DeepLens.svg",
+        "parent": "learning",
+        "tabs": {
+          "Summary": {
+            "id": "Kamera video berkemampuan deep learning untuk developer.",
+            "en": "A deep learning-enabled video camera for developers."
+          },
+          "Use Case": {
+            "id": "Belajar dan membuat prototipe proyek visi komputer di edge.",
+            "en": "Learning and prototyping computer vision projects at the edge."
+          },
+          "Pricing": {
+            "id": "Bayar untuk perangkat keras dan sumber daya AWS yang digunakan.",
+            "en": "Pay for the hardware and any AWS resources used."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 7,
+          "abstraction": 7
+        },
+        "tags": [
+          "vision",
+          "developer"
+        ]
+      },
+      "deepcomposer": {
+        "title": "DeepComposer",
+        "icon": "aiml/DeepComposer.svg",
+        "parent": "learning",
+        "tabs": {
+          "Summary": {
+            "id": "Keyboard musik yang didukung AI untuk belajar ML generatif.",
+            "en": "An AI-powered music keyboard to learn generative ML."
+          },
+          "Use Case": {
+            "id": "Membuat musik orisinal menggunakan model AI generatif.",
+            "en": "Creating original music using generative AI models."
+          },
+          "Pricing": {
+            "id": "Bayar untuk perangkat keras dan sumber daya pelatihan.",
+            "en": "Pay for the hardware and training resources."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 4,
+          "abstraction": 8
+        },
+        "tags": [
+          "gen-ai",
+          "developer"
+        ]
+      }
+    }
+  },
+  "translations": {
+    "navCategories": {
+      "id": "Kategori",
+      "en": "Categories"
+    },
+    "navFinder": {
+      "id": "Pencari Solusi",
+      "en": "Solution Finder"
+    },
+    "navComparison": {
+      "id": "Perbandingan",
+      "en": "Comparison"
+    },
+    "homeButton": {
+      "id": "Halaman Utama",
+      "en": "Home"
+    },
+    "mainTitle": {
+      "id": "Panduan Interaktif AWS AI & ML",
+      "en": "Interactive AWS AI & ML Guide"
+    },
+    "mainSubtitle": {
+      "id": "Jelajahi tumpukan layanan Kecerdasan Buatan dan Machine Learning AWS, dari API siap pakai hingga infrastruktur canggih.",
+      "en": "Explore the AWS AI and Machine Learning stack, from ready-made APIs to advanced infrastructure."
+    },
+    "categoryTitle": {
+      "id": "Tumpukan Machine Learning AWS",
+      "en": "AWS Machine Learning Stack"
+    },
+    "categorySubtitle": {
+      "id": "AWS menyusun layanannya dalam tiga lapisan. Pilih lapisan untuk melihat layanan di dalamnya.",
+      "en": "AWS organizes its services in three layers. Select a layer to see the services within."
+    },
+    "welcomeTitle": {
+      "id": "Selamat Datang!",
+      "en": "Welcome!"
+    },
+    "welcomeSubtitle": {
+      "id": "Pilih salah satu lapisan pada Tumpukan ML di atas untuk memulai.",
+      "en": "Select a layer from the ML Stack above to begin."
+    },
+    "finderTitle": {
+      "id": "Pencari Solusi AI",
+      "en": "AI Solution Finder"
+    },
+    "finderSubtitle": {
+      "id": "Gunakan filter ini untuk menemukan layanan AWS AI/ML yang paling cocok untuk proyek Anda.",
+      "en": "Use these filters to find the right AWS AI/ML service for your project."
+    },
+    "filter1Title": {
+      "id": "1. Apa Kasus Penggunaan Anda?",
+      "en": "1. What is your Use Case?"
+    },
+    "filterVision": {
+      "id": "Analisis Gambar & Video",
+      "en": "Image & Video Analysis"
+    },
+    "filterLanguage": {
+      "id": "Analisis Teks & Ucapan",
+      "en": "Text & Speech Analysis"
+    },
+    "filterGenAI": {
+      "id": "AI Generatif & Chatbots",
+      "en": "Generative AI & Chatbots"
+    },
+    "filterBuild": {
+      "id": "Membangun & Melatih Model Kustom",
+      "en": "Build & Train Custom Models"
+    },
+    "filterDevOps": {
+      "id": "MLOps & Developer Tools",
+      "en": "MLOps & Developer Tools"
+    },
+    "filter2Title": {
+      "id": "2. Apa Peran Anda?",
+      "en": "2. What is your Role?"
+    },
+    "filterDeveloper": {
+      "id": "Developer (Tanpa keahlian ML)",
+      "en": "Developer (No ML expertise)"
+    },
+    "filterDataScientist": {
+      "id": "Ilmuwan Data / Insinyur ML",
+      "en": "Data Scientist / ML Engineer"
+    },
+    "filterExpert": {
+      "id": "Pakar ML (Butuh kendali infrastruktur)",
+      "en": "ML Expert (Needs infrastructure control)"
+    },
+    "recommendationTitle": {
+      "id": "Layanan yang Direkomendasikan",
+      "en": "Recommended Services"
+    },
+    "noRecommendation": {
+      "id": "Pilih filter di atas untuk melihat rekomendasi.",
+      "en": "Select a filter above to see recommendations."
+    },
+    "comparisonTitle": {
+      "id": "Visualisasi Perbandingan Layanan",
+      "en": "Service Comparison Visualizer"
+    },
+    "comparisonSubtitle": {
+      "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.",
+      "en": "Compare up to two services visually on key attributes."
+    },
+    "comparisonLabel": {
+      "id": "Layanan untuk dibandingkan:",
+      "en": "Services to compare:"
+    },
+    "clearButton": {
+      "id": "Bersihkan Pilihan",
+      "en": "Clear Selection"
+    },
+    "chartPlaceholder": {
+      "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.",
+      "en": "Select a service from the recommendations to start comparing."
+    }
+  }
+}
