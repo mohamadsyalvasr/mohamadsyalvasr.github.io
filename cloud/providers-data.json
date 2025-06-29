@@ -11,7 +11,7 @@
   {
     "id": "gcp",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg",
-    "status": "coming-soon",
+    "status": "active",
     "link": "/cloud/gcp/",
     "titleKey": "gcpTitle",
     "descKey": "gcpDesc",

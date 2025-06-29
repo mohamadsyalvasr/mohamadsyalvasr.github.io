@@ -1,0 +1,42 @@
+{
+  "guidesData": [
+    { "id": "compute", "status": "active", "iconPath": "./assets/icons/gcp/compute-engine.svg", "emoji": "🔧", "titleKey": "gcpComputeTitle", "descriptionKey": "gcpComputeDesc", "buttonGradient": "from-blue-500 to-sky-500", "href": "./svc?data=compute" },
+    { "id": "networking", "status": "coming-soon", "iconPath": "./assets/icons/gcp/networking.svg", "emoji": "🌐", "titleKey": "gcpNetworkingTitle", "descriptionKey": "gcpNetworkingDesc", "buttonGradient": "from-cyan-500 to-teal-500", "href": "#" },
+    { "id": "security", "status": "coming-soon", "iconPath": "./assets/icons/gcp/security.svg", "emoji": "🛡️", "titleKey": "gcpSecurityTitle", "descriptionKey": "gcpSecurityDesc", "buttonGradient": "from-red-500 to-orange-500", "href": "#" }
+  ],
+  "roadmapData": [
+    { "badgeLabel": "Q3", "badgeColor": "bg-blue-500", "titleKey": "roadmapGcpQ3Title", "descriptionKey": "roadmapGcpQ3Desc", "listKey": "roadmapGcpQ3List" },
+    { "badgeLabel": "Q4", "badgeColor": "bg-green-600", "titleKey": "roadmapGcpQ4Title", "descriptionKey": "roadmapGcpQ4Desc", "listKey": "roadmapGcpQ4List" }
+  ],
+  "translations": {
+    "mainTitle": { "id": "Panduan Interaktif Layanan GCP", "en": "Interactive GCP Service Guides" },
+    "mainSubtitle": { "id": "Jelajahi, bandingkan, dan temukan layanan GCP yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.", "en": "Explore, compare, and find the right GCP services for your needs through curated visual guides." },
+    "roadmapButton": { "id": "Peta Jalan", "en": "Roadmap" },
+    "roadmapTitle": { "id": "Peta Jalan Pengembangan", "en": "Development Roadmap" },
+    "exploreButton": { "id": "Jelajahi Sekarang", "en": "Explore Now" },
+    "comingSoonButton": { "id": "Segera Hadir", "en": "Coming Soon" },
+    "footer": { "id": "&copy; 2025 Interactive Cloud Guides. Dibuat dengan ❤️ untuk para penjelajah cloud di mana pun berada. <br>Semua merek dagang adalah milik pemiliknya masing-masing.", "en": "&copy; 2025 Interactive Cloud Guides. Made with ❤️ for cloud explorers everywhere. <br>All trademarks belong to their respective owners." },
+    "gcpComputeTitle": { "id": "GCP Compute Engine", "en": "GCP Compute Engine" },
+    "gcpComputeDesc": { "id": "Mesin virtual yang aman dan dapat disesuaikan untuk menjalankan beban kerja Anda.", "en": "Secure and customizable virtual machines to run your workloads." },
+    "gcpStorageTitle": { "id": "GCP Cloud Storage", "en": "GCP Cloud Storage" },
+    "gcpStorageDesc": { "id": "Penyimpanan objek yang dapat diskalakan tanpa batas untuk data dalam berbagai bentuk dan ukuran.", "en": "Infinitely scalable object storage for data of any shape and size." },
+    "gcpBigQueryTitle": { "id": "GCP BigQuery", "en": "GCP BigQuery" },
+    "gcpBigQueryDesc": { "id": "Gudang data tanpa server yang sangat skalabel untuk analitik data besar.", "en": "A serverless, highly scalable data warehouse for big data analytics." },
+    "gcpGkeTitle": { "id": "GCP Kubernetes Engine (GKE)", "en": "GCP Kubernetes Engine (GKE)" },
+    "gcpGkeDesc": { "id": "Kelola dan orkestrasi aplikasi dalam kontainer dengan Kubernetes.", "en": "Manage and orchestrate containerized applications with Kubernetes." },
+    "gcpSqlTitle": { "id": "GCP Cloud SQL", "en": "GCP Cloud SQL" },
+    "gcpSqlDesc": { "id": "Layanan database relasional yang terkelola sepenuhnya untuk MySQL, PostgreSQL, dan SQL Server.", "en": "Fully managed relational database service for MySQL, PostgreSQL, and SQL Server." },
+    "gcpVertexAiTitle": { "id": "GCP Vertex AI", "en": "GCP Vertex AI" },
+    "gcpVertexAiDesc": { "id": "Platform terpadu untuk membangun, menerapkan, dan menskalakan model machine learning.", "en": "A unified platform to build, deploy, and scale machine learning models." },
+    "gcpNetworkingTitle": { "id": "GCP Networking", "en": "GCP Networking" },
+    "gcpNetworkingDesc": { "id": "Sediakan jaringan global yang aman dan andal untuk aplikasi Anda.", "en": "Provide secure and reliable global networking for your applications." },
+    "gcpSecurityTitle": { "id": "GCP Security", "en": "GCP Security" },
+    "gcpSecurityDesc": { "id": "Lindungi data dan aplikasi Anda dengan layanan keamanan terintegrasi.", "en": "Protect your data and applications with integrated security services." },
+    "roadmapGcpQ3Title": { "id": "Q3 2025", "en": "Q3 2025" },
+    "roadmapGcpQ3Desc": { "id": "Fokus pada Layanan Inti & Jaringan", "en": "Focus on Core & Networking Services" },
+    "roadmapGcpQ3List": { "id": "<li><span class=\"font-semibold text-slate-700\">Panduan Jaringan GCP:</span> Cakupan VPC, Cloud DNS, dan Cloud Interconnect.</li><li><span class=\"font-semibold text-slate-700\">Mode Perbandingan Layanan:</span> Bandingkan 2-3 layanan secara berdampingan.</li><li>Peningkatan UI/UX berdasarkan masukan pengguna.</li>","en": "<li><span class=\"font-semibold text-slate-700\">GCP Networking Guide:</span> Covering VPC, Cloud DNS, and Cloud Interconnect.</li><li><span class=\"font-semibold text-slate-700\">Service Comparison Mode:</span> Compare 2–3 services side-by-side.</li><li>UI/UX improvements based on user feedback.</li>" },
+    "roadmapGcpQ4Title": { "id": "Q4 2025", "en": "Q4 2025" },
+    "roadmapGcpQ4Desc": { "id": "Ekspansi ke Layanan Data dan AI GCP", "en": "Expansion into GCP's Data and AI Services" },
+    "roadmapGcpQ4List": { "id": "<li>Rilis panduan <span class=\"font-semibold text-slate-700\">Vertex AI</span>.</li><li>Tutorial mendalam tentang BigQuery.</li>", "en": "<li>Release of the <span class=\"font-semibold text-slate-700\">Vertex AI</span> guide.</li><li>In-depth tutorials for BigQuery.</li>" }
+  }
+}
