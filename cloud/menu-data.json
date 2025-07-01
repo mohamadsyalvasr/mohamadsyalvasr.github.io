@@ -1,0 +1,98 @@
+{
+  "menu": [
+    {
+      "type": "link",
+      "langKey": "navHome",
+      "href": "/cloud/"
+    },
+    {
+      "type": "dropdown",
+      "langKey": "navProducts",
+      "items": [
+        { "langKey": "productEbooks", "href": "/cloud/ebooks" },
+        { "langKey": "productTools", "href": "/cloud/tools" }
+      ]
+    },
+    {
+      "type": "mega-menu",
+      "langKey": "navServices",
+      "content": {
+        "columns": [
+          {
+            "titleLangKey": "servicesTitle",
+            "items": [
+              {
+                "img": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+                "alt": "AWS Icon",
+                "titleLangKey": "serviceAwsTitle",
+                "descLangKey": "serviceAwsDesc",
+                "href": "/cloud/aws"
+              },
+              {
+                "img": "https://www.svgrepo.com/show/448223/gcp.svg",
+                "alt": "GCP Icon",
+                "titleLangKey": "serviceGcpTitle",
+                "descLangKey": "serviceGcpDesc",
+                "href": "/cloud/gcp"
+              },
+              {
+                "img": "https://swimburger.net/media/ppnn3pcl/azure.png",
+                "alt": "Azure Icon",
+                "titleLangKey": "serviceAzureTitle",
+                "descLangKey": "serviceAzureDesc",
+                "href": "/cloud/azure"
+              },
+              {
+                "img": "https://www.svgrepo.com/show/354151/oracle.svg",
+                "alt": "Oracle Icon",
+                "titleLangKey": "serviceOracleTitle",
+                "descLangKey": "serviceOracleDesc",
+                "href": "/cloud/oracle"
+              },
+              {
+                "img": "https://www.svgrepo.com/show/306375/ibm.svg",
+                "alt": "IBM Icon",
+                "titleLangKey": "serviceIbmTitle",
+                "descLangKey": "serviceIbmDesc",
+                "href": "/cloud/ibm"
+              },
+              {
+                "img": "https://www.svgrepo.com/show/353684/digitalocean.svg",
+                "alt": "DigitalOcean Icon",
+                "titleLangKey": "serviceDoTitle",
+                "descLangKey": "serviceDoDesc",
+                "href": "/cloud/digitalocean"
+              }
+            ]
+          }
+        ],
+        "featured": {
+          "img": "https://placehold.co/400x200/fb923c/ffffff?text=Studi+Kasus",
+          "alt": "Case Study Image",
+          "titleLangKey": "featuredTitle",
+          "descLangKey": "featuredDesc",
+          "linkLangKey": "featuredLink",
+          "href": "#"
+        },
+        "viewAll": {
+          "active": true,
+          "langKey": "navViewAllServices",
+          "href": "/cloud/services"
+        }
+      }
+    },
+    {
+      "type": "mega-menu",
+      "langKey": "navAbout",
+      "href": "/cloud/about",
+      "content": {
+        "text": {
+          "titleLangKey": "aboutTitle",
+          "descLangKey": "aboutDesc",
+          "missionTitleLangKey": "aboutMissionTitle",
+          "missionDescLangKey": "aboutMissionDesc"
+        }
+      }
+    }
+  ]
+}

@@ -102,5 +102,117 @@
   "footer": {
     "id": "&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ dan sedikit caffeine ☕️ untuk para cloud explorer di mana pun berada. <br>Semua logo dan merek dagang adalah milik pemiliknya masing-masing—kami hanya ingin bantu menjelaskan, bukan mewakili.",
     "en": "&copy; 2025 Interactive Cloud Guides. Compiled with ❤️, curiosity, and a touch of caffeine ☕️ for cloud explorers everywhere. <br>All trademarks and logos belong to their respective owners — we're just here to decode the cloud, not represent the giants."
+  },
+  "navHome": {
+    "id": "Beranda",
+    "en": "Home"
+  },
+  "navProducts": {
+    "id": "Produk",
+    "en": "Products"
+  },
+  "navServices": {
+    "id": "Layanan",
+    "en": "Services"
+  },
+  "navAbout": {
+    "id": "Tentang Kami",
+    "en": "About Us"
+  },
+  "navViewAllServices": {
+    "id": "Lihat Semua Layanan &rarr;",
+    "en": "View All Services &rarr;"
+  },
+  "productEbooks": {
+    "id": "E-Book",
+    "en": "E-Books"
+  },
+  "productVideos": {
+    "id": "Video Kursus",
+    "en": "Video Courses"
+  },
+  "productTools": {
+    "id": "Tools",
+    "en": "Tools"
+  },
+  "servicesTitle": {
+    "id": "Panduan Cloud Terpopuler",
+    "en": "Most Popular Cloud Guides"
+  },
+  "serviceAwsTitle": {
+    "id": "Panduan AWS",
+    "en": "AWS Guide"
+  },
+  "serviceAwsDesc": {
+    "id": "Jelajahi layanan Amazon Web Services.",
+    "en": "Explore Amazon Web Services."
+  },
+  "serviceGcpTitle": {
+    "id": "Panduan Google Cloud",
+    "en": "Google Cloud Guide"
+  },
+  "serviceGcpDesc": {
+    "id": "Jelajahi layanan GCP.",
+    "en": "Explore Google Cloud Platform."
+  },
+  "serviceAzureTitle": {
+    "id": "Panduan Azure",
+    "en": "Azure Guide"
+  },
+  "serviceAzureDesc": {
+    "id": "Jelajahi layanan Microsoft Azure.",
+    "en": "Explore Microsoft Azure."
+  },
+  "serviceOracleTitle": {
+    "id": "Panduan Oracle Cloud",
+    "en": "Oracle Cloud Guide"
+  },
+  "serviceOracleDesc": {
+    "id": "Solusi cloud database yang andal.",
+    "en": "Reliable cloud database solutions."
+  },
+  "serviceIbmTitle": {
+    "id": "Panduan IBM Cloud",
+    "en": "IBM Cloud Guide"
+  },
+  "serviceIbmDesc": {
+    "id": "Fokus pada solusi hybrid dan AI.",
+    "en": "Focus on hybrid and AI solutions."
+  },
+  "serviceDoTitle": {
+    "id": "Panduan DigitalOcean",
+    "en": "DigitalOcean Guide"
+  },
+  "serviceDoDesc": {
+    "id": "Cloud sederhana untuk developer.",
+    "en": "Simple cloud for developers."
+  },
+  "featuredTitle": {
+    "id": "Studi Kasus: Migrasi ke Cloud",
+    "en": "Case Study: Cloud Migration"
+  },
+  "featuredDesc": {
+    "id": "Pelajari bagaimana perusahaan X berhasil memindahkan infrastruktur mereka ke cloud.",
+    "en": "Learn how company X successfully migrated their infrastructure to the cloud."
+  },
+  "featuredLink": {
+    "id": "Baca selengkapnya &rarr;",
+    "en": "Read more &rarr;"
+  },
+  "aboutTitle": {
+    "id": "Tentang CloudGuides",
+    "en": "About CloudGuides"
+  },
+  "aboutDesc": {
+    "id": "CloudGuides adalah platform panduan interaktif Anda untuk menavigasi dunia cloud computing yang kompleks. Kami percaya bahwa teknologi canggih harus dapat diakses dan dipahami oleh semua orang, terlepas dari latar belakang teknis mereka.",
+    "en": "CloudGuides is your interactive guide platform for navigating the complex world of cloud computing. We believe that powerful technology should be accessible and understandable for everyone, regardless of their technical background."
+  },
+  "aboutMissionTitle": {
+    "id": "Misi Kami",
+    "en": "Our Mission"
+  },
+  "aboutMissionDesc": {
+    "id": "Menyediakan panduan yang jelas, akurat, dan praktis untuk memberdayakan individu dan bisnis dalam membuat keputusan teknologi yang lebih baik dan lebih cerdas di era cloud.",
+    "en": "To provide clear, accurate, and practical guides to empower individuals and businesses in making better, smarter technology decisions in the cloud era."
   }
 }

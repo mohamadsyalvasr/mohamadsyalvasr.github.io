@@ -59,17 +59,18 @@
         }
 
         /* --- Gaya untuk Dropdown & Mega Menu --- */
-        /* PERBAIKAN: Menghilangkan transform translateY untuk menghapus celah animasi */
         .dropdown-menu, .mega-menu-content {
             display: none;
             opacity: 0;
-            transition: opacity 0.2s ease-out;
+            transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+            transform: translateY(-10px);
             pointer-events: none;
         }
-        .dropdown:hover .dropdown-menu,
-        .group:hover .mega-menu-content {
+        .group:hover .mega-menu-content,
+        .dropdown:hover .dropdown-menu {
             display: block;
             opacity: 1;
+            transform: translateY(0);
             pointer-events: auto;
         }
 
@@ -79,6 +80,11 @@
         .hero-menu-card:hover {
             background-color: #f8fafc; /* slate-50 */
             transform: scale(1.02);
+        }
+        
+        .about-mega-menu-bg {
+            background-size: cover;
+            background-position: center;
         }
 
         .mobile-submenu {
@@ -107,78 +113,8 @@
                     <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
                 </a>
 
-                <!-- Navigasi Desktop -->
-                <nav id="desktop-nav" class="hidden md:flex items-center">
-                    <a href="#" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors">Beranda</a>
-
-                    <div class="relative dropdown">
-                        <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
-                            <span>Produk</span>
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <!-- PERBAIKAN: Menghilangkan pt-5 dan menyederhanakan struktur -->
-                        <div class="dropdown-menu absolute top-full left-0 w-48 z-50 mt-2 bg-white rounded-lg shadow-xl py-2">
-                            <a href="#" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600">E-Book</a>
-                            <a href="#" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600">Video Kursus</a>
-                            <a href="#" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600">Tools</a>
-                        </div>
-                    </div>
-
-                    <div class="group static">
-                        <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
-                            <span>Layanan</span>
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <!-- PERBAIKAN: Menghilangkan pt-5 untuk menghapus celah -->
-                        <div class="mega-menu-content absolute left-0 top-full w-full z-50">
-                             <div class="bg-white shadow-lg border-t border-slate-200/50">
-                                <div class="container mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                                    <div class="space-y-4 md:col-span-2">
-                                        <h3 class="font-bold text-slate-800">Panduan Cloud Terpopuler</h3>
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
-                                                <img src="https://placehold.co/64x64/FDBA74/4C1D95?text=AWS" class="mr-4 rounded-md flex-shrink-0" alt="Ikon AWS">
-                                                <div>
-                                                    <p class="font-semibold text-slate-700">Panduan AWS</p>
-                                                    <p class="text-sm text-slate-500">Jelajahi layanan Amazon Web Services.</p>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
-                                                <img src="https://placehold.co/64x64/A5B4FC/1E3A8A?text=GCP" class="mr-4 rounded-md flex-shrink-0" alt="Ikon GCP">
-                                                <div>
-                                                    <p class="font-semibold text-slate-700">Panduan Google Cloud</p>
-                                                    <p class="text-sm text-slate-500">Optimalkan proyek Anda dengan GCP.</p>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
-                                                <img src="https://placehold.co/64x64/93C5FD/0C4A6E?text=Azure" class="mr-4 rounded-md flex-shrink-0" alt="Ikon Azure">
-                                                <div>
-                                                    <p class="font-semibold text-slate-700">Panduan Azure</p>
-                                                    <p class="text-sm text-slate-500">Bangun solusi enterprise dengan Azure.</p>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
-                                                <img src="https://placehold.co/64x64/FCA5A5/7F1D1D?text=Oracle" class="mr-4 rounded-md flex-shrink-0" alt="Ikon Oracle">
-                                                <div>
-                                                    <p class="font-semibold text-slate-700">Panduan Oracle Cloud</p>
-                                                    <p class="text-sm text-slate-500">Solusi cloud database yang andal.</p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="bg-slate-50 rounded-lg p-6 flex flex-col justify-center">
-                                        <img src="https://placehold.co/400x200/fb923c/ffffff?text=Studi+Kasus" class="rounded-md mb-4" alt="Gambar Studi Kasus">
-                                        <h3 class="font-bold text-slate-800">Studi Kasus: Migrasi ke Cloud</h3>
-                                        <p class="text-slate-500 mt-2 mb-4 text-sm">Pelajari bagaimana perusahaan X berhasil memindahkan infrastruktur mereka ke cloud.</p>
-                                        <a href="#" class="inline-block text-amber-600 font-semibold hover:text-amber-700 transition-colors">Baca selengkapnya &rarr;</a>
-                                    </div>
-                                </div>
-                             </div>
-                         </div>
-                    </div>
-                    
-                    <a href="#" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors">Tentang Kami</a>
-                </nav>
+                <!-- Navigasi Desktop (Akan diisi oleh JavaScript) -->
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
             </div>
             
             <!-- Grup Aksi (Rata Kanan) -->
@@ -196,48 +132,19 @@
             </div>
         </div>
         
-        <!-- Navigasi Mobile -->
-        <div id="mobile-nav" class="hidden md:hidden border-t border-slate-200">
-            <nav class="px-4 pt-4 pb-8 space-y-2">
-                 <a href="#" class="block py-2 text-slate-600 font-medium hover:text-amber-600">Beranda</a>
-                 
-                 <div>
-                    <button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle">
-                        <span>Produk</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
-                    <div class="pl-4 mt-2 space-y-2 mobile-submenu">
-                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">E-Book</a>
-                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Video Kursus</a>
-                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Tools</a>
-                    </div>
-                 </div>
-
-                 <div>
-                    <button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle">
-                        <span>Layanan</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
-                    <div class="pl-4 mt-2 space-y-2 mobile-submenu">
-                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Panduan AWS</a>
-                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Panduan Google Cloud</a>
-                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Panduan Azure</a>
-                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Lihat Semua Panduan</a>
-                    </div>
-                 </div>
-
-                 <a href="#" class="block py-2 text-slate-600 font-medium hover:text-amber-600">Tentang Kami</a>
-            </nav>
+        <!-- Navigasi Mobile (Akan diisi oleh JavaScript) -->
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
         </div>
     </header>
 
     <div class="container mx-auto px-6 py-12 md:py-20">
         <header class="relative text-center mb-16">
-            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0">Panduan Cloud Interaktif</h1>
-            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Pilih penyedia cloud untuk memulai perjalanan Anda dalam menjelajahi layanan-layanan cloud terkemuka.</p>
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0"></h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto"></p>
             
             <div class="mt-8 max-w-xl mx-auto">
-                <input type="search" id="search-input" class="w-full px-5 py-3 rounded-full border-2 border-slate-300 focus:border-orange-500 focus:ring-orange-500 transition-colors" placeholder="Cari provider...">
+                <input type="search" id="search-input" class="w-full px-5 py-3 rounded-full border-2 border-slate-300 focus:border-orange-500 focus:ring-orange-500 transition-colors" placeholder="">
             </div>
         </header>
 
@@ -249,120 +156,263 @@
         
         <section id="ebooks-section" class="mt-20 pt-10 border-t border-slate-200">
              <header class="text-center mb-12">
-                <h2 id="ebook-section-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-3">E-Book Eksklusif</h2>
-                <p id="ebook-section-subtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Tingkatkan keahlian Anda dengan panduan mendalam yang kami siapkan khusus untuk Anda.</p>
+                <h2 id="ebook-section-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-3"></h2>
+                <p id="ebook-section-subtitle" class="text-lg text-slate-600 max-w-2xl mx-auto"></p>
             </header>
             <div id="ebooks" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <p class="col-span-full text-center text-slate-500">Memuat data e-book...</p>
             </div>
             <div class="text-center mt-12">
-                <a href="/cloud/ebooks/" id="view-all-ebooks-btn" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                    Lihat Semua E-Book
-                </a>
+                <a href="/cloud/ebooks/" id="view-all-ebooks-btn" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"></a>
             </div>
         </section>
 
         <footer class="text-center mt-20">
-            <p data-lang-key="footer" class="text-slate-500 text-sm">&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ dan sedikit caffeine ☕️ untuk para cloud explorer di mana pun berada. Semua logo dan merek dagang adalah milik pemiliknya masing-masing—kami hanya ingin bantu menjelaskan, bukan mewakili.</p>
+            <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
         </footer>
 
     </div>
     <script>
-        // Global variables to hold the fetched data
-        let cloudProviders = [];
-        let ebooks = [];
-        let translations = {};
+        // Global variables to hold all fetched data
+        let appData = {
+            providers: [],
+            ebooks: [],
+            translations: {},
+            menu: []
+        };
         
-        // Static translations for the E-Book section
-        const ebookSectionTranslations = {
-            title: {
-                id: "E-Book Eksklusif",
-                en: "Exclusive E-Books"
-            },
-            subtitle: {
-                id: "Tingkatkan keahlian Anda dengan panduan mendalam yang kami siapkan khusus untuk Anda.",
-                en: "Level up your skills with our in-depth guides prepared just for you."
-            },
-            viewAllButton: {
-                id: "Lihat Semua E-Book",
-                en: "View All E-Books"
+        // Static translations for sections not covered in the main JSON
+        const staticTranslations = {
+            ebookSectionTitle: { id: "E-Book Eksklusif", en: "Exclusive E-Books" },
+            ebookSectionSubtitle: { id: "Tingkatkan keahlian Anda dengan panduan mendalam yang kami siapkan khusus untuk Anda.", en: "Level up your skills with our in-depth guides prepared just for you." },
+            ebookViewAll: { id: "Lihat Semua E-Book", en: "View All E-Books" }
+        };
+
+        /**
+         * Builds the entire navigation (desktop and mobile) from menu data.
+         */
+        const buildNavigationStructure = () => {
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (!desktopNav || !mobileNav) return;
+
+            desktopNav.innerHTML = '';
+            mobileNav.innerHTML = '';
+
+            appData.menu.forEach(item => {
+                // --- Build Desktop Menu Structure ---
+                if (item.type === 'link') {
+                    desktopNav.innerHTML += `<a href="${item.href}" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors" data-lang-key="${item.langKey}"></a>`;
+                } else if (item.type === 'dropdown') {
+                    const dropdownItems = item.items.map(subItem => 
+                        `<a href="${subItem.href}" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600" data-lang-key="${subItem.langKey}"></a>`
+                    ).join('');
+                    desktopNav.innerHTML += `
+                        <div class="relative dropdown">
+                            <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                                <span data-lang-key="${item.langKey}"></span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="dropdown-menu absolute top-full left-0 w-48 z-50 bg-white rounded-lg shadow-xl py-2">${dropdownItems}</div>
+                        </div>`;
+                } else if (item.type === 'mega-menu') {
+                    let megaMenuHTML = '';
+
+                    if (item.content.columns) {
+                        const allItems = item.content.columns[0].items; // Ambil semua item dari kolom pertama
+                        const midIndex = Math.ceil(allItems.length / 2);
+                        const splitColumns = [allItems.slice(0, midIndex), allItems.slice(midIndex)];
+
+                        const megaColumns = splitColumns.map(colItems => `
+                            <div class="space-y-2">
+                                ${colItems.map(colItem => `
+                                    <a href="${colItem.href}" class="flex items-center p-3 rounded-lg hero-menu-card">
+                                        <img src="${colItem.img}" class="mr-4 rounded-md flex-shrink-0 w-12 h-12 object-contain" alt="${colItem.alt}">
+                                        <div>
+                                            <p class="font-semibold text-slate-700" data-lang-key="${colItem.titleLangKey}"></p>
+                                            <p class="text-sm text-slate-500" data-lang-key="${colItem.descLangKey}"></p>
+                                        </div>
+                                    </a>`).join('')}
+                            </div>
+                        `).join('');
+
+                        let viewAllLink = '';
+                        if (item.content.viewAll && item.content.viewAll.active) {
+                            viewAllLink = `
+                                <div class="md:col-span-2 mt-4 text-center border-t border-slate-200 pt-4">
+                                    <a href="${item.content.viewAll.href}" class="font-semibold text-amber-600 hover:text-amber-700 transition-colors" data-lang-key="${item.content.viewAll.langKey}"></a>
+                                </div>
+                            `;
+                        }
+
+                        const featured = item.content.featured;
+                        megaMenuHTML = `
+                            <div class="mega-menu-content absolute left-0 top-full w-full z-50">
+                                <div class="bg-white shadow-lg border-t border-slate-200/50">
+                                    <div class="container mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        <div class="md:col-span-2">
+                                            <h3 class="font-bold text-slate-800 px-3 mb-4" data-lang-key="${item.content.columns[0].titleLangKey}"></h3>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                                                ${megaColumns}
+                                            </div>
+                                            ${viewAllLink}
+                                        </div>
+                                        <div class="bg-slate-50 rounded-lg p-6 flex flex-col justify-center">
+                                            <img src="${featured.img}" class="rounded-md mb-4" alt="${featured.alt}" onerror="this.onerror=null;this.src='https://placehold.co/400x200/fb923c/ffffff?text=Image+Not+Found';">
+                                            <h3 class="font-bold text-slate-800" data-lang-key="${featured.titleLangKey}"></h3>
+                                            <p class="text-slate-500 mt-2 mb-4 text-sm" data-lang-key="${featured.descLangKey}"></p>
+                                            <a href="${featured.href}" class="inline-block text-amber-600 font-semibold hover:text-amber-700 transition-colors" data-lang-key="${featured.linkLangKey}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
+                    // Case 2: The redesigned "About Us" mega menu
+                    else if (item.content.background) {
+                        const keyPoints = item.content.keyPoints.map(point => `
+                            <div class="bg-white/80 backdrop-blur-sm p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-800" data-lang-key="${point.titleLangKey}"></h4>
+                                <p class="text-slate-600 text-sm mt-1" data-lang-key="${point.descLangKey}"></p>
+                            </div>
+                        `).join('');
+
+                        megaMenuHTML = `
+                            <div class="mega-menu-content absolute left-0 top-full w-full z-50">
+                                <div class="container mx-auto p-4">
+                                    <div class="bg-slate-200 rounded-lg shadow-lg overflow-hidden about-mega-menu-bg" style="background-image: url('${item.content.background.url}')">
+                                        <div class="bg-black/20 p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div class="text-white">
+                                                <h3 class="text-2xl font-bold" data-lang-key="${item.content.titleLangKey}"></h3>
+                                                <p class="mt-2" data-lang-key="${item.content.descLangKey}"></p>
+                                                <a href="${item.content.cta.href}" class="inline-block bg-amber-500 text-white font-semibold px-5 py-2 rounded-md hover:bg-amber-600 transition-colors mt-6" data-lang-key="${item.content.cta.langKey}"></a>
+                                            </div>
+                                            <div class="space-y-4">
+                                                ${keyPoints}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
+
+                    desktopNav.innerHTML += `
+                        <div class="group static">
+                            <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                                <span data-lang-key="${item.langKey}"></span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            ${megaMenuHTML}
+                        </div>`;
+                }
+
+                // --- Build Mobile Menu Structure ---
+                if (item.type === 'link') {
+                    mobileNav.innerHTML += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
+                } else if (item.type === 'dropdown' || (item.type === 'mega-menu' && item.content.columns)) {
+                     const mobileSubItems = (item.items || item.content.columns.flatMap(col => col.items)).map(subItem => 
+                        `<a href="${subItem.href}" class="block py-2 pl-4 text-slate-500 hover:text-amber-600" data-lang-key="${subItem.langKey || subItem.titleLangKey}"></a>`
+                    ).join('');
+
+                    mobileNav.innerHTML += `
+                        <div>
+                            <button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle">
+                                <span data-lang-key="${item.langKey}"></span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                            <div class="mt-1 space-y-1 mobile-submenu">${mobileSubItems}</div>
+                        </div>`;
+                } else if (item.type === 'mega-menu' && item.content.background) {
+                    mobileNav.innerHTML += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
+                }
+            });
+        };
+
+        /**
+         * Applies translations to all elements with data-lang-key attribute.
+         */
+        const applyTranslations = (lang) => {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (appData.translations[key] && appData.translations[key][lang]) {
+                    element.innerHTML = appData.translations[key][lang];
+                }
+            });
+
+            // Translate static sections
+            document.getElementById('ebook-section-title').innerHTML = staticTranslations.ebookSectionTitle[lang];
+            document.getElementById('ebook-section-subtitle').innerHTML = staticTranslations.ebookSectionSubtitle[lang];
+            document.getElementById('view-all-ebooks-btn').innerHTML = staticTranslations.ebookViewAll[lang];
+            
+            // Update search placeholder
+            const searchInput = document.getElementById('search-input');
+            if (searchInput && appData.translations.searchPlaceholder) {
+                searchInput.placeholder = appData.translations.searchPlaceholder[lang];
             }
         };
 
-        const renderProviderCards = (providersToRender, lang) => {
+        const renderProviderCards = (lang) => {
             const guidesContainer = document.getElementById('guides');
             if (!guidesContainer) return;
             
-            guidesContainer.innerHTML = ''; // Clear existing cards
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filteredProviders = appData.providers.filter(provider => {
+                const title = appData.translations[provider.titleKey]?.[lang] || provider.titleKey;
+                return title.toLowerCase().includes(searchTerm);
+            });
 
-            if (providersToRender.length === 0) {
-                const noResultsMessage = translations.noResults?.[lang] || 'No providers found.';
-                guidesContainer.innerHTML = `<p class="col-span-full text-center text-slate-500 text-lg">${noResultsMessage}</p>`;
+            guidesContainer.innerHTML = '';
+
+            if (filteredProviders.length === 0) {
+                guidesContainer.innerHTML = `<p class="col-span-full text-center text-slate-500 text-lg">${appData.translations.noResults?.[lang] || 'No providers found.'}</p>`;
                 return;
             }
 
-            providersToRender.forEach(provider => {
-                const title = translations[provider.titleKey]?.[lang] || provider.titleKey;
-                const description = translations[provider.descKey]?.[lang] || provider.descKey;
-                const themeColor = provider.themeColor || '#f97316'; // Fallback ke warna oranye
+            filteredProviders.forEach(provider => {
+                const title = appData.translations[provider.titleKey]?.[lang] || provider.titleKey;
+                const description = appData.translations[provider.descKey]?.[lang] || provider.descKey;
+                const themeColor = provider.themeColor || '#f97316';
+                const buttonText = appData.translations.exploreButton?.[lang] || 'Start Exploring';
+                const comingSoonText = appData.translations.comingSoon?.[lang] || 'Coming Soon';
                 
                 const cardContent = `
                     <div class="flex-grow">
                         <img src="${provider.logo}" alt="Logo ${title}" class="h-12"/>
                         <h2 class="text-2xl font-bold mt-4 text-slate-800">${title}</h2>
                         <p class="text-slate-500 mt-2">${description}</p>
-                    </div>
-                `;
+                    </div>`;
 
                 if (provider.status === 'active') {
                     guidesContainer.innerHTML += `
-                        <a href="${provider.link}" 
-                           class="card-base provider-card active-card p-8"
-                           onmouseover="this.style.borderColor='${themeColor}'"
-                           onmouseout="this.style.borderColor='transparent'">
+                        <a href="${provider.link}" class="card-base provider-card active-card p-8" onmouseover="this.style.borderColor='${themeColor}'" onmouseout="this.style.borderColor='transparent'">
                             ${cardContent}
                             <div class="mt-6">
-                               <div class="inline-block font-semibold text-white px-4 py-2 rounded-lg" 
-                                    style="background-color: ${themeColor};">
-                                    ${translations.exploreButton[lang]}
-                               </div>
+                               <div class="inline-block font-semibold text-white px-4 py-2 rounded-lg" style="background-color: ${themeColor};">${buttonText}</div>
                             </div>
                         </a>`;
                 } else {
                     guidesContainer.innerHTML += `
                         <div class="card-base provider-card inactive-card relative p-8">
-                            <div class="coming-soon-badge">${translations.comingSoon[lang]}</div>
+                            <div class="coming-soon-badge">${comingSoonText}</div>
                             ${cardContent}
                         </div>`;
                 }
             });
         };
-
-        const filterAndRenderProviders = () => {
-            const lang = localStorage.getItem('language') || 'id';
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-
-            if (!cloudProviders.length) return;
-
-            const filteredProviders = cloudProviders.filter(provider => {
-                const title = translations[provider.titleKey]?.[lang] || provider.titleKey;
-                return title.toLowerCase().includes(searchTerm);
-            });
-
-            renderProviderCards(filteredProviders, lang);
-        };
         
         const renderEbookCards = (lang) => {
             const ebooksContainer = document.getElementById('ebooks');
-            if (!ebooksContainer || !ebooks.length) return;
+            if (!ebooksContainer || !appData.ebooks.length) return;
 
-            ebooksContainer.innerHTML = ''; // Clear existing cards
-            
-            const topEbooks = ebooks.slice(0, 3);
+            ebooksContainer.innerHTML = '';
+            const topEbooks = appData.ebooks.slice(0, 3);
 
             topEbooks.forEach(book => {
                 const title = book.title?.[lang] || book.title?.id;
                 const description = book.description?.[lang] || book.description?.id;
+                const price = book.price?.[lang] || book.price?.id;
+                const discountPrice = book.discountPrice?.[lang] || book.discountPrice?.id;
+                const buttonText = book.buttonText?.[lang] || book.buttonText?.id;
+                const comingSoonText = appData.translations.comingSoon?.[lang] || 'Coming Soon';
 
                 const cardContent = `
                     <img src="${book.coverImage}" alt="Cover E-Book ${title}" class="w-full h-64 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x256/e2e8f0/475569?text=Image+Not+Found';">
@@ -370,139 +420,108 @@
                         <h3 class="text-xl font-bold text-slate-800">${title}</h3>
                         <p class="text-slate-500 mt-2 flex-grow">${description}</p>
                     </div>`;
-
-                const price = book.price?.[lang] || book.price?.id;
-                const discountPrice = book.discountPrice?.[lang] || book.discountPrice?.id;
-                const buttonText = book.buttonText?.[lang] || book.buttonText?.id;
-                let priceHTML = '';
-
+                
+                let priceHTML = `<span class="text-xl font-bold text-blue-600">${price}</span>`;
                 if (discountPrice) {
-                    priceHTML = `
-                        <div class="text-left">
-                            <span class="text-xl font-bold text-red-600">${discountPrice}</span>
-                            <span class="ml-2 text-base text-slate-500 line-through">${price}</span>
-                        </div>
-                    `;
-                } else {
-                    priceHTML = `<span class="text-xl font-bold text-blue-600">${price}</span>`;
+                    priceHTML = `<div class="text-left"><span class="text-xl font-bold text-red-600">${discountPrice}</span><span class="ml-2 text-base text-slate-500 line-through">${price}</span></div>`;
                 }
 
                 if (book.status === 'coming_soon') {
-                    const comingSoonText = translations.comingSoon?.[lang] || 'Coming Soon';
-                    
                     ebooksContainer.innerHTML += `
                     <div class="card-base ebook-card inactive-card relative overflow-hidden">
                         <div class="coming-soon-badge">${comingSoonText}</div>
                         ${cardContent}
-                        <div class="p-6 pt-0 mt-auto">
-                           <div class="flex justify-between items-center">
-                                <span class="text-xl font-bold text-slate-500">${price}</span>
-                                <div class="inline-block font-semibold text-white bg-slate-400 px-5 py-2 rounded-lg cursor-not-allowed">${buttonText}</div>
-                            </div>
-                        </div>
+                        <div class="p-6 pt-0 mt-auto"><div class="flex justify-between items-center"><span class="text-xl font-bold text-slate-500">${price}</span><div class="inline-block font-semibold text-white bg-slate-400 px-5 py-2 rounded-lg cursor-not-allowed">${buttonText}</div></div></div>
                     </div>`;
                 } else { 
                     ebooksContainer.innerHTML += `
                         <a href="${book.link}" class="card-base ebook-card overflow-hidden">
                             ${cardContent}
-                            <div class="p-6 pt-0 mt-auto">
-                                <div class="flex justify-between items-center">
-                                    ${priceHTML}
-                                    <div class="inline-block font-semibold text-white bg-blue-600 px-5 py-2 rounded-lg">${buttonText}</div>
-                                </div>
-                            </div>
+                            <div class="p-6 pt-0 mt-auto"><div class="flex justify-between items-center">${priceHTML}<div class="inline-block font-semibold text-white bg-blue-600 px-5 py-2 rounded-lg">${buttonText}</div></div></div>
                         </a>`;
                 }
             });
         };
 
         const setLanguage = (lang) => {
-            if (!Object.keys(translations).length) return;
+            if (!Object.keys(appData.translations).length) return;
 
-            document.documentElement.lang = lang;
             localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
 
-            document.querySelectorAll('[data-lang-key]').forEach(element => {
-                const key = element.getAttribute('data-lang-key');
-                if (translations[key] && translations[key][lang]) {
-                    element.innerHTML = translations[key][lang];
-                }
-            });
-
-            // Update search placeholder
-            const searchInput = document.getElementById('search-input');
-            if (searchInput && translations.searchPlaceholder) {
-                searchInput.placeholder = translations.searchPlaceholder[lang];
-            }
-
-            document.getElementById('ebook-section-title').innerHTML = ebookSectionTranslations.title[lang];
-            document.getElementById('ebook-section-subtitle').innerHTML = ebookSectionTranslations.subtitle[lang];
-            document.getElementById('view-all-ebooks-btn').innerHTML = ebookSectionTranslations.viewAllButton[lang];
-
-            filterAndRenderProviders(); // Re-filter and render providers with the new language
+            applyTranslations(lang);
+            renderProviderCards(lang);
             renderEbookCards(lang);
 
             document.getElementById('lang-id').classList.toggle('active', lang === 'id');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
         };
 
-        const initNav = () => {
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileNav = document.getElementById('mobile-nav');
-            const submenuToggles = document.querySelectorAll('.submenu-toggle');
-
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileNav.classList.toggle('hidden');
-            });
-
-            submenuToggles.forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    const submenu = toggle.nextElementSibling;
-                    toggle.classList.toggle('open');
-                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-                });
-            });
-        };
-
         const initApp = async () => {
             const guidesContainer = document.getElementById('guides');
             const ebooksContainer = document.getElementById('ebooks');
             try {
-                // Pastikan path ke file JSON sudah benar
-                const [providersResponse, translationsResponse, ebooksResponse] = await Promise.all([
-                    fetch('/cloud/providers-data.json'), // Menggunakan path relatif
-                    fetch('/cloud/translations.json'),
-                    fetch('/cloud/ebooks-data.json') 
+                const [providersRes, translationsRes, ebooksRes, menuRes] = await Promise.all([
+                    fetch('providers-data.json'),
+                    fetch('translations.json'),
+                    fetch('ebooks-data.json'),
+                    fetch('menu-data.json')
                 ]);
 
-                if (!providersResponse.ok || !translationsResponse.ok || !ebooksResponse.ok) {
-                    throw new Error('Network response was not ok.');
+                if (!providersRes.ok || !translationsRes.ok || !ebooksRes.ok || !menuRes.ok) {
+                    throw new Error('A data file could not be loaded.');
                 }
                 
-                cloudProviders = await providersResponse.json();
-                translations = await translationsResponse.json();
-                ebooks = await ebooksResponse.json();
+                appData.providers = await providersRes.json();
+                appData.translations = await translationsRes.json();
+                appData.ebooks = await ebooksRes.json();
+                appData.menu = (await menuRes.json()).menu;
 
-                // Add event listeners
+                buildNavigationStructure();
+                
                 document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
                 document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
-                document.getElementById('search-input').addEventListener('input', filterAndRenderProviders);
+                document.getElementById('search-input').addEventListener('input', () => {
+                    const lang = localStorage.getItem('language') || 'id';
+                    renderProviderCards(lang);
+                });
+                
+                initNav();
 
                 const preferredLanguage = localStorage.getItem('language') || 'id';
                 setLanguage(preferredLanguage);
 
             } catch (error) {
                 console.error('Failed to load initial data:', error);
-                const errorMsg = 'Gagal memuat data. Pastikan semua file .json yang diperlukan ada.';
+                const errorMsg = 'Gagal memuat data. Pastikan semua file .json yang diperlukan ada dan dapat diakses.';
                 if (guidesContainer) guidesContainer.innerHTML = `<p class="text-center text-red-500 col-span-full">${errorMsg}</p>`;
                 if (ebooksContainer) ebooksContainer.innerHTML = `<p class="text-center text-red-500 col-span-full">${errorMsg}</p>`;
             }
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-            initNav(); // Inisialisasi fungsionalitas navigasi
-        });
+        const initNav = () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNavContainer = document.getElementById('mobile-nav-container');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileNavContainer.classList.toggle('hidden');
+            });
+
+            const mobileNav = document.getElementById('mobile-nav');
+            if(mobileNav) {
+                mobileNav.addEventListener('click', (e) => {
+                    const toggle = e.target.closest('.submenu-toggle');
+                    if (toggle) {
+                        e.preventDefault();
+                        const submenu = toggle.nextElementSibling;
+                        toggle.classList.toggle('open');
+                        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', initApp);
 
     </script>
 </body>
