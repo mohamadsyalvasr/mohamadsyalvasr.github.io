@@ -96,6 +96,28 @@
         .submenu-toggle.open svg {
             transform: rotate(90deg);
         }
+        
+        /* Gaya untuk badge dan item menu yang non-aktif */
+        .menu-item-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* slate-600 */
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .menu-item-disabled {
+            filter: grayscale(80%);
+            cursor: not-allowed;
+        }
+        .menu-item-disabled:hover {
+            background-color: transparent !important;
+            transform: scale(1) !important;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -204,16 +226,25 @@
                 if (item.type === 'link') {
                     desktopNav.innerHTML += `<a href="${item.href}" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors" data-lang-key="${item.langKey}"></a>`;
                 } else if (item.type === 'dropdown') {
-                    const dropdownItems = item.items.map(subItem => 
-                        `<a href="${subItem.href}" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600" data-lang-key="${subItem.langKey}"></a>`
-                    ).join('');
+                    const dropdownItems = item.items.map(subItem => {
+                        const isComingSoon = subItem.status === 'comingsoon';
+                        if (isComingSoon) {
+                            return `
+                            <div class="relative px-4 py-2 text-slate-400 flex justify-between items-center cursor-not-allowed">
+                                <span data-lang-key="${subItem.langKey}"></span>
+                                <span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span>
+                            </div>`;
+                        }
+                        return `<a href="${subItem.href}" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600" data-lang-key="${subItem.langKey}"></a>`;
+                    }).join('');
+
                     desktopNav.innerHTML += `
                         <div class="relative dropdown">
                             <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
                                 <span data-lang-key="${item.langKey}"></span>
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div class="dropdown-menu absolute top-full left-0 w-48 z-50 bg-white rounded-lg shadow-xl py-2">${dropdownItems}</div>
+                            <div class="dropdown-menu absolute top-full left-0 w-56 z-50 bg-white rounded-lg shadow-xl py-2">${dropdownItems}</div>
                         </div>`;
                 } else if (item.type === 'mega-menu') {
                     let megaMenuHTML = '';
@@ -225,14 +256,24 @@
 
                         const megaColumns = splitColumns.map(colItems => `
                             <div class="space-y-2">
-                                ${colItems.map(colItem => `
-                                    <a href="${colItem.href}" class="flex items-center p-3 rounded-lg hero-menu-card">
-                                        <img src="${colItem.img}" class="mr-4 rounded-md flex-shrink-0 w-12 h-12 object-contain" alt="${colItem.alt}">
-                                        <div>
-                                            <p class="font-semibold text-slate-700" data-lang-key="${colItem.titleLangKey}"></p>
-                                            <p class="text-sm text-slate-500" data-lang-key="${colItem.descLangKey}"></p>
-                                        </div>
-                                    </a>`).join('')}
+                                ${colItems.map(colItem => {
+                                    const isComingSoon = colItem.status === 'comingsoon';
+                                    const linkHref = isComingSoon ? '#' : colItem.href;
+                                    const linkClass = isComingSoon ? 'menu-item-disabled' : '';
+                                    const badgeHTML = isComingSoon ? '<span class="menu-item-badge" data-lang-key="comingSoon"></span>' : '';
+
+                                    return `
+                                    <div class="relative">
+                                        <a href="${linkHref}" class="flex items-center p-3 rounded-lg hero-menu-card ${linkClass}">
+                                            <img src="${colItem.img}" class="mr-4 rounded-md flex-shrink-0 w-12 h-12 object-contain" alt="${colItem.alt}">
+                                            <div>
+                                                <p class="font-semibold text-slate-700" data-lang-key="${colItem.titleLangKey}"></p>
+                                                <p class="text-sm text-slate-500" data-lang-key="${colItem.descLangKey}"></p>
+                                            </div>
+                                        </a>
+                                        ${badgeHTML}
+                                    </div>`;
+                                }).join('')}
                             </div>
                         `).join('');
 
@@ -309,9 +350,17 @@
                 if (item.type === 'link') {
                     mobileNav.innerHTML += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
                 } else if (item.type === 'dropdown' || (item.type === 'mega-menu' && item.content.columns)) {
-                     const mobileSubItems = (item.items || item.content.columns.flatMap(col => col.items)).map(subItem => 
-                        `<a href="${subItem.href}" class="block py-2 pl-4 text-slate-500 hover:text-amber-600" data-lang-key="${subItem.langKey || subItem.titleLangKey}"></a>`
-                    ).join('');
+                     const mobileSubItems = (item.items || item.content.columns.flatMap(col => col.items)).map(subItem => {
+                        const isComingSoon = subItem.status === 'comingsoon';
+                        if (isComingSoon) {
+                            return `
+                            <div class="flex items-center justify-between py-2 pl-4 text-slate-400 cursor-not-allowed">
+                                <span data-lang-key="${subItem.langKey || subItem.titleLangKey}"></span>
+                                <span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5 mr-2" data-lang-key="comingSoon"></span>
+                            </div>`;
+                        }
+                        return `<a href="${subItem.href}" class="block py-2 pl-4 text-slate-500 hover:text-amber-600" data-lang-key="${subItem.langKey || subItem.titleLangKey}"></a>`;
+                    }).join('');
 
                     mobileNav.innerHTML += `
                         <div>

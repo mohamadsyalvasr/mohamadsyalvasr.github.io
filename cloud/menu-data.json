@@ -9,8 +9,8 @@
       "type": "dropdown",
       "langKey": "navProducts",
       "items": [
-        { "langKey": "productEbooks", "href": "/cloud/ebooks" },
-        { "langKey": "productTools", "href": "/cloud/tools" }
+        { "langKey": "productEbooks", "href": "/cloud/ebooks", "status": "active" },
+        { "langKey": "productTools", "href": "/cloud/tools", "status": "comingsoon" }
       ]
     },
     {
@@ -26,42 +26,48 @@
                 "alt": "AWS Icon",
                 "titleLangKey": "serviceAwsTitle",
                 "descLangKey": "serviceAwsDesc",
-                "href": "/cloud/aws"
+                "href": "/cloud/aws",
+                "status": "active"
               },
               {
                 "img": "https://www.svgrepo.com/show/448223/gcp.svg",
                 "alt": "GCP Icon",
                 "titleLangKey": "serviceGcpTitle",
                 "descLangKey": "serviceGcpDesc",
-                "href": "/cloud/gcp"
+                "href": "/cloud/gcp",
+                "status": "active"
               },
               {
                 "img": "https://swimburger.net/media/ppnn3pcl/azure.png",
                 "alt": "Azure Icon",
                 "titleLangKey": "serviceAzureTitle",
                 "descLangKey": "serviceAzureDesc",
-                "href": "/cloud/azure"
+                "href": "/cloud/azure",
+                "status": "active"
               },
               {
                 "img": "https://www.svgrepo.com/show/354151/oracle.svg",
                 "alt": "Oracle Icon",
                 "titleLangKey": "serviceOracleTitle",
                 "descLangKey": "serviceOracleDesc",
-                "href": "/cloud/oracle"
+                "href": "/cloud/oracle",
+                "status": "comingsoon"
               },
               {
                 "img": "https://www.svgrepo.com/show/306375/ibm.svg",
                 "alt": "IBM Icon",
                 "titleLangKey": "serviceIbmTitle",
                 "descLangKey": "serviceIbmDesc",
-                "href": "/cloud/ibm"
+                "href": "/cloud/ibm",
+                "status": "active"
               },
               {
                 "img": "https://www.svgrepo.com/show/353684/digitalocean.svg",
                 "alt": "DigitalOcean Icon",
                 "titleLangKey": "serviceDoTitle",
                 "descLangKey": "serviceDoDesc",
-                "href": "/cloud/digitalocean"
+                "href": "/cloud/digitalocean",
+                "status": "active"
               }
             ]
           }
