@@ -43,10 +43,10 @@
                 "titleLangKey": "serviceAzureTitle",
                 "descLangKey": "serviceAzureDesc",
                 "href": "/cloud/azure",
-                "status": "active"
+                "status": "comingsoon"
               },
               {
-                "img": "https://www.svgrepo.com/show/354151/oracle.svg",
+                "img": "https://www.svgrepo.com/show/448245/oracle.svg",
                 "alt": "Oracle Icon",
                 "titleLangKey": "serviceOracleTitle",
                 "descLangKey": "serviceOracleDesc",
@@ -54,20 +54,20 @@
                 "status": "comingsoon"
               },
               {
-                "img": "https://www.svgrepo.com/show/306375/ibm.svg",
+                "img": "https://www.svgrepo.com/show/341921/ibm.svg",
                 "alt": "IBM Icon",
                 "titleLangKey": "serviceIbmTitle",
                 "descLangKey": "serviceIbmDesc",
                 "href": "/cloud/ibm",
-                "status": "active"
+                "status": "comingsoon"
               },
               {
-                "img": "https://www.svgrepo.com/show/353684/digitalocean.svg",
+                "img": "https://www.svgrepo.com/show/473586/digitalocean.svg",
                 "alt": "DigitalOcean Icon",
                 "titleLangKey": "serviceDoTitle",
                 "descLangKey": "serviceDoDesc",
                 "href": "/cloud/digitalocean",
-                "status": "active"
+                "status": "comingsoon"
               }
             ]
           }
@@ -92,12 +92,29 @@
       "langKey": "navAbout",
       "href": "/cloud/about",
       "content": {
-        "text": {
-          "titleLangKey": "aboutTitle",
-          "descLangKey": "aboutDesc",
-          "missionTitleLangKey": "aboutMissionTitle",
-          "missionDescLangKey": "aboutMissionDesc"
-        }
+        "background": {
+            "url": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop"
+        },
+        "titleLangKey": "aboutMegaTitle",
+        "descLangKey": "aboutMegaDesc",
+        "cta": {
+            "langKey": "aboutMegaCTA",
+            "href": "/cloud/about-us"
+        },
+        "keyPoints": [
+            {
+                "titleLangKey": "aboutPoint1Title",
+                "descLangKey": "aboutPoint1Desc"
+            },
+            {
+                "titleLangKey": "aboutPoint2Title",
+                "descLangKey": "aboutPoint2Desc"
+            },
+            {
+                "titleLangKey": "aboutPoint3Title",
+                "descLangKey": "aboutPoint3Desc"
+            }
+        ]
       }
     }
   ]

@@ -199,20 +199,40 @@
     "id": "Baca selengkapnya &rarr;",
     "en": "Read more &rarr;"
   },
-  "aboutTitle": {
-    "id": "Tentang CloudGuides",
-    "en": "About CloudGuides"
+  "aboutMegaTitle": {
+    "id": "Misi Kami: Menyederhanakan Cloud",
+    "en": "Our Mission: To Simplify the Cloud"
   },
-  "aboutDesc": {
-    "id": "CloudGuides adalah platform panduan interaktif Anda untuk menavigasi dunia cloud computing yang kompleks. Kami percaya bahwa teknologi canggih harus dapat diakses dan dipahami oleh semua orang, terlepas dari latar belakang teknis mereka.",
-    "en": "CloudGuides is your interactive guide platform for navigating the complex world of cloud computing. We believe that powerful technology should be accessible and understandable for everyone, regardless of their technical background."
+  "aboutMegaDesc": {
+    "id": "Kami hadir untuk memecah kompleksitas teknologi cloud menjadi panduan yang mudah diakses dan dipahami oleh semua orang.",
+    "en": "We exist to break down the complexity of cloud technology into guides that are accessible and understandable for everyone."
   },
-  "aboutMissionTitle": {
-    "id": "Misi Kami",
-    "en": "Our Mission"
+  "aboutMegaCTA": {
+    "id": "Pelajari Lebih Lanjut",
+    "en": "Learn More"
   },
-  "aboutMissionDesc": {
-    "id": "Menyediakan panduan yang jelas, akurat, dan praktis untuk memberdayakan individu dan bisnis dalam membuat keputusan teknologi yang lebih baik dan lebih cerdas di era cloud.",
-    "en": "To provide clear, accurate, and practical guides to empower individuals and businesses in making better, smarter technology decisions in the cloud era."
+  "aboutPoint1Title": {
+    "id": "Fokus pada Fondasi",
+    "en": "Focus on Fundamentals"
+  },
+  "aboutPoint1Desc": {
+    "id": "Kami percaya fondasi yang kuat adalah kunci. Konten kami menguraikan konsep inti cloud secara jelas dan terstruktur.",
+    "en": "We believe a strong foundation is key. Our content breaks down core cloud concepts in a clear and structured way."
+  },
+  "aboutPoint2Title": {
+    "id": "Kualitas & Kejelasan",
+    "en": "Quality & Clarity"
+  },
+  "aboutPoint2Desc": {
+    "id": "Kami memprioritaskan kualitas di atas kuantitas. Setiap panduan disusun dengan cermat untuk memastikan materi mudah dipahami.",
+    "en": "We prioritize quality over quantity. Each guide is carefully crafted to ensure the material is easy to understand."
+  },
+  "aboutPoint3Title": {
+    "id": "Untuk Semua Level",
+    "en": "For All Levels"
+  },
+  "aboutPoint3Desc": {
+    "id": "Baik Anda pemula atau profesional, temukan konten yang sesuai untuk Anda.",
+    "en": "Whether you're a beginner or a pro, find content tailored for you."
   }
 }
