@@ -27,10 +27,6 @@
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-        /* CSS rule di bawah ini tidak lagi diperlukan karena kita akan menggunakan inline style dari JS */
-        /* .provider-card.active-card:hover {
-            border-color: #f97316; 
-        } */
         .provider-card.inactive-card {
             filter: grayscale(80%);
             cursor: not-allowed;
@@ -61,29 +57,132 @@
             background-color: #1e293b; /* slate-800 */
             color: white;
         }
+
+        /* --- Gaya untuk Dropdown & Mega Menu --- */
+        /* PERBAIKAN: Menghilangkan transform translateY untuk menghapus celah animasi */
+        .dropdown-menu, .mega-menu-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
+            pointer-events: none;
+        }
+        .dropdown:hover .dropdown-menu,
+        .group:hover .mega-menu-content {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .hero-menu-card {
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .hero-menu-card:hover {
+            background-color: #f8fafc; /* slate-50 */
+            transform: scale(1.02);
+        }
+
+        .mobile-submenu {
+            display: none;
+        }
+        .submenu-toggle svg {
+            transition: transform 0.3s;
+        }
+        .submenu-toggle.open svg {
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
-        <div class="container mx-auto flex items-center justify-between p-4">
-            <!-- Breadcrumb di dalam Header -->
-            <nav aria-label="Breadcrumb">
-                <ol class="list-none p-0 inline-flex items-center text-sm">
-                    <li>
-                        <a href="/cloud/" class="flex items-center text-slate-600 hover:text-amber-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                            </svg>
-                        </a>
-                    </li>
-                </ol>
-            </nav>
-            <div class="flex items-center space-x-2 md:space-x-4">
-                <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
-                    <!-- Tautan akan dibuat oleh JavaScript -->
+    <!-- Header dengan Navigasi Baru -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between">
+            <!-- Grup Logo dan Navigasi (Rata Kiri) -->
+            <div class="flex items-center space-x-8">
+                <!-- Logo -->
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-amber-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+
+                <!-- Navigasi Desktop -->
+                <nav id="desktop-nav" class="hidden md:flex items-center">
+                    <a href="#" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors">Beranda</a>
+
+                    <div class="relative dropdown">
+                        <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                            <span>Produk</span>
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <!-- PERBAIKAN: Menghilangkan pt-5 dan menyederhanakan struktur -->
+                        <div class="dropdown-menu absolute top-full left-0 w-48 z-50 mt-2 bg-white rounded-lg shadow-xl py-2">
+                            <a href="#" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600">E-Book</a>
+                            <a href="#" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600">Video Kursus</a>
+                            <a href="#" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600">Tools</a>
+                        </div>
+                    </div>
+
+                    <div class="group static">
+                        <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                            <span>Layanan</span>
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <!-- PERBAIKAN: Menghilangkan pt-5 untuk menghapus celah -->
+                        <div class="mega-menu-content absolute left-0 top-full w-full z-50">
+                             <div class="bg-white shadow-lg border-t border-slate-200/50">
+                                <div class="container mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    <div class="space-y-4 md:col-span-2">
+                                        <h3 class="font-bold text-slate-800">Panduan Cloud Terpopuler</h3>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
+                                                <img src="https://placehold.co/64x64/FDBA74/4C1D95?text=AWS" class="mr-4 rounded-md flex-shrink-0" alt="Ikon AWS">
+                                                <div>
+                                                    <p class="font-semibold text-slate-700">Panduan AWS</p>
+                                                    <p class="text-sm text-slate-500">Jelajahi layanan Amazon Web Services.</p>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
+                                                <img src="https://placehold.co/64x64/A5B4FC/1E3A8A?text=GCP" class="mr-4 rounded-md flex-shrink-0" alt="Ikon GCP">
+                                                <div>
+                                                    <p class="font-semibold text-slate-700">Panduan Google Cloud</p>
+                                                    <p class="text-sm text-slate-500">Optimalkan proyek Anda dengan GCP.</p>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
+                                                <img src="https://placehold.co/64x64/93C5FD/0C4A6E?text=Azure" class="mr-4 rounded-md flex-shrink-0" alt="Ikon Azure">
+                                                <div>
+                                                    <p class="font-semibold text-slate-700">Panduan Azure</p>
+                                                    <p class="text-sm text-slate-500">Bangun solusi enterprise dengan Azure.</p>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="flex items-center p-4 rounded-lg hero-menu-card">
+                                                <img src="https://placehold.co/64x64/FCA5A5/7F1D1D?text=Oracle" class="mr-4 rounded-md flex-shrink-0" alt="Ikon Oracle">
+                                                <div>
+                                                    <p class="font-semibold text-slate-700">Panduan Oracle Cloud</p>
+                                                    <p class="text-sm text-slate-500">Solusi cloud database yang andal.</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-lg p-6 flex flex-col justify-center">
+                                        <img src="https://placehold.co/400x200/fb923c/ffffff?text=Studi+Kasus" class="rounded-md mb-4" alt="Gambar Studi Kasus">
+                                        <h3 class="font-bold text-slate-800">Studi Kasus: Migrasi ke Cloud</h3>
+                                        <p class="text-slate-500 mt-2 mb-4 text-sm">Pelajari bagaimana perusahaan X berhasil memindahkan infrastruktur mereka ke cloud.</p>
+                                        <a href="#" class="inline-block text-amber-600 font-semibold hover:text-amber-700 transition-colors">Baca selengkapnya &rarr;</a>
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                    </div>
+                    
+                    <a href="#" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors">Tentang Kami</a>
                 </nav>
-                
+            </div>
+            
+            <!-- Grup Aksi (Rata Kanan) -->
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
                 <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
                     <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
                     <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
@@ -96,9 +195,38 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Navigasi Mobile -->
         <div id="mobile-nav" class="hidden md:hidden border-t border-slate-200">
-            <nav class="px-2 pt-2 pb-4 space-y-1 sm:px-3">
-                 <!-- Tautan akan dibuat oleh JavaScript -->
+            <nav class="px-4 pt-4 pb-8 space-y-2">
+                 <a href="#" class="block py-2 text-slate-600 font-medium hover:text-amber-600">Beranda</a>
+                 
+                 <div>
+                    <button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle">
+                        <span>Produk</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <div class="pl-4 mt-2 space-y-2 mobile-submenu">
+                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">E-Book</a>
+                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Video Kursus</a>
+                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Tools</a>
+                    </div>
+                 </div>
+
+                 <div>
+                    <button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle">
+                        <span>Layanan</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <div class="pl-4 mt-2 space-y-2 mobile-submenu">
+                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Panduan AWS</a>
+                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Panduan Google Cloud</a>
+                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Panduan Azure</a>
+                        <a href="#" class="block py-2 text-slate-500 hover:text-amber-600">Lihat Semua Panduan</a>
+                    </div>
+                 </div>
+
+                 <a href="#" class="block py-2 text-slate-600 font-medium hover:text-amber-600">Tentang Kami</a>
             </nav>
         </div>
     </header>
@@ -187,9 +315,6 @@
                 `;
 
                 if (provider.status === 'active') {
-                    // --- PERUBAHAN DI SINI ---
-                    // 1. Menambahkan event onmouseover dan onmouseout untuk mengubah warna border.
-                    // 2. Menggunakan inline style untuk background-color pada tombol.
                     guidesContainer.innerHTML += `
                         <a href="${provider.link}" 
                            class="card-base provider-card active-card p-8"
@@ -321,6 +446,24 @@
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
         };
 
+        const initNav = () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            const submenuToggles = document.querySelectorAll('.submenu-toggle');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileNav.classList.toggle('hidden');
+            });
+
+            submenuToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const submenu = toggle.nextElementSibling;
+                    toggle.classList.toggle('open');
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                });
+            });
+        };
+
         const initApp = async () => {
             const guidesContainer = document.getElementById('guides');
             const ebooksContainer = document.getElementById('ebooks');
@@ -345,7 +488,6 @@
                 document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
                 document.getElementById('search-input').addEventListener('input', filterAndRenderProviders);
 
-
                 const preferredLanguage = localStorage.getItem('language') || 'id';
                 setLanguage(preferredLanguage);
 
@@ -357,7 +499,10 @@
             }
         };
 
-        document.addEventListener('DOMContentLoaded', initApp);
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            initNav(); // Inisialisasi fungsionalitas navigasi
+        });
 
     </script>
 </body>

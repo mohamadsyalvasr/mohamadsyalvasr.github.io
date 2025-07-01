@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Cloud Compute Solution Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .decision-button.selected, .sort-btn.active, .lang-switcher button.active {
+            background-color: #f59e0b; /* amber-500 */
+            color: white;
+            border-color: #f59e0b;
+        }
+        .provider-logo {
+            width: 24px;
+            height: 24px;
+        }
+        .service-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 0.75rem;
+        }
+        .recommendation-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .recommendation-card.highlight {
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+        }
+        .provider-filter-checkbox:checked, #hide-others-checkbox:checked {
+            background-color: #f59e0b;
+            border-color: #f59e0b;
+        }
+        .loading-spinner {
+            border-top-color: #f59e0b; /* amber-500 */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                </svg>
+                <h1 data-lang-key="appTitle" class="text-xl font-bold text-slate-800">Multi-Cloud Compute Finder</h1>
+            </div>
+            <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <div id="loading-state" class="text-center py-16">
+             <div class="loading-spinner h-12 w-12 rounded-full border-4 border-slate-200 mx-auto mb-4"></div>
+             <p class="text-slate-500 font-medium">Memuat data layanan cloud...</p>
+        </div>
+
+        <div id="main-content" class="hidden">
+            <section id="decision-tool" class="mt-8">
+                <h2 data-lang-key="newFinderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi</h2>
+                <p data-lang-key="newFinderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk menemukan layanan yang paling sesuai untuk tugas Anda.</p>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <div class="mb-8 pb-6 border-b border-slate-200">
+                        <h4 data-lang-key="providerTitle" class="font-semibold mb-3 text-slate-700">Penyedia Cloud</h4>
+                        <div id="provider-filters" class="flex flex-wrap gap-4 items-center">
+                        </div>
+                    </div>
+
+                    <div id="decision-filters" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    </div>
+                    
+                    <hr class="my-8 border-slate-200">
+
+                    <div>
+                        <div class="text-center mb-4">
+                            <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-slate-800">Layanan yang Direkomendasikan</h3>
+                        </div>
+                        <div id="recommendation-controls" class="hidden flex-col sm:flex-row justify-center items-center gap-4 mb-6 p-2 bg-slate-50 rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <span data-lang-key="sortBy" class="text-sm font-medium text-slate-600">Urutkan:</span>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <button type="button" data-sort="asc" class="sort-btn px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100">A-Z</button>
+                                    <button type="button" data-sort="desc" class="sort-btn px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100">Z-A</button>
+                                    <button type="button" data-sort="default" class="sort-btn active px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-lg hover:bg-gray-100">Default</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="hide-others-checkbox" type="checkbox" class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500">
+                                <label for="hide-others-checkbox" data-lang-key="hideNotRecommended" class="ml-2 text-sm font-medium text-slate-700">Hanya tampilkan rekomendasi</label>
+                            </div>
+                        </div>
+
+                        <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        </div>
+                         <div id="no-recommendation" class="hidden text-center text-slate-500 py-8">
+                            <p data-lang-key="noResults">Tidak ada layanan yang cocok dengan filter yang dipilih.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="text-center mt-20 py-8 bg-slate-100">
+        <div class="container mx-auto">
+            <p data-lang-key="footerDemo" class="text-slate-500 text-sm px-4">Solution Finder v1.0 - Proyek Demonstrasi</p>
+            <p data-lang-key="footerDisclaimer" class="text-slate-400 text-xs mt-4 px-4 max-w-4xl mx-auto">
+                Situs ini adalah alat bantu independen dan tidak berafiliasi dengan, disponsori, atau didukung oleh Amazon Web Services, Google Cloud Platform, atau Microsoft Azure. Semua merek dagang adalah milik dari pemiliknya masing-masing.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // --- KONFIGURASI ---
+         const DATA_FILES = {
+            'aws': {
+                url: '../aws/assets/data/compute-data.json',
+                iconPath: '../aws/assets/icons/'
+            },
+            'gcp': { url: '../gcp/assets/data/compute-data.json', iconPath: '../gcp/assets/icons/' },
+            'azure': { url: '../azure/assets/data/compute-data.json', iconPath: '../azure/assets/icons/' },
+        };
+
+        const PROVIDER_DETAILS = {
+            'aws': { name: 'AWS', logo: 'https://www.svgrepo.com/show/376356/aws.svg', borderColor: '#FF9900' },
+            'gcp': { name: 'GCP', logo: 'https://www.svgrepo.com/show/448223/gcp.svg', borderColor: '#4285F4' },
+            'azure': { name: 'Azure', logo: 'https://swimburger.net/media/ppnn3pcl/azure.png', borderColor: '#0078D4' }
+        };
+        
+        // PERUBAHAN: Terjemahan statis untuk kerangka aplikasi
+        const staticTranslations = {
+            'appTitle': { 'id': 'Pencari Komputasi Multi-Cloud', 'en': 'Multi-Cloud Compute Finder' },
+            'providerTitle': { 'id': 'Penyedia Cloud', 'en': 'Cloud Providers' },
+            'newFinderTitle': { 'id': 'Pencari Solusi', 'en': 'Solution Finder' },
+            'newFinderSubtitle': { 'id': 'Gunakan filter ini untuk menemukan layanan yang paling sesuai untuk tugas Anda.', 'en': 'Use these filters to find the right service for your task.' },
+            'recommendationTitle': { 'id': 'Layanan yang Direkomendasikan', 'en': 'Recommended Services' },
+            'sortBy': { 'id': 'Urutkan:', 'en': 'Sort by:' },
+            'hideNotRecommended': { 'id': 'Hanya tampilkan rekomendasi', 'en': 'Show recommended only' },
+            'noResults': { 'id': 'Tidak ada layanan yang cocok dengan filter yang dipilih.', 'en': 'No services match the selected filters.' },
+            'noRecommendation': { 'id': 'Pilih filter di atas untuk melihat rekomendasi.', 'en': 'Select a filter above to see recommendations.' },
+            'footerDemo': { 'id': 'Solution Finder v1.0 - Proyek Demonstrasi', 'en': 'Solution Finder v1.0 - Demonstration Project' },
+            'footerDisclaimer': { 
+                'id': 'Situs ini adalah alat bantu independen dan tidak berafiliasi dengan, disponsori, atau didukung oleh Amazon Web Services, Google Cloud Platform, atau Microsoft Azure. Semua merek dagang adalah milik dari pemiliknya masing-masing.',
+                'en': 'This site is an independent tool and is not affiliated with, sponsored, or endorsed by Amazon Web Services, Google Cloud Platform, or Microsoft Azure. All trademarks are the property of their respective owners.'
+            }
+        };
+
+        // --- STATE GLOBAL ---
+        let allServices = {};
+        let allDecisionFilters = [];
+        let allTranslations = {}; // Akan diisi oleh gabungan static dan dari JSON
+        let currentLang = 'id';
+        let activeProviderFilters = new Set(Object.keys(DATA_FILES));
+        let activeDecisionFilters = new Set();
+        let hideNotRecommended = false;
+        let sortOrder = 'default';
+
+        // --- ELEMEN DOM ---
+        const loadingEl = document.getElementById('loading-state');
+        const mainContentEl = document.getElementById('main-content');
+        const providerFiltersEl = document.getElementById('provider-filters');
+        const decisionFiltersEl = document.getElementById('decision-filters');
+        const recommendationsEl = document.getElementById('recommendations');
+        const noRecommendationEl = document.getElementById('no-recommendation');
+        const hideCheckbox = document.getElementById('hide-others-checkbox');
+        const recommendationControls = document.getElementById('recommendation-controls');
+
+        /**
+         * Mengambil dan menggabungkan data dari semua file yang dikonfigurasi.
+         */
+        async function fetchAndMergeData() {
+            // Memulai dengan terjemahan statis
+            allTranslations = { ...staticTranslations };
+
+            const fetchPromises = Object.entries(DATA_FILES).map(async ([provider, config]) => {
+                try {
+                    const response = await fetch(config.url);
+                    if (!response.ok) throw new Error(`Gagal memuat data untuk ${provider}: ${response.statusText}`);
+                    const json = await response.json();
+                    const pageData = json.pageData || json;
+                    // Menggabungkan terjemahan dari JSON ke objek utama
+                    if (json.translations) Object.assign(allTranslations, json.translations);
+                    
+                    if (pageData.services) {
+                        Object.values(pageData.services).forEach(service => { 
+                            service.provider = provider;
+                            service.iconPath = config.iconPath;
+                        });
+                    }
+                    return pageData;
+                } catch (error) {
+                    console.error(error.message);
+                    return null; 
+                }
+            });
+            const resolvedPromises = await Promise.all(fetchPromises);
+            const results = resolvedPromises.filter(r => r);
+            
+            results.forEach((data) => {
+                if (data.services) Object.assign(allServices, data.services);
+                if (data.decisionFilters) {
+                    data.decisionFilters.forEach(newGroup => {
+                        if (!allDecisionFilters.some(g => g.titleLangKey === newGroup.titleLangKey)) {
+                            allDecisionFilters.push(newGroup);
+                        }
+                    });
+                }
+            });
+        }
+        
+        /**
+         * Mengatur bahasa pada UI
+         */
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (allTranslations[key] && allTranslations[key][lang]) {
+                    element.innerHTML = allTranslations[key][lang];
+                }
+            });
+            
+            createDecisionFilters();
+            renderRecommendations();
+            
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        }
+
+        /**
+         * Membuat UI untuk filter penyedia cloud.
+         */
+        function createProviderFilters() {
+            providerFiltersEl.innerHTML = '';
+            Object.keys(DATA_FILES).forEach(provider => {
+                const details = PROVIDER_DETAILS[provider];
+                if (!details) return;
+                const container = document.createElement('label');
+                container.className = 'flex items-center space-x-2 cursor-pointer p-2 rounded-md hover:bg-slate-100';
+                container.innerHTML = `
+                    <input type="checkbox" data-provider="${provider}" class="provider-filter-checkbox h-5 w-5 rounded border-slate-300 text-amber-600 focus:ring-amber-500" checked>
+                    <img src="${details.logo}" alt="${details.name} logo" class="provider-logo">
+                    <span class="font-medium text-slate-700">${details.name}</span>
+                `;
+                providerFiltersEl.appendChild(container);
+            });
+        }
+
+        /**
+         * Membuat UI untuk filter kriteria teknis.
+         */
+        function createDecisionFilters() {
+            decisionFiltersEl.innerHTML = '';
+            allDecisionFilters.forEach(group => {
+                const groupDiv = document.createElement('div');
+                const titleText = allTranslations[group.titleLangKey]?.[currentLang] || group.titleLangKey;
+                groupDiv.innerHTML = `<h4 class="font-bold mb-3 text-slate-700">${titleText}</h4>`;
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.className = 'flex flex-col space-y-2';
+                group.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.dataset.filter = option.filter;
+                    button.className = `decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200 ${activeDecisionFilters.has(option.filter) ? 'selected' : ''}`;
+                    button.textContent = allTranslations[option.langKey]?.[currentLang] || option.langKey;
+                    buttonsDiv.appendChild(button);
+                });
+                groupDiv.appendChild(buttonsDiv);
+                decisionFiltersEl.appendChild(groupDiv);
+            });
+        }
+
+        /**
+         * Merender kartu rekomendasi berdasarkan filter dan sorting.
+         */
+        function renderRecommendations() {
+            recommendationsEl.innerHTML = '';
+            const hasActiveFilters = activeDecisionFilters.size > 0;
+            recommendationControls.classList.toggle('hidden', !hasActiveFilters);
+            recommendationControls.classList.toggle('flex', hasActiveFilters);
+
+            let servicesFromActiveProviders = Object.values(allServices).filter(service => activeProviderFilters.has(service.provider));
+            let recommendedServices = hasActiveFilters ? servicesFromActiveProviders.filter(service => [...activeDecisionFilters].every(tag => service.tags.includes(tag))) : [];
+            
+            let servicesToRender = hasActiveFilters ? (hideNotRecommended ? recommendedServices : servicesFromActiveProviders) : [];
+
+            if (!hasActiveFilters) {
+                noRecommendationEl.classList.remove('hidden');
+                noRecommendationEl.querySelector('p').textContent = allTranslations['noRecommendation']?.[currentLang] || 'Pilih filter di atas untuk melihat rekomendasi.';
+                recommendationsEl.classList.add('hidden');
+                return;
+            }
+
+            if (sortOrder === 'asc') servicesToRender.sort((a, b) => a.title.localeCompare(b.title));
+            else if (sortOrder === 'desc') servicesToRender.sort((a, b) => b.title.localeCompare(a.title));
+
+            const hasResults = servicesToRender.length > 0;
+            if (hasResults) {
+                servicesToRender.forEach(service => {
+                    const isRecommended = recommendedServices.includes(service);
+                    const card = document.createElement('div');
+                    card.className = `recommendation-card bg-white border-2 p-4 rounded-lg flex flex-col transition-all duration-300 ${isRecommended ? 'highlight' : 'opacity-40 hover:opacity-100'}`;
+                    
+                    if (isRecommended) {
+                        card.style.borderColor = PROVIDER_DETAILS[service.provider]?.borderColor || '#f59e0b';
+                    } else {
+                        card.style.borderColor = 'transparent';
+                    }
+
+                    const providerDetails = PROVIDER_DETAILS[service.provider];
+                    const summaryText = service.tabs?.Summary?.[currentLang] || service.tabs?.Summary?.id || 'Deskripsi tidak tersedia.';
+                    const dependencyText = service.dependency?.[currentLang] || service.dependency?.id;
+                    const dependencyHTML = dependencyText ? `<p style="color: ${providerDetails.borderColor}" class="text-xs italic mt-1">${dependencyText}</p>` : '';
+                    const serviceIconHTML = service.icon ? `<img src="${service.iconPath}${service.icon}" alt="${service.title}" class="service-icon">` : '';
+
+                    card.innerHTML = `
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center">
+                                    ${serviceIconHTML}
+                                    <h5 class="font-bold text-slate-800">${service.title}</h5>
+                                </div>
+                                <img src="${providerDetails.logo}" alt="${providerDetails.name} logo" class="provider-logo">
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">${summaryText}</p>
+                            ${dependencyHTML}
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                            <p class="text-xs text-slate-400 font-medium">${service.tags.slice(0, 3).join(' · ')}</p>
+                        </div>
+                    `;
+                    recommendationsEl.appendChild(card);
+                });
+            }
+            
+            noRecommendationEl.classList.toggle('hidden', !hasResults);
+            noRecommendationEl.querySelector('p').textContent = allTranslations['noResults']?.[currentLang] || 'Tidak ada layanan yang cocok dengan filter yang dipilih.';
+            recommendationsEl.classList.toggle('hidden', !hasResults);
+        }
+
+        /**
+         * Menangani event klik pada elemen interaktif.
+         */
+        function handleInteraction(e) {
+            const providerCheckbox = e.target.closest('input[data-provider]');
+            if (providerCheckbox) {
+                activeProviderFilters.has(providerCheckbox.dataset.provider) ? activeProviderFilters.delete(providerCheckbox.dataset.provider) : activeProviderFilters.add(providerCheckbox.dataset.provider);
+                renderRecommendations();
+                return;
+            }
+
+            const decisionButton = e.target.closest('.decision-button');
+            if (decisionButton) {
+                decisionButton.classList.toggle('selected');
+                activeDecisionFilters.has(decisionButton.dataset.filter) ? activeDecisionFilters.delete(decisionButton.dataset.filter) : activeDecisionFilters.add(decisionButton.dataset.filter);
+                renderRecommendations();
+                return;
+            }
+
+            const sortButton = e.target.closest('.sort-btn');
+            if (sortButton) {
+                sortOrder = sortButton.dataset.sort;
+                document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+                sortButton.classList.add('active');
+                renderRecommendations();
+                return;
+            }
+
+            if (e.target.id === 'lang-id') setLanguage('id');
+            if (e.target.id === 'lang-en') setLanguage('en');
+        }
+
+        /**
+         * Inisialisasi aplikasi.
+         */
+        async function initializeApp() {
+            try {
+                await fetchAndMergeData();
+                loadingEl.classList.add('hidden');
+                mainContentEl.classList.remove('hidden');
+                createProviderFilters();
+                
+                const preferredLanguage = localStorage.getItem('language') || 'id';
+                setLanguage(preferredLanguage);
+
+                document.body.addEventListener('click', handleInteraction);
+                hideCheckbox.addEventListener('change', (e) => {
+                    hideNotRecommended = e.target.checked;
+                    renderRecommendations();
+                });
+            } catch (error) {
+                loadingEl.innerHTML = `<p class="text-red-500 font-medium">Gagal memuat data. Silakan periksa file JSON dan coba lagi.</p>`;
+                console.error("Inisialisasi aplikasi gagal:", error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>

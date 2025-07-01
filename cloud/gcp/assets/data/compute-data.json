@@ -365,7 +365,7 @@
     "filterHpc": { "id": "HPC & AI/ML", "en": "HPC & AI/ML" },
     "filterMigration": { "id": "Migrasi", "en": "Migration" },
     "filter2Title": { "id": "2. Di Mana Anda Ingin Menjalankannya?", "en": "2. Where do you want to run it?" },
-    "filterCloud": { "id": "Region Cloud GCP", "en": "GCP Cloud Regions" },
+    "filterCloud": { "id": "Provider Cloud Regions", "en": "Provider Cloud Regions" },
     "filterHybrid": { "id": "Hybrid & On-Premises", "en": "Hybrid & On-Premises" },
     "filterEdge": { "id": "Lokasi Edge", "en": "Edge Locations" },
     "filter3Title": { "id": "3. Apa Model Manajemen Anda?", "en": "3. What is your Management Model?" },

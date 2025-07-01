@@ -1,5 +1,5 @@
 {
-  "computeData": {
+  "pageData": {
     "categories": {
       "vms": {
         "title": { "id": "Virtual Machines", "en": "Virtual Machines" },
@@ -173,7 +173,7 @@
     "filterServerless": { "id": "Serverless & Event-driven", "en": "Serverless & Event-driven" },
     "filterHpc": { "id": "HPC & Batch", "en": "HPC & Batch" },
     "filter2Title": { "id": "2. Di Mana Anda Ingin Menjalankannya?", "en": "2. Where do you want to run it?" },
-    "filterCloud": { "id": "Azure Cloud Regions", "en": "Azure Cloud Regions" },
+    "filterCloud": { "id": "Provider Cloud Regions", "en": "Provider Cloud Regions" },
     "filterHybrid": { "id": "Hybrid & Multicloud", "en": "Hybrid & Multicloud" },
     "filterEdge": { "id": "Edge Locations", "en": "Edge Locations" },
     "filter3Title": { "id": "3. Apa Model Manajemen Anda?", "en": "3. What is your Management Model?" },
