@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - CloudGuides</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .lang-switcher button.active {
+            background-color: #1e293b; /* slate-800 */
+            color: white;
+        }
+        /* --- Gaya untuk Dropdown & Mega Menu dari index.html --- */
+        .dropdown-menu, .mega-menu-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+        .group:hover .mega-menu-content,
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .hero-menu-card {
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .hero-menu-card:hover {
+            background-color: #f8fafc; /* slate-50 */
+            transform: scale(1.02);
+        }
+        .about-mega-menu-bg {
+            background-size: cover;
+            background-position: center;
+        }
+        .mobile-submenu {
+            display: none;
+        }
+        .submenu-toggle svg {
+            transition: transform 0.3s;
+        }
+        .submenu-toggle.open svg {
+            transform: rotate(90deg);
+        }
+        .menu-item-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* slate-600 */
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .menu-item-disabled {
+            filter: grayscale(80%);
+            cursor: not-allowed;
+        }
+        .menu-item-disabled:hover {
+            background-color: transparent !important;
+            transform: scale(1) !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header dengan Navigasi (Sama seperti index.html) -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between">
+            <!-- Grup Logo dan Navigasi -->
+            <div class="flex items-center space-x-8">
+                <!-- Logo -->
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-amber-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <!-- Navigasi Desktop (Akan diisi oleh JavaScript) -->
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
+            </div>
+            
+            <!-- Grup Aksi -->
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigasi Mobile (Akan diisi oleh JavaScript) -->
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <div class="relative bg-slate-800">
+            <div class="absolute inset-0">
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop" alt="Tim yang sedang berkolaborasi">
+                <div class="absolute inset-0 bg-slate-800/60 mix-blend-multiply"></div>
+            </div>
+            <div class="relative max-w-4xl mx-auto text-center py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+                <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl" data-lang-key="aboutMegaTitle"></h1>
+                <p class="mt-6 text-xl text-slate-200" data-lang-key="aboutMegaDesc"></p>
+            </div>
+        </div>
+
+        <!-- Our Values Section -->
+        <section class="py-16 sm:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-slate-900" data-lang-key="ourValuesTitle"></h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto" data-lang-key="ourValuesSubtitle"></p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <!-- Value 1 -->
+                    <div class="text-center">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-amber-500 text-white mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 18a9 9 0 009-9m-9 9a9 9 0 00-9-9" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold" data-lang-key="aboutPoint1Title"></h3>
+                        <p class="mt-2 text-slate-500" data-lang-key="aboutPoint1Desc"></p>
+                    </div>
+                    <!-- Value 2 -->
+                    <div class="text-center">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-amber-500 text-white mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold" data-lang-key="aboutPoint2Title"></h3>
+                        <p class="mt-2 text-slate-500" data-lang-key="aboutPoint2Desc"></p>
+                    </div>
+                    <!-- Value 3 -->
+                    <div class="text-center">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-amber-500 text-white mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold" data-lang-key="aboutPoint3Title"></h3>
+                        <p class="mt-2 text-slate-500" data-lang-key="aboutPoint3Desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-12 bg-slate-100">
+        <p data-lang-key="footer" class="text-slate-500 text-sm container mx-auto px-6"></p>
+    </footer>
+
+    <script>
+        // Global object untuk menyimpan data yang diambil
+        let appData = {
+            translations: {},
+            menu: []
+        };
+        
+        // Terjemahan statis khusus untuk halaman ini
+        const staticTranslations = {
+            ourValuesTitle: { id: "Nilai-Nilai Kami", en: "Our Values" },
+            ourValuesSubtitle: { id: "Tiga pilar utama yang menjadi dasar dari semua yang kami lakukan di CloudGuides.", en: "The three main pillars that form the foundation of everything we do at CloudGuides." }
+        };
+
+        /**
+         * Membangun struktur navigasi (desktop dan mobile) dari data menu.
+         * Fungsi ini diambil dari index.html untuk konsistensi.
+         */
+        const buildNavigationStructure = () => {
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (!desktopNav || !mobileNav) return;
+
+            desktopNav.innerHTML = '';
+            mobileNav.innerHTML = '';
+
+            appData.menu.forEach(item => {
+                // --- Build Desktop Menu Structure ---
+                if (item.type === 'link') {
+                    desktopNav.innerHTML += `<a href="${item.href}" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors" data-lang-key="${item.langKey}"></a>`;
+                } else if (item.type === 'dropdown') {
+                    const dropdownItems = item.items.map(subItem => {
+                        const isComingSoon = subItem.status === 'comingsoon';
+                        if (isComingSoon) {
+                            return `
+                            <div class="relative px-4 py-2 text-slate-400 flex justify-between items-center cursor-not-allowed">
+                                <span data-lang-key="${subItem.langKey}"></span>
+                                <span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span>
+                            </div>`;
+                        }
+                        return `<a href="${subItem.href}" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600" data-lang-key="${subItem.langKey}"></a>`;
+                    }).join('');
+
+                    desktopNav.innerHTML += `
+                        <div class="relative dropdown">
+                            <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                                <span data-lang-key="${item.langKey}"></span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="dropdown-menu absolute top-full left-0 w-56 z-50 bg-white rounded-lg shadow-xl py-2">${dropdownItems}</div>
+                        </div>`;
+                } else if (item.type === 'mega-menu') {
+                    let megaMenuHTML = '';
+                    if (item.content.columns) {
+                         const allItems = item.content.columns[0].items;
+                        const midIndex = Math.ceil(allItems.length / 2);
+                        const splitColumns = [allItems.slice(0, midIndex), allItems.slice(midIndex)];
+
+                        const megaColumns = splitColumns.map(colItems => `
+                            <div class="space-y-2">
+                                ${colItems.map(colItem => {
+                                    const isComingSoon = colItem.status === 'comingsoon';
+                                    const linkHref = isComingSoon ? '#' : colItem.href;
+                                    const linkClass = isComingSoon ? 'menu-item-disabled' : '';
+                                    const badgeHTML = isComingSoon ? '<span class="menu-item-badge" data-lang-key="comingSoon"></span>' : '';
+
+                                    return `
+                                    <div class="relative">
+                                        <a href="${linkHref}" class="flex items-center p-3 rounded-lg hero-menu-card ${linkClass}">
+                                            <img src="${colItem.img}" class="mr-4 rounded-md flex-shrink-0 w-12 h-12 object-contain" alt="${colItem.alt}">
+                                            <div>
+                                                <p class="font-semibold text-slate-700" data-lang-key="${colItem.titleLangKey}"></p>
+                                                <p class="text-sm text-slate-500" data-lang-key="${colItem.descLangKey}"></p>
+                                            </div>
+                                        </a>
+                                        ${badgeHTML}
+                                    </div>`;
+                                }).join('')}
+                            </div>
+                        `).join('');
+                        let viewAllLink = item.content.viewAll && item.content.viewAll.active ? `<div class="md:col-span-2 mt-4 text-center border-t border-slate-200 pt-4"><a href="${item.content.viewAll.href}" class="font-semibold text-amber-600 hover:text-amber-700 transition-colors" data-lang-key="${item.content.viewAll.langKey}"></a></div>` : '';
+                        const featured = item.content.featured;
+                        megaMenuHTML = `<div class="mega-menu-content absolute left-0 top-full w-full z-50"><div class="bg-white shadow-lg border-t border-slate-200/50"><div class="container mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8"><div class="md:col-span-2"><h3 class="font-bold text-slate-800 px-3 mb-4" data-lang-key="${item.content.columns[0].titleLangKey}"></h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">${megaColumns}</div>${viewAllLink}</div><div class="bg-slate-50 rounded-lg p-6 flex flex-col justify-center"><img src="${featured.img}" class="rounded-md mb-4" alt="${featured.alt}" onerror="this.onerror=null;this.src='https://placehold.co/400x200/fb923c/ffffff?text=Image+Not+Found';"><h3 class="font-bold text-slate-800" data-lang-key="${featured.titleLangKey}"></h3><p class="text-slate-500 mt-2 mb-4 text-sm" data-lang-key="${featured.descLangKey}"></p><a href="${featured.href}" class="inline-block text-amber-600 font-semibold hover:text-amber-700 transition-colors" data-lang-key="${featured.linkLangKey}"></a></div></div></div></div>`;
+                    } else if (item.content.background) {
+                        const keyPoints = item.content.keyPoints.map(point => `<div class="bg-white/80 backdrop-blur-sm p-4 rounded-lg"><h4 class="font-bold text-slate-800" data-lang-key="${point.titleLangKey}"></h4><p class="text-slate-600 text-sm mt-1" data-lang-key="${point.descLangKey}"></p></div>`).join('');
+                        megaMenuHTML = `<div class="mega-menu-content absolute left-0 top-full w-full z-50"><div class="container mx-auto p-4"><div class="bg-slate-200 rounded-lg shadow-lg overflow-hidden about-mega-menu-bg" style="background-image: url('${item.content.background.url}')"><div class="bg-black/20 p-8 grid grid-cols-1 md:grid-cols-2 gap-8"><div class="text-white"><h3 class="text-2xl font-bold" data-lang-key="${item.content.titleLangKey}"></h3><p class="mt-2" data-lang-key="${item.content.descLangKey}"></p><a href="${item.content.cta.href}" class="inline-block bg-amber-500 text-white font-semibold px-5 py-2 rounded-md hover:bg-amber-600 transition-colors mt-6" data-lang-key="${item.content.cta.langKey}"></a></div><div class="space-y-4">${keyPoints}</div></div></div></div></div>`;
+                    }
+
+                    desktopNav.innerHTML += `
+                        <div class="group static">
+                            <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                                <span data-lang-key="${item.langKey}"></span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            ${megaMenuHTML}
+                        </div>`;
+                }
+
+                // --- Build Mobile Menu Structure ---
+                if (item.type === 'link') {
+                    mobileNav.innerHTML += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
+                } else if (item.type === 'dropdown' || (item.type === 'mega-menu' && item.content.columns)) {
+                     const mobileSubItems = (item.items || item.content.columns.flatMap(col => col.items)).map(subItem => {
+                        const isComingSoon = subItem.status === 'comingsoon';
+                        if (isComingSoon) {
+                            return `<div class="flex items-center justify-between py-2 pl-4 text-slate-400 cursor-not-allowed"><span data-lang-key="${subItem.langKey || subItem.titleLangKey}"></span><span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5 mr-2" data-lang-key="comingSoon"></span></div>`;
+                        }
+                        return `<a href="${subItem.href}" class="block py-2 pl-4 text-slate-500 hover:text-amber-600" data-lang-key="${subItem.langKey || subItem.titleLangKey}"></a>`;
+                    }).join('');
+                    mobileNav.innerHTML += `<div><button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle"><span data-lang-key="${item.langKey}"></span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button><div class="mt-1 space-y-1 mobile-submenu">${mobileSubItems}</div></div>`;
+                } else if (item.type === 'mega-menu' && item.content.background) {
+                    mobileNav.innerHTML += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
+                }
+            });
+        };
+
+        /**
+         * Menerapkan terjemahan ke semua elemen dengan atribut data-lang-key.
+         */
+        const applyTranslations = (lang) => {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                let translation = appData.translations[key]?.[lang];
+                
+                // Fallback ke terjemahan statis jika tidak ditemukan di JSON utama
+                if (!translation) {
+                    translation = staticTranslations[key]?.[lang];
+                }
+
+                if (translation) {
+                    element.innerHTML = translation;
+                }
+            });
+        };
+
+        /**
+         * Mengatur bahasa yang aktif dan menyimpannya.
+         */
+        const setLanguage = (lang) => {
+            if (!Object.keys(appData.translations).length) return;
+            localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
+            applyTranslations(lang);
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            // Ganti judul halaman sesuai bahasa
+            document.title = lang === 'id' ? 'Tentang Kami - CloudGuides' : 'About Us - CloudGuides';
+        };
+
+        /**
+         * Inisialisasi event listener untuk navigasi mobile.
+         */
+        const initNav = () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNavContainer = document.getElementById('mobile-nav-container');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileNavContainer.classList.toggle('hidden');
+            });
+
+            const mobileNav = document.getElementById('mobile-nav');
+            if(mobileNav) {
+                mobileNav.addEventListener('click', (e) => {
+                    const toggle = e.target.closest('.submenu-toggle');
+                    if (toggle) {
+                        e.preventDefault();
+                        const submenu = toggle.nextElementSibling;
+                        toggle.classList.toggle('open');
+                        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+            }
+        };
+
+        /**
+         * Fungsi utama untuk menginisialisasi aplikasi.
+         */
+        const initApp = async () => {
+            try {
+                // Ambil data menu dan terjemahan secara paralel
+                const [translationsRes, menuRes] = await Promise.all([
+                    fetch('../translations.json'),
+                    fetch('../menu-data.json')
+                ]);
+
+                if (!translationsRes.ok || !menuRes.ok) {
+                    throw new Error('File data translations.json atau menu-data.json tidak dapat dimuat.');
+                }
+                
+                appData.translations = await translationsRes.json();
+                appData.menu = (await menuRes.json()).menu;
+
+                // Bangun struktur navigasi
+                buildNavigationStructure();
+                
+                // Atur event listener untuk tombol bahasa
+                document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+                document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+                
+                // Inisialisasi navigasi mobile
+                initNav();
+
+                // Atur bahasa awal berdasarkan preferensi yang tersimpan atau default ke 'id'
+                const preferredLanguage = localStorage.getItem('language') || 'id';
+                setLanguage(preferredLanguage);
+
+            } catch (error) {
+                console.error('Gagal memuat data awal:', error);
+                document.body.innerHTML = `<div class="text-center p-8 text-red-600 bg-red-100">${error.message}</div>`;
+            }
+        };
+
+        // Jalankan aplikasi setelah DOM selesai dimuat
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
