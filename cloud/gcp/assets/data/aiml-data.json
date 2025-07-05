@@ -62,6 +62,10 @@
           {
             "filter": "build",
             "langKey": "filterBuild"
+          },
+          {
+            "filter": "devops",
+            "langKey": "filterDevOps"
           }
         ]
       },
@@ -84,45 +88,53 @@
       }
     ],
     "categories": {
-      "ml_platforms": {
+      "ai_services": {
         "title": {
-          "id": "Platform ML Terkelola",
-          "en": "Managed ML Platforms"
+          "id": "Layanan AI",
+          "en": "AI Services"
         },
         "description": {
-          "id": "Layanan dengan antarmuka konsol untuk membangun, melatih, dan mengelola solusi ML.",
-          "en": "Services with console interfaces to build, train, and manage ML solutions."
+          "id": "Tambahkan kecerdasan ke aplikasi melalui API, tanpa keahlian ML.",
+          "en": "Add intelligence to apps via APIs, with no ML expertise needed."
+        },
+        "icon": "✨",
+        "services": [
+          "vision-ai",
+          "document-ai-platform",
+          "natural-language-ai",
+          "speech-to-text",
+          "text-to-speech",
+          "translation-ai",
+          "dialogflow",
+          "vertex-ai-search",
+          "gemini-for-google-cloud"
+        ]
+      },
+      "ml_platforms": {
+        "title": {
+          "id": "Platform ML",
+          "en": "ML Platforms"
+        },
+        "description": {
+          "id": "Alat untuk membangun, melatih, dan men-deploy model ML kustom.",
+          "en": "Tools to build, train, and deploy custom ML models."
         },
         "icon": "🛠️",
         "services": [
           "vertex-ai",
-          "document-ai",
-          "vertex-ai-search",
-          "dialogflow"
-        ]
-      },
-      "gen_ai": {
-        "title": {
-          "id": "AI Generatif",
-          "en": "Generative AI"
-        },
-        "description": {
-          "id": "Temukan, sesuaikan, dan deploy model fondasi melalui antarmuka visual.",
-          "en": "Discover, tune, and deploy foundation models through a visual interface."
-        },
-        "icon": "🎨",
-        "services": [
-          "model-garden"
+          "recommendations-ai",
+          "vertex-ai-forecasting",
+          "vertex-ai-vision"
         ]
       },
       "infra": {
         "title": {
-          "id": "Infrastruktur ML",
-          "en": "ML Infrastructure"
+          "id": "Infrastruktur & Kerangka Kerja",
+          "en": "Infrastructure & Frameworks"
         },
         "description": {
-          "id": "Untuk para ahli yang membutuhkan kendali penuh atas lingkungan komputasi.",
-          "en": "For experts needing full control over the computing environment."
+          "id": "Untuk para ahli yang membutuhkan kendali penuh atas perangkat keras dan kerangka kerja.",
+          "en": "For experts needing full control over hardware and frameworks."
         },
         "icon": "⚙️",
         "services": [
@@ -133,54 +145,198 @@
       }
     },
     "services": {
-      "vertex-ai": {
-        "title": "Vertex AI Platform",
-        "icon": "gcp/Vertex-AI.svg",
-        "parent": "ml_platforms",
+      "vision-ai": {
+        "title": "Cloud Vision AI",
+        "icon": "gcp/Vision-AI.svg",
+        "parent": "ai_services",
+        "awsEquivalent": "Rekognition",
         "tabs": {
           "Summary": {
-            "id": "Platform terpadu untuk seluruh siklus hidup MLOps, dikelola melalui konsol.",
-            "en": "A unified, console-managed platform for the entire MLOps lifecycle."
+            "id": "Analisis gambar otomatis menggunakan model terlatih Google.",
+            "en": "Automated image analysis using Google's pre-trained models."
           },
           "Use Case": {
-            "id": "Persiapan data, pelatihan model (AutoML & kustom), penyetelan, dan deployment.",
-            "en": "Data preparation, model training (AutoML & custom), tuning, and deployment."
+            "id": "Deteksi objek, pengenalan teks (OCR), moderasi konten, dan deteksi wajah.",
+            "en": "Object detection, text recognition (OCR), content moderation, and face detection."
           },
           "Pricing": {
-            "id": "Bayar sesuai penggunaan untuk setiap komponen (misalnya, jam pelatihan, jam prediksi).",
-            "en": "Pay-as-you-go for each component (e.g., training hours, prediction hours)."
+            "id": "Bayar per 1000 unit berdasarkan fitur yang digunakan.",
+            "en": "Pay per 1000 units based on features used."
           }
         },
         "scores": {
-          "easeOfUse": 7,
-          "customization": 9,
-          "abstraction": 6
+          "easeOfUse": 10,
+          "customization": 2,
+          "abstraction": 9
         },
         "tags": [
-          "build",
           "vision",
-          "language",
-          "data-scientist",
-          "expert",
-          "gen-ai"
+          "developer"
         ]
       },
-      "document-ai": {
+      "document-ai-platform": {
         "title": "Document AI",
         "icon": "gcp/Document-AI.svg",
-        "parent": "ml_platforms",
+        "parent": "ai_services",
+        "awsEquivalent": "Textract",
         "tabs": {
           "Summary": {
-            "id": "Platform untuk mengekstrak data terstruktur dari dokumen menggunakan konsol.",
-            "en": "Platform to extract structured data from documents using a console."
+            "id": "Mengekstrak teks, tulisan tangan, dan data terstruktur dari dokumen.",
+            "en": "Extract text, handwriting, and structured data from documents."
           },
           "Use Case": {
-            "id": "Membuat pemroses untuk faktur, formulir, dan tanda terima secara otomatis.",
-            "en": "Building processors for automated processing of invoices, forms, and receipts."
+            "id": "Otomatisasi pemrosesan faktur, formulir, dan tanda terima.",
+            "en": "Automating invoice, form, and receipt processing."
           },
           "Pricing": {
-            "id": "Bayar per halaman yang diproses oleh pemroses Anda.",
-            "en": "Pay per page processed by your processors."
+            "id": "Bayar per halaman yang diproses.",
+            "en": "Pay per page processed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 7,
+          "abstraction": 8
+        },
+        "tags": [
+          "language",
+          "vision",
+          "developer"
+        ]
+      },
+      "natural-language-ai": {
+        "title": "Natural Language AI",
+        "icon": "gcp/Natural-Language-API.svg",
+        "parent": "ai_services",
+        "awsEquivalent": "Comprehend",
+        "tabs": {
+          "Summary": {
+            "id": "Temukan wawasan dan hubungan dalam teks tidak terstruktur.",
+            "en": "Discover insights and relationships in unstructured text."
+          },
+          "Use Case": {
+            "id": "Analisis sentimen, ekstraksi entitas, dan klasifikasi konten.",
+            "en": "Sentiment analysis, entity extraction, and content classification."
+          },
+          "Pricing": {
+            "id": "Bayar per 1000 karakter yang dianalisis.",
+            "en": "Pay per 1000 characters analyzed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 4,
+          "abstraction": 9
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "speech-to-text": {
+        "title": "Speech-to-Text",
+        "icon": "gcp/Speech-to-Text.svg",
+        "parent": "ai_services",
+        "awsEquivalent": "Transcribe",
+        "tabs": {
+          "Summary": {
+            "id": "Mengonversi ucapan menjadi teks secara akurat (ASR).",
+            "en": "Accurately convert speech to text (ASR)."
+          },
+          "Use Case": {
+            "id": "Transkripsi pusat panggilan, pembuatan subtitle, dan perintah suara.",
+            "en": "Call center transcription, subtitle creation, and voice commands."
+          },
+          "Pricing": {
+            "id": "Bayar per menit audio yang diproses.",
+            "en": "Pay per minute of audio processed."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 6,
+          "abstraction": 8
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "text-to-speech": {
+        "title": "Text-to-Speech",
+        "icon": "gcp/Text-to-Speech.svg",
+        "parent": "ai_services",
+        "awsEquivalent": "Polly",
+        "tabs": {
+          "Summary": {
+            "id": "Mengonversi teks menjadi ucapan yang terdengar alami (TTS).",
+            "en": "Convert text into natural-sounding speech (TTS)."
+          },
+          "Use Case": {
+            "id": "Sistem respons suara (IVR) dan pembuatan konten audio.",
+            "en": "Voice response (IVR) systems and creating audio content."
+          },
+          "Pricing": {
+            "id": "Bayar per juta karakter yang dikonversi.",
+            "en": "Pay per million characters converted."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "customization": 5,
+          "abstraction": 9
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "translation-ai": {
+        "title": "Cloud Translation",
+        "icon": "gcp/Translation-API.svg",
+        "parent": "ai_services",
+        "awsEquivalent": "Translate",
+        "tabs": {
+          "Summary": {
+            "id": "Terjemahan bahasa yang cepat dan berkualitas tinggi.",
+            "en": "Fast, high-quality language translation."
+          },
+          "Use Case": {
+            "id": "Melokalkan situs web dan aplikasi, menerjemahkan dokumen.",
+            "en": "Localizing websites and apps, translating documents."
+          },
+          "Pricing": {
+            "id": "Bayar per jumlah karakter yang diterjemahkan.",
+            "en": "Pay per number of characters translated."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "customization": 4,
+          "abstraction": 9
+        },
+        "tags": [
+          "language",
+          "developer"
+        ]
+      },
+      "dialogflow": {
+        "title": "Dialogflow",
+        "icon": "gcp/Dialogflow.svg",
+        "parent": "ai_services",
+        "awsEquivalent": "Lex",
+        "tabs": {
+          "Summary": {
+            "id": "Membangun chatbot dan antarmuka percakapan yang canggih.",
+            "en": "Build sophisticated chatbots and conversational interfaces."
+          },
+          "Use Case": {
+            "id": "Bot layanan pelanggan, bot pemesanan, dan asisten suara.",
+            "en": "Customer service bots, booking bots, and voice assistants."
+          },
+          "Pricing": {
+            "id": "Bayar per permintaan atau per sesi, tergantung edisi (CX/ES).",
+            "en": "Pay per request or per session, depending on the edition (CX/ES)."
           }
         },
         "scores": {
@@ -189,28 +345,28 @@
           "abstraction": 8
         },
         "tags": [
-          "vision",
           "language",
-          "developer",
-          "data-scientist"
+          "gen-ai",
+          "developer"
         ]
       },
       "vertex-ai-search": {
         "title": "Vertex AI Search",
         "icon": "gcp/Search.svg",
-        "parent": "ml_platforms",
+        "parent": "ai_services",
+        "awsEquivalent": "Kendra",
         "tabs": {
           "Summary": {
-            "id": "Membangun kemampuan pencarian tingkat Google untuk situs web dan aplikasi.",
-            "en": "Build Google-quality search capabilities for websites and applications."
+            "id": "Pencarian cerdas bertenaga ML untuk perusahaan dan situs web.",
+            "en": "Intelligent, ML-powered search for enterprises and websites."
           },
           "Use Case": {
-            "id": "Pencarian produk e-commerce, pencarian dokumen internal, pencarian situs web.",
-            "en": "E-commerce product search, internal document search, website search."
+            "id": "Membuat pencarian dokumen internal, pencarian produk ritel, dan pencarian situs.",
+            "en": "Creating internal document search, retail product search, and site search."
           },
           "Pricing": {
-            "id": "Berdasarkan jumlah aplikasi pencarian dan kueri.",
-            "en": "Based on number of search apps and queries."
+            "id": "Berdasarkan jumlah aplikasi pencarian dan volume kueri.",
+            "en": "Based on the number of search apps and query volume."
           }
         },
         "scores": {
@@ -220,26 +376,87 @@
         },
         "tags": [
           "language",
-          "developer",
-          "build"
+          "developer"
         ]
       },
-      "model-garden": {
-        "title": "Model Garden",
-        "icon": "gcp/Model-Garden.svg",
-        "parent": "gen_ai",
+      "gemini-for-google-cloud": {
+        "title": "Gemini for Google Cloud",
+        "icon": "gcp/Generative-AI.svg",
+        "parent": "ai_services",
+        "awsEquivalent": "Amazon Q / CodeWhisperer",
         "tabs": {
           "Summary": {
-            "id": "Temukan, sesuaikan, dan deploy model fondasi melalui antarmuka konsol.",
-            "en": "Discover, customize, and deploy foundation models via a console interface."
+            "id": "Asisten AI yang selalu aktif untuk membantu developer dan profesional cloud.",
+            "en": "An always-on AI assistant to help developers and cloud professionals."
           },
           "Use Case": {
-            "id": "Memilih model terbaik (misalnya Gemini, Imagen, Llama 2) untuk kasus penggunaan tertentu.",
-            "en": "Selecting the best model (e.g., Gemini, Imagen, Llama 2) for a specific use case."
+            "id": "Bantuan pengkodean, pemecahan masalah, dan mendapatkan wawasan operasional.",
+            "en": "Coding assistance, troubleshooting, and gaining operational insights."
           },
           "Pricing": {
-            "id": "Biaya bervariasi tergantung pada model yang dipilih untuk di-deploy.",
-            "en": "Costs vary depending on the model chosen for deployment."
+            "id": "Model berlangganan per pengguna per bulan.",
+            "en": "Per-user per-month subscription model."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "customization": 3,
+          "abstraction": 9
+        },
+        "tags": [
+          "gen-ai",
+          "devops",
+          "developer"
+        ]
+      },
+      "vertex-ai": {
+        "title": "Vertex AI",
+        "icon": "gcp/Vertex-AI.svg",
+        "parent": "ml_platforms",
+        "awsEquivalent": "SageMaker & Bedrock",
+        "tabs": {
+          "Summary": {
+            "id": "Platform terkelola terpadu untuk membangun, melatih, dan men-deploy model ML.",
+            "en": "A unified, managed platform to build, train, and deploy ML models."
+          },
+          "Use Case": {
+            "id": "Seluruh siklus hidup ML, AutoML, MLOps, dan akses ke model fondasi (Gemini).",
+            "en": "The entire ML lifecycle, AutoML, MLOps, and access to foundation models (Gemini)."
+          },
+          "Pricing": {
+            "id": "Bayar untuk penggunaan sumber daya (instans, penyimpanan, pelatihan, prediksi).",
+            "en": "Pay for resource usage (instances, storage, training, prediction)."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 9,
+          "abstraction": 6
+        },
+        "tags": [
+          "build",
+          "gen-ai",
+          "data-scientist",
+          "developer"
+        ]
+      },
+      "recommendations-ai": {
+        "title": "Recommendations AI",
+        "icon": "gcp/Recommendations-AI.svg",
+        "parent": "ml_platforms",
+        "awsEquivalent": "Personalize",
+        "tabs": {
+          "Summary": {
+            "id": "Memberikan rekomendasi produk yang sangat dipersonalisasi dalam skala besar.",
+            "en": "Deliver highly personalized product recommendations at scale."
+          },
+          "Use Case": {
+            "id": "Rekomendasi untuk ritel, media, dan hiburan.",
+            "en": "Recommendations for retail, media, and entertainment."
+          },
+          "Pricing": {
+            "id": "Bayar per hari pelatihan dan per 1000 permintaan prediksi.",
+            "en": "Pay per training day and per 1000 prediction requests."
           }
         },
         "dependency": {
@@ -247,61 +464,99 @@
           "en": "Part of Vertex AI"
         },
         "scores": {
-          "easeOfUse": 8,
+          "easeOfUse": 7,
+          "customization": 7,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "developer"
+        ]
+      },
+      "vertex-ai-forecasting": {
+        "title": "Vertex AI Forecasting",
+        "icon": "gcp/Forecasting.svg",
+        "parent": "ml_platforms",
+        "awsEquivalent": "Forecast",
+        "tabs": {
+          "Summary": {
+            "id": "Melatih model peramalan deret waktu yang sangat akurat dengan AutoML.",
+            "en": "Train highly accurate time-series forecasting models with AutoML."
+          },
+          "Use Case": {
+            "id": "Peramalan permintaan ritel, perencanaan inventaris, dan perencanaan sumber daya.",
+            "en": "Retail demand forecasting, inventory planning, and resource planning."
+          },
+          "Pricing": {
+            "id": "Bayar per jam node untuk pelatihan dan deployment.",
+            "en": "Pay per node hour for training and deployment."
+          }
+        },
+        "dependency": {
+          "id": "Bagian dari Vertex AI",
+          "en": "Part of Vertex AI"
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "customization": 6,
+          "abstraction": 7
+        },
+        "tags": [
+          "build",
+          "data-scientist"
+        ]
+      },
+      "vertex-ai-vision": {
+        "title": "Vertex AI Vision",
+        "icon": "gcp/Vision-AI.svg",
+        "parent": "ml_platforms",
+        "awsEquivalent": "Lookout for Vision / Panorama",
+        "tabs": {
+          "Summary": {
+            "id": "Platform terkelola end-to-end untuk membangun aplikasi visi komputer.",
+            "en": "An end-to-end managed platform for building computer vision applications."
+          },
+          "Use Case": {
+            "id": "Analisis video real-time, kontrol kualitas visual, dan pemantauan produk.",
+            "en": "Real-time video analysis, visual quality control, and product monitoring."
+          },
+          "Pricing": {
+            "id": "Berdasarkan pemrosesan streaming video dan analisis batch gambar/video.",
+            "en": "Based on video stream processing and batch image/video analysis."
+          }
+        },
+        "dependency": {
+          "id": "Bagian dari Vertex AI",
+          "en": "Part of Vertex AI"
+        },
+        "scores": {
+          "easeOfUse": 7,
           "customization": 8,
           "abstraction": 7
         },
         "tags": [
-          "gen-ai",
-          "data-scientist",
-          "build"
-        ]
-      },
-      "dialogflow": {
-        "title": "Dialogflow",
-        "icon": "gcp/Dialogflow.svg",
-        "parent": "ml_platforms",
-        "tabs": {
-          "Summary": {
-            "id": "Platform pengembangan visual untuk membangun antarmuka percakapan.",
-            "en": "Visual development platform for building conversational interfaces."
-          },
-          "Use Case": {
-            "id": "Mendesain alur chatbot dan voicebot untuk layanan pelanggan melalui konsol.",
-            "en": "Designing chatbot and voicebot flows for customer service via the console."
-          },
-          "Pricing": {
-            "id": "Berdasarkan edisi (CX atau ES) dan jumlah sesi atau permintaan.",
-            "en": "Based on edition (CX or ES) and number of sessions or requests."
-          }
-        },
-        "scores": {
-          "easeOfUse": 8,
-          "customization": 7,
-          "abstraction": 8
-        },
-        "tags": [
-          "gen-ai",
-          "language",
-          "developer"
+          "vision",
+          "build",
+          "data-scientist"
         ]
       },
       "deep-learning-vm": {
         "title": "Deep Learning VMs",
         "icon": "gcp/Compute-Engine.svg",
         "parent": "infra",
+        "awsEquivalent": "Deep Learning AMIs",
         "tabs": {
           "Summary": {
-            "id": "Image Compute Engine yang telah dikonfigurasi untuk deep learning.",
-            "en": "Pre-configured Compute Engine images for deep learning."
+            "id": "Image VM yang telah dikonfigurasi untuk deep learning.",
+            "en": "Pre-configured VM images for deep learning."
           },
           "Use Case": {
-            "id": "Membuat prototipe dan lingkungan deep learning kustom dengan cepat.",
-            "en": "Quickly prototyping and building custom deep learning environments."
+            "id": "Menyiapkan lingkungan pelatihan kustom dengan cepat di Compute Engine.",
+            "en": "Quickly setting up a custom training environment on Compute Engine."
           },
           "Pricing": {
-            "id": "Tidak ada biaya tambahan, bayar untuk instans Compute Engine yang digunakan.",
-            "en": "No additional charge, pay for the Compute Engine instances used."
+            "id": "Tidak ada biaya tambahan, bayar untuk instans Compute Engine.",
+            "en": "No additional charge, pay for the Compute Engine instance."
           }
         },
         "scores": {
@@ -318,18 +573,19 @@
         "title": "Deep Learning Containers",
         "icon": "gcp/Google-Kubernetes-Engine.svg",
         "parent": "infra",
+        "awsEquivalent": "Deep Learning Containers",
         "tabs": {
           "Summary": {
-            "id": "Kontainer Docker dengan kerangka kerja dan driver yang telah diinstal.",
-            "en": "Docker containers with pre-installed frameworks and drivers."
+            "id": "Kontainer Docker dengan kerangka kerja deep learning yang telah diinstal.",
+            "en": "Docker containers with pre-installed deep learning frameworks."
           },
           "Use Case": {
-            "id": "Menjalankan pekerjaan deep learning di lingkungan portabel seperti Google Kubernetes Engine (GKE).",
-            "en": "Running deep learning jobs in portable environments like Google Kubernetes Engine (GKE)."
+            "id": "Menjalankan pelatihan ML di lingkungan portabel seperti Google Kubernetes Engine.",
+            "en": "Running ML training in portable environments like Google Kubernetes Engine."
           },
           "Pricing": {
-            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya yang digunakan (misalnya, GKE, Compute Engine).",
-            "en": "No additional charge, pay for resources used (e.g., GKE, Compute Engine)."
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya yang digunakan.",
+            "en": "No additional charge, pay for resources used."
           }
         },
         "scores": {
@@ -346,18 +602,19 @@
         "title": "Cloud TPU",
         "icon": "gcp/Cloud-TPU.svg",
         "parent": "infra",
+        "awsEquivalent": "Trainium & Inferentia",
         "tabs": {
           "Summary": {
-            "id": "Akselerator perangkat keras yang dirancang oleh Google untuk beban kerja ML.",
-            "en": "Hardware accelerators designed by Google for ML workloads."
+            "id": "Akselerator perangkat keras yang dirancang Google untuk pelatihan dan inferensi AI.",
+            "en": "Google-designed hardware accelerators for AI training and inference."
           },
           "Use Case": {
-            "id": "Melatih dan menjalankan model ML skala besar dengan sangat cepat.",
-            "en": "Training and running large-scale ML models at very high speed."
+            "id": "Mempercepat beban kerja ML skala besar, terutama model bahasa besar (LLM).",
+            "en": "Accelerating large-scale ML workloads, especially large language models (LLMs)."
           },
           "Pricing": {
-            "id": "Bayar per jam atau per detik untuk penggunaan TPU.",
-            "en": "Pay per hour or per second for TPU usage."
+            "id": "Bayar per jam atau per detik untuk penggunaan akselerator.",
+            "en": "Pay per hour or per second for accelerator usage."
           }
         },
         "scores": {
@@ -394,8 +651,8 @@
       "en": "Interactive GCP AI & ML Guide"
     },
     "mainSubtitle": {
-      "id": "Jelajahi platform dan infrastruktur GCP untuk membangun, men-deploy, dan mengelola solusi machine learning Anda.",
-      "en": "Explore GCP platforms and infrastructure to build, deploy, and manage your machine learning solutions."
+      "id": "Jelajahi tumpukan layanan Kecerdasan Buatan dan Machine Learning GCP, dari API siap pakai hingga infrastruktur canggih.",
+      "en": "Explore the GCP AI and Machine Learning stack, from ready-made APIs to advanced infrastructure."
     },
     "categoryTitle": {
       "id": "Tumpukan Machine Learning GCP",
@@ -426,28 +683,32 @@
       "en": "1. What is your Use Case?"
     },
     "filterVision": {
-      "id": "Analisis Dokumen & Gambar",
-      "en": "Document & Image Analysis"
+      "id": "Analisis Gambar & Dokumen",
+      "en": "Image & Document Analysis"
     },
     "filterLanguage": {
-      "id": "Pencarian & Percakapan",
-      "en": "Search & Conversation"
+      "id": "Analisis Teks & Ucapan",
+      "en": "Text & Speech Analysis"
     },
     "filterGenAI": {
-      "id": "AI Generatif",
-      "en": "Generative AI"
+      "id": "AI Generatif & Chatbots",
+      "en": "Generative AI & Chatbots"
     },
     "filterBuild": {
       "id": "Membangun & Melatih Model Kustom",
       "en": "Build & Train Custom Models"
+    },
+    "filterDevOps": {
+      "id": "MLOps & Developer Tools",
+      "en": "MLOps & Developer Tools"
     },
     "filter2Title": {
       "id": "2. Apa Peran Anda?",
       "en": "2. What is your Role?"
     },
     "filterDeveloper": {
-      "id": "Developer / Pengguna Bisnis",
-      "en": "Developer / Business User"
+      "id": "Developer (Tanpa keahlian ML)",
+      "en": "Developer (No ML expertise)"
     },
     "filterDataScientist": {
       "id": "Ilmuwan Data / Insinyur ML",

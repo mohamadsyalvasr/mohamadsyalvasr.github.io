@@ -628,6 +628,7 @@
 
                 const dependencyHTML = service.dependency ? `<p class="themed-accent-text text-xs italic mt-1">${service.dependency[currentLang]}</p>` : '';
                 
+                // Set the initial HTML content for the card
                 card.innerHTML = `
                     <div class="flex items-center mb-2">
                         ${service.icon
@@ -641,7 +642,25 @@
                         ${selectedForComparison.includes(key) ? (translations.removeCompare?.[currentLang] || 'Remove') : (translations.addCompare?.[currentLang] || 'Compare +')}
                     </button>
                 `;
+                
                 recContainer.appendChild(card);
+
+                // --- ERROR HANDLER ADDED HERE ---
+                // Find the image within the newly created card
+                const imgElement = card.querySelector('img');
+                
+                // If an image element exists, attach the error handler
+                if (imgElement) {
+                    imgElement.onerror = function() {
+                        // Create the fallback span element
+                        const fallbackIcon = document.createElement('span');
+                        fallbackIcon.className = 'text-2xl mr-3';
+                        fallbackIcon.textContent = '⚙️';
+                        
+                        // Replace the broken image with the fallback icon
+                        this.replaceWith(fallbackIcon);
+                    };
+                }
             });
         }
         
@@ -944,5 +963,6 @@
         document.addEventListener('DOMContentLoaded', initializeApp);
 
     </script>
+    <script src="../../feedback.js" defer></script>
 </body>
 </html>
