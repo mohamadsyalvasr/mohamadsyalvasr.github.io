@@ -52,7 +52,7 @@
     <header class="bg-white shadow-sm sticky top-0 z-40">
         <div class="container mx-auto flex items-center justify-between p-4">
             <div class="flex items-center space-x-2">
-                <h1 data-lang-key="appTitle" class="text-xl font-bold text-slate-800">Multi-Cloud Compute Finder</h1>
+                <h1 data-lang-key="appTitle" class="text-xl font-bold text-slate-800">Solution Finder</h1>
             </div>
             <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
                 <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
@@ -133,17 +133,19 @@
             },
             'gcp': { url: '../gcp/assets/data/compute-data.json', iconPath: '../gcp/assets/icons/' },
             'azure': { url: '../azure/assets/data/compute-data.json', iconPath: '../azure/assets/icons/' },
+            'alibaba': { url: '../alibaba/assets/data/compute-data.json', iconPath: '../alibaba/assets/icons/' },
         };
 
         const PROVIDER_DETAILS = {
             'aws': { name: 'AWS', logo: 'https://www.svgrepo.com/show/376356/aws.svg', borderColor: '#FF9900' },
             'gcp': { name: 'GCP', logo: 'https://www.svgrepo.com/show/448223/gcp.svg', borderColor: '#4285F4' },
-            'azure': { name: 'Azure', logo: 'https://swimburger.net/media/ppnn3pcl/azure.png', borderColor: '#0078D4' }
+            'azure': { name: 'Azure', logo: 'https://swimburger.net/media/ppnn3pcl/azure.png', borderColor: '#0078D4' },
+            'alibaba': { name: 'Alibaba', logo: 'https://cdn.worldvectorlogo.com/logos/ali-cloud.svg', borderColor: '#ed6b1e' }
         };
         
         // PERUBAHAN: Terjemahan statis untuk kerangka aplikasi
         const staticTranslations = {
-            'appTitle': { 'id': 'Pencari Komputasi Multi-Cloud', 'en': 'Multi-Cloud Compute Finder' },
+            // 'appTitle': { 'id': 'Pencari Komputasi Multi-Cloud', 'en': 'Multi-Cloud Compute Finder' },
             'providerTitle': { 'id': 'Penyedia Cloud', 'en': 'Cloud Providers' },
             'newFinderTitle': { 'id': 'Pencari Solusi', 'en': 'Solution Finder' },
             'newFinderSubtitle': { 'id': 'Gunakan filter ini untuk menemukan layanan yang paling sesuai untuk tugas Anda.', 'en': 'Use these filters to find the right service for your task.' },
@@ -154,8 +156,8 @@
             'noRecommendation': { 'id': 'Pilih filter di atas untuk melihat rekomendasi.', 'en': 'Select a filter above to see recommendations.' },
             'footerDemo': { 'id': 'Solution Finder v1.0 - Proyek Demonstrasi', 'en': 'Solution Finder v1.0 - Demonstration Project' },
             'footerDisclaimer': { 
-                'id': 'Situs ini adalah alat bantu independen dan tidak berafiliasi dengan, disponsori, atau didukung oleh Amazon Web Services, Google Cloud Platform, atau Microsoft Azure. Semua merek dagang adalah milik dari pemiliknya masing-masing.',
-                'en': 'This site is an independent tool and is not affiliated with, sponsored, or endorsed by Amazon Web Services, Google Cloud Platform, or Microsoft Azure. All trademarks are the property of their respective owners.'
+                'id': 'Situs ini adalah alat bantu independen dan tidak berafiliasi dengan, disponsori, atau didukung oleh Amazon Web Services, Google Cloud Platform, Microsoft Azure, atau Alibaba Cloud. Semua merek dagang adalah milik dari pemiliknya masing-masing.',
+                'en': 'This site is an independent tool and is not affiliated with, sponsored, or endorsed by Amazon Web Services, Google Cloud Platform, Microsoft Azure, or Alibaba Cloud. All trademarks are the property of their respective owners.'
             }
         };
 
@@ -328,8 +330,8 @@
                     const summaryText = service.tabs?.Summary?.[currentLang] || service.tabs?.Summary?.id || 'Deskripsi tidak tersedia.';
                     const dependencyText = service.dependency?.[currentLang] || service.dependency?.id;
                     const dependencyHTML = dependencyText ? `<p style="color: ${providerDetails.borderColor}" class="text-xs italic mt-1">${dependencyText}</p>` : '';
-                    const serviceIconHTML = service.icon ? `<img src="${service.iconPath}${service.icon}" alt="${service.title}" class="service-icon">` : '';
-
+                    const serviceIconHTML = service.icon ? `<img src="${service.iconPath}${service.icon}" alt="${service.title}" class="service-icon" onerror="this.outerHTML = '';">`
+  : '';
                     card.innerHTML = `
                         <div class="flex-grow">
                             <div class="flex justify-between items-start mb-2">
