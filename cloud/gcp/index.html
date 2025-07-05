@@ -60,13 +60,73 @@
                 opacity: 1;
             }
         }
+        
+        /* --- Gaya untuk Dropdown & Mega Menu --- */
+        .dropdown-menu, .mega-menu-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+        .group:hover .mega-menu-content,
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .hero-menu-card {
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .hero-menu-card:hover {
+            background-color: #f8fafc; /* slate-50 */
+            transform: scale(1.02);
+        }
+        
+        .about-mega-menu-bg {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mobile-submenu {
+            display: none;
+        }
+        .submenu-toggle svg {
+            transition: transform 0.3s;
+        }
+        .submenu-toggle.open svg {
+            transform: rotate(90deg);
+        }
+        
+        /* Gaya untuk badge dan item menu yang non-aktif */
+        .menu-item-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* slate-600 */
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .menu-item-disabled {
+            filter: grayscale(80%);
+            cursor: not-allowed;
+        }
+        .menu-item-disabled:hover {
+            background-color: transparent !important;
+            transform: scale(1) !important;
+        }
     </style>
 </head>
 <body class="antialiased bg-gradient-to-br from-slate-50 to-sky-100">
 
-    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-lg shadow-md transition-all duration-300">
+    <!-- <header id="main-header" class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-lg shadow-md transition-all duration-300">
         <div class="container mx-auto flex items-center justify-between p-4">
-            <!-- Breadcrumb -->
             <nav aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex items-center text-sm">
                     <li>
@@ -93,6 +153,37 @@
                 </div>
             </div>
         </div>
+    </header> -->
+
+    <!-- Header dengan Navigasi Dinamis -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-blue-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                 <button type="button" id="roadmap-btn" class="flex items-center space-x-1.5 text-slate-600 hover:text-blue-600 transition-colors font-medium text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                    <span data-lang-key="roadmapButton"></span>
+                </button>
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
+        </div>
     </header>
 
     <div class="container mx-auto px-6 py-12 md:py-20">
@@ -106,7 +197,7 @@
         <div class="mb-12 p-4 bg-white/60 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200/80 sticky top-[80px] z-30">
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
                 <div class="relative w-full md:w-auto md:flex-grow lg:flex-grow-0">
-                    <input type="search" id="search-input" placeholder="Cari berdasarkan judul..." class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 transition-shadow">
+                    <input type="search" id="search-input" placeholder="Cari berdasarkan judul..." class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
                      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -118,7 +209,7 @@
                         <button id="sort-za" class="control-button px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">Z-A</button>
                     </div>
                     <div class="flex items-center gap-2">
-                        <input type="checkbox" id="hide-coming-soon-toggle" class="h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500 cursor-pointer">
+                        <input type="checkbox" id="hide-coming-soon-toggle" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
                         <label for="hide-coming-soon-toggle" class="text-sm font-medium text-slate-600 cursor-pointer" data-lang-key="hideComingSoonLabel">Sembunyikan "Segera Hadir"</label>
                     </div>
                 </div>
@@ -152,10 +243,9 @@
         </div>
     </div>
 
-
+    <script src="../components/navigation.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            
             async function loadData() {
                 try {
                     const response = await fetch('./gcp-data.json');
@@ -200,6 +290,34 @@
             let currentLang = localStorage.getItem('language') || 'id';
             let currentSort = null;
             let hideComingSoon = true;
+
+            // Initialize the navigator. This will fetch data and build the menu.
+            AppNavigator.init('#desktop-nav', '#mobile-nav');
+
+            // --- EVENT LISTENERS FOR LANGUAGE SWITCHER ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNavContainer = document.getElementById('mobile-nav-container');
+
+            const setPageLanguage = (lang) => {
+                // Use the navigator's method to switch the language
+                AppNavigator.switchLanguage(lang);
+                
+                // Update the active state of the language buttons
+                langIdButton.classList.toggle('active', lang === 'id');
+                langEnButton.classList.toggle('active', lang === 'en');
+            };
+
+            // Add event listeners for language buttons
+            langIdButton.addEventListener('click', () => setPageLanguage('id'));
+            langEnButton.addEventListener('click', () => setPageLanguage('en'));
+            
+            // Add event listener for the main mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => mobileNavContainer.classList.toggle('hidden'));
+
+            // Set the initial active state for the language buttons based on navigator's state
+            const initialLang = localStorage.getItem('language') || 'id';
+            langIdButton.classList.toggle('active', initialLang === 'id');
+            langEnButton.classList.toggle('active', initialLang === 'en');
             
             // --- Rendering Functions ---
 
@@ -390,5 +508,6 @@
             setLanguage(currentLang);
         });
     </script>
+    <script src="../feedback.js" defer></script>
 </body>
 </html>
