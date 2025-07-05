@@ -1,0 +1,292 @@
+{
+  "guidesData": [
+    {
+      "id": "compute",
+      "status": "active",
+      "iconPath": "./assets/icons/azure/Arch-Category_Compute_64.svg",
+      "emoji": "💻",
+      "titleKey": "computeTitle",
+      "descriptionKey": "computeDesc",
+      "buttonGradient": "from-blue-500 to-sky-500",
+      "href": "./svc?data=compute"
+    },
+    {
+      "id": "storage",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Storage_64.svg",
+      "emoji": "🗃️",
+      "titleKey": "storageTitle",
+      "descriptionKey": "storageDesc",
+      "buttonGradient": "from-teal-500 to-emerald-500",
+      "href": "./svc?data=storage"
+    },
+    {
+      "id": "database",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Database_64.svg",
+      "emoji": "🗄️",
+      "titleKey": "databaseTitle",
+      "descriptionKey": "databaseDesc",
+      "buttonGradient": "from-purple-500 to-violet-500",
+      "href": "./svc?data=database"
+    },
+    {
+      "id": "aiml",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_AI-ML_64.svg",
+      "emoji": "🤖",
+      "titleKey": "aimlTitle",
+      "descriptionKey": "aimlDesc",
+      "buttonGradient": "from-indigo-500 to-blue-500",
+      "href": "./svc?data=aiml"
+    },
+    {
+      "id": "analytics",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Analytics_64.svg",
+      "emoji": "📊",
+      "titleKey": "analyticsTitle",
+      "descriptionKey": "analyticsDesc",
+      "buttonGradient": "from-sky-500 to-cyan-500",
+      "href": "#"
+    },
+    {
+      "id": "appintegration",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Application-Integration_64.svg",
+      "emoji": "🔗",
+      "titleKey": "appintegrationTitle",
+      "descriptionKey": "appintegrationDesc",
+      "buttonGradient": "from-fuchsia-500 to-pink-500",
+      "href": "#"
+    },
+    {
+      "id": "identity",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Security-Identity-Compliance_64.svg",
+      "emoji": "🛡️",
+      "titleKey": "identityTitle",
+      "descriptionKey": "identityDesc",
+      "buttonGradient": "from-rose-500 to-red-500",
+      "href": "#"
+    },
+    {
+      "id": "devops",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Developer-Tools_64.svg",
+      "emoji": "🛠️",
+      "titleKey": "devtoolsTitle",
+      "descriptionKey": "devtoolsDesc",
+      "buttonGradient": "from-amber-500 to-orange-500",
+      "href": "#"
+    },
+    {
+      "id": "containers",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Containers_64.svg",
+      "emoji": "📦",
+      "titleKey": "containersTitle",
+      "descriptionKey": "containersDesc",
+      "buttonGradient": "from-lime-500 to-green-500",
+      "href": "#"
+    },
+    {
+      "id": "hybrid",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Hybrid_64.svg",
+      "emoji": "☁️",
+      "titleKey": "hybridTitle",
+      "descriptionKey": "hybridDesc",
+      "buttonGradient": "from-violet-500 to-purple-500",
+      "href": "#"
+    },
+    {
+      "id": "iot",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Internet-of-Things_64.svg",
+      "emoji": "💡",
+      "titleKey": "iotTitle",
+      "descriptionKey": "iotDesc",
+      "buttonGradient": "from-cyan-500 to-sky-500",
+      "href": "#"
+    },
+    {
+      "id": "management",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Management-Governance_64.svg",
+      "emoji": "⚙️",
+      "titleKey": "managementTitle",
+      "descriptionKey": "managementDesc",
+      "buttonGradient": "from-blue-500 to-indigo-500",
+      "href": "#"
+    },
+    {
+      "id": "migration",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Migration-Modernization_64.svg",
+      "emoji": "🚚",
+      "titleKey": "migrationTitle",
+      "descriptionKey": "migrationDesc",
+      "buttonGradient": "from-green-500 to-lime-500",
+      "href": "#"
+    },
+    {
+      "id": "networking",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Networking-Content-Delivery_64.svg",
+      "emoji": "🌐",
+      "titleKey": "networkingTitle",
+      "descriptionKey": "networkingDesc",
+      "buttonGradient": "from-orange-500 to-amber-500",
+      "href": "#"
+    },
+    {
+      "id": "security",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/azure/Arch-Category_Security-Identity-Compliance_64.svg",
+      "emoji": "🔒",
+      "titleKey": "securityTitle",
+      "descriptionKey": "securityDesc",
+      "buttonGradient": "from-red-500 to-rose-500",
+      "href": "#"
+    }
+  ],
+  "translations": {
+    "mainTitle": {
+      "id": "Panduan Interaktif Layanan Azure",
+      "en": "Interactive Azure Service Guides"
+    },
+    "mainSubtitle": {
+      "id": "Jelajahi, bandingkan, dan temukan layanan Azure yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.",
+      "en": "Explore, compare, and find the right Azure services for your needs through curated visual guides."
+    },
+    "computeTitle": {
+      "id": "Azure Compute",
+      "en": "Azure Compute"
+    },
+    "computeDesc": {
+      "id": "Jelajahi layanan komputasi, dari Azure Virtual Machines hingga Azure Functions yang serverless.",
+      "en": "Explore compute services, from Azure Virtual Machines to serverless Azure Functions."
+    },
+    "storageTitle": {
+      "id": "Azure Storage",
+      "en": "Azure Storage"
+    },
+    "storageDesc": {
+      "id": "Temukan solusi penyimpanan yang dapat diskalakan, termasuk Blob, Disk, dan Azure Files.",
+      "en": "Find scalable storage solutions, including Blob, Disk, and Azure Files."
+    },
+    "databaseTitle": {
+      "id": "Azure Database",
+      "en": "Azure Database"
+    },
+    "databaseDesc": {
+      "id": "Jelajahi database terkelola, dari Azure SQL hingga Cosmos DB untuk skala global.",
+      "en": "Explore managed databases, from Azure SQL to Cosmos DB for global scale."
+    },
+    "aimlTitle": {
+      "id": "Azure AI & ML",
+      "en": "Azure AI & ML"
+    },
+    "aimlDesc": {
+      "id": "Manfaatkan layanan AI, dari Azure Cognitive Services hingga platform Azure Machine Learning.",
+      "en": "Leverage AI services, from Azure Cognitive Services to the Azure Machine Learning platform."
+    },
+    "analyticsTitle": {
+      "id": "Azure Analytics",
+      "en": "Azure Analytics"
+    },
+    "analyticsDesc": {
+      "id": "Dapatkan wawasan dari data dengan Azure Synapse Analytics, Databricks, dan Power BI.",
+      "en": "Gain insights from data with Azure Synapse Analytics, Databricks, and Power BI."
+    },
+    "appintegrationTitle": {
+      "id": "Azure Application Integration",
+      "en": "Azure Application Integration"
+    },
+    "appintegrationDesc": {
+      "id": "Hubungkan aplikasi dan layanan dengan Logic Apps, Service Bus, dan API Management.",
+      "en": "Connect apps and services with Logic Apps, Service Bus, and API Management."
+    },
+    "identityTitle": {
+      "id": "Azure Identity",
+      "en": "Azure Identity"
+    },
+    "identityDesc": {
+      "id": "Kelola akses pengguna dan amankan identitas dengan Azure Active Directory.",
+      "en": "Manage user access and secure identities with Azure Active Directory."
+    },
+    "devtoolsTitle": {
+      "id": "Azure DevOps",
+      "en": "Azure DevOps"
+    },
+    "devtoolsDesc": {
+      "id": "Layanan untuk merencanakan, membangun, menguji, dan merilis perangkat lunak lebih cepat.",
+      "en": "Services to plan, build, test, and release software faster."
+    },
+    "containersTitle": {
+      "id": "Azure Containers",
+      "en": "Azure Containers"
+    },
+    "containersDesc": {
+      "id": "Jalankan aplikasi dalam kontainer dengan Azure Kubernetes Service (AKS) dan Container Instances.",
+      "en": "Run containerized applications with Azure Kubernetes Service (AKS) and Container Instances."
+    },
+    "hybridTitle": {
+      "id": "Azure Hybrid + Multicloud",
+      "en": "Azure Hybrid + Multicloud"
+    },
+    "hybridDesc": {
+      "id": "Perluas Azure ke lingkungan on-premise dan multicloud dengan Azure Arc.",
+      "en": "Extend Azure to on-premises and multicloud environments with Azure Arc."
+    },
+    "iotTitle": {
+      "id": "Azure IoT",
+      "en": "Azure IoT"
+    },
+    "iotDesc": {
+      "id": "Hubungkan, pantau, dan kelola miliaran aset IoT dengan Azure IoT Hub.",
+      "en": "Connect, monitor, and manage billions of IoT assets with Azure IoT Hub."
+    },
+    "managementTitle": {
+      "id": "Azure Management & Governance",
+      "en": "Azure Management & Governance"
+    },
+    "managementDesc": {
+      "id": "Optimalkan, amankan, dan kelola sumber daya cloud Anda dengan Azure Monitor dan Policy.",
+      "en": "Optimize, secure, and manage your cloud resources with Azure Monitor and Policy."
+    },
+    "migrationTitle": {
+      "id": "Azure Migration",
+      "en": "Azure Migration"
+    },
+    "migrationDesc": {
+      "id": "Pindahkan beban kerja, aplikasi, dan data ke cloud dengan Azure Migrate.",
+      "en": "Move workloads, applications, and data to the cloud with Azure Migrate."
+    },
+    "networkingTitle": {
+      "id": "Azure Networking",
+      "en": "Azure Networking"
+    },
+    "networkingDesc": {
+      "id": "Bangun jaringan cloud yang aman dan cepat dengan Virtual Network, Load Balancer, dan DNS.",
+      "en": "Build a secure and fast cloud network with Virtual Network, Load Balancer, and DNS."
+    },
+    "securityTitle": {
+      "id": "Azure Security",
+      "en": "Azure Security"
+    },
+    "securityDesc": {
+      "id": "Lindungi dari ancaman dengan Microsoft Defender for Cloud dan Azure Sentinel.",
+      "en": "Protect against threats with Microsoft Defender for Cloud and Azure Sentinel."
+    },
+    "exploreButton": {
+      "id": "Jelajahi Sekarang",
+      "en": "Explore Now"
+    },
+    "comingSoonButton": {
+      "id": "Segera Hadir",
+      "en": "Coming Soon"
+    }
+  }
+}

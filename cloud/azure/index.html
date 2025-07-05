@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Utama - Panduan Interaktif Microsoft Azure</title>
+    <title>Halaman Utama - Panduan Interaktif Azure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,154 +11,503 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* A slightly bluer slate-100 */
-            color: #1e293b; /* slate-800 */
+            background-color: #f1f5f9;
+            color: #1e293b; 
         }
         .guide-card {
-            transition: all 0.3s ease-in-out;
+            transition: all 0.25s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+            border: 1px solid #e2e8f0;
         }
         .guide-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            border-color: var(--hover-border-color, #4285f4);
         }
         .lang-switcher button.active {
-            background-color: #0078d4; /* Azure's primary blue */
+            background-color: #4285f4;
             color: white;
+        }
+        .control-button.active {
+            background-color: #1e293b;
+            color: white;
+            border-color: #1e293b;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #4285f4, #3469c1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .btn-gradient {
+            background-size: 200% 100%;
+            transition: background-position .3s;
+        }
+        .btn-gradient:hover {
+            background-position: right center;
+        }
+        #roadmap-modal-content {
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* --- Gaya untuk Dropdown & Mega Menu --- */
+        .dropdown-menu, .mega-menu-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+        .group:hover .mega-menu-content,
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .hero-menu-card {
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .hero-menu-card:hover {
+            background-color: #f8fafc; /* slate-50 */
+            transform: scale(1.02);
+        }
+        
+        .about-mega-menu-bg {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mobile-submenu {
+            display: none;
+        }
+        .submenu-toggle svg {
+            transition: transform 0.3s;
+        }
+        .submenu-toggle.open svg {
+            transform: rotate(90deg);
+        }
+        
+        /* Gaya untuk badge dan item menu yang non-aktif */
+        .menu-item-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* slate-600 */
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .menu-item-disabled {
+            filter: grayscale(80%);
+            cursor: not-allowed;
+        }
+        .menu-item-disabled:hover {
+            background-color: transparent !important;
+            transform: scale(1) !important;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased bg-gradient-to-br from-slate-50 to-sky-100">
+
+    <!-- <header id="main-header" class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-lg shadow-md transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <nav aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex items-center text-sm">
+                    <li>
+                        <a href="/cloud/" class="flex items-center text-slate-600 hover:text-blue-600 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li><span class="mx-2 text-slate-400">/</span></li>
+                    <li><a href="#" class="font-semibold text-slate-700 hover:text-blue-600 transition-colors">Azure</a></li>
+                </ol>
+            </nav>
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <button type="button" id="roadmap-btn" class="flex items-center space-x-1.5 text-slate-600 hover:text-blue-600 transition-colors font-medium text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                    <span data-lang-key="roadmapButton">Roadmap</span>
+                </button>
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">EN</button>
+                </div>
+            </div>
+        </div>
+    </header> -->
+
+    <!-- Header dengan Navigasi Dinamis -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-blue-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                 <button type="button" id="roadmap-btn" class="flex items-center space-x-1.5 text-slate-600 hover:text-blue-600 transition-colors font-medium text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                    <span data-lang-key="roadmapButton"></span>
+                </button>
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
+        </div>
+    </header>
 
     <div class="container mx-auto px-6 py-12 md:py-20">
-        
-        <header class="relative text-center mb-16">
-            <a href="/cloud/" class="absolute top-4 left-0 flex items-center text-slate-500 hover:text-blue-600 transition-colors duration-200">
-                <span class="text-2xl">&larr;</span>
-                <span data-lang-key="homeButton" class="ml-2 font-semibold">Halaman Utama</span>
-            </a>
-            <div class="lang-switcher absolute top-0 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
-                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
-                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
-            </div>
-            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0">Panduan Interaktif Layanan Microsoft Azure</h1>
-            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-2xl mx-auto">Jelajahi, bandingkan, dan temukan layanan Azure yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.</p>
+        <header class="text-center mb-12">
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-4 text-gradient">Panduan Interaktif Layanan Azure</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi, bandingkan, dan temukan layanan Azure yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.</p>
+            <div id="active-guides-count" class="mt-4 text-md font-semibold text-slate-600"></div>
         </header>
 
+        <!-- Search and Sort Controls -->
+        <div class="mb-12 p-4 bg-white/60 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200/80 sticky top-[80px] z-30">
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <div class="relative w-full md:w-auto md:flex-grow lg:flex-grow-0">
+                    <input type="search" id="search-input" placeholder="Cari berdasarkan judul..." class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <div class="flex items-center gap-x-4 gap-y-2 flex-wrap justify-center">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-medium text-slate-600" data-lang-key="sortLabel">Urutkan:</span>
+                        <button id="sort-az" class="control-button px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">A-Z</button>
+                        <button id="sort-za" class="control-button px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">Z-A</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="hide-coming-soon-toggle" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                        <label for="hide-coming-soon-toggle" class="text-sm font-medium text-slate-600 cursor-pointer" data-lang-key="hideComingSoonLabel">Sembunyikan "Segera Hadir"</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <main>
-            <!-- This container will be dynamically filled by JavaScript -->
-            <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div id="guides" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            <div id="no-results" class="hidden text-center py-10">
+                 <h3 class="text-2xl font-semibold text-slate-700" data-lang-key="noResultsTitle">Tidak Ada Hasil</h3>
+                <p class="text-slate-500 mt-2" data-lang-key="noResultsSubtitle">Coba kata kunci lain atau hapus filter.</p>
+            </div>
         </main>
 
-        <footer class="text-center mt-20">
-            <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
+        <footer class="text-center mt-20 pt-10 border-t border-slate-200/80">
+            <p data-lang-key="footer" class="text-slate-500 text-sm leading-relaxed"></p>
         </footer>
-
     </div>
+
+    <!-- Roadmap Modal -->
+    <div id="roadmap-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div id="roadmap-modal-content" class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative">
+            <button id="roadmap-close-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-3xl font-bold text-center mb-8 text-gradient" data-lang-key="roadmapTitle">Peta Jalan Pengembangan</h2>
+            
+            <div id="roadmap-container" class="space-y-10"></div>
+        </div>
+    </div>
+
+    <script src="../components/navigation.js" defer></script>
     <script>
-        // --- DATA SOURCE ---
-        // All data for cards and translations is now here.
-        
-        const translations = {
-            mainTitle: { id: "Panduan Interaktif Layanan Microsoft Azure", en: "Interactive Microsoft Azure Service Guides" },
-            mainSubtitle: { id: "Jelajahi, bandingkan, dan temukan layanan Azure yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.", en: "Explore, compare, and find the right Azure services for your needs through curated visual guides." },
-            homeButton: { id: "Halaman Utama", en: "Home Page" },
-            
-            computeTitle: { id: "Azure Compute", en: "Azure Compute" },
-            computeDesc: { id: "Jelajahi spektrum layanan komputasi, dari Azure Virtual Machines hingga Azure Functions yang serverless.", en: "Explore the spectrum of compute services, from Azure Virtual Machines to serverless Azure Functions." },
-            
-            storageTitle: { id: "Azure Storage", en: "Azure Storage" },
-            storageDesc: { id: "Temukan solusi penyimpanan yang tepat, dari Blob Storage, Disk Storage, hingga Azure Files untuk semua jenis data.", en: "Find the right storage solution, from Blob Storage and Disk Storage to Azure Files for all data types." },
-            
-            aimlTitle: { id: "Azure AI & Machine Learning", en: "Azure AI & Machine Learning" },
-            aimlDesc: { id: "Pahami tumpukan layanan AI, dari Azure Cognitive Services hingga platform Azure Machine Learning.", en: "Understand the AI stack, from ready-to-use Azure Cognitive Services to the Azure Machine Learning platform." },
-            
-            analyticsTitle: { id: "Azure Analytics", en: "Azure Analytics" },
-            analyticsDesc: { id: "Ubah data mentah menjadi wawasan berharga dengan Azure Synapse Analytics, dari streaming hingga BI.", en: "Turn raw data into valuable insights with Azure Synapse Analytics, from streaming to BI." },
-            
-            databaseTitle: { id: "Azure Database", en: "Azure Database" },
-            databaseDesc: { id: "Jelajahi database yang dibuat khusus, dari Azure SQL yang relasional hingga Cosmos DB yang NoSQL.", en: "Explore purpose-built databases, from relational Azure SQL to NoSQL Cosmos DB for all your application needs." },
-            
-            securityTitle: { id: "Azure Security", en: "Azure Security" },
-            securityDesc: { id: "Amankan cloud Anda dengan Microsoft Defender for Cloud, Microsoft Entra ID, dan layanan keamanan lainnya.", en: "Secure your cloud with Microsoft Defender for Cloud, Microsoft Entra ID, and other security services." },
-            
-            exploreButton: { id: "Jelajahi Sekarang", en: "Explore Now" },
-            comingSoonButton: { id: "Segera Hadir", en: "Coming Soon" },
-            footer: { id: "&copy; 2025 Interactive Cloud Guides. Kompilasi dengan ❤️ dan sedikit caffeine ☕️ untuk para cloud explorer di mana pun berada. <br>Semua logo dan merek dagang adalah milik pemiliknya masing-masing—kami hanya ingin bantu menjelaskan, bukan mewakili.", en: "&copy; 2025 Interactive Cloud Guides. Compiled with ❤️, curiosity, and a touch of caffeine ☕️ for cloud explorers everywhere. <br>All trademarks and logos belong to their respective owners — we're just here to decode the cloud, not represent the giants." }
-        };
+        document.addEventListener('DOMContentLoaded', async () => {
+            async function loadData() {
+                try {
+                    const response = await fetch('./azure-data.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    
+                    // --- PERUBAHAN --- Menambahkan terjemahan baru secara dinamis
+                    data.translations.hideComingSoonLabel = { id: "Sembunyikan \"Segera Hadir\"", en: "Hide \"Coming Soon\"" };
+                    data.translations.activeGuidesCountText = { id: ":count Kategori Tersedia", en: ":count Categories Available" };
 
-        const guidesData = [
-            { id: 'compute', status: 'active', emoji: '💻', titleKey: 'computeTitle', descriptionKey: 'computeDesc', buttonColorClass: 'bg-blue-600', href: './compute/' },
-            { id: 'storage', status: 'active', emoji: '🗃️', titleKey: 'storageTitle', descriptionKey: 'storageDesc', buttonColorClass: 'bg-sky-500', href: './storage/' },
-            { id: 'database', status: 'active', emoji: '🗄️', titleKey: 'databaseTitle', descriptionKey: 'databaseDesc', buttonColorClass: 'bg-indigo-700', href: './database/' },
-            { id: 'aiml', status: 'coming-soon', emoji: '🤖', titleKey: 'aimlTitle', descriptionKey: 'aimlDesc' },
-            { id: 'analytics', status: 'coming-soon', emoji: '📊', titleKey: 'analyticsTitle', descriptionKey: 'analyticsDesc' },
-            { id: 'security', status: 'coming-soon', emoji: '🛡️', titleKey: 'securityTitle', descriptionKey: 'securityDesc' },
-        ];
+                    return data;
+                } catch (error) {
+                    console.error("Gagal memuat data Azure:", error);
+                    document.body.innerHTML = `<div class="p-8 text-center text-red-600"><h1>Error</h1><p>Tidak dapat memuat data panduan. Silakan coba lagi nanti.</p></div>`;
+                    return null;
+                }
+            }
 
-        // --- DYNAMIC RENDERING LOGIC ---
+            const appData = await loadData();
+            if (!appData) return;
 
-        document.addEventListener('DOMContentLoaded', () => {
+            const { guidesData, roadmapData, translations } = appData;
+
+            // --- DOM Elements ---
             const guidesContainer = document.getElementById('guides');
+            const noResultsContainer = document.getElementById('no-results');
+            const searchInput = document.getElementById('search-input');
+            const sortAzButton = document.getElementById('sort-az');
+            const sortZaButton = document.getElementById('sort-za');
+            const langIdButton = document.getElementById('lang-id');
+            const langEnButton = document.getElementById('lang-en');
+            const roadmapBtn = document.getElementById('roadmap-btn');
+            const roadmapModal = document.getElementById('roadmap-modal');
+            const roadmapCloseBtn = document.getElementById('roadmap-close-btn');
+            const roadmapContainer = document.getElementById('roadmap-container');
+            const hideComingSoonToggle = document.getElementById('hide-coming-soon-toggle');
+            const activeGuidesCountEl = document.getElementById('active-guides-count');
+
+            // --- State Management ---
+            let currentLang = localStorage.getItem('language') || 'id';
+            let currentSort = null;
+            let hideComingSoon = true;
+
+            // Initialize the navigator. This will fetch data and build the menu.
+            AppNavigator.init('#desktop-nav', '#mobile-nav');
+
+            // --- EVENT LISTENERS FOR LANGUAGE SWITCHER ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNavContainer = document.getElementById('mobile-nav-container');
+
+            const setPageLanguage = (lang) => {
+                // Use the navigator's method to switch the language
+                AppNavigator.switchLanguage(lang);
+                
+                // Update the active state of the language buttons
+                langIdButton.classList.toggle('active', lang === 'id');
+                langEnButton.classList.toggle('active', lang === 'en');
+            };
+
+            // Add event listeners for language buttons
+            langIdButton.addEventListener('click', () => setPageLanguage('id'));
+            langEnButton.addEventListener('click', () => setPageLanguage('en'));
             
-            // Function to create the HTML for a single card
+            // Add event listener for the main mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => mobileNavContainer.classList.toggle('hidden'));
+
+            // Set the initial active state for the language buttons based on navigator's state
+            const initialLang = localStorage.getItem('language') || 'id';
+            langIdButton.classList.toggle('active', initialLang === 'id');
+            langEnButton.classList.toggle('active', initialLang === 'en');
+            
+            // --- Rendering Functions ---
+
+            const tailwindColorMap = {
+                'orange-500': '#f97316',
+                'lime-600': '#65a30d',
+                'fuchsia-500': '#d946ef',
+                'teal-500': '#14b8a6'
+            };
+
             const createCardHTML = (guide) => {
                 const isComingSoon = guide.status === 'coming-soon';
-
                 const cardTag = isComingSoon ? 'div' : 'a';
                 const cardHref = isComingSoon ? '' : `href="${guide.href}"`;
-                const cardClasses = isComingSoon 
-                    ? 'flex flex-col bg-white p-8 rounded-xl shadow-md opacity-60 cursor-not-allowed'
-                    : `guide-card flex flex-col bg-white p-8 rounded-xl shadow-md`;
                 
+                const cardClasses = isComingSoon 
+                    ? 'flex flex-col bg-white p-8 rounded-xl shadow-sm border border-slate-200 transition-opacity duration-300 opacity-75' 
+                    : `guide-card flex flex-col bg-white p-8 rounded-xl`;
+                
+                let cardStyle = '';
+                if (!isComingSoon && guide.buttonGradient) {
+                    const fromColor = guide.buttonGradient.split(' ')[0].replace('from-', '');
+                    const hoverColor = tailwindColorMap[fromColor];
+                    if (hoverColor) {
+                        cardStyle = `style="--hover-border-color: ${hoverColor}"`;
+                    }
+                }
+
                 const buttonKey = isComingSoon ? 'comingSoonButton' : 'exploreButton';
-                const buttonColor = isComingSoon ? 'bg-slate-400' : guide.buttonColorClass;
+                
+                const buttonClasses = isComingSoon 
+                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed' 
+                    : `btn-gradient bg-gradient-to-r ${guide.buttonGradient} text-white`;
+
+                let iconHtml = guide.iconPath 
+                    ? `<img src="${guide.iconPath}" alt="${translations[guide.titleKey]?.en || guide.titleKey}" class="w-14 h-14 mb-1 ${isComingSoon ? 'grayscale' : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">` 
+                    : '';
+                let emojiFallback = `<span class="text-5xl ${isComingSoon ? 'opacity-50' : ''}" style="${guide.iconPath ? 'display:none;' : ''}">${guide.emoji || ''}</span>`;
+                
+                const titleText = translations[guide.titleKey]?.[currentLang] || guide.titleKey;
+                const descText = translations[guide.descriptionKey]?.[currentLang] || guide.descriptionKey;
+                const buttonText = translations[buttonKey]?.[currentLang] || buttonKey;
+
+                const titleClasses = isComingSoon ? 'text-slate-600' : 'text-slate-800';
 
                 return `
-                    <${cardTag} ${cardHref} class="${cardClasses}">
+                    <${cardTag} ${cardHref} class="${cardClasses}" ${cardStyle}>
                         <div class="flex-grow">
-                            <span class="text-5xl">${guide.emoji}</span>
-                            <h2 data-lang-key="${guide.titleKey}" class="text-2xl font-bold mt-4 text-slate-800"></h2>
-                            <p data-lang-key="${guide.descriptionKey}" class="text-slate-500 mt-2"></p>
+                            <div class="flex items-center justify-center w-20 h-20 bg-slate-100 rounded-2xl mb-6">
+                                ${iconHtml}${emojiFallback}
+                            </div>
+                            <h2 data-lang-key="${guide.titleKey}" class="text-2xl font-bold ${titleClasses}">${titleText}</h2>
+                            <p data-lang-key="${guide.descriptionKey}" class="text-slate-500 mt-2 text-base">${descText}</p>
                         </div>
-                        <div class="mt-6">
-                            <div data-lang-key="${buttonKey}" class="inline-block font-semibold text-white ${buttonColor} px-4 py-2 rounded-lg">
+                        <div class="mt-6 pt-6 border-t border-slate-200/80">
+                            <div data-lang-key="${buttonKey}" class="inline-block w-full text-center font-semibold ${buttonClasses} px-5 py-3 rounded-lg shadow-sm transition-shadow">
+                                ${buttonText}
                             </div>
                         </div>
                     </${cardTag}>
                 `;
             };
 
-            // Generate all cards and insert them into the container
-            guidesContainer.innerHTML = guidesData.map(createCardHTML).join('');
-
-            // --- LANGUAGE SWITCHER LOGIC ---
+            const renderGuides = (dataToRender) => {
+                guidesContainer.innerHTML = dataToRender.map(createCardHTML).join('');
+                noResultsContainer.style.display = dataToRender.length === 0 ? 'block' : 'none';
+                guidesContainer.style.display = dataToRender.length === 0 ? 'none' : 'grid';
+            };
             
-            // Function to apply translations to the page
+            const renderRoadmap = () => {
+                roadmapContainer.innerHTML = roadmapData.map(phase => {
+                    const titleText = translations[phase.titleKey]?.[currentLang] || phase.titleKey;
+                    const descText = translations[phase.descriptionKey]?.[currentLang] || phase.descriptionKey;
+                    const listText = translations[phase.listKey]?.[currentLang] || '';
+                    return `
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <div class="flex-shrink-0 ${phase.badgeColor} text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg">${phase.badgeLabel}</div>
+                                <div class="ml-4">
+                                    <h3 class="text-xl font-bold text-slate-800">${titleText}</h3>
+                                    <p class="text-slate-500">${descText}</p>
+                                </div>
+                            </div>
+                            <ul class="list-disc list-inside space-y-2 pl-4 text-slate-600">${listText}</ul>
+                        </div>
+                    `
+                }).join('');
+            };
+
+            const updateDisplay = () => {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                
+                let guidesToDisplay = hideComingSoon
+                    ? guidesData.filter(guide => guide.status === 'active')
+                    : [...guidesData];
+
+                let filteredGuides = guidesToDisplay.filter(guide => {
+                    const title = (translations[guide.titleKey]?.[currentLang] || '').toLowerCase();
+                    const description = (translations[guide.descriptionKey]?.[currentLang] || '').toLowerCase();
+                    return title.includes(searchTerm) || description.includes(searchTerm);
+                });
+
+                if (currentSort) {
+                    filteredGuides.sort((a, b) => {
+                        const titleA = translations[a.titleKey]?.[currentLang] || '';
+                        const titleB = translations[b.titleKey]?.[currentLang] || '';
+                        if (currentSort === 'az') return titleA.localeCompare(titleB);
+                        return titleB.localeCompare(titleA);
+                    });
+                }
+                
+                renderGuides(filteredGuides);
+            };
+            
             const setLanguage = (lang) => {
+                currentLang = lang;
                 document.documentElement.lang = lang;
                 localStorage.setItem('language', lang);
 
                 document.querySelectorAll('[data-lang-key]').forEach(element => {
                     const key = element.getAttribute('data-lang-key');
                     if (translations[key] && translations[key][lang]) {
-                        element.innerHTML = translations[key][lang];
+                       element.innerHTML = translations[key][lang];
                     }
                 });
 
-                document.getElementById('lang-id').classList.toggle('active', lang === 'id');
-                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                langIdButton.classList.toggle('active', lang === 'id');
+                langEnButton.classList.toggle('active', lang === 'en');
+                
+                searchInput.placeholder = lang === 'id' ? 'Cari layanan Azure...' : 'Search Azure services...';
+
+                const activeCount = guidesData.filter(g => g.status === 'active').length;
+                const countText = translations.activeGuidesCountText?.[lang] || ':count Kategori Aktif Tersedia';
+                activeGuidesCountEl.textContent = countText.replace(':count', activeCount);
+
+                updateDisplay();
+
+                if (!roadmapModal.classList.contains('hidden')) {
+                    renderRoadmap();
+                }
             };
             
-            // Initialize buttons and set the initial language
-            const langIdButton = document.getElementById('lang-id');
-            const langEnButton = document.getElementById('lang-en');
+            // --- EVENT LISTENERS ---
+            
+            searchInput.addEventListener('input', updateDisplay);
+
+            sortAzButton.addEventListener('click', () => {
+                currentSort = currentSort === 'az' ? null : 'az';
+                sortAzButton.classList.toggle('active', currentSort === 'az');
+                sortZaButton.classList.remove('active');
+                updateDisplay();
+            });
+
+            sortZaButton.addEventListener('click', () => {
+                currentSort = currentSort === 'za' ? null : 'za';
+                sortZaButton.classList.toggle('active', currentSort === 'za');
+                sortAzButton.classList.remove('active');
+                updateDisplay();
+            });
+            
+            hideComingSoonToggle.addEventListener('change', () => {
+                hideComingSoon = hideComingSoonToggle.checked;
+                updateDisplay();
+            });
 
             langIdButton.addEventListener('click', () => setLanguage('id'));
             langEnButton.addEventListener('click', () => setLanguage('en'));
+            
+            if(roadmapBtn && roadmapModal && roadmapCloseBtn) {
+                roadmapBtn.addEventListener('click', () => {
+                    renderRoadmap();
+                    roadmapModal.classList.remove('hidden');
+                });
 
-            const preferredLanguage = localStorage.getItem('language') || 'id';
-            setLanguage(preferredLanguage);
+                roadmapCloseBtn.addEventListener('click', () => {
+                    roadmapModal.classList.add('hidden');
+                });
+
+                roadmapModal.addEventListener('click', (e) => {
+                    if (e.target === roadmapModal) {
+                        roadmapModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- INITIALIZATION ---
+            hideComingSoonToggle.checked = hideComingSoon;
+            setLanguage(currentLang);
         });
     </script>
+    <script src="../feedback.js" defer></script>
 </body>
 </html>

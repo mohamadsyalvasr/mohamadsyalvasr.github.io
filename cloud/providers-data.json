@@ -20,7 +20,7 @@
   {
     "id": "azure",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg",
-    "status": "coming-soon",
+    "status": "active",
     "link": "/cloud/azure/",
     "titleKey": "azureTitle",
     "descKey": "azureDesc",
