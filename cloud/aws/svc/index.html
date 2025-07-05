@@ -19,7 +19,7 @@
             border-color: #f59e0b; /* amber-500 */
             box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -4px rgba(245, 158, 11, 0.1);
         }
-        .category-card {
+        .category-card, .scenario-card {
             transition: all 0.3s ease-in-out;
         }
         .tab-button.active {
@@ -44,23 +44,52 @@
                 height: 450px;
             }
         }
-        .decision-button.selected {
+        .decision-button.selected, .sort-btn.active {
             background-color: #f59e0b; /* amber-500 */
             color: white;
         }
         .recommendation-card {
             transition: all 0.3s ease-in-out;
             cursor: pointer;
+            position: relative;
+            overflow: hidden; /* Penting untuk efek pita */
         }
-        .recommendation-card.highlight {
+        .recommendation-card.top-match {
             border-color: #f59e0b; /* amber-500 */
             box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            background-color: #fffbeb; /* amber-50 */
+        }
+         .recommendation-card.good-alternative {
+            border-color: #a8a29e; /* stone-400 */
+            background-color: white;
         }
         .lang-switcher button.active {
             background-color: #f59e0b;
             color: white;
         }
-        /* Styling untuk popup */
+
+        .corner-ribbon {
+            position: absolute;
+            top: 25px;
+            right: -35px;
+            transform: rotate(45deg);
+            width: 160px;
+            padding: 4px 0;
+            text-align: center;
+            font-size: 0.75rem; /* 12px */
+            font-weight: 600;
+            color: white;
+            z-index: 1;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.25);
+            /* PERUBAHAN: Menambahkan transisi untuk opacity */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* PERUBAHAN: Aturan baru untuk menyembunyikan pita saat hover */
+        .recommendation-card:hover .corner-ribbon {
+            opacity: 0;
+        }
+
         .modal-overlay {
             transition: opacity 0.3s ease;
         }
@@ -79,14 +108,9 @@
             transform: scale(0.95);
         }
 
-        /* Efek untuk Tombol Rilis Baru */
         @keyframes pulse-animation {
-            0% {
-                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
-            }
-            100% {
-                box-shadow: 0 0 0 15px rgba(56, 189, 248, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+            100% { box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); }
         }
         #release-note-btn.new-release {
             animation: pulse-animation 1.5s infinite;
@@ -104,6 +128,11 @@
         }
         #release-note-btn.new-release .notification-dot {
             display: block;
+        }
+        .scenario-card.active {
+            border-color: #f59e0b;
+            box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.1), 0 2px 4px -2px rgba(245, 158, 11, 0.1);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -123,7 +152,6 @@
                     <li><span class="mx-2 text-slate-300">/</span></li>
                     <li><a href="/cloud/aws/" class="font-semibold text-slate-600">AWS</a></li>
                     <li><span class="mx-2 text-slate-300">/</span></li>
-                    <!-- PERUBAHAN: Dropdown untuk memilih KATEGORI -->
                     <li class="relative">
                         <select id="category-selector" class="font-bold text-slate-800 bg-transparent -ml-2 appearance-none pr-6 focus:outline-none cursor-pointer rounded-md hover:bg-slate-100 pl-2 py-1 transition">
                             <option value="aiml">AI & ML</option>
@@ -173,9 +201,20 @@
             </button>
         </div>
 
+        <section id="scenario-guide-section" class="mb-16">
+            <h2 data-lang-key="scenarioTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pemandu Skenario</h2>
+            <p data-lang-key="scenarioSubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Mulai dengan kasus penggunaan Anda. Pilih salah satu skenario di bawah ini untuk mendapatkan rekomendasi cepat.</p>
+            <div id="scenario-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Kartu Skenario akan di-generate oleh JavaScript -->
+            </div>
+             <div class="text-center mt-6">
+                <button id="reset-scenario-btn" class="hidden text-sm font-semibold text-amber-600 hover:text-amber-800 transition">Reset Pilihan Skenario</button>
+            </div>
+        </section>
+
         <section id="category-nav-section" class="mb-12">
-            <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Kategori Layanan</h2>
-            <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.</p>
+            <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Jelajahi per Kategori</h2>
+            <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Atau, pilih kategori untuk menjelajahi semua layanan yang relevan di dalamnya.</p>
             <div id="category-nav" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             </div>
         </section>
@@ -184,13 +223,13 @@
             <div id="welcome-content" class="content-section active text-center flex flex-col justify-center items-center h-full">
                 <span class="text-6xl mb-4">🚀</span>
                 <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
-                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih kategori layanan di atas untuk memulai.</p>
+                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih skenario atau kategori layanan di atas untuk memulai.</p>
             </div> 
         </main>
 
         <section id="decision-tool" class="mt-16">
-            <h2 data-lang-key="finderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi</h2>
-            <p data-lang-key="finderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk menemukan layanan yang paling sesuai untuk tugas Anda.</p>
+            <h2 data-lang-key="finderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi Lanjutan</h2>
+            <p data-lang-key="finderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk mempersempit rekomendasi atau menemukan layanan secara manual.</p>
             
             <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
                 <div id="decision-filters" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -200,8 +239,12 @@
 
                 <div>
                     <div class="text-center mb-4">
-                        <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-slate-800">Layanan yang Direkomendasikan</h3>
+                        <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-slate-800">Hasil Rekomendasi</h3>
                     </div>
+                    <div id="recommendation-explanation" class="hidden text-center bg-amber-50 text-amber-800 p-4 rounded-lg mb-6 max-w-3xl mx-auto">
+                        <!-- Penjelasan rekomendasi skenario akan muncul di sini -->
+                    </div>
+
                     <div id="recommendation-controls" class="hidden flex-col sm:flex-row justify-center items-center gap-4 mb-6 p-2 bg-slate-50 rounded-lg">
                         <div class="flex items-center gap-2">
                             <span class="text-sm font-medium text-slate-600" data-lang-key="sortBy">Urutkan:</span>
@@ -212,15 +255,15 @@
                             </div>
                         </div>
                         <div class="flex items-center">
-                            <input id="hide-others-checkbox" type="checkbox" class="w-4 h-4 rounded">
-                            <label for="hide-others-checkbox" class="ml-2 text-sm font-medium text-slate-700" data-lang-key="hideNotRecommended">Hanya tampilkan rekomendasi</label>
+                            <input id="show-all-checkbox" type="checkbox" class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500">
+                            <label for="show-all-checkbox" class="ml-2 text-sm font-medium text-slate-700" data-lang-key="showAllServices">Tampilkan semua layanan</label>
                         </div>
                     </div>
 
                     <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     </div>
                      <div id="no-recommendation" class="text-center text-slate-500 py-8">
-                        <p data-lang-key="noRecommendation">Pilih filter di atas untuk melihat rekomendasi.</p>
+                        <p data-lang-key="noRecommendation">Pilih skenario atau filter di atas untuk melihat rekomendasi.</p>
                     </div>
                 </div>
             </div>
@@ -291,11 +334,12 @@
         // --- GLOBAL VARIABLES ---
         let currentLang = 'id';
         let comparisonChart;
-        let chartConfig = {}; // Variabel untuk menampung konfigurasi chart, diisi secara dinamis
+        let chartConfig = {}; 
         let selectedForComparison = [];
         let activeTheme = {};
+        let activeScenario = null;
         let sortOrder = 'default';
-        let hideNotRecommended = false;
+        let showAllServices = false;
 
         // --- FUNCTIONS ---
 
@@ -306,72 +350,44 @@
 
         function applyTheme(theme) {
             const styleOverrides = `
-                /* Main Accent Colors */
-                .category-card.active, .recommendation-card.highlight {
+                .category-card.active, .scenario-card.active {
                     border-color: ${theme.primary};
                     box-shadow: 0 0 15px rgba(${theme.primary_rgb}, 0.2);
                 }
-                .tab-button.active {
-                    border-bottom-color: ${theme.primary};
-                    color: ${theme.primary};
-                }
-                .decision-button.selected, .lang-switcher button.active, #accept-disclaimer-btn, .sort-btn.active {
-                    background-color: ${theme.primary};
-                    color: ${theme.textOnPrimary};
+                .recommendation-card.top-match {
                     border-color: ${theme.primary};
+                    background-color: rgba(${theme.primary_rgb}, 0.05);
                 }
-                #mobile-menu-btn:focus, #hide-others-checkbox:focus {
-                    --tw-ring-color: ${theme.primary};
+                .recommendation-card.good-alternative {
+                    border-color: ${theme.secondary};
                 }
-                #hide-others-checkbox:checked {
-                    background-color: ${theme.primary};
-                    border-color: ${theme.primary};
-                }
-
-                /* Hover & Interaction States */
-                #accept-disclaimer-btn:hover, .sort-btn.active:hover {
-                    background-color: ${theme.primaryDark};
-                }
-                a:hover {
-                    color: ${theme.primaryDark};
-                }
-                #clear-comparison {
-                    color: ${theme.primary};
-                }
-                #clear-comparison:hover {
-                    color: ${theme.primaryDark};
-                }
-                .tab-button:hover {
-                    color: ${theme.primary};
-                    border-bottom-color: ${theme.primaryLight};
-                }
-                .themed-mobile-nav-link:hover {
+                .tab-button.active { border-bottom-color: ${theme.primary}; color: ${theme.primary}; }
+                .decision-button.selected, .lang-switcher button.active, #accept-disclaimer-btn, .sort-btn.active { background-color: ${theme.primary}; color: ${theme.textOnPrimary}; border-color: ${theme.primary}; }
+                #mobile-menu-btn:focus, #show-all-checkbox:focus { --tw-ring-color: ${theme.primary}; }
+                #show-all-checkbox:checked { background-color: ${theme.primary}; border-color: ${theme.primary}; }
+                #accept-disclaimer-btn:hover { background-color: ${theme.primaryDark}; }
+                a:hover { color: ${theme.primaryDark}; }
+                #clear-comparison, #reset-scenario-btn { color: ${theme.primary}; }
+                #clear-comparison:hover, #reset-scenario-btn:hover { color: ${theme.primaryDark}; }
+                .tab-button:hover { color: ${theme.primary}; border-bottom-color: ${theme.primaryLight}; }
+                .themed-mobile-nav-link:hover { background-color: ${theme.primary}; color: ${theme.textOnPrimary}; }
+                .themed-accent-text, .recommendation-card .compare-button { color: ${theme.primaryDark}; }
+                .recommendation-card .compare-button:hover { color: ${theme.primary}; }
+                .comparison-pill { background-color: rgba(${theme.primary_rgb}, 0.15); color: ${theme.primaryDark}; }
+                #recommendation-explanation { background-color: rgba(${theme.primary_rgb}, 0.1); color: ${theme.primaryDark}; }
+                .corner-ribbon.top-match {
                     background-color: ${theme.primary};
                     color: ${theme.textOnPrimary};
                 }
-
-                /* Dynamic Text & Elements */
-                .recommendation-card .themed-accent-text, .recommendation-card .compare-button {
-                    color: ${theme.primaryDark};
-                }
-                .recommendation-card .compare-button:hover {
-                    color: ${theme.primary};
-                }
-                .comparison-pill {
-                    background-color: rgba(${theme.primary_rgb}, 0.15);
-                    color: ${theme.primaryDark};
+                .corner-ribbon.good-alternative {
+                    background-color: ${theme.secondary};
+                    color: ${theme.textOnPrimary};
                 }
             `;
-
             const styleSheet = document.createElement("style");
             styleSheet.id = 'dynamic-theme-styles';
             styleSheet.innerText = styleOverrides;
-
-            const oldStyleSheet = document.getElementById('dynamic-theme-styles');
-            if (oldStyleSheet) {
-                oldStyleSheet.remove();
-            }
-            
+            document.head.querySelector('#dynamic-theme-styles')?.remove();
             document.head.appendChild(styleSheet);
         }
 
@@ -389,6 +405,7 @@
             
             createNavigationMenu();
             createCategoryCards();
+            createScenarioCards();
             createDecisionFilters();
             
             if(pageData.categories) {
@@ -404,8 +421,7 @@
                 updateActiveView('welcome');
             }
 
-            const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
-            renderRecommendations(activeFilters);
+            renderRecommendations();
             updateChart();
             
             document.getElementById('lang-id').classList.toggle('active', lang === 'id');
@@ -437,6 +453,32 @@
             });
         }
         
+        function createScenarioCards() {
+            const container = document.getElementById('scenario-cards');
+            const section = document.getElementById('scenario-guide-section');
+
+            if (!pageData.scenarios || Object.keys(pageData.scenarios).length === 0) {
+                if (section) section.style.display = 'none';
+                return;
+            }
+
+            if (section) section.style.display = 'block';
+            container.innerHTML = '';
+            for (const key in pageData.scenarios) {
+                const scenario = pageData.scenarios[key];
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.dataset.scenarioKey = key;
+                card.className = 'scenario-card text-left bg-white p-6 rounded-lg shadow-md hover:shadow-xl border-2 border-transparent hover:-translate-y-1';
+                card.innerHTML = `
+                    <span class="text-4xl">${scenario.icon}</span>
+                    <h3 class="text-lg font-bold mt-3 text-slate-800">${scenario.title[currentLang]}</h3>
+                    <p class="text-sm text-slate-500 mt-1">${scenario.description[currentLang]}</p>
+                `;
+                container.appendChild(card);
+            }
+        }
+
         function createCategoryCards() {
             const navContainer = document.getElementById('category-nav');
             if (!pageData.categories) return;
@@ -463,12 +505,10 @@
 
             pageData.decisionFilters.forEach(group => {
                 const groupDiv = document.createElement('div');
-                
                 const title = document.createElement('h4');
                 title.className = 'font-bold mb-3 text-slate-700';
                 title.setAttribute('data-lang-key', group.titleLangKey);
                 title.textContent = translations[group.titleLangKey]?.[currentLang] || group.titleLangKey;
-                
                 const buttonsDiv = document.createElement('div');
                 buttonsDiv.className = 'flex flex-col space-y-2';
 
@@ -553,16 +593,15 @@
         }
         
         function updateActiveView(targetId) {
-            const allSections = document.querySelectorAll('.content-section');
+            document.querySelectorAll('.content-section').forEach(pane => pane.classList.remove('active'));
             const targetContent = document.getElementById(`${targetId}-content`);
             const welcomeContent = document.getElementById('welcome-content');
-
-            allSections.forEach(pane => pane.classList.remove('active'));
 
             if (targetContent) {
                 targetContent.classList.add('active');
                 welcomeContent.classList.add('hidden');
-            } else if (welcomeContent) {
+            } else {
+                welcomeContent.classList.remove('hidden');
                 welcomeContent.classList.add('active');
             }
 
@@ -571,74 +610,116 @@
             });
         }
         
-        function renderRecommendations(filterTags = []) {
+        function renderRecommendations() {
             const recContainer = document.getElementById('recommendations');
             const noRecDiv = document.getElementById('no-recommendation');
+            const explanationDiv = document.getElementById('recommendation-explanation');
             const controlsDiv = document.getElementById('recommendation-controls');
 
             if (!pageData.services) return;
             recContainer.innerHTML = '';
+            explanationDiv.classList.add('hidden');
+            controlsDiv.classList.add('hidden');
 
-            if (filterTags.length === 0) {
+            const activeFilterTags = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+            
+            let scoredServices = [];
+            let hasActiveSelection = false;
+
+            if (activeScenario) {
+                hasActiveSelection = true;
+                const scenario = pageData.scenarios[activeScenario];
+                scoredServices.push({ key: scenario.top_recommendation, service: pageData.services[scenario.top_recommendation], score: 3 });
+                scenario.alternatives?.forEach(altKey => {
+                    scoredServices.push({ key: altKey, service: pageData.services[altKey], score: 2 });
+                });
+                explanationDiv.innerHTML = scenario.explanation[currentLang];
+                explanationDiv.classList.remove('hidden');
+
+            } else if (activeFilterTags.length > 0) {
+                hasActiveSelection = true;
+                Object.entries(pageData.services).forEach(([key, service]) => {
+                    const matchCount = activeFilterTags.filter(tag => service.tags.includes(tag)).length;
+                    if (matchCount > 0) {
+                        let score = 1;
+                        if (matchCount === activeFilterTags.length) score = 3;
+                        else if (matchCount > 0) score = 2;
+                        scoredServices.push({ key, service, score });
+                    }
+                });
+            }
+
+            if (!hasActiveSelection) {
                 noRecDiv.classList.remove('hidden');
                 recContainer.classList.add('hidden');
-                controlsDiv.classList.add('hidden');
-                noRecDiv.querySelector('p').setAttribute('data-lang-key', 'noRecommendation');
-                noRecDiv.querySelector('p').textContent = translations.noRecommendation?.[currentLang] || 'Pilih filter di atas untuk melihat rekomendasi.';
+                return;
+            }
+            
+            let servicesToRender;
+            if (showAllServices) {
+                const scoredMap = new Map(scoredServices.map(item => [item.key, item.score]));
+                servicesToRender = Object.entries(pageData.services).map(([key, service]) => ({
+                    key,
+                    service,
+                    score: scoredMap.get(key) || 0,
+                }));
+            } else {
+                servicesToRender = scoredServices;
+            }
+
+            if (sortOrder === 'asc') {
+                servicesToRender.sort((a, b) => a.service.title.localeCompare(b.service.title));
+            } else if (sortOrder === 'desc') {
+                servicesToRender.sort((a, b) => b.service.title.localeCompare(a.service.title));
+            } else { // default sort
+                servicesToRender.sort((a, b) => b.score - a.score);
+            }
+
+            if (servicesToRender.length === 0) {
+                noRecDiv.classList.remove('hidden');
+                recContainer.classList.add('hidden');
+                noRecDiv.querySelector('p').setAttribute('data-lang-key', 'noResults');
+                noRecDiv.querySelector('p').textContent = translations.noResults?.[currentLang] || 'Tidak ada layanan yang cocok.';
                 return;
             }
 
             noRecDiv.classList.add('hidden');
             recContainer.classList.remove('hidden');
             controlsDiv.classList.remove('hidden');
-            controlsDiv.classList.add('flex'); // Pastikan flexbox aktif
-
-            const recommendedServiceKeys = Object.keys(pageData.services).filter(key => {
-                return filterTags.every(tag => pageData.services[key].tags.includes(tag));
-            });
+            controlsDiv.classList.add('flex');
             
-            let serviceKeysToRender;
-            if (hideNotRecommended) {
-                serviceKeysToRender = [...recommendedServiceKeys];
-            } else {
-                serviceKeysToRender = Object.keys(pageData.services);
-            }
-            
-            if (sortOrder === 'asc') {
-                serviceKeysToRender.sort((a, b) => pageData.services[a].title.localeCompare(pageData.services[b].title));
-            } else if (sortOrder === 'desc') {
-                serviceKeysToRender.sort((a, b) => pageData.services[b].title.localeCompare(pageData.services[a].title));
-            }
-            
-            if (serviceKeysToRender.length === 0) {
-                noRecDiv.classList.remove('hidden');
-                recContainer.classList.add('hidden');
-                noRecDiv.querySelector('p').setAttribute('data-lang-key', 'noResults');
-                noRecDiv.querySelector('p').textContent = translations.noResults?.[currentLang] || 'Tidak ada layanan yang cocok dengan filter yang dipilih.';
-                return;
-            }
-            
-            serviceKeysToRender.forEach(key => {
-                const service = pageData.services[key];
-                const isRecommended = recommendedServiceKeys.includes(key);
+            servicesToRender.forEach(({ key, service, score }) => {
                 const card = document.createElement('div');
+                let cardClass = 'recommendation-card border-2 p-4 rounded-lg';
+                let ribbonHTML = '';
                 
-                card.className = `recommendation-card border-2 p-4 rounded-lg duration-300 hover:shadow-xl hover:opacity-100 ${isRecommended ? 'highlight border-transparent' : 'opacity-40 border-transparent'}`;
+                if (showAllServices && score === 0) {
+                    cardClass += ' opacity-50 hover:opacity-100';
+                }
+
+                if (score === 3) {
+                    cardClass += ' top-match';
+                    ribbonHTML = `<div class="corner-ribbon top-match">${translations.topMatch?.[currentLang] || 'Pilihan Utama'}</div>`;
+                } else if (score === 2) {
+                    cardClass += ' good-alternative';
+                    ribbonHTML = `<div class="corner-ribbon good-alternative">${translations.alternative?.[currentLang] || 'Alternatif'}</div>`;
+                }
+                
+                card.className = cardClass;
                 card.dataset.target = key;
 
-                const dependencyHTML = service.dependency ? `<p class="themed-accent-text text-xs italic mt-1">${service.dependency[currentLang]}</p>` : '';
+                const bestForHTML = service.bestFor ? `<p class="text-xs text-slate-600 mt-2 font-semibold">${translations.bestFor?.[currentLang] || 'Terbaik untuk'}: <span class="font-normal">${service.bestFor[currentLang]}</span></p>` : '';
                 
                 card.innerHTML = `
+                    ${ribbonHTML}
                     <div class="flex items-center mb-2">
-                        ${service.icon
-                            ? `<img src="../assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />`
-                            : `<span class="text-2xl mr-3">⚙️</span>`}
+                        ${service.icon ? `<img src="../assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />` : `<span class="text-2xl mr-3">⚙️</span>`}
                         <h5 class="font-bold text-slate-800">${service.title}</h5>
                     </div>
                     <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
-                    ${dependencyHTML}
+                    ${bestForHTML}
                     <button type="button" data-service="${key}" class="compare-button text-xs font-semibold w-full text-left relative z-10 mt-3 transition-colors">
-                        ${selectedForComparison.includes(key) ? (translations.removeCompare?.[currentLang] || 'Remove') : (translations.addCompare?.[currentLang] || 'Compare +')}
+                        ${selectedForComparison.includes(key) ? (translations.removeCompare?.[currentLang] || 'Hapus') : (translations.addCompare?.[currentLang] || 'Bandingkan +')}
                     </button>
                 `;
                 recContainer.appendChild(card);
@@ -646,16 +727,9 @@
         }
         
         function updateChart() {
-            if (comparisonChart) {
-                comparisonChart.destroy();
-            }
+            if (comparisonChart) comparisonChart.destroy();
+            if (!chartConfig?.labels || !pageData.services) return;
 
-            if (!chartConfig || !chartConfig.labels || !chartConfig.keys || !pageData.services) {
-                console.warn("Konfigurasi chart atau data layanan belum siap.");
-                return;
-            }
-
-            const chartLabels = chartConfig.labels[currentLang];
             const placeholder = document.getElementById('chart-placeholder');
             
             if (selectedForComparison.length === 0) {
@@ -669,16 +743,13 @@
 
             const datasets = selectedForComparison.map((serviceKey, index) => {
                 const service = pageData.services[serviceKey];
-                const scores = service.scores;
-                
                 const colors = [
                     { bg: `rgba(${activeTheme.primary_rgb}, 0.4)`, border: `rgba(${activeTheme.primary_rgb}, 1)` },
                     { bg: `rgba(${activeTheme.secondary_rgb}, 0.4)`, border: `rgba(${activeTheme.secondary_rgb}, 1)` }
                 ];
-                
                 return {
                     label: service.title,
-                    data: chartConfig.keys.map(key => scores[key] || 0),
+                    data: chartConfig.keys.map(key => service.scores[key] || 0),
                     backgroundColor: colors[index % 2].bg,
                     borderColor: colors[index % 2].border,
                 };
@@ -686,7 +757,7 @@
             
             comparisonChart = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
                 type: 'radar',
-                data: { labels: chartLabels, datasets: datasets },
+                data: { labels: chartConfig.labels[currentLang], datasets: datasets },
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { position: 'top' }},
@@ -701,34 +772,24 @@
             const closeBtn = document.getElementById('close-modal-btn');
             const overlay = modal.querySelector('.modal-overlay');
             const contentDiv = document.getElementById('release-note-content');
-            const releaseNoteButtonText = openBtn;
-
+            
             async function openModal() {
                 modal.classList.remove('modal-hidden');
                 contentDiv.innerHTML = '<p>Memuat...</p>';
-
                 try {
                     const response = await fetch(`../assets/release/${releaseNoteFile}.json`);
                     if (!response.ok) throw new Error('Gagal memuat catatan rilis.');
                     const notes = await response.json();
-
-                     if (notes.length > 0) {
-                        const latestVersion = notes[0].version;
-                        releaseNoteButtonText.textContent = `Lihat Catatan Rilis (v${latestVersion})`;
-                    }
                     
                     let html = '';
                     notes.forEach(note => {
-                        html += `<div class="mb-6">`;
-                        html += `<h3 class="text-xl font-semibold text-slate-700">${note.version} - <span class="text-base font-normal text-slate-500">${note.date}</span></h3>`;
-                        html += '<ul class="list-disc list-inside mt-2 space-y-1">';
+                        html += `<div class="mb-6"><h3 class="text-xl font-semibold text-slate-700">${note.version} - <span class="text-base font-normal text-slate-500">${note.date}</span></h3><ul class="list-disc list-inside mt-2 space-y-1">`;
                         note.changes.forEach(change => {
-                            let tagClass = '';
+                            let tagClass = 'bg-slate-100 text-slate-800';
                             switch(change.type.toLowerCase()) {
                                 case 'new': tagClass = 'bg-blue-100 text-blue-800'; break;
                                 case 'fix': tagClass = 'bg-orange-100 text-orange-800'; break;
                                 case 'improvement': tagClass = 'bg-green-100 text-green-800'; break;
-                                default: tagClass = 'bg-slate-100 text-slate-800';
                             }
                             html += `<li><span class="text-xs font-semibold mr-2 px-2 py-0.5 rounded-full ${tagClass}">${change.type}</span> ${change.description}</li>`;
                         });
@@ -740,29 +801,20 @@
                     contentDiv.innerHTML = `<p class="text-red-500">${error.message}</p>`;
                 }
             }
-            function closeModal() {
-                modal.classList.add('modal-hidden');
-            }
-
             openBtn.addEventListener('click', openModal);
-            closeBtn.addEventListener('click', closeModal);
-            overlay.addEventListener('click', closeModal);
+            closeBtn.addEventListener('click', () => modal.classList.add('modal-hidden'));
+            overlay.addEventListener('click', () => modal.classList.add('modal-hidden'));
             openBtn.classList.add('new-release');
         }
 
         function setupDisclaimerModal() {
             const modal = document.getElementById('disclaimer-modal');
             if (!modal) return;
-            
             const acceptBtn = document.getElementById('accept-disclaimer-btn');
-
-            function closeModal() {
+            acceptBtn.addEventListener('click', () => {
                 localStorage.setItem('disclaimerShown', 'true');
                 modal.classList.add('modal-hidden');
-            }
-
-            acceptBtn.addEventListener('click', closeModal);
-            
+            });
             if (!localStorage.getItem('disclaimerShown')) {
                 modal.classList.remove('modal-hidden');
             }
@@ -771,20 +823,14 @@
         async function initializeApp() {
             const urlParams = new URLSearchParams(window.location.search);
             const dataFile = urlParams.get('data') || 'compute'; 
-
-            // Set dropdown value to match URL parameter
             document.getElementById('category-selector').value = dataFile;
             
             const jsonDataPath = `../assets/data/${dataFile}-data.json`;
             const releaseNotePath = `${dataFile}-guide`;
             document.title = `Panduan Interaktif AWS ${dataFile.charAt(0).toUpperCase() + dataFile.slice(1)}`;
 
-            // **DIUBAH**: Menetapkan konfigurasi chart default dari HTML
             const defaultChartConfig = {
-                labels: { 
-                    id: ['Kemudahan Penggunaan', 'Kendali', 'Biaya Efektif'], 
-                    en: ['Ease of Use', 'Control', 'Cost-Effectiveness'] 
-                },
+                labels: { id: ['Kemudahan', 'Kontrol', 'Biaya'], en: ['Ease', 'Control', 'Cost'] },
                 keys: ['easeOfUse', 'control', 'cost']
             };
 
@@ -794,61 +840,46 @@
                     fetch('../footer-data.json')
                 ]);
 
-                if (!dataResponse.ok) {
-                     throw new Error(`HTTP error! status: ${dataResponse.status}, could not fetch ${jsonDataPath}`);
-                }
-                if (!footerResponse.ok) {
-                    console.warn(`Could not fetch footer-data.json, status: ${footerResponse.status}`);
-                }
-
+                if (!dataResponse.ok) throw new Error(`HTTP error! status: ${dataResponse.status}`);
+                
                 const dataJSON = await dataResponse.json();
                 const footerJSON = footerResponse.ok ? await footerResponse.json() : {};
 
                 pageData = dataJSON.pageData || dataJSON.computeData; 
-                
                 chartConfig = pageData.chartConfig || defaultChartConfig;
-
                 translations = Object.assign(dataJSON.translations, footerJSON);
                 
                 const defaultTheme = {
-                    primary: '#f59e0b',
-                    primary_rgb: '245, 158, 11',
-                    secondary: '#0d9488',
-                    secondary_rgb: '13, 148, 136',
-                    textOnPrimary: '#ffffff',
-                    primaryDark: '#b45309',
-                    primaryLight: '#fcd34d'
+                    primary: '#f59e0b', primary_rgb: '245, 158, 11',
+                    secondary: '#6c757d', secondary_rgb: '108, 117, 125',
+                    textOnPrimary: '#ffffff', primaryDark: '#b45309', primaryLight: '#fcd34d'
                 };
-
                 let jsonTheme = pageData.theme || {};
-
                 if (jsonTheme.primary && !jsonTheme.primary_rgb) jsonTheme.primary_rgb = hexToRgb(jsonTheme.primary);
                 if (jsonTheme.secondary && !jsonTheme.secondary_rgb) jsonTheme.secondary_rgb = hexToRgb(jsonTheme.secondary);
-                
                 activeTheme = { ...defaultTheme, ...jsonTheme };
-                
-                if (pageData.theme) {
-                    applyTheme(activeTheme);
-                }
+                applyTheme(activeTheme);
 
                 translations['sortBy'] = { "id": "Urutkan", "en": "Sort by" };
-                translations['hideNotRecommended'] = { "id": "Hanya tampilkan rekomendasi", "en": "Show recommended only" };
-                translations['noResults'] = { "id": "Tidak ada layanan yang cocok dengan filter yang dipilih.", "en": "No services match the selected filters." };
+                translations['showAllServices'] = { "id": "Tampilkan semua layanan", "en": "Show all services" };
+                translations['scenarioTitle'] = { "id": "Pemandu Skenario", "en": "Scenario Guide" };
+                translations['scenarioSubtitle'] = { "id": "Mulai dengan kasus penggunaan Anda. Pilih salah satu skenario di bawah ini untuk mendapatkan rekomendasi cepat.", "en": "Start with your use case. Select a scenario below to get quick recommendations." };
+                translations['topMatch'] = { "id": "Pilihan Utama", "en": "Top Match" };
+                translations['alternative'] = { "id": "Alternatif", "en": "Alternative" };
+                translations['bestFor'] = { "id": "Terbaik untuk", "en": "Best for" };
+                translations['noResults'] = { "id": "Tidak ada layanan yang cocok.", "en": "No matching services found." };
                 translations['addCompare'] = { "id": "Bandingkan +", "en": "Compare +" };
-                translations['removeCompare'] = { "id": "Hapus dari Perbandingan", "en": "Remove from Comparison" };
-
-                translations['disclaimer'] = {
-                    "id": "PENAFIAN: Situs ini adalah proyek independen yang dibuat untuk tujuan pendidikan dan demonstrasi. Proyek ini tidak berafiliasi dengan, disponsori, atau didukung oleh Amazon Web Services. Semua nama layanan, ikon, dan merek dagang adalah milik Amazon Web Services.",
-                    "en": "DISCLAIMER: This site is an independent project created for educational and demonstrational purposes. It is not affiliated with, sponsored, or endorsed by Amazon Web Services. All service names, icons, and trademarks are the property of Amazon Web Services."
+                translations['removeCompare'] = { "id": "Hapus", "en": "Remove" };
+                translations['disclaimer'] = { "id": "PENAFIAN: Situs ini adalah proyek independen yang dibuat untuk tujuan edukasi dan demonstrasi. Proyek ini tidak berafiliasi dengan, disponsori oleh, atau didukung oleh Amazon Web Service. Semua nama layanan, ikon, dan merek dagang adalah milik Amazon Web Service.",
+                    "en": "DISCLAIMER: This is an independent project for educational and demonstration purposes. It is not affiliated with, sponsored by, or endorsed by Amazon Web Service. All service names, icons, and trademarks are the property of Amazon Web Service."
                 };
                 translations['disclaimerTitle'] = { "id": "Pemberitahuan", "en": "Notice" };
-                translations['acceptButton'] = { "id": "Saya Mengerti & Lanjutkan", "en": "I Understand & Continue" };
+                translations['acceptButton'] = { "id": "Saya Mengerti", "en": "I Understand" };
 
             } catch (error) {
                 console.error('Error loading page data:', error);
-                chartConfig = defaultChartConfig; // Gunakan default jika fetch gagal
-                document.getElementById('content-area').innerHTML = `<div class="text-center p-8"><p class="text-red-600">Gagal memuat data konten. Silakan periksa file JSON dan coba lagi. <br><small>Path: ${jsonDataPath}</small></p></div>`;
-                // Tetap jalankan sisa inisialisasi dengan data default
+                chartConfig = defaultChartConfig;
+                document.getElementById('content-area').innerHTML = `<div class="text-center p-8"><p class="text-red-600">Gagal memuat data konten. Path: ${jsonDataPath}</p></div>`;
             }
 
             document.getElementById('category-selector').addEventListener('change', e => {
@@ -860,16 +891,59 @@
             
             document.getElementById('category-nav').addEventListener('click', (e) => {
                 const button = e.target.closest('.category-card');
-                if (button) updateActiveView(button.dataset.target);
+                if (button) {
+                    activeScenario = null;
+                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+                    document.getElementById('reset-scenario-btn').classList.add('hidden');
+                    renderRecommendations();
+                    updateActiveView(button.dataset.target);
+                }
+            });
+
+            document.getElementById('scenario-cards').addEventListener('click', e => {
+                const card = e.target.closest('.scenario-card');
+                if (card) {
+                    activeScenario = card.dataset.scenarioKey;
+                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    document.querySelectorAll('.decision-button.selected').forEach(b => b.classList.remove('selected'));
+                    document.getElementById('reset-scenario-btn').classList.remove('hidden');
+                    renderRecommendations();
+                    document.getElementById('decision-tool').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+
+            document.getElementById('reset-scenario-btn').addEventListener('click', () => {
+                activeScenario = null;
+                document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+                document.getElementById('reset-scenario-btn').classList.add('hidden');
+                renderRecommendations();
             });
 
             document.getElementById('decision-filters').addEventListener('click', (e) => {
                 const button = e.target.closest('.decision-button');
                 if (button) {
                     button.classList.toggle('selected');
-                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
-                    renderRecommendations(activeFilters);
+                    activeScenario = null;
+                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+                    document.getElementById('reset-scenario-btn').classList.add('hidden');
+                    renderRecommendations();
                 }
+            });
+
+            const sortButtons = document.querySelectorAll('.sort-btn');
+            sortButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    sortOrder = button.dataset.sort;
+                    sortButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    renderRecommendations();
+                });
+            });
+
+            document.getElementById('show-all-checkbox').addEventListener('change', (e) => {
+                showAllServices = e.target.checked;
+                renderRecommendations();
             });
 
             document.getElementById('recommendations').addEventListener('click', e => {
@@ -880,7 +954,7 @@
                     const isSelected = selectedForComparison.includes(serviceKey);
                     if (!isSelected && selectedForComparison.length >= 2) {
                         const alertBox = document.getElementById('comparison-alert');
-                        alertBox.innerHTML = `<strong class="font-bold">${currentLang === 'id' ? 'Batas tercapai!' : 'Limit Reached!'}</strong><span class="block sm:inline"> ${currentLang === 'id' ? 'Hanya bisa membandingkan 2 layanan.' : 'You can only compare 2 services.'}</span>`;
+                        alertBox.innerHTML = `<strong class="font-bold">${currentLang === 'id' ? 'Batas!' : 'Limit!'}</strong><span class="block sm:inline"> ${currentLang === 'id' ? 'Hanya bisa 2 layanan.' : 'Only 2 services.'}</span>`;
                         alertBox.classList.remove('hidden');
                         setTimeout(() => alertBox.classList.add('hidden'), 3000);
                         return;
@@ -888,8 +962,7 @@
                     selectedForComparison = isSelected ? selectedForComparison.filter(s => s !== serviceKey) : [...selectedForComparison, serviceKey];
                     updateChart();
                     document.getElementById('comparison-pills').innerHTML = selectedForComparison.map(key => `<span class="comparison-pill text-sm font-medium px-2.5 py-0.5 rounded-full">${pageData.services[key].title}</span>`).join('');
-                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
-                    renderRecommendations(activeFilters);
+                    renderRecommendations();
                 }
             });
 
@@ -897,44 +970,18 @@
                 selectedForComparison = [];
                 updateChart();
                 document.getElementById('comparison-pills').innerHTML = '';
-                const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
-                renderRecommendations(activeFilters);
-            });
-
-            const sortButtons = document.querySelectorAll('.sort-btn');
-            sortButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    sortOrder = button.dataset.sort;
-                    sortButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
-                    renderRecommendations(activeFilters);
-                });
-            });
-
-            document.getElementById('hide-others-checkbox').addEventListener('change', (e) => {
-                hideNotRecommended = e.target.checked;
-                const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
-                renderRecommendations(activeFilters);
+                renderRecommendations();
             });
             
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileNav = document.getElementById('mobile-nav');
 
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileNav.classList.toggle('hidden');
-            });
+            mobileMenuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
+            mobileNav.addEventListener('click', e => { if (e.target.tagName === 'A') mobileNav.classList.add('hidden'); });
 
-            mobileNav.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    mobileNav.classList.add('hidden');
-                }
-            });
-
-            // Inisialisasi status UI
-            document.querySelector(`.sort-btn[data-sort="${sortOrder}"]`).classList.add('active');
             const preferredLanguage = localStorage.getItem('language') || 'id';
             setLanguage(preferredLanguage);
+            document.querySelector(`.sort-btn[data-sort="${sortOrder}"]`).classList.add('active');
             updateActiveView('welcome');
             renderRecommendations([]);
             setupReleaseNotes(releaseNotePath);

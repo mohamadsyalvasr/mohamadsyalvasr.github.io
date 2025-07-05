@@ -1,17 +1,61 @@
 {
   "pageData": {
-     "chartConfig": {
+    "theme": {
+      "primary": "#FF9900",
+      "primary_rgb": "255, 153, 0",
+      "secondary": "#232F3E",
+      "secondary_rgb": "35, 47, 62",
+      "textOnPrimary": "#FFFFFF",
+      "primaryDark": "#C45500",
+      "primaryLight": "#FFAC31"
+    },
+    "chartConfig": {
       "labels": {
-        "id": ["Kemudahan Penggunaan", "Kendali", "Biaya Efektif"],
-        "en": ["Ease of Use", "Control", "Cost-Effectiveness"]
+        "id": ["Kemudahan Penggunaan", "Kendali Penuh", "Efisiensi Biaya"],
+        "en": ["Ease of Use", "Full Control", "Cost-Effectiveness"]
       },
       "keys": ["easeOfUse", "control", "cost"]
     },
     "navigation": [
+      { "id": "nav-scenarios", "langKey": "scenarioTitle", "href": "#scenario-guide-section" },
       { "id": "nav-categories", "langKey": "navCategories", "href": "#category-nav-section" },
       { "id": "nav-finder", "langKey": "navFinder", "href": "#decision-tool" },
       { "id": "nav-comparison", "langKey": "navComparison", "href": "#comparison-chart-section" }
     ],
+    "scenarios": {
+      "simple_website": {
+        "icon": "🌐",
+        "title": { "id": "Blog atau Situs Web Sederhana", "en": "Simple Blog or Website" },
+        "description": { "id": "Untuk hosting situs statis, blog pribadi, atau situs perusahaan dengan lalu lintas rendah.", "en": "For hosting static sites, personal blogs, or low-traffic company websites." },
+        "top_recommendation": "lightsail",
+        "alternatives": ["app-runner", "ec2"],
+        "explanation": { "id": "<b>Lightsail</b> adalah pilihan utama karena paling mudah digunakan dengan harga bulanan yang tetap. <b>App Runner</b> baik jika Anda ingin deploy dari kode sumber. <b>EC2</b> memberikan kontrol penuh jika dibutuhkan.", "en": "<b>Lightsail</b> is the top choice for its ease of use and fixed monthly pricing. <b>App Runner</b> is great if you want to deploy from source code. <b>EC2</b> provides full control if needed." }
+      },
+      "scalable_app": {
+        "icon": "📈",
+        "title": { "id": "Aplikasi Web Skalabel", "en": "Scalable Web Application" },
+        "description": { "id": "Untuk aplikasi yang butuh menangani lonjakan lalu lintas dan ketersediaan tinggi.", "en": "For applications that need to handle traffic spikes and require high availability." },
+        "top_recommendation": "elastic-beanstalk",
+        "alternatives": ["ecs", "eks", "ec2-auto-scaling"],
+        "explanation": { "id": "<b>Elastic Beanstalk</b> menyederhanakan deployment dan penskalaan. Untuk kontrol lebih, gunakan <b>ECS</b> (orkestrasi AWS) atau <b>EKS</b> (Kubernetes). <b>EC2 Auto Scaling</b> adalah fondasi untuk penskalaan manual.", "en": "<b>Elastic Beanstalk</b> simplifies deployment and scaling. For more control, use <b>ECS</b> (AWS-opinionated) or <b>EKS</b> (Kubernetes). <b>EC2 Auto Scaling</b> is the foundation for manual scaling." }
+      },
+      "microservices": {
+        "icon": "🧩",
+        "title": { "id": "Backend API & Microservices", "en": "Backend API & Microservices" },
+        "description": { "id": "Menjalankan layanan backend yang kecil, independen, dan tanpa mengelola server.", "en": "Running small, independent backend services without managing servers." },
+        "top_recommendation": "lambda",
+        "alternatives": ["fargate", "app-runner"],
+        "explanation": { "id": "<b>Lambda</b> sangat ideal untuk arsitektur berbasis event dan serverless. <b>Fargate</b> adalah pilihan serverless yang hebat untuk kontainer. <b>App Runner</b> adalah yang termudah untuk deploy API dari kontainer atau kode.", "en": "<b>Lambda</b> is ideal for event-driven, serverless architectures. <b>Fargate</b> is a great serverless choice for containers. <b>App Runner</b> is the easiest way to deploy an API from a container or code." }
+      },
+      "batch_processing": {
+        "icon": "🔢",
+        "title": { "id": "Pemrosesan Data Batch & HPC", "en": "Batch Data Processing & HPC" },
+        "description": { "id": "Untuk analisis data skala besar, rendering, atau simulasi ilmiah.", "en": "For large-scale data analysis, rendering, or scientific simulations." },
+        "top_recommendation": "batch",
+        "alternatives": ["parallel-cluster", "ec2"],
+        "explanation": { "id": "<b>AWS Batch</b> secara dinamis menyediakan sumber daya komputasi yang optimal. <b>ParallelCluster</b> memudahkan pengelolaan kluster HPC. <b>EC2</b> dengan tipe instans yang dioptimalkan juga merupakan pilihan yang solid.", "en": "<b>AWS Batch</b> dynamically provisions the optimal compute resources. <b>ParallelCluster</b> simplifies HPC cluster management. <b>EC2</b> with optimized instance types is also a solid choice." }
+      }
+    },
     "decisionFilters": [
       {
         "titleLangKey": "filter1Title",
@@ -69,13 +113,7 @@
         "title": { "id": "HPC & Specialized", "en": "HPC & Specialized" },
         "description": { "id": "Untuk komputasi kinerja tinggi, batch, dan simulasi.", "en": "For high-performance, batch, and simulation computing." },
         "icon": "🔬",
-        "services": ["batch", "parallel-cluster", "simspace-weaver", "genomics-cli", "thinkbox-suite", "nice-dcv"]
-      },
-      "specialized_infra": {
-        "title": { "id": "Specialized Infrastructure", "en": "Specialized Infrastructure" },
-        "description": { "id": "Komponen perangkat keras dan keamanan yang canggih.", "en": "Advanced hardware and security components." },
-        "icon": "🛡️",
-        "services": ["nitro-enclaves", "efa"]
+        "services": ["batch", "parallel-cluster", "simspace-weaver"]
       },
       "hybrid": {
         "title": { "id": "Hybrid & Edge", "en": "Hybrid & Edge" },
@@ -89,18 +127,20 @@
         "title": "EC2",
         "icon": "compute/EC2.svg",
         "parent": "core",
+        "bestFor": { "id": "Kontrol penuh atas server virtual, beban kerja yang fleksibel.", "en": "Full control over virtual servers, flexible workloads." },
         "tabs": {
           "Summary": { "id": "Server virtual yang dapat diubah ukurannya di cloud.", "en": "Resizable virtual servers in the cloud." },
           "Use Case": { "id": "Menjalankan server web untuk situs e-commerce atau aplikasi enterprise.", "en": "Running a web server for an e-commerce site or an enterprise application." },
-          "Pricing": { "id": "Bayar per jam/detik untuk instans yang digunakan. Opsi On-Demand, Savings Plans, dan Spot tersedia.", "en": "Pay per hour/second for instances used. On-Demand, Savings Plans, and Spot options available." }
+          "Pricing": { "id": "Bayar per jam/detik untuk instans yang digunakan.", "en": "Pay per hour/second for instances used." }
         },
         "scores": { "easeOfUse": 4, "control": 10, "cost": 5 },
-        "tags": ["general", "cloud", "iaas"]
+        "tags": ["general", "cloud", "iaas", "hpc"]
       },
       "fargate": {
         "title": "Fargate",
         "icon": "compute/Fargate.svg",
         "parent": "containers",
+        "bestFor": { "id": "Menjalankan kontainer tanpa mengelola server.", "en": "Running containers without managing servers." },
         "tabs": {
           "Summary": { "id": "Komputasi serverless untuk kontainer (ECS & EKS).", "en": "Serverless compute for containers (ECS & EKS)." },
           "Use Case": { "id": "Menjalankan layanan mikro backend untuk aplikasi seluler tanpa mengelola server.", "en": "Running backend microservices for a mobile app without managing servers." },
@@ -114,6 +154,7 @@
         "title": "Lambda",
         "icon": "compute/Lambda.svg",
         "parent": "core",
+        "bestFor": { "id": "Komputasi berbasis event, backend tanpa server.", "en": "Event-driven compute, serverless backends." },
         "tabs": {
           "Summary": { "id": "Jalankan kode sebagai respons terhadap peristiwa tanpa server.", "en": "Run code in response to events without servers." },
           "Use Case": { "id": "Memproses unggahan gambar ke S3 secara otomatis untuk membuat thumbnail.", "en": "Automatically processing image uploads to S3 to create thumbnails." },
@@ -126,6 +167,7 @@
         "title": "Lightsail",
         "icon": "compute/Lightsail.svg",
         "parent": "core",
+        "bestFor": { "id": "Aplikasi sederhana, situs web, dan pemula di cloud.", "en": "Simple applications, websites, and cloud beginners." },
         "tabs": {
           "Summary": { "id": "VPS yang mudah digunakan dengan harga tetap.", "en": "Easy-to-use Virtual Private Servers (VPS) with fixed pricing." },
           "Use Case": { "id": "Meluncurkan situs WordPress atau blog pribadi dengan cepat.", "en": "Quickly launching a personal WordPress site or blog." },
@@ -138,6 +180,7 @@
         "title": "ECS",
         "icon": "compute/Elastic-Container-Service.svg",
         "parent": "containers",
+        "bestFor": { "id": "Orkestrasi kontainer yang terintegrasi erat dengan AWS.", "en": "Container orchestration tightly integrated with AWS." },
         "tabs": {
           "Summary": { "id": "Layanan orkestrasi kontainer milik AWS yang sangat skalabel.", "en": "A highly scalable, AWS-opinionated container orchestration service." },
           "Use Case": { "id": "Mengelola armada layanan mikro untuk aplikasi web yang kompleks.", "en": "Managing a fleet of microservices for a complex web application." },
@@ -151,6 +194,7 @@
         "title": "EKS",
         "icon": "compute/Elastic-Kubernetes-Service.svg",
         "parent": "containers",
+        "bestFor": { "id": "Menjalankan Kubernetes di AWS tanpa mengelola control plane.", "en": "Running Kubernetes on AWS without managing the control plane." },
         "tabs": {
           "Summary": { "id": "Layanan Kubernetes terkelola untuk menjalankan aplikasi kontainer.", "en": "A managed Kubernetes service to run containerized applications." },
           "Use Case": { "id": "Memigrasikan aplikasi berbasis Kubernetes dari on-premise ke cloud.", "en": "Migrating an on-premises Kubernetes-based application to the cloud." },
@@ -164,18 +208,20 @@
         "title": "App Runner",
         "icon": "compute/App-Runner.svg",
         "parent": "containers",
+        "bestFor": { "id": "Cara termudah untuk mendeploy aplikasi web dari kode atau kontainer.", "en": "The easiest way to deploy web apps from code or containers." },
         "tabs": {
           "Summary": { "id": "Membangun dan menjalankan aplikasi web dalam kontainer dengan mudah.", "en": "Easily build and run containerized web applications." },
           "Use Case": { "id": "Menyebarkan API dari repositori kode dengan cepat tanpa konfigurasi infrastruktur.", "en": "Quickly deploying an API from a code repository with no infrastructure setup." },
           "Pricing": { "id": "Berdasarkan sumber daya memori dan vCPU yang dikonsumsi.", "en": "Based on consumed vCPU and memory resources." }
         },
         "scores": { "easeOfUse": 9, "control": 4, "cost": 7 },
-        "tags": ["container", "serverless", "cloud", "paas"]
+        "tags": ["container", "serverless", "cloud", "paas", "general"]
       },
       "bottlerocket": {
         "title": "Bottlerocket",
         "icon": "compute/Bottlerocket.svg",
         "parent": "containers",
+        "bestFor": { "id": "OS yang aman dan minimalis khusus untuk menjalankan kontainer.", "en": "A secure, minimal OS purpose-built for running containers." },
         "tabs": {
           "Summary": { "id": "Sistem operasi berbasis Linux untuk menjalankan kontainer.", "en": "A Linux-based OS purpose-built for running containers." },
           "Use Case": { "id": "Menciptakan lingkungan host yang aman dan minimalis untuk klaster EKS.", "en": "Creating a secure, minimal host environment for an EKS cluster." },
@@ -189,6 +235,7 @@
         "title": "EC2 Auto Scaling",
         "icon": "compute/EC2-Auto-Scaling.svg",
         "parent": "scaling",
+        "bestFor": { "id": "Secara otomatis menyesuaikan kapasitas EC2 dengan permintaan.", "en": "Automatically adjusting EC2 capacity to meet demand." },
         "tabs": {
           "Summary": { "id": "Secara otomatis menambah atau mengurangi instans EC2.", "en": "Automatically add or remove EC2 instances." },
           "Use Case": { "id": "Menskalakan armada server web secara otomatis selama lonjakan lalu lintas.", "en": "Automatically scaling a fleet of web servers during traffic spikes." },
@@ -202,18 +249,20 @@
         "title": "Application Auto Scaling",
         "icon": "compute/Application-Auto-Scaling.svg",
         "parent": "scaling",
+        "bestFor": { "id": "Penskalaan otomatis untuk layanan AWS di luar EC2.", "en": "Automatic scaling for AWS services beyond EC2." },
         "tabs": {
           "Summary": { "id": "Menskalakan sumber daya AWS lainnya secara otomatis.", "en": "Automatically scale other AWS resources." },
           "Use Case": { "id": "Menskalakan kapasitas baca/tulis tabel DynamoDB berdasarkan permintaan.", "en": "Scaling DynamoDB table read/write capacity based on demand." },
           "Pricing": { "id": "Tidak ada biaya tambahan.", "en": "No additional charge." }
         },
         "scores": { "easeOfUse": 8, "control": 7, "cost": 9 },
-        "tags": ["general", "cloud"]
+        "tags": ["general", "cloud", "serverless", "container"]
       },
       "compute-optimizer": {
         "title": "Compute Optimizer",
         "icon": "compute/Compute-Optimizer.svg",
         "parent": "scaling",
+        "bestFor": { "id": "Mengoptimalkan biaya dan kinerja dengan rekomendasi cerdas.", "en": "Optimizing cost and performance with smart recommendations." },
         "tabs": {
           "Summary": { "id": "Merekomendasikan sumber daya optimal untuk mengurangi biaya.", "en": "Recommends optimal resources to reduce costs." },
           "Use Case": { "id": "Menganalisis penggunaan EC2 untuk menemukan peluang penghematan biaya.", "en": "Analyzing EC2 usage to find cost-saving opportunities." },
@@ -226,6 +275,7 @@
         "title": "EC2 Image Builder",
         "icon": "compute/EC2-Image-Builder.svg",
         "parent": "scaling",
+        "bestFor": { "id": "Mengotomatiskan pembuatan dan pemeliharaan image server.", "en": "Automating the creation and maintenance of server images." },
         "tabs": {
           "Summary": { "id": "Mengotomatiskan pembuatan image server virtual.", "en": "Automate the creation of virtual server images." },
           "Use Case": { "id": "Membangun pipeline untuk membuat AMI yang aman dan ter-patch secara otomatis.", "en": "Building a pipeline to create secure, patched AMIs automatically." },
@@ -239,6 +289,7 @@
         "title": "Elastic Beanstalk",
         "icon": "compute/Elastic-Beanstalk.svg",
         "parent": "platform",
+        "bestFor": { "id": "Developer yang ingin fokus pada kode, bukan infrastruktur.", "en": "Developers who want to focus on code, not infrastructure." },
         "tabs": {
           "Summary": { "id": "Menyebarkan dan menskalakan aplikasi web dan layanan.", "en": "Deploy and scale web applications and services." },
           "Use Case": { "id": "Menyebarkan aplikasi Ruby on Rails dengan cepat tanpa mengelola infrastruktur.", "en": "Quickly deploying a Ruby on Rails application without managing infrastructure." },
@@ -251,6 +302,7 @@
         "title": "Serverless Application Repository",
         "icon": "compute/Serverless-Application-Repository.svg",
         "parent": "platform",
+        "bestFor": { "id": "Menemukan dan menggunakan kembali pola dan aplikasi serverless.", "en": "Discovering and reusing serverless patterns and applications." },
         "tabs": {
           "Summary": { "id": "Temukan dan sebarkan aplikasi serverless.", "en": "Discover and deploy serverless applications." },
           "Use Case": { "id": "Menemukan dan menyebarkan chatbot siap pakai untuk Slack.", "en": "Finding and deploying a pre-built chatbot for Slack." },
@@ -263,6 +315,7 @@
         "title": "Batch",
         "icon": "compute/Batch.svg",
         "parent": "hpc",
+        "bestFor": { "id": "Pemrosesan batch skala besar yang terkelola penuh.", "en": "Fully managed large-scale batch processing." },
         "tabs": {
           "Summary": { "id": "Jalankan pekerjaan komputasi batch dalam skala besar.", "en": "Run batch computing jobs at any scale." },
           "Use Case": { "id": "Memproses ribuan file gambar untuk analisis dalam semalam.", "en": "Processing thousands of image files for analysis overnight." },
@@ -275,6 +328,7 @@
         "title": "ParallelCluster",
         "icon": "compute/ParallelCluster.svg",
         "parent": "hpc",
+        "bestFor": { "id": "Menyederhanakan deployment dan manajemen kluster HPC.", "en": "Simplifying HPC cluster deployment and management." },
         "tabs": {
           "Summary": { "id": "Menyebarkan dan mengelola kluster HPC.", "en": "Deploy and manage HPC clusters." },
           "Use Case": { "id": "Menyiapkan kluster komputasi untuk simulasi dinamika fluida.", "en": "Setting up a compute cluster for fluid dynamics simulations." },
@@ -287,6 +341,7 @@
         "title": "SimSpace Weaver",
         "icon": "compute/SimSpace-Weaver.svg",
         "parent": "hpc",
+        "bestFor": { "id": "Simulasi spasial skala besar seperti perencanaan kota.", "en": "Large-scale spatial simulations like urban planning." },
         "tabs": {
           "Summary": { "id": "Menjalankan simulasi spasial skala besar di cloud.", "en": "Run large-scale spatial simulations in the cloud." },
           "Use Case": { "id": "Membuat simulasi keramaian kota untuk perencanaan urban.", "en": "Creating a city-scale crowd simulation for urban planning." },
@@ -295,72 +350,11 @@
         "scores": { "easeOfUse": 4, "control": 8, "cost": 4 },
         "tags": ["hpc", "cloud", "paas"]
       },
-      "thinkbox-suite": {
-        "title": "Thinkbox",
-        "icon": "compute/Thinkbox-Krakatoa.svg",
-        "parent": "hpc",
-        "tabs": {
-          "Summary": { "id": "Alat untuk rendering, simulasi, dan manajemen alur kerja visual.", "en": "Tools for visual effects rendering, simulation, and workflow management." },
-          "Use Case": { "id": "Mengelola farm rendering untuk film animasi menggunakan Deadline.", "en": "Managing a render farm for an animated film using Deadline." },
-          "Pricing": { "id": "Bervariasi, seringkali berbasis lisensi penggunaan.", "en": "Varies, often based on usage-based licensing." }
-        },
-        "scores": { "easeOfUse": 6, "control": 8, "cost": 5 },
-        "tags": ["hpc", "hybrid"]
-      },
-      "nice-dcv": {
-        "title": "NICE DCV",
-        "icon": "compute/NICE-DCV.svg",
-        "parent": "hpc",
-        "tabs": {
-          "Summary": { "id": "Protokol desktop jarak jauh berkinerja tinggi.", "en": "A high-performance remote desktop protocol." },
-          "Use Case": { "id": "Mengakses stasiun kerja grafis di cloud untuk desain CAD.", "en": "Accessing a graphics workstation in the cloud for CAD design." },
-          "Pricing": { "id": "Gratis di instans EC2; biaya lisensi untuk on-premise.", "en": "Free on EC2 instances; license fee for on-premises." }
-        },
-        "scores": { "easeOfUse": 7, "control": 7, "cost": 6 },
-        "tags": ["hpc", "hybrid"]
-      },
-      "genomics-cli": {
-        "title": "Genomics CLI",
-        "icon": "compute/Genomics-CLI.svg",
-        "parent": "hpc",
-        "tabs": {
-          "Summary": { "id": "Alat CLI untuk memproses data genomik dalam skala besar.", "en": "A CLI tool to process genomic data at scale." },
-          "Use Case": { "id": "Menjalankan alur kerja analisis sekuensing genom.", "en": "Running genome sequencing analysis workflows." },
-          "Pricing": { "id": "Tidak ada biaya tambahan, bayar untuk sumber daya yang digunakan.", "en": "No additional charge, pay for resources used." }
-        },
-        "scores": { "easeOfUse": 4, "control": 8, "cost": 6 },
-        "tags": ["hpc", "cloud"]
-      },
-      "nitro-enclaves": {
-        "title": "Nitro Enclaves",
-        "icon": "compute/Nitro-Enclaves.svg",
-        "parent": "specialized_infra",
-        "tabs": {
-          "Summary": { "id": "Menciptakan lingkungan komputasi terisolasi untuk data sensitif.", "en": "Create isolated compute environments for sensitive data." },
-          "Use Case": { "id": "Memproses data identitas pribadi (PII) di lingkungan yang terenkripsi.", "en": "Processing personally identifiable information (PII) in an encrypted environment." },
-          "Pricing": { "id": "Tidak ada biaya tambahan.", "en": "No additional charge." }
-        },
-        "dependency": { "id": "Fitur dari EC2", "en": "Feature of EC2" },
-        "scores": { "easeOfUse": 5, "control": 10, "cost": 8 },
-        "tags": ["general", "cloud", "iaas"]
-      },
-      "efa": {
-        "title": "Elastic Fabric Adapter",
-        "icon": "compute/Elastic-Fabric-Adapter.svg",
-        "parent": "specialized_infra",
-        "tabs": {
-          "Summary": { "id": "Antarmuka jaringan untuk beban kerja HPC dan ML.", "en": "A network interface for HPC and ML workloads." },
-          "Use Case": { "id": "Menghubungkan node dalam kluster pelatihan ML untuk komunikasi latensi rendah.", "en": "Connecting nodes in an ML training cluster for low-latency communication." },
-          "Pricing": { "id": "Tidak ada biaya tambahan.", "en": "No additional charge." }
-        },
-        "dependency": { "id": "Fitur dari EC2", "en": "Feature of EC2" },
-        "scores": { "easeOfUse": 5, "control": 9, "cost": 8 },
-        "tags": ["hpc", "cloud", "iaas"]
-      },
       "outposts": {
         "title": "Outposts",
         "icon": "compute/Outposts-family.svg",
         "parent": "hybrid",
+        "bestFor": { "id": "Beban kerja on-premise yang butuh latensi rendah ke sistem lokal.", "en": "On-premises workloads needing low latency to local systems." },
         "tabs": {
           "Summary": { "id": "Jalankan infrastruktur AWS di on-premise.", "en": "Run AWS infrastructure on-premises." },
           "Use Case": { "id": "Menjalankan aplikasi yang memerlukan latensi satu digit milidetik ke sistem pabrik.", "en": "Running applications that need single-digit millisecond latency to factory systems." },
@@ -373,6 +367,7 @@
         "title": "Local Zones",
         "icon": "compute/Local-Zones.svg",
         "parent": "hybrid",
+        "bestFor": { "id": "Aplikasi latensi sangat rendah untuk pengguna di kota besar.", "en": "Ultra-low latency applications for users in major cities." },
         "tabs": {
           "Summary": { "id": "Menempatkan compute dan storage lebih dekat ke pengguna akhir.", "en": "Place compute and storage closer to end-users." },
           "Use Case": { "id": "Menyajikan konten video dengan latensi sangat rendah di area metropolitan.", "en": "Delivering ultra-low latency video content in a metropolitan area." },
@@ -385,6 +380,7 @@
         "title": "Wavelength",
         "icon": "compute/Wavelength.svg",
         "parent": "hybrid",
+        "bestFor": { "id": "Aplikasi latensi sangat rendah untuk perangkat mobile 5G.", "en": "Ultra-low latency applications for 5G mobile devices." },
         "tabs": {
           "Summary": { "id": "Menyebarkan aplikasi dengan latensi sangat rendah ke perangkat 5G.", "en": "Deploy ultra-low-latency applications to 5G devices." },
           "Use Case": { "id": "Game real-time atau streaming augmented reality (AR) di perangkat seluler.", "en": "Real-time gaming or augmented reality (AR) streaming on mobile devices." },
@@ -397,6 +393,7 @@
         "title": "VMware Cloud on AWS",
         "icon": "compute/VMware-Cloud-on-AWS.svg",
         "parent": "hybrid",
+        "bestFor": { "id": "Migrasi cepat beban kerja VMware ke cloud.", "en": "Rapid migration of VMware workloads to the cloud." },
         "tabs": {
           "Summary": { "id": "Migrasikan dan jalankan beban kerja VMware di AWS.", "en": "Migrate and run your VMware workloads on AWS." },
           "Use Case": { "id": "Memperluas pusat data on-premise berbasis VMware ke cloud tanpa mengubah alat.", "en": "Extending an on-premises VMware-based data center to the cloud without changing tools." },
@@ -409,18 +406,18 @@
   },
   "translations": {
     "navCategories": { "id": "Kategori", "en": "Categories" },
-    "navFinder": { "id": "Pencari Solusi", "en": "Solution Finder" },
+    "navFinder": { "id": "Filter Lanjutan", "en": "Advanced Filters" },
     "navComparison": { "id": "Perbandingan", "en": "Comparison" },
     "homeButton": { "id": "Halaman Utama", "en": "Home" },
     "mainTitle": { "id": "Panduan Interaktif AWS Compute", "en": "Interactive AWS Compute Guide" },
     "mainSubtitle": { "id": "Jelajahi portofolio lengkap layanan komputasi AWS, dari server virtual hingga pemrosesan khusus.", "en": "Explore the full portfolio of AWS compute services, from virtual servers to specialized processing." },
-    "categoryTitle": { "id": "Kategori Layanan Compute", "en": "Compute Service Categories" },
-    "categorySubtitle": { "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.", "en": "Select a category to explore the relevant services within it." },
+    "categoryTitle": { "id": "Jelajahi per Kategori", "en": "Explore by Category" },
+    "categorySubtitle": { "id": "Atau, pilih kategori untuk menjelajahi semua layanan yang relevan di dalamnya.", "en": "Or, select a category to explore all relevant services within it." },
     "welcomeTitle": { "id": "Selamat Datang!", "en": "Welcome!" },
-    "welcomeSubtitle": { "id": "Pilih kategori layanan di atas untuk memulai.", "en": "Select a service category above to get started." },
-    "finderTitle": { "id": "Pencari Solusi Compute", "en": "Compute Solution Finder" },
-    "finderSubtitle": { "id": "Gunakan filter ini untuk menemukan layanan AWS Compute yang paling sesuai untuk tugas Anda.", "en": "Use these filters to find the right AWS Compute service for your task." },
-    "filter1Title": { "id": "1. Apa Kasus Penggunaan Anda?", "en": "1. What is your Use Case?" },
+    "welcomeSubtitle": { "id": "Pilih skenario atau kategori layanan di atas untuk memulai.", "en": "Select a scenario or service category above to get started." },
+    "finderTitle": { "id": "Pencari Solusi Lanjutan", "en": "Advanced Solution Finder" },
+    "finderSubtitle": { "id": "Gunakan filter ini untuk mempersempit rekomendasi atau menemukan layanan secara manual.", "en": "Use these filters to narrow down recommendations or find services manually." },
+    "filter1Title": { "id": "1. Apa Tipe Beban Kerja Anda?", "en": "1. What is your Workload Type?" },
     "filterGeneral": { "id": "General Purpose & Web Hosting", "en": "General Purpose & Web Hosting" },
     "filterContainer": { "id": "Containers", "en": "Containers" },
     "filterServerless": { "id": "Serverless & Event-driven", "en": "Serverless & Event-driven" },
@@ -434,8 +431,8 @@
     "filterCaas": { "id": "Containers-as-a-Service (CaaS)", "en": "Containers-as-a-Service (CaaS)" },
     "filterPaas": { "id": "Platform-as-a-Service (PaaS)", "en": "Platform-as-a-Service (PaaS)" },
     "filterFaas": { "id": "Function-as-a-Service (Serverless)", "en": "Function-as-a-Service (Serverless)" },
-    "recommendationTitle": { "id": "Layanan yang Direkomendasikan", "en": "Recommended Services" },
-    "noRecommendation": { "id": "Pilih filter di atas untuk melihat rekomendasi.", "en": "Select a filter above to see recommendations." },
+    "recommendationTitle": { "id": "Hasil Rekomendasi", "en": "Recommendation Results" },
+    "noRecommendation": { "id": "Pilih skenario atau filter di atas untuk melihat rekomendasi.", "en": "Select a scenario or filter above to see recommendations." },
     "comparisonTitle": { "id": "Visualisasi Perbandingan Layanan", "en": "Service Comparison Visualizer" },
     "comparisonSubtitle": { "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.", "en": "Compare up to two services visually on key attributes." },
     "comparisonLabel": { "id": "Layanan untuk dibandingkan:", "en": "Services to compare:" },

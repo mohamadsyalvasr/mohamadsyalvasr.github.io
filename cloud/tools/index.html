@@ -45,19 +45,95 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* --- Gaya untuk Dropdown & Mega Menu --- */
+        .dropdown-menu, .mega-menu-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+        .group:hover .mega-menu-content,
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .hero-menu-card {
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .hero-menu-card:hover {
+            background-color: #f8fafc; /* slate-50 */
+            transform: scale(1.02);
+        }
+        
+        .about-mega-menu-bg {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mobile-submenu {
+            display: none;
+        }
+        .submenu-toggle svg {
+            transition: transform 0.3s;
+        }
+        .submenu-toggle.open svg {
+            transform: rotate(90deg);
+        }
+        
+        /* Gaya untuk badge dan item menu yang non-aktif */
+        .menu-item-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* slate-600 */
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .menu-item-disabled {
+            filter: grayscale(80%);
+            cursor: not-allowed;
+        }
+        .menu-item-disabled:hover {
+            background-color: transparent !important;
+            transform: scale(1) !important;
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-white shadow-sm sticky top-0 z-40">
-        <div class="container mx-auto flex items-center justify-between p-4">
-            <div class="flex items-center space-x-2">
-                <h1 data-lang-key="appTitle" class="text-xl font-bold text-slate-800">Solution Finder</h1>
+    <!-- Header dengan Navigasi Dinamis -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-blue-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
             </div>
-            <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
-                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
-                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
             </div>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
         </div>
     </header>
 
@@ -124,6 +200,7 @@
         </div>
     </footer>
 
+    <script src="../components/navigation.js" defer></script>
     <script>
         // --- KONFIGURASI ---
          const DATA_FILES = {
@@ -410,7 +487,36 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', initializeApp);
+       document.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+
+            // Initialize the navigator. This will fetch data and build the menu.
+            AppNavigator.init('#desktop-nav', '#mobile-nav');
+
+            // --- EVENT LISTENERS FOR LANGUAGE SWITCHER ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNavContainer = document.getElementById('mobile-nav-container');
+            const langIdButton = document.getElementById('lang-id-btn');
+            const langEnButton = document.getElementById('lang-en-btn');
+
+            const setPageLanguage = (lang) => {
+                // Use the navigator's method to switch the language
+                AppNavigator.switchLanguage(lang);
+
+                // Update the active state of the language buttons
+                langIdButton.classList.toggle('active', lang === 'id');
+                langEnButton.classList.toggle('active', lang === 'en');
+            };
+
+            // Add event listener for the main mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () =>
+                mobileNavContainer.classList.toggle('hidden')
+            );
+
+            // Set the initial active state for the language buttons
+            const initialLang = localStorage.getItem('language') || 'id';
+        });
     </script>
+    <script src="../feedback.js" defer></script>
 </body>
 </html>

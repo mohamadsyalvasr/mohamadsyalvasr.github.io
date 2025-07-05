@@ -10,7 +10,7 @@
       "langKey": "navProducts",
       "items": [
         { "langKey": "productEbooks", "href": "/cloud/ebooks", "status": "active" },
-        { "langKey": "productTools", "href": "/cloud/tools", "status": "comingsoon" }
+        { "langKey": "productTools", "href": "/cloud/tools", "status": "active" }
       ]
     },
     {
