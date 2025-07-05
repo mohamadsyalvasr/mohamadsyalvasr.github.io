@@ -23,7 +23,7 @@
       {
         "titleLangKey": "filter1Title",
         "options": [
-          { "filter": "virtual-machine", "langKey": "filterVm" },
+          { "filter": "general", "langKey": "filterVm" },
           { "filter": "container", "langKey": "filterContainer" },
           { "filter": "serverless", "langKey": "filterServerless" },
           { "filter": "hpc", "langKey": "filterHpc" }
@@ -94,7 +94,7 @@
           "Summary": { "id": "Menyediakan mesin virtual Linux dan Windows yang dapat diskalakan dan aman.", "en": "Provides scalable and secure Linux and Windows virtual machines." },
           "Use Case": { "id": "Menjalankan hampir semua beban kerja server, dari server web hingga database.", "en": "Running nearly any server workload, from web servers to databases." },
           "Pricing": { "id": "Bayar per detik penggunaan, dengan opsi untuk Spot VMs, Savings Plans, dan Reserved Instances untuk penghematan biaya.", "en": "Pay-per-second billing, with options for Spot VMs, Savings Plans, and Reserved Instances for cost savings." }
-        }, "scores": { "easeOfUse": 6, "control": 10, "cost": 7 }, "tags": ["virtual-machine", "cloud", "iaas"]
+        }, "scores": { "easeOfUse": 6, "control": 10, "cost": 7 }, "tags": ["general", "cloud", "iaas"]
       },
       "vm-scale-sets": {
         "title": "Virtual Machine Scale Sets",
@@ -104,7 +104,7 @@
           "Summary": { "id": "Buat dan kelola sekelompok VM yang identik dan dapat diseimbangkan bebannya.", "en": "Create and manage a group of identical, load-balanced VMs." },
           "Use Case": { "id": "Membangun aplikasi skala besar untuk komputasi besar, data besar, dan beban kerja dalam kontainer.", "en": "Building large-scale applications for big compute, big data, and containerized workloads." },
           "Pricing": { "id": "Tidak ada biaya tambahan untuk Scale Set itu sendiri; Anda hanya membayar untuk instans VM, penyimpanan, dan sumber daya jaringan yang mendasarinya.", "en": "No extra cost for the Scale Set itself; you only pay for the underlying VM instances, storage, and networking resources." }
-        }, "scores": { "easeOfUse": 7, "control": 9, "cost": 8 }, "tags": ["virtual-machine", "hpc", "cloud", "iaas"]
+        }, "scores": { "easeOfUse": 7, "control": 9, "cost": 8 }, "tags": ["general", "hpc", "cloud", "iaas"]
       },
        "azure-dedicated-host": {
         "title": "Azure Dedicated Host",
@@ -114,7 +114,7 @@
           "Summary": { "id": "Menyediakan server fisik yang menghosting satu atau lebih mesin virtual untuk organisasi Anda.", "en": "Provides physical servers that host one or more virtual machines for your organization." },
           "Use Case": { "id": "Memenuhi persyaratan kepatuhan atau lisensi perangkat lunak berbasis server fisik.", "en": "Addressing compliance requirements or physical server-based software licensing." },
           "Pricing": { "id": "Ditagih per host, berdasarkan keluarga VM, tipe, dan wilayah. Diskon signifikan tersedia dengan Reserved Instances.", "en": "Billed per host, based on VM family, type, and region. Significant discounts available with Reserved Instances." }
-        }, "scores": { "easeOfUse": 4, "control": 10, "cost": 3 }, "tags": ["virtual-machine", "cloud", "iaas"]
+        }, "scores": { "easeOfUse": 4, "control": 10, "cost": 3 }, "tags": ["general", "cloud", "iaas"]
       },
       "aks": {
         "title": "Azure Kubernetes Service (AKS)",
@@ -194,7 +194,7 @@
           "Summary": { "id": "Perluas manajemen Azure ke infrastruktur apa pun di on-premise, edge, dan multi-cloud.", "en": "Extend Azure management to any infrastructure on-premises, at the edge, and multi-cloud." },
           "Use Case": { "id": "Mengelola dan mengatur server Windows/Linux, klaster Kubernetes, dan layanan data di luar Azure.", "en": "Governing and managing Windows/Linux servers, Kubernetes clusters, and data services outside of Azure." },
           "Pricing": { "id": "Biaya kontrol plane inti gratis. Biaya berlaku untuk layanan tambahan yang diaktifkan seperti Microsoft Defender atau Azure Monitor.", "en": "Core control plane functionality is free. Costs apply for additional enabled services like Microsoft Defender or Azure Monitor." }
-        }, "scores": { "easeOfUse": 6, "control": 9, "cost": 5 }, "tags": ["hybrid", "edge", "container", "virtual-machine"]
+        }, "scores": { "easeOfUse": 6, "control": 9, "cost": 5 }, "tags": ["hybrid", "edge", "container", "general"]
       },
       "azure-compute-gallery": {
         "title": "Azure Compute Gallery",
@@ -204,7 +204,7 @@
           "Summary": { "id": "Bagikan dan kelola gambar VM dan paket aplikasi di seluruh organisasi Anda.", "en": "Share and manage VM images and application packages across your organization." },
           "Use Case": { "id": "Menyederhanakan proses penyebaran VM khusus di beberapa wilayah.", "en": "Simplifying the deployment process for custom VMs across multiple regions." },
           "Pricing": { "id": "Tidak ada biaya tambahan untuk Galeri. Anda dikenakan biaya untuk biaya penyimpanan replika dan biaya keluar jaringan untuk replikasi.", "en": "No extra charge for the Gallery. You are charged for replica storage costs and network egress for replication." }
-        }, "scores": { "easeOfUse": 8, "control": 5, "cost": 9 }, "tags": ["virtual-machine", "cloud"]
+        }, "scores": { "easeOfUse": 8, "control": 5, "cost": 9 }, "tags": ["general", "cloud"]
       }
     }
   },
@@ -227,7 +227,7 @@
     "filterServerless": { "id": "Serverless & Aplikasi", "en": "Serverless & Applications" },
     "filterHpc": { "id": "HPC & Batch", "en": "HPC & Batch" },
     "filter2Title": { "id": "2. Di Mana Anda Ingin Menjalankannya?", "en": "2. Where do you want to run it?" },
-    "filterCloud": { "id": "Wilayah Cloud Azure", "en": "Azure Cloud Regions" },
+    "filterCloud": { "id": "Wilayah Cloud Provider", "en": "Provider Cloud Regions" },
     "filterHybrid": { "id": "Hybrid & On-Premises", "en": "Hybrid & On-Premises" },
     "filterEdge": { "id": "Lokasi Edge", "en": "Edge Locations" },
     "filter3Title": { "id": "3. Apa Model Manajemen Anda?", "en": "3. What is your Management Model?" },
