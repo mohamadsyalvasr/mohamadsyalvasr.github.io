@@ -1,0 +1,904 @@
+{
+  "pageData": {
+    "theme": {
+      "primary": "#FF6A00",
+      "primaryDark": "#CC5500",
+      "primaryLight": "#FF944D",
+      "secondary": "#343A40",
+      "textOnPrimary": "#FFFFFF"
+    },
+    "chartConfig": {
+      "labels": {
+        "id": [
+          "Kemudahan Penggunaan",
+          "Kendali",
+          "Biaya Efektif"
+        ],
+        "en": [
+          "Ease of Use",
+          "Control",
+          "Cost-Effectiveness"
+        ]
+      },
+      "keys": [
+        "easeOfUse",
+        "control",
+        "cost"
+      ]
+    },
+    "navigation": [
+      {
+        "id": "nav-categories",
+        "langKey": "navCategories",
+        "href": "#category-nav-section"
+      },
+      {
+        "id": "nav-finder",
+        "langKey": "navFinder",
+        "href": "#decision-tool"
+      },
+      {
+        "id": "nav-comparison",
+        "langKey": "navComparison",
+        "href": "#comparison-chart-section"
+      }
+    ],
+    "decisionFilters": [
+      {
+        "titleLangKey": "filter1Title",
+        "options": [
+          {
+            "filter": "general",
+            "langKey": "filterGeneral"
+          },
+          {
+            "filter": "container",
+            "langKey": "filterContainer"
+          },
+          {
+            "filter": "serverless",
+            "langKey": "filterServerless"
+          },
+          {
+            "filter": "hpc",
+            "langKey": "filterHpc"
+          }
+        ]
+      },
+      {
+        "titleLangKey": "filter2Title",
+        "options": [
+          {
+            "filter": "cloud",
+            "langKey": "filterCloud"
+          }
+        ]
+      },
+      {
+        "titleLangKey": "filter3Title",
+        "options": [
+          {
+            "filter": "iaas",
+            "langKey": "filterIaas"
+          },
+          {
+            "filter": "caas",
+            "langKey": "filterCaas"
+          },
+          {
+            "filter": "paas",
+            "langKey": "filterPaas"
+          },
+          {
+            "filter": "faas",
+            "langKey": "filterFaas"
+          }
+        ]
+      }
+    ],
+    "categories": {
+      "core": {
+        "title": {
+          "id": "Server Cloud",
+          "en": "Cloud Servers"
+        },
+        "description": {
+          "id": "Menyediakan sumber daya komputasi awan dengan berbagai kombinasi CPU dan memori.",
+          "en": "Provides cloud computing resources with a variety of CPU and memory combinations."
+        },
+        "icon": "💻",
+        "services": [
+          "ecs",
+          "simple-app-server",
+          "dedicated-host",
+          "ebm"
+        ]
+      },
+      "containers": {
+        "title": {
+          "id": "Containers",
+          "en": "Containers"
+        },
+        "description": {
+          "id": "Jalankan dan kelola aplikasi dalam kontainer tanpa mengelola server.",
+          "en": "Run and manage containerized applications without managing servers."
+        },
+        "icon": "📦",
+        "services": [
+          "eci",
+          "ack",
+          "asm",
+          "acr"
+        ]
+      },
+      "scaling": {
+        "title": {
+          "id": "Orkestrasi Elastis",
+          "en": "Elastic Orchestration"
+        },
+        "description": {
+          "id": "Alat untuk mengelola, menskalakan, dan mengotomatiskan sumber daya cloud.",
+          "en": "Tools to manage, scale, and automate cloud resources."
+        },
+        "icon": "⚖️",
+        "services": [
+          "auto-scaling",
+          "ros",
+          "oos"
+        ]
+      },
+      "serverless_platform": {
+        "title": {
+          "id": "Serverless",
+          "en": "Serverless"
+        },
+        "description": {
+          "id": "Jalankan kode dan koordinasikan tugas-tugas terdistribusi tanpa memikirkan server.",
+          "en": "Run code and coordinate distributed tasks without thinking about servers."
+        },
+        "icon": "⚡",
+        "services": [
+          "function-compute",
+          "serverless-workflow"
+        ]
+      },
+      "hpc": {
+        "title": {
+          "id": "Komputasi Kinerja Tinggi",
+          "en": "High-Performance Computing"
+        },
+        "description": {
+          "id": "Untuk komputasi kinerja tinggi, batch, dan pemrosesan paralel.",
+          "en": "For high-performance, batch, and parallel processing computing."
+        },
+        "icon": "🔬",
+        "services": [
+          "elastic-gpu",
+          "faas",
+          "scc",
+          "e-hpc",
+          "batch-compute"
+        ]
+      },
+      "specialized": {
+        "title": {
+          "id": "Infrastruktur Khusus",
+          "en": "Specialized Infrastructure"
+        },
+        "description": {
+          "id": "Layanan khusus untuk desktop jarak jauh dan komputasi bare metal.",
+          "en": "Specialized services for remote desktops and bare metal computing."
+        },
+        "icon": "🛠️",
+        "services": [
+          "wuying-workspace"
+        ]
+      }
+    },
+    "services": {
+      "ecs": {
+        "title": "Elastic Compute Service (ECS)",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ECS-Elastic-Compute-Service.svg",
+        "parent": "core",
+        "tabs": {
+          "Summary": {
+            "id": "Server virtual yang dapat diubah ukurannya dengan berbagai kombinasi CPU dan memori.",
+            "en": "Resizable virtual servers with a variety of CPU and memory combinations."
+          },
+          "Use Case": {
+            "id": "Menjalankan aplikasi web, backend untuk aplikasi enterprise, atau server database.",
+            "en": "Running web applications, backends for enterprise apps, or database servers."
+          },
+          "Pricing": {
+            "id": "Bayar sesuai pemakaian (per detik) atau langganan. Opsi Instans Spot juga tersedia.",
+            "en": "Pay-as-you-go (per second) or subscription-based. Spot Instance options also available."
+          }
+        },
+        "scores": {
+          "easeOfUse": 4,
+          "control": 10,
+          "cost": 5
+        },
+        "tags": [
+          "general",
+          "cloud",
+          "iaas"
+        ]
+      },
+      "simple-app-server": {
+        "title": "Simple Application Server",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/SWAS-Simple-Application-Server.svg",
+        "parent": "core",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan yang mudah digunakan untuk membantu Anda membangun aplikasi atau situs web.",
+            "en": "An easy-to-use service that helps you build applications or websites."
+          },
+          "Use Case": {
+            "id": "Meluncurkan situs WordPress, lingkungan pengembangan, atau aplikasi sederhana dengan cepat.",
+            "en": "Quickly launching a WordPress site, a development environment, or a simple application."
+          },
+          "Pricing": {
+            "id": "Paket bulanan dengan harga tetap yang mencakup sumber daya komputasi, penyimpanan, dan transfer data.",
+            "en": "Fixed-price monthly bundles that include compute, storage, and data transfer resources."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "control": 2,
+          "cost": 10
+        },
+        "tags": [
+          "general",
+          "cloud",
+          "paas"
+        ]
+      },
+      "dedicated-host": {
+        "title": "Dedicated Host",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/DDH-Dedicated-Host.svg",
+        "parent": "core",
+        "tabs": {
+          "Summary": {
+            "id": "Menyediakan host cloud yang sumber daya fisiknya didedikasikan untuk satu penyewa.",
+            "en": "Provides cloud hosts whose physical resources are dedicated to individual tenants."
+          },
+          "Use Case": {
+            "id": "Memenuhi persyaratan kepatuhan yang ketat atau menggunakan lisensi perangkat lunak yang ada.",
+            "en": "Meeting strict compliance requirements or utilizing existing software licenses."
+          },
+          "Pricing": {
+            "id": "Pembayaran berbasis langganan untuk seluruh server fisik.",
+            "en": "Subscription-based payment for the entire physical server."
+          }
+        },
+        "scores": {
+          "easeOfUse": 6,
+          "control": 10,
+          "cost": 3
+        },
+        "tags": [
+          "general",
+          "cloud",
+          "iaas"
+        ]
+      },
+      "ebm": {
+        "title": "ECS Bare Metal Instance (EBM)",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/XDragon-Bare-Metal-Server.svg",
+        "parent": "core",
+        "tabs": {
+          "Summary": {
+            "id": "Menggabungkan elastisitas VM dan kinerja mesin fisik tanpa overhead virtualisasi.",
+            "en": "Combines the elasticity of VMs and the performance of physical machines without virtualization overheads."
+          },
+          "Use Case": {
+            "id": "Beban kerja yang membutuhkan akses perangkat keras langsung, seperti database kinerja tinggi atau komputasi intensif.",
+            "en": "Workloads requiring direct hardware access, like high-performance databases or intensive computing."
+          },
+          "Pricing": {
+            "id": "Bayar sesuai pemakaian atau langganan, dengan harga premium untuk akses bare metal.",
+            "en": "Pay-as-you-go or subscription, with a premium for bare metal access."
+          }
+        },
+        "scores": {
+          "easeOfUse": 4,
+          "control": 10,
+          "cost": 4
+        },
+        "tags": [
+          "general",
+          "hpc",
+          "cloud",
+          "iaas"
+        ]
+      },
+      "eci": {
+        "title": "Elastic Container Instance (ECI)",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ECI-Elastic-Container-Instance.svg",
+        "parent": "containers",
+        "tabs": {
+          "Summary": {
+            "id": "Menjalankan kontainer tanpa mengelola server yang mendasarinya. Anda hanya perlu menyediakan image kontainer.",
+            "en": "Run containers without managing underlying servers. You only need to provide a container image."
+          },
+          "Use Case": {
+            "id": "Menjalankan layanan mikro backend, tugas batch, atau aplikasi berbasis peristiwa tanpa mengelola klaster.",
+            "en": "Running backend microservices, batch jobs, or event-driven applications without managing a cluster."
+          },
+          "Pricing": {
+            "id": "Berdasarkan vCPU dan memori yang dialokasikan per detik.",
+            "en": "Based on allocated vCPU and memory per second."
+          }
+        },
+        "scores": {
+          "easeOfUse": 9,
+          "control": 5,
+          "cost": 7
+        },
+        "tags": [
+          "container",
+          "serverless",
+          "cloud",
+          "faas"
+        ]
+      },
+      "ack": {
+        "title": "Container Service for Kubernetes (ACK)",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/03-Container/ASK-ACK-Container-Service-for-Kubernetes.svg",
+        "parent": "containers",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan manajemen aplikasi kontainer berkinerja tinggi dan dapat diskalakan.",
+            "en": "A high-performance and scalable containerized application management service."
+          },
+          "Use Case": {
+            "id": "Mengelola aplikasi kontainer tingkat enterprise sepanjang siklus hidupnya.",
+            "en": "Managing enterprise-level containerized applications throughout their lifecycles."
+          },
+          "Pricing": {
+            "id": "Biaya per klaster, ditambah biaya untuk sumber daya node pekerja (ECS) yang digunakan.",
+            "en": "Per-cluster fee, plus the cost of worker node (ECS) resources used."
+          }
+        },
+        "scores": {
+          "easeOfUse": 6,
+          "control": 9,
+          "cost": 6
+        },
+        "tags": [
+          "container",
+          "cloud",
+          "caas"
+        ]
+      },
+      "asm": {
+        "title": "Service Mesh (ASM)",
+        "icon": "mesh.png",
+        "parent": "containers",
+        "tabs": {
+          "Summary": {
+            "id": "Platform yang dikelola sepenuhnya yang mengelola lalu lintas aplikasi layanan mikro secara terpusat.",
+            "en": "A fully managed platform that manages the traffic of microservice applications in a centralized manner."
+          },
+          "Use Case": {
+            "id": "Mengamati, mengamankan, dan mengontrol lalu lintas antara layanan mikro di beberapa klaster Kubernetes.",
+            "en": "Observing, securing, and controlling traffic between microservices across multiple Kubernetes clusters."
+          },
+          "Pricing": {
+            "id": "Biaya berdasarkan instans service mesh dan gateway data plane.",
+            "en": "Charged based on service mesh instances and data plane gateways."
+          }
+        },
+        "dependency": {
+          "id": "Kompatibel dengan Istio & ACK",
+          "en": "Compatible with Istio & ACK"
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "control": 7,
+          "cost": 7
+        },
+        "tags": [
+          "container",
+          "cloud"
+        ]
+      },
+      "acr": {
+        "title": "Container Registry (ACR)",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/03-Container/ACR-Cloud-Container-Registry.svg",
+        "parent": "containers",
+        "tabs": {
+          "Summary": {
+            "id": "Menyediakan layanan aman untuk mengelola aset cloud-native sepanjang siklus hidupnya.",
+            "en": "Provides a secure service to manage cloud-native assets throughout their lifecycles."
+          },
+          "Use Case": {
+            "id": "Menyimpan, mengelola, dan mendistribusikan image kontainer secara pribadi dan aman.",
+            "en": "Storing, managing, and distributing container images privately and securely."
+          },
+          "Pricing": {
+            "id": "Berdasarkan volume penyimpanan dan transfer data. Tersedia tingkatan gratis.",
+            "en": "Based on storage volume and data transfer. A free tier is available."
+          }
+        },
+        "dependency": {
+          "id": "Terintegrasi dengan ACK",
+          "en": "Integrates with ACK"
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "control": 6,
+          "cost": 8
+        },
+        "tags": [
+          "container",
+          "cloud"
+        ]
+      },
+      "auto-scaling": {
+        "title": "Auto Scaling",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ESS-Elastic-Scaling-Service.svg",
+        "parent": "scaling",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan manajemen yang secara otomatis menyesuaikan jumlah sumber daya komputasi elastis.",
+            "en": "A management service that automatically adjusts the number of elastic computing resources."
+          },
+          "Use Case": {
+            "id": "Menskalakan jumlah instans ECS secara otomatis untuk menangani lonjakan lalu lintas dan mengurangi biaya saat sepi.",
+            "en": "Automatically scaling the number of ECS instances to handle traffic spikes and reduce costs during quiet periods."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, hanya bayar untuk sumber daya (misalnya, Instans ECS) yang diluncurkan.",
+            "en": "No additional charge, only pay for the resources (e.g., ECS Instances) it launches."
+          }
+        },
+        "dependency": {
+          "id": "Fitur dari ECS",
+          "en": "Feature of ECS"
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "control": 8,
+          "cost": 9
+        },
+        "tags": [
+          "general",
+          "cloud"
+        ]
+      },
+      "ros": {
+        "title": "Resource Orchestration Service (ROS)",
+        "icon": "ros.png",
+        "parent": "scaling",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan deployment otomatis yang mudah digunakan untuk sumber daya komputasi awan.",
+            "en": "An easy-to-use automated deployment service for cloud computing resources."
+          },
+          "Use Case": {
+            "id": "Mendefinisikan dan men-deploy seluruh infrastruktur cloud Anda sebagai kode menggunakan templat.",
+            "en": "Defining and deploying your entire cloud infrastructure as code using templates."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya yang dibuat oleh templat.",
+            "en": "No additional charge, pay for the resources created by the templates."
+          }
+        },
+        "scores": {
+          "easeOfUse": 6,
+          "control": 8,
+          "cost": 9
+        },
+        "tags": [
+          "general",
+          "cloud",
+          "iaas"
+        ]
+      },
+      "oos": {
+        "title": "Operation Orchestration Service (OOS)",
+        "icon": "oos.png",
+        "parent": "scaling",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan O&M otomatis berbasis cloud yang komprehensif untuk mengelola dan menjalankan tugas O&M.",
+            "en": "A comprehensive cloud-based automated O&M service used to manage and execute O&M tasks."
+          },
+          "Use Case": {
+            "id": "Mengotomatiskan tugas-tugas umum seperti menambal instans, mengonfigurasi perangkat lunak, atau merespons alarm.",
+            "en": "Automating common tasks like patching instances, configuring software, or responding to alarms."
+          },
+          "Pricing": {
+            "id": "Gratis untuk digunakan, hanya bayar untuk sumber daya yang digunakan selama eksekusi otomatisasi.",
+            "en": "Free to use, only pay for any resources used during automation execution."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "control": 8,
+          "cost": 9
+        },
+        "tags": [
+          "general",
+          "cloud"
+        ]
+      },
+      "function-compute": {
+        "title": "Function Compute",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/04-serverless/FC-Function-Compute.svg",
+        "parent": "serverless_platform",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan komputasi berbasis peristiwa yang dikelola sepenuhnya.",
+            "en": "A fully managed event-driven computing service."
+          },
+          "Use Case": {
+            "id": "Memproses unggahan file, menjalankan backend API, atau melakukan pemrosesan data real-time sebagai respons terhadap pemicu.",
+            "en": "Processing file uploads, running API backends, or performing real-time data processing in response to triggers."
+          },
+          "Pricing": {
+            "id": "Bayar per pemanggilan dan durasi eksekusi (GB-detik).",
+            "en": "Pay per invocation and execution duration (GB-seconds)."
+          }
+        },
+        "scores": {
+          "easeOfUse": 10,
+          "control": 3,
+          "cost": 9
+        },
+        "tags": [
+          "serverless",
+          "cloud",
+          "faas"
+        ]
+      },
+      "serverless-workflow": {
+        "title": "Serverless Workflow",
+        "icon": "workflow.png",
+        "parent": "serverless_platform",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan cloud serverless yang dikelola sepenuhnya yang mengoordinasikan beberapa tugas terdistribusi.",
+            "en": "A fully managed serverless cloud service that coordinates multiple distributed tasks."
+          },
+          "Use Case": {
+            "id": "Mengoordinasikan beberapa layanan mikro dan Fungsi Komputasi menjadi aplikasi yang kompleks.",
+            "en": "Orchestrating multiple microservices and Function Compute calls into a complex application."
+          },
+          "Pricing": {
+            "id": "Berdasarkan jumlah transisi status dalam alur kerja Anda.",
+            "en": "Based on the number of state transitions in your workflow."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "control": 5,
+          "cost": 8
+        },
+        "tags": [
+          "serverless",
+          "cloud",
+          "paas"
+        ]
+      },
+      "elastic-gpu": {
+        "title": "Elastic GPU Service",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/GPU-Cloud-Computing.svg",
+        "parent": "hpc",
+        "tabs": {
+          "Summary": {
+            "id": "Dilengkapi dengan GPU untuk menyediakan komputasi paralel berkecepatan tinggi dan real-time.",
+            "en": "Equipped with GPUs to provide real-time, high-speed parallel computing."
+          },
+          "Use Case": {
+            "id": "Pelatihan machine learning, rendering grafis, atau simulasi ilmiah.",
+            "en": "Machine learning training, graphics rendering, or scientific simulations."
+          },
+          "Pricing": {
+            "id": "Bayar per jam/detik untuk instans GPU yang digunakan.",
+            "en": "Pay per hour/second for the GPU instances used."
+          }
+        },
+        "dependency": {
+          "id": "Tipe instans dari ECS",
+          "en": "Instance type of ECS"
+        },
+        "scores": {
+          "easeOfUse": 5,
+          "control": 9,
+          "cost": 4
+        },
+        "tags": [
+          "hpc",
+          "cloud",
+          "iaas"
+        ]
+      },
+      "faas": {
+        "title": "FPGA as a Service",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/FPGA-Field-Programmable-Gate-Array.svg",
+        "parent": "hpc",
+        "tabs": {
+          "Summary": {
+            "id": "Menyediakan tipe instans yang dilengkapi dengan field-programmable gate array (FPGA).",
+            "en": "Provides instance types that are equipped with field-programmable gate arrays (FPGAs)."
+          },
+          "Use Case": {
+            "id": "Akselerasi beban kerja untuk genomik, analisis keuangan, dan transcoding video.",
+            "en": "Workload acceleration for genomics, financial analysis, and video transcoding."
+          },
+          "Pricing": {
+            "id": "Harga per jam berdasarkan tipe instans FPGA yang dipilih.",
+            "en": "Priced per hour based on the selected FPGA instance type."
+          }
+        },
+        "dependency": {
+          "id": "Tipe instans dari ECS",
+          "en": "Instance type of ECS"
+        },
+        "scores": {
+          "easeOfUse": 3,
+          "control": 9,
+          "cost": 3
+        },
+        "tags": [
+          "hpc",
+          "cloud",
+          "iaas"
+        ]
+      },
+      "scc": {
+        "title": "Super Computing Cluster (SCC)",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/SCC-Super-Computing-Cluster.svg",
+        "parent": "hpc",
+        "tabs": {
+          "Summary": {
+            "id": "Menggunakan interkonektivitas berkecepatan tinggi yang disediakan oleh teknologi RDMA dan EBM.",
+            "en": "Uses high-speed interconnectivity provided by RDMA technology and EBMs."
+          },
+          "Use Case": {
+            "id": "Simulasi ilmiah dan rekayasa skala besar yang membutuhkan latensi jaringan sangat rendah.",
+            "en": "Large-scale scientific and engineering simulations requiring ultra-low network latency."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya EBM dan jaringan yang digunakan.",
+            "en": "No additional charge, pay for the EBM and network resources used."
+          }
+        },
+        "scores": {
+          "easeOfUse": 4,
+          "control": 9,
+          "cost": 4
+        },
+        "tags": [
+          "hpc",
+          "cloud",
+          "iaas"
+        ]
+      },
+      "e-hpc": {
+        "title": "Elastic High Performance Computing (E-HPC)",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/EHPC-Elastic-High-Performance-Computing.svg",
+        "parent": "hpc",
+        "tabs": {
+          "Summary": {
+            "id": "Mendukung IaaS dengan instans CPU berkinerja tinggi dan PaaS dengan tumpukan perangkat lunak HPC.",
+            "en": "Supports IaaS with high-performance CPU instances and PaaS with HPC software stacks."
+          },
+          "Use Case": {
+            "id": "Menyebarkan dan mengelola kluster HPC dengan penjadwal pekerjaan dan perangkat lunak yang sudah terpasang sebelumnya.",
+            "en": "Deploying and managing HPC clusters with pre-installed job schedulers and software."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya komputasi yang digunakan.",
+            "en": "No additional charge, pay for the compute resources used."
+          }
+        },
+        "scores": {
+          "easeOfUse": 6,
+          "control": 8,
+          "cost": 6
+        },
+        "tags": [
+          "hpc",
+          "cloud",
+          "paas"
+        ]
+      },
+      "batch-compute": {
+        "title": "Batch Compute",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/BatchCompute.svg",
+        "parent": "hpc",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan cloud terdistribusi yang cocok untuk pekerjaan pemrosesan batch paralel skala besar.",
+            "en": "A distributed cloud service suitable for large-scale parallel batch processing jobs."
+          },
+          "Use Case": {
+            "id": "Menganalisis data dalam jumlah besar, melakukan rendering, atau menjalankan simulasi bioinformatika.",
+            "en": "Analyzing massive amounts of data, performing renderings, or running bioinformatics simulations."
+          },
+          "Pricing": {
+            "id": "Tidak ada biaya tambahan, bayar untuk sumber daya komputasi yang digunakan.",
+            "en": "No additional charge, pay for the compute resources used."
+          }
+        },
+        "scores": {
+          "easeOfUse": 7,
+          "control": 7,
+          "cost": 7
+        },
+        "tags": [
+          "hpc",
+          "cloud",
+          "paas"
+        ]
+      },
+      "wuying-workspace": {
+        "title": "WUYING Workspace",
+        "icon": "eds.png",
+        "parent": "specialized",
+        "tabs": {
+          "Summary": {
+            "id": "Menyediakan fitur desktop jarak jauh dan mengimplementasikan pemrosesan grafis dan gambar end-to-end.",
+            "en": "Provides the remote desktop feature and implements end-to-end graphics and image processing."
+          },
+          "Use Case": {
+            "id": "Menyediakan desktop cloud yang aman dan berkinerja tinggi untuk karyawan jarak jauh atau lab komputer.",
+            "en": "Providing secure, high-performance cloud desktops for remote employees or computer labs."
+          },
+          "Pricing": {
+            "id": "Berdasarkan paket per pengguna, dengan opsi untuk bayar sesuai pemakaian atau langganan bulanan.",
+            "en": "Based on per-user bundles, with options for pay-as-you-go or monthly subscriptions."
+          }
+        },
+        "scores": {
+          "easeOfUse": 8,
+          "control": 6,
+          "cost": 6
+        },
+        "tags": [
+          "general",
+          "cloud",
+          "paas"
+        ]
+      }
+    }
+  },
+  "translations": {
+    "navCategories": {
+      "id": "Kategori",
+      "en": "Categories"
+    },
+    "navFinder": {
+      "id": "Pencari Solusi",
+      "en": "Solution Finder"
+    },
+    "navComparison": {
+      "id": "Perbandingan",
+      "en": "Comparison"
+    },
+    "homeButton": {
+      "id": "Halaman Utama",
+      "en": "Home"
+    },
+    "mainTitle": {
+      "id": "Panduan Interaktif Alibaba Cloud Compute",
+      "en": "Interactive Alibaba Cloud Compute Guide"
+    },
+    "mainSubtitle": {
+      "id": "Jelajahi portofolio lengkap layanan komputasi Alibaba Cloud.",
+      "en": "Explore the full portfolio of Alibaba Cloud compute services."
+    },
+    "categoryTitle": {
+      "id": "Kategori Layanan Compute",
+      "en": "Compute Service Categories"
+    },
+    "categorySubtitle": {
+      "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.",
+      "en": "Select a category to explore the relevant services within it."
+    },
+    "welcomeTitle": {
+      "id": "Selamat Datang!",
+      "en": "Welcome!"
+    },
+    "welcomeSubtitle": {
+      "id": "Pilih kategori layanan di atas untuk memulai.",
+      "en": "Select a service category above to get started."
+    },
+    "finderTitle": {
+      "id": "Pencari Solusi Compute",
+      "en": "Compute Solution Finder"
+    },
+    "finderSubtitle": {
+      "id": "Gunakan filter ini untuk menemukan layanan Alibaba Cloud Compute yang paling sesuai untuk tugas Anda.",
+      "en": "Use these filters to find the right Alibaba Cloud Compute service for your task."
+    },
+    "filter1Title": {
+      "id": "1. Apa Kasus Penggunaan Anda?",
+      "en": "1. What is your Use Case?"
+    },
+    "filterGeneral": {
+      "id": "Tujuan Umum & Web Hosting",
+      "en": "General Purpose & Web Hosting"
+    },
+    "filterContainer": {
+      "id": "Containers",
+      "en": "Containers"
+    },
+    "filterServerless": {
+      "id": "Serverless & Berbasis Peristiwa",
+      "en": "Serverless & Event-driven"
+    },
+    "filterHpc": {
+      "id": "HPC, Batch & Simulasi",
+      "en": "HPC, Batch & Simulation"
+    },
+    "filter2Title": {
+      "id": "2. Di Mana Anda Ingin Menjalankannya?",
+      "en": "2. Where do you want to run it?"
+    },
+    "filterCloud": {
+      "id": "Region Cloud Provider",
+      "en": "Provider Cloud Regions"
+    },
+    "filterHybrid": {
+      "id": "Hybrid & On-Premises",
+      "en": "Hybrid & On-Premises"
+    },
+    "filterEdge": {
+      "id": "Lokasi Edge",
+      "en": "Edge Locations"
+    },
+    "filter3Title": {
+      "id": "3. Apa Model Manajemen Anda?",
+      "en": "3. What is your Management Model?"
+    },
+    "filterIaas": {
+      "id": "Infrastructure-as-a-Service (IaaS)",
+      "en": "Infrastructure-as-a-Service (IaaS)"
+    },
+    "filterCaas": {
+      "id": "Containers-as-a-Service (CaaS)",
+      "en": "Containers-as-a-Service (CaaS)"
+    },
+    "filterPaas": {
+      "id": "Platform-as-a-Service (PaaS)",
+      "en": "Platform-as-a-Service (PaaS)"
+    },
+    "filterFaas": {
+      "id": "Function-as-a-Service (Serverless)",
+      "en": "Function-as-a-Service (Serverless)"
+    },
+    "recommendationTitle": {
+      "id": "Layanan yang Direkomendasikan",
+      "en": "Recommended Services"
+    },
+    "noRecommendation": {
+      "id": "Pilih filter di atas untuk melihat rekomendasi.",
+      "en": "Select a filter above to see recommendations."
+    },
+    "comparisonTitle": {
+      "id": "Visualisasi Perbandingan Layanan",
+      "en": "Service Comparison Visualizer"
+    },
+    "comparisonSubtitle": {
+      "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.",
+      "en": "Compare up to two services visually on key attributes."
+    },
+    "comparisonLabel": {
+      "id": "Layanan untuk dibandingkan:",
+      "en": "Services to compare:"
+    },
+    "clearButton": {
+      "id": "Bersihkan Pilihan",
+      "en": "Clear Selection"
+    },
+    "chartPlaceholder": {
+      "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.",
+      "en": "Select a service from the recommendations to start comparing."
+    }
+  }
+}

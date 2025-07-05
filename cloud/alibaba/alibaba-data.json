@@ -1,0 +1,292 @@
+{
+  "guidesData": [
+    {
+      "id": "compute",
+      "status": "active",
+      "iconPath": "./assets/icons/alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ECS-Elastic-Compute-Service.svg",
+      "emoji": "💻",
+      "titleKey": "computeTitle",
+      "descriptionKey": "computeDesc",
+      "buttonGradient": "from-orange-500 to-amber-500",
+      "href": "./svc?data=compute"
+    },
+    {
+      "id": "storage",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/object-storage-service.svg",
+      "emoji": "🗃️",
+      "titleKey": "storageTitle",
+      "descriptionKey": "storageDesc",
+      "buttonGradient": "from-teal-500 to-emerald-500",
+      "href": "#"
+    },
+    {
+      "id": "database",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/apsaradb-for-rds.svg",
+      "emoji": "🗄️",
+      "titleKey": "databaseTitle",
+      "descriptionKey": "databaseDesc",
+      "buttonGradient": "from-purple-500 to-violet-500",
+      "href": "#"
+    },
+    {
+      "id": "aiml",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/platform-for-ai.svg",
+      "emoji": "🤖",
+      "titleKey": "aimlTitle",
+      "descriptionKey": "aimlDesc",
+      "buttonGradient": "from-indigo-500 to-blue-500",
+      "href": "#"
+    },
+    {
+      "id": "analytics",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/maxcompute.svg",
+      "emoji": "📊",
+      "titleKey": "analyticsTitle",
+      "descriptionKey": "analyticsDesc",
+      "buttonGradient": "from-sky-500 to-cyan-500",
+      "href": "#"
+    },
+    {
+      "id": "appintegration",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/message-service.svg",
+      "emoji": "🔗",
+      "titleKey": "appintegrationTitle",
+      "descriptionKey": "appintegrationDesc",
+      "buttonGradient": "from-fuchsia-500 to-pink-500",
+      "href": "#"
+    },
+    {
+      "id": "identity",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/resource-access-management.svg",
+      "emoji": "🛡️",
+      "titleKey": "identityTitle",
+      "descriptionKey": "identityDesc",
+      "buttonGradient": "from-rose-500 to-red-500",
+      "href": "#"
+    },
+    {
+      "id": "devops",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/devops.svg",
+      "emoji": "🛠️",
+      "titleKey": "devtoolsTitle",
+      "descriptionKey": "devtoolsDesc",
+      "buttonGradient": "from-amber-500 to-orange-500",
+      "href": "#"
+    },
+    {
+      "id": "containers",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/container-service-for-kubernetes.svg",
+      "emoji": "📦",
+      "titleKey": "containersTitle",
+      "descriptionKey": "containersDesc",
+      "buttonGradient": "from-lime-500 to-green-500",
+      "href": "#"
+    },
+    {
+      "id": "hybrid",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/apsara-stack.svg",
+      "emoji": "☁️",
+      "titleKey": "hybridTitle",
+      "descriptionKey": "hybridDesc",
+      "buttonGradient": "from-violet-500 to-purple-500",
+      "href": "#"
+    },
+    {
+      "id": "iot",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/iot-platform.svg",
+      "emoji": "💡",
+      "titleKey": "iotTitle",
+      "descriptionKey": "iotDesc",
+      "buttonGradient": "from-cyan-500 to-sky-500",
+      "href": "#"
+    },
+    {
+      "id": "management",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/cloud-monitor.svg",
+      "emoji": "⚙️",
+      "titleKey": "managementTitle",
+      "descriptionKey": "managementDesc",
+      "buttonGradient": "from-blue-500 to-indigo-500",
+      "href": "#"
+    },
+    {
+      "id": "migration",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/server-migration-center.svg",
+      "emoji": "🚚",
+      "titleKey": "migrationTitle",
+      "descriptionKey": "migrationDesc",
+      "buttonGradient": "from-green-500 to-lime-500",
+      "href": "#"
+    },
+    {
+      "id": "networking",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/virtual-private-cloud.svg",
+      "emoji": "🌐",
+      "titleKey": "networkingTitle",
+      "descriptionKey": "networkingDesc",
+      "buttonGradient": "from-orange-500 to-amber-500",
+      "href": "#"
+    },
+    {
+      "id": "security",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/alibaba/security-center.svg",
+      "emoji": "🔒",
+      "titleKey": "securityTitle",
+      "descriptionKey": "securityDesc",
+      "buttonGradient": "from-red-500 to-rose-500",
+      "href": "#"
+    }
+  ],
+  "translations": {
+    "mainTitle": {
+      "id": "Panduan Interaktif Layanan Alibaba Cloud",
+      "en": "Interactive Alibaba Cloud Service Guides"
+    },
+    "mainSubtitle": {
+      "id": "Jelajahi, bandingkan, dan temukan layanan Alibaba Cloud yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.",
+      "en": "Explore, compare, and find the right Alibaba Cloud services for your needs through curated visual guides."
+    },
+    "computeTitle": {
+      "id": "Alibaba Cloud Compute",
+      "en": "Alibaba Cloud Compute"
+    },
+    "computeDesc": {
+      "id": "Jelajahi layanan komputasi, dari Elastic Compute Service (ECS) hingga Function Compute yang serverless.",
+      "en": "Explore compute services, from Elastic Compute Service (ECS) to serverless Function Compute."
+    },
+    "storageTitle": {
+      "id": "Alibaba Cloud Storage",
+      "en": "Alibaba Cloud Storage"
+    },
+    "storageDesc": {
+      "id": "Temukan solusi penyimpanan yang dapat diskalakan, termasuk Object Storage Service (OSS) dan Elastic Block Storage (EBS).",
+      "en": "Find scalable storage solutions, including Object Storage Service (OSS) and Elastic Block Storage (EBS)."
+    },
+    "databaseTitle": {
+      "id": "Alibaba Cloud Database",
+      "en": "Alibaba Cloud Database"
+    },
+    "databaseDesc": {
+      "id": "Jelajahi database terkelola, dari ApsaraDB for RDS hingga PolarDB untuk skala besar.",
+      "en": "Explore managed databases, from ApsaraDB for RDS to PolarDB for large scale."
+    },
+    "aimlTitle": {
+      "id": "Alibaba Cloud AI & ML",
+      "en": "Alibaba Cloud AI & ML"
+    },
+    "aimlDesc": {
+      "id": "Manfaatkan layanan AI, dari Image Search hingga Platform for AI (PAI).",
+      "en": "Leverage AI services, from Image Search to the Platform for AI (PAI)."
+    },
+    "analyticsTitle": {
+      "id": "Alibaba Cloud Analytics",
+      "en": "Alibaba Cloud Analytics"
+    },
+    "analyticsDesc": {
+      "id": "Dapatkan wawasan dari data dengan MaxCompute, E-MapReduce, dan Quick BI.",
+      "en": "Gain insights from data with MaxCompute, E-MapReduce, and Quick BI."
+    },
+    "appintegrationTitle": {
+      "id": "Alibaba Cloud Application Integration",
+      "en": "Alibaba Cloud Application Integration"
+    },
+    "appintegrationDesc": {
+      "id": "Hubungkan aplikasi dan layanan dengan Message Service (MNS), API Gateway, dan EventBridge.",
+      "en": "Connect apps and services with Message Service (MNS), API Gateway, and EventBridge."
+    },
+    "identityTitle": {
+      "id": "Alibaba Cloud Identity",
+      "en": "Alibaba Cloud Identity"
+    },
+    "identityDesc": {
+      "id": "Kelola akses pengguna dan amankan identitas dengan Resource Access Management (RAM).",
+      "en": "Manage user access and secure identities with Resource Access Management (RAM)."
+    },
+    "devtoolsTitle": {
+      "id": "Alibaba Cloud DevOps",
+      "en": "Alibaba Cloud DevOps"
+    },
+    "devtoolsDesc": {
+      "id": "Layanan untuk merencanakan, membangun, menguji, dan merilis perangkat lunak lebih cepat dengan Apsara DevOps.",
+      "en": "Services to plan, build, test, and release software faster with Apsara DevOps."
+    },
+    "containersTitle": {
+      "id": "Alibaba Cloud Containers",
+      "en": "Alibaba Cloud Containers"
+    },
+    "containersDesc": {
+      "id": "Jalankan aplikasi dalam kontainer dengan Container Service for Kubernetes (ACK) dan Elastic Container Instance (ECI).",
+      "en": "Run containerized applications with Container Service for Kubernetes (ACK) and Elastic Container Instance (ECI)."
+    },
+    "hybridTitle": {
+      "id": "Alibaba Cloud Hybrid",
+      "en": "Alibaba Cloud Hybrid"
+    },
+    "hybridDesc": {
+      "id": "Perluas Alibaba Cloud ke lingkungan on-premise dengan Apsara Stack.",
+      "en": "Extend Alibaba Cloud to on-premises environments with Apsara Stack."
+    },
+    "iotTitle": {
+      "id": "Alibaba Cloud IoT",
+      "en": "Alibaba Cloud IoT"
+    },
+    "iotDesc": {
+      "id": "Hubungkan, pantau, dan kelola aset IoT dengan IoT Platform.",
+      "en": "Connect, monitor, and manage IoT assets with IoT Platform."
+    },
+    "managementTitle": {
+      "id": "Alibaba Cloud Management",
+      "en": "Alibaba Cloud Management"
+    },
+    "managementDesc": {
+      "id": "Optimalkan dan kelola sumber daya cloud Anda dengan Cloud Monitor dan ActionTrail.",
+      "en": "Optimize and manage your cloud resources with Cloud Monitor and ActionTrail."
+    },
+    "migrationTitle": {
+      "id": "Alibaba Cloud Migration",
+      "en": "Alibaba Cloud Migration"
+    },
+    "migrationDesc": {
+      "id": "Pindahkan beban kerja, aplikasi, dan data ke cloud dengan Server Migration Center (SMC).",
+      "en": "Move workloads, applications, and data to the cloud with Server Migration Center (SMC)."
+    },
+    "networkingTitle": {
+      "id": "Alibaba Cloud Networking",
+      "en": "Alibaba Cloud Networking"
+    },
+    "networkingDesc": {
+      "id": "Bangun jaringan cloud dengan Virtual Private Cloud (VPC), Server Load Balancer (SLB), dan Alibaba Cloud DNS.",
+      "en": "Build a cloud network with Virtual Private Cloud (VPC), Server Load Balancer (SLB), and Alibaba Cloud DNS."
+    },
+    "securityTitle": {
+      "id": "Alibaba Cloud Security",
+      "en": "Alibaba Cloud Security"
+    },
+    "securityDesc": {
+      "id": "Lindungi dari ancaman dengan Security Center dan Web Application Firewall (WAF).",
+      "en": "Protect against threats with Security Center and Web Application Firewall (WAF)."
+    },
+    "exploreButton": {
+      "id": "Jelajahi Sekarang",
+      "en": "Explore Now"
+    },
+    "comingSoonButton": {
+      "id": "Segera Hadir",
+      "en": "Coming Soon"
+    }
+  }
+}

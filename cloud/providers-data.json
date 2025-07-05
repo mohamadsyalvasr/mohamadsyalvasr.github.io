@@ -29,8 +29,8 @@
   {
     "id": "alibaba",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b3/AlibabaCloudLogo.svg",
-    "status": "coming-soon",
-    "link": "#",
+    "status": "active",
+    "link": "/cloud/alibaba",
     "titleKey": "alibabaTitle",
     "descKey": "alibabaDesc",
     "themeColor": "#FF6A00"
