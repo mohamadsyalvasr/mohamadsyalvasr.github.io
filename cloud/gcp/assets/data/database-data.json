@@ -1,0 +1,521 @@
+{
+  "pageData": {
+    "theme": {
+      "primary": "#DB4437",
+      "primaryDark": "#c53929",
+      "primaryLight": "#e67c73",
+      "secondary": "#6c757d",
+      "textOnPrimary": "#ffffff"
+    },
+    "chartConfig": {
+      "labels": {
+        "id": [
+          "Kinerja",
+          "Skalabilitas",
+          "Kemudahan Penggunaan"
+        ],
+        "en": [
+          "Performance",
+          "Scalability",
+          "Ease of Use"
+        ]
+      },
+      "keys": [
+        "performance",
+        "scalability",
+        "easeOfUse"
+      ]
+    },
+    "navigation": [
+      {
+        "id": "nav-categories",
+        "langKey": "navCategories",
+        "href": "#category-nav-section"
+      },
+      {
+        "id": "nav-finder",
+        "langKey": "navFinder",
+        "href": "#decision-tool"
+      },
+      {
+        "id": "nav-comparison",
+        "langKey": "navComparison",
+        "href": "#comparison-chart-section"
+      }
+    ],
+    "decisionFilters": [
+      {
+        "titleLangKey": "filter1Title",
+        "options": [
+          {
+            "filter": "relational",
+            "langKey": "filterRelational"
+          },
+          {
+            "filter": "nosql",
+            "langKey": "filterNoSQL"
+          },
+          {
+            "filter": "in-memory",
+            "langKey": "filterInMemory"
+          },
+          {
+            "filter": "data-warehouse",
+            "langKey": "filterDataWarehouse"
+          }
+        ]
+      },
+      {
+        "titleLangKey": "filter2Title",
+        "options": [
+          {
+            "filter": "web-app",
+            "langKey": "filterWebApp"
+          },
+          {
+            "filter": "analytics",
+            "langKey": "filterAnalytics"
+          },
+          {
+            "filter": "caching",
+            "langKey": "filterCaching"
+          },
+          {
+            "filter": "iot",
+            "langKey": "filterIot"
+          },
+          {
+            "filter": "migration",
+            "langKey": "filterMigration"
+          }
+        ]
+      }
+    ],
+    "categories": {
+      "relational": {
+        "title": {
+          "id": "Relasional",
+          "en": "Relational"
+        },
+        "description": {
+          "id": "Database SQL terkelola untuk aplikasi transaksional dan warisan.",
+          "en": "Managed SQL databases for transactional and legacy applications."
+        },
+        "icon": "🗂️",
+        "services": [
+          "cloud-sql",
+          "cloud-spanner",
+          "alloydb"
+        ]
+      },
+      "nosql": {
+        "title": {
+          "id": "NoSQL",
+          "en": "NoSQL"
+        },
+        "description": {
+          "id": "Database yang sangat skalabel untuk aplikasi modern dengan skema fleksibel.",
+          "en": "Highly scalable databases for modern apps with flexible schemas."
+        },
+        "icon": "🔑",
+        "services": [
+          "firestore",
+          "bigtable"
+        ]
+      },
+      "in_memory": {
+        "title": {
+          "id": "In-Memory",
+          "en": "In-Memory"
+        },
+        "description": {
+          "id": "Penyimpanan data latensi sangat rendah untuk caching dan aplikasi real-time.",
+          "en": "Ultra-low latency data store for caching and real-time applications."
+        },
+        "icon": "⚡",
+        "services": [
+          "memorystore"
+        ]
+      },
+      "data_warehouse": {
+        "title": {
+          "id": "Data Warehouse",
+          "en": "Data Warehouse"
+        },
+        "description": {
+          "id": "Platform analitik tanpa server untuk menyimpan dan mengkueri data skala besar.",
+          "en": "Serverless analytics platform to store and query massive datasets."
+        },
+        "icon": "📊",
+        "services": [
+          "bigquery"
+        ]
+      },
+      "migration": {
+        "title": {
+          "id": "Migrasi",
+          "en": "Migration"
+        },
+        "description": {
+          "id": "Alat untuk memindahkan database Anda ke Google Cloud dengan downtime minimal.",
+          "en": "Tools to move your databases to Google Cloud with minimal downtime."
+        },
+        "icon": "✈️",
+        "services": [
+          "database-migration-service"
+        ]
+      }
+    },
+    "services": {
+      "cloud-sql": {
+        "title": "Cloud SQL",
+        "icon": "gcp/Cloud-SQL.svg",
+        "parent": "relational",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan database relasional terkelola untuk MySQL, PostgreSQL, dan SQL Server.",
+            "en": "Managed relational database service for MySQL, PostgreSQL, and SQL Server."
+          },
+          "Use Case": {
+            "id": "Backend untuk aplikasi web, CMS, dan aplikasi bisnis standar.",
+            "en": "Backend for web applications, CMS, and standard business apps."
+          },
+          "Pricing": {
+            "id": "Bayar per vCPU, memori, penyimpanan, dan transfer data.",
+            "en": "Pay per vCPU, memory, storage, and data transfer."
+          }
+        },
+        "scores": {
+          "performance": 8,
+          "scalability": 7,
+          "easeOfUse": 9
+        },
+        "tags": [
+          "relational",
+          "web-app"
+        ]
+      },
+      "cloud-spanner": {
+        "title": "Cloud Spanner",
+        "icon": "gcp/Cloud-Spanner.svg",
+        "parent": "relational",
+        "tabs": {
+          "Summary": {
+            "id": "Database relasional yang konsisten secara global dengan skalabilitas tak terbatas.",
+            "en": "Globally-consistent relational database with unlimited scalability."
+          },
+          "Use Case": {
+            "id": "Aplikasi keuangan, logistik global, dan game multipemain skala besar.",
+            "en": "Financial applications, global logistics, and large-scale multiplayer games."
+          },
+          "Pricing": {
+            "id": "Berdasarkan jam node, penyimpanan, dan transfer data jaringan.",
+            "en": "Based on node hours, storage, and network data transfer."
+          }
+        },
+        "scores": {
+          "performance": 10,
+          "scalability": 10,
+          "easeOfUse": 7
+        },
+        "tags": [
+          "relational",
+          "web-app",
+          "analytics"
+        ]
+      },
+      "alloydb": {
+        "title": "AlloyDB for PostgreSQL",
+        "icon": "gcp/AlloyDB.svg",
+        "parent": "relational",
+        "tabs": {
+          "Summary": {
+            "id": "Database kompatibel PostgreSQL berkinerja tinggi untuk beban kerja enterprise.",
+            "en": "High-performance, PostgreSQL-compatible database for enterprise workloads."
+          },
+          "Use Case": {
+            "id": "Mengganti database komersial, aplikasi SaaS, dan beban kerja transaksional berkinerja tinggi.",
+            "en": "Replacing commercial databases, SaaS apps, and high-throughput transactional workloads."
+          },
+          "Pricing": {
+            "id": "Bayar per vCPU/jam, penyimpanan GiB/bulan, dan I/O.",
+            "en": "Pay per vCPU/hour, GiB/month storage, and I/Os."
+          }
+        },
+        "scores": {
+          "performance": 10,
+          "scalability": 8,
+          "easeOfUse": 8
+        },
+        "tags": [
+          "relational",
+          "web-app"
+        ]
+      },
+      "firestore": {
+        "title": "Firestore",
+        "icon": "gcp/Firestore.svg",
+        "parent": "nosql",
+        "tabs": {
+          "Summary": {
+            "id": "Database dokumen NoSQL yang fleksibel dan skalabel untuk pengembangan seluler dan web.",
+            "en": "Flexible, scalable NoSQL document database for mobile and web development."
+          },
+          "Use Case": {
+            "id": "Aplikasi real-time, sinkronisasi data lintas perangkat, dan backend seluler.",
+            "en": "Real-time applications, cross-device data synchronization, and mobile backends."
+          },
+          "Pricing": {
+            "id": "Berdasarkan operasi baca/tulis/hapus dokumen dan penyimpanan data.",
+            "en": "Based on document read/write/delete operations and data storage."
+          }
+        },
+        "scores": {
+          "performance": 8,
+          "scalability": 9,
+          "easeOfUse": 9
+        },
+        "tags": [
+          "nosql",
+          "web-app",
+          "iot"
+        ]
+      },
+      "bigtable": {
+        "title": "Cloud Bigtable",
+        "icon": "gcp/Cloud-Bigtable.svg",
+        "parent": "nosql",
+        "tabs": {
+          "Summary": {
+            "id": "Database NoSQL wide-column untuk beban kerja analitik dan operasional skala besar.",
+            "en": "Wide-column NoSQL database for large-scale analytical and operational workloads."
+          },
+          "Use Case": {
+            "id": "Aplikasi IoT, analitik deret waktu, dan personalisasi real-time.",
+            "en": "IoT applications, time-series analytics, and real-time personalization."
+          },
+          "Pricing": {
+            "id": "Berdasarkan jam node dan jenis serta jumlah penyimpanan.",
+            "en": "Based on node hours and the type and amount of storage."
+          }
+        },
+        "scores": {
+          "performance": 9,
+          "scalability": 10,
+          "easeOfUse": 6
+        },
+        "tags": [
+          "nosql",
+          "analytics",
+          "iot"
+        ]
+      },
+      "memorystore": {
+        "title": "Memorystore",
+        "icon": "gcp/Memorystore.svg",
+        "parent": "in_memory",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan in-memory terkelola untuk Redis dan Memcached.",
+            "en": "Managed in-memory service for Redis and Memcached."
+          },
+          "Use Case": {
+            "id": "Caching, papan peringkat game, manajemen sesi, dan real-time bidding.",
+            "en": "Caching, gaming leaderboards, session management, and real-time bidding."
+          },
+          "Pricing": {
+            "id": "Bayar per GiB/jam kapasitas yang disediakan.",
+            "en": "Pay per GiB/hour of provisioned capacity."
+          }
+        },
+        "scores": {
+          "performance": 10,
+          "scalability": 8,
+          "easeOfUse": 8
+        },
+        "tags": [
+          "in-memory",
+          "caching",
+          "web-app"
+        ]
+      },
+      "bigquery": {
+        "title": "BigQuery",
+        "icon": "gcp/BigQuery.svg",
+        "parent": "data_warehouse",
+        "tabs": {
+          "Summary": {
+            "id": "Data warehouse cloud tanpa server, sangat skalabel, dan hemat biaya.",
+            "en": "Serverless, highly scalable, and cost-effective cloud data warehouse."
+          },
+          "Use Case": {
+            "id": "Analitik bisnis, analitik data besar, dan machine learning pada data terstruktur.",
+            "en": "Business intelligence, big data analytics, and machine learning on structured data."
+          },
+          "Pricing": {
+            "id": "Model harga terpisah untuk penyimpanan dan komputasi (kueri).",
+            "en": "Separate pricing models for storage and compute (queries)."
+          }
+        },
+        "scores": {
+          "performance": 9,
+          "scalability": 10,
+          "easeOfUse": 8
+        },
+        "tags": [
+          "data-warehouse",
+          "analytics"
+        ]
+      },
+      "database-migration-service": {
+        "title": "Database Migration Service",
+        "icon": "gcp/Database-Migration-Service.svg",
+        "parent": "migration",
+        "tabs": {
+          "Summary": {
+            "id": "Migrasikan database ke Cloud SQL atau AlloyDB dengan mudah dan downtime minimal.",
+            "en": "Migrate databases to Cloud SQL or AlloyDB easily and with minimal downtime."
+          },
+          "Use Case": {
+            "id": "Migrasi homogen dari on-premise atau cloud lain ke database terkelola GCP.",
+            "en": "Homogeneous migrations from on-premises or other clouds to GCP managed databases."
+          },
+          "Pricing": {
+            "id": "Gratis untuk migrasi ke Cloud SQL. Biaya berlaku untuk VM dan transfer data keluar.",
+            "en": "Free for migrations to Cloud SQL. Costs apply for VMs and egress."
+          }
+        },
+        "scores": {
+          "performance": 7,
+          "scalability": 7,
+          "easeOfUse": 8
+        },
+        "tags": [
+          "migration"
+        ]
+      }
+    }
+  },
+  "translations": {
+    "navCategories": {
+      "id": "Kategori",
+      "en": "Categories"
+    },
+    "navFinder": {
+      "id": "Pencari Solusi",
+      "en": "Solution Finder"
+    },
+    "navComparison": {
+      "id": "Perbandingan",
+      "en": "Comparison"
+    },
+    "homeButton": {
+      "id": "Halaman Utama",
+      "en": "Home"
+    },
+    "mainTitle": {
+      "id": "Panduan Interaktif GCP Database",
+      "en": "Interactive GCP Database Guide"
+    },
+    "mainSubtitle": {
+      "id": "Jelajahi portofolio lengkap layanan database GCP, dari relasional hingga NoSQL dan data warehouse.",
+      "en": "Explore the full portfolio of GCP database services, from relational to NoSQL and data warehousing."
+    },
+    "categoryTitle": {
+      "id": "Kategori Layanan Database",
+      "en": "Database Service Categories"
+    },
+    "categorySubtitle": {
+      "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.",
+      "en": "Select a category to explore the relevant services within it."
+    },
+    "welcomeTitle": {
+      "id": "Selamat Datang!",
+      "en": "Welcome!"
+    },
+    "welcomeSubtitle": {
+      "id": "Pilih kategori layanan di atas untuk memulai.",
+      "en": "Select a service category above to get started."
+    },
+    "finderTitle": {
+      "id": "Pencari Solusi Database",
+      "en": "Database Solution Finder"
+    },
+    "finderSubtitle": {
+      "id": "Gunakan filter ini untuk menemukan layanan GCP Database yang paling sesuai untuk aplikasi Anda.",
+      "en": "Use these filters to find the right GCP Database service for your application."
+    },
+    "filter1Title": {
+      "id": "1. Apa Model Database Anda?",
+      "en": "1. What is your Database Model?"
+    },
+    "filterRelational": {
+      "id": "Relasional (SQL)",
+      "en": "Relational (SQL)"
+    },
+    "filterNoSQL": {
+      "id": "NoSQL (Dokumen & Wide-Column)",
+      "en": "NoSQL (Document & Wide-Column)"
+    },
+    "filterInMemory": {
+      "id": "In-Memory",
+      "en": "In-Memory"
+    },
+    "filterDataWarehouse": {
+      "id": "Data Warehouse",
+      "en": "Data Warehouse"
+    },
+    "filter2Title": {
+      "id": "2. Apa Kasus Penggunaan Utama Anda?",
+      "en": "2. What is your Primary Use Case?"
+    },
+    "filterWebApp": {
+      "id": "Aplikasi Web & Seluler",
+      "en": "Web & Mobile Apps"
+    },
+    "filterAnalytics": {
+      "id": "Analitik & Data Besar",
+      "en": "Analytics & Big Data"
+    },
+    "filterCaching": {
+      "id": "Caching",
+      "en": "Caching"
+    },
+    "filterIot": {
+      "id": "IoT & Data Deret Waktu",
+      "en": "IoT & Time Series Data"
+    },
+    "filterMigration": {
+      "id": "Migrasi & Transfer",
+      "en": "Migration & Transfer"
+    },
+    "recommendationTitle": {
+      "id": "Layanan yang Direkomendasikan",
+      "en": "Recommended Services"
+    },
+    "noRecommendation": {
+      "id": "Pilih filter di atas untuk melihat rekomendasi.",
+      "en": "Select a filter above to see recommendations."
+    },
+    "comparisonTitle": {
+      "id": "Visualisasi Perbandingan Layanan",
+      "en": "Service Comparison Visualizer"
+    },
+    "comparisonSubtitle": {
+      "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.",
+      "en": "Compare up to two services visually on key attributes."
+    },
+    "comparisonLabel": {
+      "id": "Layanan untuk dibandingkan:",
+      "en": "Services to compare:"
+    },
+    "clearButton": {
+      "id": "Bersihkan Pilihan",
+      "en": "Clear Selection"
+    },
+    "chartPlaceholder": {
+      "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.",
+      "en": "Select a service from the recommendations to start comparing."
+    }
+  }
+}

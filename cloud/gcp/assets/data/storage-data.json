@@ -1,0 +1,510 @@
+{
+  "pageData": {
+    "theme": {
+      "primary": "#0F9D58",
+      "primaryDark": "#0b8043",
+      "primaryLight": "#34a853",
+      "secondary": "#6c757d",
+      "textOnPrimary": "#ffffff"
+    },
+    "chartConfig": {
+      "labels": {
+        "id": [
+          "Durabilitas",
+          "Kinerja",
+          "Biaya Efektif"
+        ],
+        "en": [
+          "Durability",
+          "Performance",
+          "Cost-Effectiveness"
+        ]
+      },
+      "keys": [
+        "durability",
+        "performance",
+        "cost"
+      ]
+    },
+    "navigation": [
+      {
+        "id": "nav-categories",
+        "langKey": "navCategories",
+        "href": "#category-nav-section"
+      },
+      {
+        "id": "nav-finder",
+        "langKey": "navFinder",
+        "href": "#decision-tool"
+      },
+      {
+        "id": "nav-comparison",
+        "langKey": "navComparison",
+        "href": "#comparison-chart-section"
+      }
+    ],
+    "decisionFilters": [
+      {
+        "titleLangKey": "filter1Title",
+        "options": [
+          {
+            "filter": "object",
+            "langKey": "filterObject"
+          },
+          {
+            "filter": "block",
+            "langKey": "filterBlock"
+          },
+          {
+            "filter": "file",
+            "langKey": "filterFile"
+          }
+        ]
+      },
+      {
+        "titleLangKey": "filter2Title",
+        "options": [
+          {
+            "filter": "backup",
+            "langKey": "filterBackup"
+          },
+          {
+            "filter": "transfer",
+            "langKey": "filterTransfer"
+          },
+          {
+            "filter": "performance",
+            "langKey": "filterPerformance"
+          }
+        ]
+      },
+      {
+        "titleLangKey": "filter3Title",
+        "options": [
+          {
+            "filter": "frequent",
+            "langKey": "filterAccessFrequent"
+          },
+          {
+            "filter": "infrequent",
+            "langKey": "filterAccessInfrequent"
+          },
+          {
+            "filter": "archive",
+            "langKey": "filterAccessArchive"
+          }
+        ]
+      }
+    ],
+    "categories": {
+      "object": {
+        "title": {
+          "id": "Penyimpanan Objek",
+          "en": "Object Storage"
+        },
+        "description": {
+          "id": "Sangat skalabel untuk data tak terstruktur seperti gambar, video, dan backup.",
+          "en": "Massively scalable for unstructured data like images, videos, and backups."
+        },
+        "icon": "🗃️",
+        "services": [
+          "cloud-storage"
+        ]
+      },
+      "block": {
+        "title": {
+          "id": "Penyimpanan Blok",
+          "en": "Block Storage"
+        },
+        "description": {
+          "id": "Penyimpanan berkinerja tinggi untuk VM dan database.",
+          "en": "High-performance storage for VMs and databases."
+        },
+        "icon": "💾",
+        "services": [
+          "persistent-disk"
+        ]
+      },
+      "file": {
+        "title": {
+          "id": "Penyimpanan File",
+          "en": "File Storage"
+        },
+        "description": {
+          "id": "Sistem file bersama berkinerja tinggi yang terkelola.",
+          "en": "Managed, high-performance shared file systems."
+        },
+        "icon": "📂",
+        "services": [
+          "filestore",
+          "netapp-volumes"
+        ]
+      },
+      "backup": {
+        "title": {
+          "id": "Backup & Pemulihan",
+          "en": "Backup & Recovery"
+        },
+        "description": {
+          "id": "Layanan terpusat untuk mengelola backup dan pemulihan bencana.",
+          "en": "Centralized service to manage backups and disaster recovery."
+        },
+        "icon": "💽",
+        "services": [
+          "backup-dr"
+        ]
+      },
+      "transfer": {
+        "title": {
+          "id": "Transfer Data",
+          "en": "Data Transfer"
+        },
+        "description": {
+          "id": "Pindahkan data dalam jumlah besar secara online atau offline ke Google Cloud.",
+          "en": "Move large amounts of data online or offline to Google Cloud."
+        },
+        "icon": "🚚",
+        "services": [
+          "storage-transfer-service",
+          "transfer-appliance"
+        ]
+      }
+    },
+    "services": {
+      "cloud-storage": {
+        "title": "Cloud Storage",
+        "icon": "gcp/Cloud-Storage.svg",
+        "parent": "object",
+        "tabs": {
+          "Summary": {
+            "id": "Penyimpanan objek yang tak terbatas, terpadu, dengan berbagai kelas penyimpanan.",
+            "en": "Infinitely scalable, unified object storage with multiple storage classes."
+          },
+          "Use Case": {
+            "id": "Menyimpan dan menyajikan konten, danau data, backup, dan arsip.",
+            "en": "Storing and serving content, data lakes, backups, and archives."
+          },
+          "Pricing": {
+            "id": "Bayar untuk kapasitas (GB/bulan), operasi, dan transfer data, bervariasi per kelas.",
+            "en": "Pay for capacity (GB/month), operations, and data transfer, varies by class."
+          }
+        },
+        "scores": {
+          "durability": 10,
+          "performance": 7,
+          "cost": 9
+        },
+        "tags": [
+          "object",
+          "backup",
+          "performance",
+          "frequent",
+          "infrequent",
+          "archive"
+        ]
+      },
+      "persistent-disk": {
+        "title": "Persistent Disk",
+        "icon": "gcp/Persistent-Disk.svg",
+        "parent": "block",
+        "tabs": {
+          "Summary": {
+            "id": "Penyimpanan blok yang andal dan berkinerja tinggi untuk VM Compute Engine.",
+            "en": "Reliable, high-performance block storage for Compute Engine VMs."
+          },
+          "Use Case": {
+            "id": "Boot disk untuk VM, penyimpanan untuk database dan aplikasi.",
+            "en": "Boot disks for VMs, storage for databases and applications."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas (GB/bulan) yang disediakan dan tipe disk (misalnya, SSD, Balanced).",
+            "en": "Based on provisioned capacity (GB/month) and disk type (e.g., SSD, Balanced)."
+          }
+        },
+        "dependency": {
+          "id": "Membutuhkan Compute Engine",
+          "en": "Requires Compute Engine"
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 9,
+          "cost": 6
+        },
+        "tags": [
+          "block",
+          "performance",
+          "frequent"
+        ]
+      },
+      "filestore": {
+        "title": "Filestore",
+        "icon": "gcp/Filestore.svg",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Penyimpanan file NFS terkelola berkinerja tinggi.",
+            "en": "High-performance, managed NFS file storage."
+          },
+          "Use Case": {
+            "id": "Berbagi data untuk aplikasi GKE, rendering, dan alur kerja media.",
+            "en": "Data sharing for GKE applications, rendering, and media workflows."
+          },
+          "Pricing": {
+            "id": "Berdasarkan tingkat layanan (misalnya, Basic, Enterprise) dan kapasitas yang disediakan.",
+            "en": "Based on service tier (e.g., Basic, Enterprise) and provisioned capacity."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 8,
+          "cost": 5
+        },
+        "tags": [
+          "file",
+          "performance",
+          "frequent"
+        ]
+      },
+      "netapp-volumes": {
+        "title": "NetApp Volumes",
+        "icon": "gcp/NetApp.svg",
+        "parent": "file",
+        "tabs": {
+          "Summary": {
+            "id": "Layanan penyimpanan file cloud-native dengan fitur ONTAP tingkat lanjut.",
+            "en": "Cloud-native file storage service with advanced ONTAP features."
+          },
+          "Use Case": {
+            "id": "Beban kerja file Windows & Linux, database, dan aplikasi enterprise.",
+            "en": "Windows & Linux file workloads, databases, and enterprise applications."
+          },
+          "Pricing": {
+            "id": "Berdasarkan kapasitas yang disediakan dan tingkat layanan.",
+            "en": "Based on provisioned capacity and service level."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 9,
+          "cost": 4
+        },
+        "tags": [
+          "file",
+          "performance",
+          "frequent"
+        ]
+      },
+      "backup-dr": {
+        "title": "Cloud Backup and DR",
+        "icon": "gcp/Backup-and-DR.svg",
+        "parent": "backup",
+        "tabs": {
+          "Summary": {
+            "id": "Manajemen backup dan pemulihan bencana terpusat yang terkelola.",
+            "en": "Managed, centralized backup and disaster recovery management."
+          },
+          "Use Case": {
+            "id": "Melindungi beban kerja di Google Cloud (misalnya, VM, database) dan on-premise.",
+            "en": "Protecting workloads in Google Cloud (e.g., VMs, databases) and on-premises."
+          },
+          "Pricing": {
+            "id": "Bayar per jumlah data yang dilindungi dan disimpan.",
+            "en": "Pay per amount of data protected and stored."
+          }
+        },
+        "scores": {
+          "durability": 10,
+          "performance": 6,
+          "cost": 8
+        },
+        "tags": [
+          "backup",
+          "infrequent",
+          "archive"
+        ]
+      },
+      "storage-transfer-service": {
+        "title": "Storage Transfer Service",
+        "icon": "gcp/Storage-Transfer-Service.svg",
+        "parent": "transfer",
+        "tabs": {
+          "Summary": {
+            "id": "Mentransfer data dalam jumlah besar secara online ke Cloud Storage.",
+            "en": "Transfer large amounts of data online to Cloud Storage."
+          },
+          "Use Case": {
+            "id": "Migrasi dari cloud lain (misalnya, S3), sumber data on-premise, atau daftar URL.",
+            "en": "Migrating from other clouds (e.g., S3), on-premises data sources, or URL lists."
+          },
+          "Pricing": {
+            "id": "Gratis, tetapi biaya operasi dan transfer jaringan mungkin berlaku.",
+            "en": "Free, but network and operations costs may apply."
+          }
+        },
+        "scores": {
+          "durability": 8,
+          "performance": 7,
+          "cost": 8
+        },
+        "tags": [
+          "transfer",
+          "object",
+          "file"
+        ]
+      },
+      "transfer-appliance": {
+        "title": "Transfer Appliance",
+        "icon": "gcp/Transfer-Appliance.svg",
+        "parent": "transfer",
+        "tabs": {
+          "Summary": {
+            "id": "Perangkat keras yang dapat disewa untuk memindahkan data dalam jumlah besar secara offline.",
+            "en": "Rentable hardware appliance to move large amounts of data offline."
+          },
+          "Use Case": {
+            "id": "Migrasi pusat data atau transfer data besar di mana bandwidth jaringan terbatas.",
+            "en": "Data center migrations or large data transfers where network bandwidth is limited."
+          },
+          "Pricing": {
+            "id": "Biaya sewa tetap per perangkat untuk periode penggunaan, ditambah biaya pengiriman.",
+            "en": "Flat rental fee per appliance for a usage period, plus shipping."
+          }
+        },
+        "scores": {
+          "durability": 9,
+          "performance": 10,
+          "cost": 3
+        },
+        "tags": [
+          "transfer"
+        ]
+      }
+    }
+  },
+  "translations": {
+    "navCategories": {
+      "id": "Kategori",
+      "en": "Categories"
+    },
+    "navFinder": {
+      "id": "Pencari Solusi",
+      "en": "Solution Finder"
+    },
+    "navComparison": {
+      "id": "Perbandingan",
+      "en": "Comparison"
+    },
+    "homeButton": {
+      "id": "Halaman Utama",
+      "en": "Home"
+    },
+    "mainTitle": {
+      "id": "Panduan Interaktif GCP Storage",
+      "en": "Interactive GCP Storage Guide"
+    },
+    "mainSubtitle": {
+      "id": "Temukan solusi penyimpanan yang tepat, dari penyimpanan objek, blok, hingga file untuk semua jenis data.",
+      "en": "Find the right storage solution, from object and block to file storage for all data types."
+    },
+    "categoryTitle": {
+      "id": "Kategori Layanan Storage",
+      "en": "Storage Service Categories"
+    },
+    "categorySubtitle": {
+      "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.",
+      "en": "Select a category to explore the relevant services within it."
+    },
+    "welcomeTitle": {
+      "id": "Selamat Datang!",
+      "en": "Welcome!"
+    },
+    "welcomeSubtitle": {
+      "id": "Pilih kategori layanan di atas untuk memulai.",
+      "en": "Select a service category above to get started."
+    },
+    "finderTitle": {
+      "id": "Pencari Solusi Storage",
+      "en": "Storage Solution Finder"
+    },
+    "finderSubtitle": {
+      "id": "Gunakan filter ini untuk menemukan layanan GCP Storage yang paling sesuai untuk tugas Anda.",
+      "en": "Use these filters to find the right GCP Storage service for your task."
+    },
+    "filter1Title": {
+      "id": "1. Apa Tipe Penyimpanan Anda?",
+      "en": "1. What is your Storage Type?"
+    },
+    "filterObject": {
+      "id": "Objek (Data Tak Terstruktur)",
+      "en": "Object (Unstructured Data)"
+    },
+    "filterBlock": {
+      "id": "Blok (Disk untuk VM)",
+      "en": "Block (Disks for VMs)"
+    },
+    "filterFile": {
+      "id": "File (Penyimpanan Bersama/NAS)",
+      "en": "File (Shared Storage/NAS)"
+    },
+    "filter2Title": {
+      "id": "2. Apa Kebutuhan Utama Anda?",
+      "en": "2. What is your Main Need?"
+    },
+    "filterBackup": {
+      "id": "Backup & Archive",
+      "en": "Backup & Archive"
+    },
+    "filterTransfer": {
+      "id": "Transfer & Migrasi Data",
+      "en": "Data Transfer & Migration"
+    },
+    "filterPerformance": {
+      "id": "Kinerja Tinggi",
+      "en": "High Performance"
+    },
+    "filter3Title": {
+      "id": "3. Bagaimana Pola Aksesnya?",
+      "en": "3. What is the Access Pattern?"
+    },
+    "filterAccessFrequent": {
+      "id": "Akses Sering (Latensi Rendah)",
+      "en": "Frequent Access (Low Latency)"
+    },
+    "filterAccessInfrequent": {
+      "id": "Akses Jarang",
+      "en": "Infrequent Access"
+    },
+    "filterAccessArchive": {
+      "id": "Arsip Jangka Panjang",
+      "en": "Long-term Archive"
+    },
+    "recommendationTitle": {
+      "id": "Layanan yang Direkomendasikan",
+      "en": "Recommended Services"
+    },
+    "noRecommendation": {
+      "id": "Pilih filter di atas untuk melihat rekomendasi.",
+      "en": "Select a filter above to see recommendations."
+    },
+    "comparisonTitle": {
+      "id": "Visualisasi Perbandingan Layanan",
+      "en": "Service Comparison Visualizer"
+    },
+    "comparisonSubtitle": {
+      "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.",
+      "en": "Compare up to two services visually on key attributes."
+    },
+    "comparisonLabel": {
+      "id": "Layanan untuk dibandingkan:",
+      "en": "Services to compare:"
+    },
+    "clearButton": {
+      "id": "Bersihkan Pilihan",
+      "en": "Clear Selection"
+    },
+    "chartPlaceholder": {
+      "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.",
+      "en": "Select a service from the recommendations to start comparing."
+    }
+  }
+}
