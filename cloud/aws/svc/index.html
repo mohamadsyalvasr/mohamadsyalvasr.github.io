@@ -81,11 +81,9 @@
             color: white;
             z-index: 1;
             box-shadow: 0 2px 3px rgba(0,0,0,0.25);
-            /* PERUBAHAN: Menambahkan transisi untuk opacity */
             transition: opacity 0.3s ease-in-out;
         }
 
-        /* PERUBAHAN: Aturan baru untuk menyembunyikan pita saat hover */
         .recommendation-card:hover .corner-ribbon {
             opacity: 0;
         }
@@ -708,6 +706,8 @@
                 card.className = cardClass;
                 card.dataset.target = key;
 
+                // PERUBAHAN: Menambahkan kembali dependencyHTML
+                const dependencyHTML = service.dependency ? `<p class="themed-accent-text text-xs italic mt-2">${service.dependency[currentLang]}</p>` : '';
                 const bestForHTML = service.bestFor ? `<p class="text-xs text-slate-600 mt-2 font-semibold">${translations.bestFor?.[currentLang] || 'Terbaik untuk'}: <span class="font-normal">${service.bestFor[currentLang]}</span></p>` : '';
                 
                 card.innerHTML = `
@@ -717,6 +717,7 @@
                         <h5 class="font-bold text-slate-800">${service.title}</h5>
                     </div>
                     <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
+                    ${dependencyHTML}
                     ${bestForHTML}
                     <button type="button" data-service="${key}" class="compare-button text-xs font-semibold w-full text-left relative z-10 mt-3 transition-colors">
                         ${selectedForComparison.includes(key) ? (translations.removeCompare?.[currentLang] || 'Hapus') : (translations.addCompare?.[currentLang] || 'Bandingkan +')}
@@ -870,7 +871,8 @@
                 translations['noResults'] = { "id": "Tidak ada layanan yang cocok.", "en": "No matching services found." };
                 translations['addCompare'] = { "id": "Bandingkan +", "en": "Compare +" };
                 translations['removeCompare'] = { "id": "Hapus", "en": "Remove" };
-                translations['disclaimer'] = { "id": "PENAFIAN: Situs ini adalah proyek independen yang dibuat untuk tujuan edukasi dan demonstrasi. Proyek ini tidak berafiliasi dengan, disponsori oleh, atau didukung oleh Amazon Web Service. Semua nama layanan, ikon, dan merek dagang adalah milik Amazon Web Service.",
+                translations['disclaimer'] = {
+                    "id": "PENAFIAN: Situs ini adalah proyek independen yang dibuat untuk tujuan edukasi dan demonstrasi. Proyek ini tidak berafiliasi dengan, disponsori oleh, atau didukung oleh Amazon Web Service. Semua nama layanan, ikon, dan merek dagang adalah milik Amazon Web Service.",
                     "en": "DISCLAIMER: This is an independent project for educational and demonstration purposes. It is not affiliated with, sponsored by, or endorsed by Amazon Web Service. All service names, icons, and trademarks are the property of Amazon Web Service."
                 };
                 translations['disclaimerTitle'] = { "id": "Pemberitahuan", "en": "Notice" };
