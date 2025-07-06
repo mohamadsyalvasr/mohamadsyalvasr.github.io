@@ -198,7 +198,7 @@
     "services": {
       "ecs": {
         "title": "Elastic Compute Service (ECS)",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ECS-Elastic-Compute-Service.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/ECS-Elastic-Compute-Service.svg",
         "parent": "core",
         "tabs": {
           "Summary": {
@@ -227,7 +227,7 @@
       },
       "simple-app-server": {
         "title": "Simple Application Server",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/SWAS-Simple-Application-Server.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/SWAS-Simple-Application-Server.svg",
         "parent": "core",
         "tabs": {
           "Summary": {
@@ -256,7 +256,7 @@
       },
       "dedicated-host": {
         "title": "Dedicated Host",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/DDH-Dedicated-Host.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/DDH-Dedicated-Host.svg",
         "parent": "core",
         "tabs": {
           "Summary": {
@@ -285,7 +285,7 @@
       },
       "ebm": {
         "title": "ECS Bare Metal Instance (EBM)",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/XDragon-Bare-Metal-Server.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/XDragon-Bare-Metal-Server.svg",
         "parent": "core",
         "tabs": {
           "Summary": {
@@ -315,7 +315,7 @@
       },
       "eci": {
         "title": "Elastic Container Instance (ECI)",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ECI-Elastic-Container-Instance.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/ECI-Elastic-Container-Instance.svg",
         "parent": "containers",
         "tabs": {
           "Summary": {
@@ -438,7 +438,7 @@
       },
       "auto-scaling": {
         "title": "Auto Scaling",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ESS-Elastic-Scaling-Service.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/ESS-Elastic-Scaling-Service.svg",
         "parent": "scaling",
         "tabs": {
           "Summary": {
@@ -585,7 +585,7 @@
       },
       "elastic-gpu": {
         "title": "Elastic GPU Service",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/GPU-Cloud-Computing.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/GPU-Cloud-Computing.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -618,7 +618,7 @@
       },
       "faas": {
         "title": "FPGA as a Service",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/FPGA-Field-Programmable-Gate-Array.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/FPGA-Field-Programmable-Gate-Array.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -651,7 +651,7 @@
       },
       "scc": {
         "title": "Super Computing Cluster (SCC)",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/SCC-Super-Computing-Cluster.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/SCC-Super-Computing-Cluster.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -680,7 +680,7 @@
       },
       "e-hpc": {
         "title": "Elastic High Performance Computing (E-HPC)",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/EHPC-Elastic-High-Performance-Computing.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/EHPC-Elastic-High-Performance-Computing.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {
@@ -709,7 +709,7 @@
       },
       "batch-compute": {
         "title": "Batch Compute",
-        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/BatchCompute.svg",
+        "icon": "alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/BatchCompute.svg",
         "parent": "hpc",
         "tabs": {
           "Summary": {

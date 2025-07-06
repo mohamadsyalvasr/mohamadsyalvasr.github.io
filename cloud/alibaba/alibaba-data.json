@@ -3,7 +3,7 @@
     {
       "id": "compute",
       "status": "active",
-      "iconPath": "./assets/icons/alibaba-cloud-icons-main/2022-orange/icons/en/02-computing/ECS-Elastic-Compute-Service.svg",
+      "iconPath": "./assets/icons/alibaba-cloud-icons-main/2022-orange/icons/en/02-Computing/ECS-Elastic-Compute-Service.svg",
       "emoji": "💻",
       "titleKey": "computeTitle",
       "descriptionKey": "computeDesc",
