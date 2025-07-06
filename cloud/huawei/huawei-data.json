@@ -1,0 +1,182 @@
+{
+  "guidesData": [
+    {
+      "id": "compute",
+      "status": "active",
+      "iconPath": "./assets/icons/huawei/compute.svg",
+      "emoji": "🔧",
+      "titleKey": "huaweiComputeTitle",
+      "descriptionKey": "huaweiComputeDesc",
+      "buttonGradient": "from-red-500 to-orange-500",
+      "href": "./svc?data=compute"
+    },
+     {
+      "id": "storage",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/huawei/storage.svg",
+      "emoji": "🗃️",
+      "titleKey": "huaweiStorageTitle",
+      "descriptionKey": "huaweiStorageDesc",
+      "buttonGradient": "from-red-500 to-orange-500",
+      "href": "./svc?data=storage"
+    },
+    {
+      "id": "database",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/huawei/database.svg",
+      "emoji": "🗄️",
+      "titleKey": "huaweiDatabaseTitle",
+      "descriptionKey": "huaweiDatabaseDesc",
+      "buttonGradient": "from-red-500 to-orange-500",
+      "href": "./svc?data=database"
+    },
+    {
+      "id": "aiml",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/huawei/ai.svg",
+      "emoji": "🤖",
+      "titleKey": "huaweiAimlTitle",
+      "descriptionKey": "huaweiAimlDesc",
+      "buttonGradient": "from-red-500 to-orange-500",
+      "href": "./svc?data=aiml"
+    },
+    {
+      "id": "networking",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/huawei/networking.svg",
+      "emoji": "🌐",
+      "titleKey": "huaweiNetworkingTitle",
+      "descriptionKey": "huaweiNetworkingDesc",
+      "buttonGradient": "from-gray-400 to-gray-500",
+      "href": "#"
+    },
+    {
+      "id": "security",
+      "status": "coming-soon",
+      "iconPath": "./assets/icons/huawei/security.svg",
+      "emoji": "🛡️",
+      "titleKey": "huaweiSecurityTitle",
+      "descriptionKey": "huaweiSecurityDesc",
+      "buttonGradient": "from-gray-400 to-gray-500",
+      "href": "#"
+    }
+  ],
+  "roadmapData": [
+    {
+      "badgeLabel": "Q3",
+      "badgeColor": "bg-red-500",
+      "titleKey": "roadmapHuaweiQ3Title",
+      "descriptionKey": "roadmapHuaweiQ3Desc",
+      "listKey": "roadmapHuaweiQ3List"
+    },
+    {
+      "badgeLabel": "Q4",
+      "badgeColor": "bg-green-600",
+      "titleKey": "roadmapHuaweiQ4Title",
+      "descriptionKey": "roadmapHuaweiQ4Desc",
+      "listKey": "roadmapHuaweiQ4List"
+    }
+  ],
+  "translations": {
+    "mainTitle": {
+      "id": "Panduan Interaktif Layanan Huawei Cloud",
+      "en": "Interactive Huawei Cloud Service Guides"
+    },
+    "mainSubtitle": {
+      "id": "Jelajahi, bandingkan, dan temukan layanan Huawei Cloud yang tepat untuk kebutuhan Anda melalui panduan visual yang terkurasi.",
+      "en": "Explore, compare, and find the right Huawei Cloud services for your needs through curated visual guides."
+    },
+    "roadmapButton": {
+      "id": "Peta Jalan",
+      "en": "Roadmap"
+    },
+    "roadmapTitle": {
+      "id": "Peta Jalan Pengembangan",
+      "en": "Development Roadmap"
+    },
+    "exploreButton": {
+      "id": "Jelajahi Sekarang",
+      "en": "Explore Now"
+    },
+    "comingSoonButton": {
+      "id": "Segera Hadir",
+      "en": "Coming Soon"
+    },
+    "footer": {
+      "id": "&copy; 2025 Interactive Cloud Guides. Dibuat dengan ❤️ untuk para penjelajah cloud di mana pun berada. <br>Semua merek dagang adalah milik pemiliknya masing-masing.",
+      "en": "&copy; 2025 Interactive Cloud Guides. Made with ❤️ for cloud explorers everywhere. <br>All trademarks belong to their respective owners."
+    },
+    "huaweiComputeTitle": {
+      "id": "Huawei Cloud Compute",
+      "en": "Huawei Cloud Compute"
+    },
+    "huaweiComputeDesc": {
+      "id": "Layanan komputasi dari Elastic Cloud Server (ECS) hingga Bare Metal Server (BMS).",
+      "en": "Compute services from Elastic Cloud Server (ECS) to Bare Metal Server (BMS)."
+    },
+    "huaweiStorageTitle": {
+      "id": "Huawei Cloud Storage",
+      "en": "Huawei Cloud Storage"
+    },
+    "huaweiStorageDesc": {
+      "id": "Temukan solusi dari Object Storage (OBS), Block Storage (EVS), hingga File Storage (SFS).",
+      "en": "Find solutions from Object Storage (OBS), Block Storage (EVS), to File Storage (SFS)."
+    },
+    "huaweiDatabaseTitle": {
+      "id": "Huawei Cloud Database",
+      "en": "Huawei Cloud Database"
+    },
+    "huaweiDatabaseDesc": {
+      "id": "Jelajahi database relasional seperti RDS dan NoSQL seperti GaussDB untuk semua kebutuhan aplikasi Anda.",
+      "en": "Explore relational databases like RDS and NoSQL like GaussDB for all your application needs."
+    },
+    "huaweiAimlTitle": {
+      "id": "Huawei Cloud AI & ML",
+      "en": "Huawei Cloud AI & ML"
+    },
+    "huaweiAimlDesc": {
+      "id": "Pahami tumpukan layanan AI, dari platform ModelArts hingga API siap pakai seperti OCR dan Image Recognition.",
+      "en": "Understand the AI stack, from the ModelArts platform to ready-to-use APIs like OCR and Image Recognition."
+    },
+    "huaweiNetworkingTitle": {
+      "id": "Huawei Cloud Networking",
+      "en": "Huawei Cloud Networking"
+    },
+    "huaweiNetworkingDesc": {
+      "id": "Sediakan jaringan global yang aman dan andal dengan VPC, ELB, dan Direct Connect.",
+      "en": "Provide secure and reliable global networking with VPC, ELB, and Direct Connect."
+    },
+    "huaweiSecurityTitle": {
+      "id": "Huawei Cloud Security",
+      "en": "Huawei Cloud Security"
+    },
+    "huaweiSecurityDesc": {
+      "id": "Lindungi data dan aplikasi Anda dengan layanan keamanan terintegrasi seperti Anti-DDoS dan WAF.",
+      "en": "Protect your data and applications with integrated security services like Anti-DDoS and WAF."
+    },
+    "roadmapHuaweiQ3Title": {
+      "id": "Q3 2025",
+      "en": "Q3 2025"
+    },
+    "roadmapHuaweiQ3Desc": {
+      "id": "Fokus pada Layanan Inti & Jaringan",
+      "en": "Focus on Core & Networking Services"
+    },
+    "roadmapHuaweiQ3List": {
+      "id": "<li><span class=\"font-semibold text-slate-700\">Panduan Jaringan Huawei:</span> Cakupan VPC, ELB, dan Direct Connect.</li><li><span class=\"font-semibold text-slate-700\">Mode Perbandingan Layanan:</span> Bandingkan 2-3 layanan secara berdampingan.</li><li>Peningkatan UI/UX berdasarkan masukan pengguna.</li>",
+      "en": "<li><span class=\"font-semibold text-slate-700\">Huawei Networking Guide:</span> Covering VPC, ELB, and Direct Connect.</li><li><span class=\"font-semibold text-slate-700\">Service Comparison Mode:</span> Compare 2–3 services side-by-side.</li><li>UI/UX improvements based on user feedback.</li>"
+    },
+    "roadmapHuaweiQ4Title": {
+      "id": "Q4 2025",
+      "en": "Q4 2025"
+    },
+    "roadmapHuaweiQ4Desc": {
+      "id": "Ekspansi ke Layanan Data dan AI Huawei",
+      "en": "Expansion into Huawei's Data and AI Services"
+    },
+    "roadmapHuaweiQ4List": {
+      "id": "<li>Rilis panduan <span class=\"font-semibold text-slate-700\">ModelArts</span>.</li><li>Tutorial mendalam tentang Data Warehouse Service (DWS).</li>",
+      "en": "<li>Release of the <span class=\"font-semibold text-slate-700\">ModelArts</span> guide.</li><li>In-depth tutorials for Data Warehouse Service (DWS).</li>"
+    }
+  }
+}

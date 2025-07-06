@@ -43,7 +43,7 @@
                 "titleLangKey": "serviceAzureTitle",
                 "descLangKey": "serviceAzureDesc",
                 "href": "/cloud/azure",
-                "status": "comingsoon"
+                "status": "active"
               },
               {
                 "img": "https://www.svgrepo.com/show/448245/oracle.svg",

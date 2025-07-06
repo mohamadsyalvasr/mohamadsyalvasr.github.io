@@ -1,0 +1,308 @@
+{
+  "pageData": {
+    "theme": {
+      "primary": "#DE0029",
+      "primaryDark": "#A7001F",
+      "primaryLight": "#FF526D",
+      "secondary": "#6c757d",
+      "textOnPrimary": "#ffffff"
+    },
+    "chartConfig": {
+      "labels": {
+        "id": ["Kemudahan Penggunaan", "Kendali", "Biaya Efektif"],
+        "en": ["Ease of Use", "Control", "Cost-Effectiveness"]
+      },
+      "keys": ["easeOfUse", "control", "cost"]
+    },
+    "navigation": [
+      { "id": "nav-categories", "langKey": "navCategories", "href": "#category-nav-section" },
+      { "id": "nav-finder", "langKey": "navFinder", "href": "#decision-tool" },
+      { "id": "nav-comparison", "langKey": "navComparison", "href": "#comparison-chart-section" }
+    ],
+    "decisionFilters": [
+      {
+        "titleLangKey": "filter1Title",
+        "options": [
+          { "filter": "general", "langKey": "filterVm" },
+          { "filter": "container", "langKey": "filterContainer" },
+          { "filter": "serverless", "langKey": "filterServerless" },
+          { "filter": "hpc", "langKey": "filterHpc" },
+          { "filter": "migration", "langKey": "filterMigration" }
+        ]
+      },
+      {
+        "titleLangKey": "filter2Title",
+        "options": [
+          { "filter": "cloud", "langKey": "filterCloud" },
+          { "filter": "hybrid", "langKey": "filterHybrid" },
+          { "filter": "edge", "langKey": "filterEdge" }
+        ]
+      },
+      {
+        "titleLangKey": "filter3Title",
+        "options": [
+          { "filter": "iaas", "langKey": "filterIaas" },
+          { "filter": "caas", "langKey": "filterCaas" },
+          { "filter": "paas", "langKey": "filterPaas" },
+          { "filter": "faas", "langKey": "filterFaas" }
+        ]
+      }
+    ],
+    "categories": {
+      "compute": {
+        "title": { "id": "Compute", "en": "Compute" },
+        "description": { "id": "Layanan komputasi inti dari VM, bare metal, hingga komputasi berbasis fungsi.", "en": "Core compute services from VMs and bare metal to function-based computing." },
+        "icon": "💻",
+        "services": ["ecs", "bms", "functiongraph", "gacs"]
+      },
+      "containers": {
+        "title": { "id": "Containers", "en": "Containers" },
+        "description": { "id": "Jalankan, kelola, dan orkestrasi aplikasi dalam kontainer dalam skala besar.", "en": "Run, manage, and orchestrate containerized applications at scale." },
+        "icon": "📦",
+        "services": ["cce", "cci", "ucs", "swr"]
+      },
+      "ai": {
+        "title": { "id": "Artificial Intelligence (AI)", "en": "Artificial Intelligence (AI)" },
+        "description": { "id": "Platform dan layanan untuk membangun, melatih, dan menyebarkan model AI.", "en": "Platforms and services to build, train, and deploy AI models." },
+        "icon": "🔬",
+        "services": ["modelarts", "ges", "ocr"]
+      },
+      "application_services": {
+        "title": { "id": "Platform Aplikasi", "en": "Application Platforms" },
+        "description": { "id": "Layanan untuk membangun, menyebarkan, dan mengelola aplikasi di cloud.", "en": "Services to build, deploy, and manage applications in the cloud." },
+        "icon": "🚀",
+        "services": ["cae", "servicestage", "apig"]
+      },
+      "migration": {
+        "title": { "id": "Migration", "en": "Migration" },
+        "description": { "id": "Alat untuk merencanakan dan melaksanakan migrasi Anda ke Huawei Cloud.", "en": "Tools to plan and execute your migration to Huawei Cloud." },
+        "icon": "✈️",
+        "services": ["sms", "mgc", "ugo"]
+      },
+      "hybrid_edge": {
+        "title": { "id": "Hybrid & Edge", "en": "Hybrid & Edge" },
+        "description": { "id": "Perluas cloud ke pusat data on-premise dan lokasi edge Anda.", "en": "Extend the cloud to your on-premises data centers and edge locations." },
+        "icon": "🌐",
+        "services": ["hcs", "iec", "cloud-connect"]
+      }
+    },
+    "services": {
+      "ecs": {
+        "title": "Elastic Cloud Server (ECS)",
+        "parent": "compute",
+        "tabs": {
+          "Summary": { "id": "Server virtual yang aman dan dapat diskalakan yang menyediakan sumber daya komputasi sesuai permintaan.", "en": "Secure and scalable virtual servers providing on-demand compute resources." },
+          "Use Case": { "id": "Hosting aplikasi, server web, lingkungan pengembangan, dan beban kerja umum lainnya.", "en": "Hosting applications, web servers, development environments, and other general workloads." },
+          "Pricing": { "id": "Model bayar per penggunaan, langganan tahunan/bulanan, dan spot tersedia.", "en": "Pay-per-use, yearly/monthly subscription, and spot models are available." }
+        }, "scores": { "easeOfUse": 7, "control": 10, "cost": 7 }, "tags": ["general", "cloud", "iaas"]
+      },
+      "bms": {
+        "title": "Bare Metal Server (BMS)",
+        "parent": "compute",
+        "tabs": {
+          "Summary": { "id": "Menyediakan server fisik khusus tanpa lapisan virtualisasi untuk performa dan keamanan maksimal.", "en": "Provides dedicated physical servers without a virtualization layer for maximum performance and security." },
+          "Use Case": { "id": "Beban kerja berperforma tinggi seperti database besar, analisis data, atau aplikasi yang memerlukan perangkat keras khusus.", "en": "High-performance workloads like large databases, data analytics, or applications requiring specific hardware." },
+          "Pricing": { "id": "Berdasarkan langganan per server dengan berbagai opsi konfigurasi perangkat keras.", "en": "Based on a per-server subscription with various hardware configuration options." }
+        }, "scores": { "easeOfUse": 4, "control": 10, "cost": 3 }, "tags": ["hpc", "cloud", "iaas"]
+      },
+      "functiongraph": {
+        "title": "FunctionGraph",
+        "parent": "compute",
+        "tabs": {
+          "Summary": { "id": "Platform komputasi serverless berbasis peristiwa yang menjalankan kode Anda sebagai respons terhadap pemicu.", "en": "Event-driven serverless compute platform that runs your code in response to triggers." },
+          "Use Case": { "id": "Backend untuk aplikasi web/seluler, pemrosesan data, otomatisasi tugas, dan arsitektur microservices.", "en": "Backends for web/mobile apps, data processing, task automation, and microservices architectures." },
+          "Pricing": { "id": "Bayar berdasarkan jumlah pemanggilan, durasi eksekusi, dan sumber daya yang dikonsumsi.", "en": "Pay based on number of invocations, execution duration, and consumed resources." }
+        }, "scores": { "easeOfUse": 10, "control": 3, "cost": 8 }, "tags": ["serverless", "cloud", "faas"]
+      },
+      "gacs": {
+        "title": "GPU Accelerated Cloud Server (GACS)",
+        "parent": "compute",
+        "tabs": {
+          "Summary": { "id": "ECS yang dilengkapi dengan akselerator GPU berperforma tinggi untuk AI, rendering, dan HPC.", "en": "ECS equipped with high-performance GPU accelerators for AI, rendering, and HPC." },
+          "Use Case": { "id": "Pelatihan model deep learning, inferensi AI, rendering grafis, dan komputasi ilmiah.", "en": "Deep learning model training, AI inference, graphics rendering, and scientific computing." },
+          "Pricing": { "id": "Harga berdasarkan instance ECS ditambah biaya tambahan untuk jenis akselerator yang terpasang.", "en": "Priced based on the ECS instance plus the additional cost for the type of attached accelerator." }
+        }, "dependency": { "id": "Jenis dari Elastic Cloud Server", "en": "A type of Elastic Cloud Server" }, "scores": { "easeOfUse": 5, "control": 9, "cost": 4 }, "tags": ["hpc", "cloud", "iaas"]
+      },
+      "cce": {
+        "title": "Cloud Container Engine (CCE)",
+        "parent": "containers",
+        "tabs": {
+          "Summary": { "id": "Layanan Kubernetes terkelola untuk mengotomatiskan penerapan, penskalaan, dan pengelolaan aplikasi kontainer.", "en": "A managed Kubernetes service to automate the deployment, scaling, and management of containerized applications." },
+          "Use Case": { "id": "Mengelola arsitektur microservices, modernisasi aplikasi, atau membangun pipeline CI/CD.", "en": "Managing microservices architectures, modernizing legacy applications, or building CI/CD pipelines." },
+          "Pricing": { "id": "Bayar untuk node pekerja (ECS) dan sumber daya terkait. Biaya manajemen klaster mungkin berlaku.", "en": "Pay for worker nodes (ECS) and associated resources. A cluster management fee may apply." }
+        }, "scores": { "easeOfUse": 7, "control": 9, "cost": 6 }, "tags": ["container", "cloud", "caas"]
+      },
+      "cci": {
+        "title": "Cloud Container Instance (CCI)",
+        "parent": "containers",
+        "tabs": {
+          "Summary": { "id": "Menjalankan kontainer secara instan tanpa perlu mengelola server atau klaster (serverless).", "en": "Instantly run containers without needing to manage servers or clusters (serverless)." },
+          "Use Case": { "id": "API stateless, microservices, pekerjaan batch, atau tugas yang tidak memerlukan orkestrasi klaster penuh.", "en": "Stateless APIs, microservices, batch jobs, or tasks that do not require full cluster orchestration." },
+          "Pricing": { "id": "Bayar per detik untuk sumber daya vCPU dan memori yang dialokasikan untuk kontainer Anda.", "en": "Pay per second for the vCPU and memory resources allocated to your containers." }
+        }, "scores": { "easeOfUse": 9, "control": 6, "cost": 9 }, "tags": ["container", "serverless", "cloud", "paas"]
+      },
+      "ucs": {
+        "title": "Ubiquitous Cloud-Native Service (UCS)",
+        "parent": "containers",
+        "tabs": {
+          "Summary": { "id": "Platform terdistribusi untuk mengelola klaster Kubernetes di berbagai cloud, edge, dan on-premise.", "en": "A distributed platform for managing Kubernetes clusters across multiple clouds, the edge, and on-premises." },
+          "Use Case": { "id": "Mengelola aplikasi dalam kontainer secara konsisten di lingkungan hybrid atau multi-cloud dari satu panel kontrol.", "en": "Consistently managing containerized applications across hybrid or multi-cloud environments from a single control plane." },
+          "Pricing": { "id": "Harga berdasarkan jumlah vCPU dari klaster yang terhubung dan dikelola.", "en": "Priced by the vCPU count of the connected and managed clusters." }
+        }, "scores": { "easeOfUse": 6, "control": 9, "cost": 4 }, "tags": ["hybrid", "container", "caas", "edge"]
+      },
+      "swr": {
+        "title": "Software Repository for Container (SWR)",
+        "parent": "containers",
+        "tabs": {
+          "Summary": { "id": "Menyimpan dan mengelola image kontainer dengan aman sepanjang siklus hidup aplikasi.", "en": "Securely store and manage container images throughout the application lifecycle." },
+          "Use Case": { "id": "Menjadi registri Docker privat untuk pipeline CI/CD Anda dan mengelola artefak aplikasi.", "en": "Serving as a private Docker registry for your CI/CD pipelines and managing application artifacts." },
+          "Pricing": { "id": "Harga berdasarkan volume penyimpanan yang digunakan dan transfer data jaringan.", "en": "Priced based on the volume of storage used and network data transfer." }
+        }, "scores": { "easeOfUse": 8, "control": 5, "cost": 8 }, "tags": ["container", "cloud", "caas"]
+      },
+      "modelarts": {
+        "title": "ModelArts",
+        "parent": "ai",
+        "tabs": {
+          "Summary": { "id": "Platform pengembangan AI satu atap untuk developer AI, menyediakan layanan end-to-end.", "en": "A one-stop AI development platform for AI developers, providing end-to-end services." },
+          "Use Case": { "id": "Mengelola siklus hidup pengembangan model AI, mulai dari persiapan data, pelatihan, hingga penyebaran.", "en": "Managing the AI model development lifecycle, from data preparation and training to deployment." },
+          "Pricing": { "id": "Harga modular berdasarkan penggunaan: penyimpanan data, jam pelatihan, dan jam penyebaran model.", "en": "Modular pricing based on usage: data storage, training hours, and model deployment hours." }
+        }, "scores": { "easeOfUse": 8, "control": 7, "cost": 6 }, "tags": ["hpc", "cloud", "paas"]
+      },
+       "ges": {
+        "title": "Graph Engine Service (GES)",
+        "parent": "ai",
+        "tabs": {
+          "Summary": { "id": "Menganalisis dan memvisualisasikan data hubungan yang kompleks untuk wawasan mendalam.", "en": "Analyze and visualize complex relationship data for deep insights." },
+          "Use Case": { "id": "Deteksi penipuan keuangan, jejaring sosial, sistem rekomendasi, dan manajemen jaringan.", "en": "Financial fraud detection, social networking, recommendation systems, and network management." },
+          "Pricing": { "id": "Bayar untuk sumber daya komputasi dan penyimpanan yang digunakan oleh instance graf.", "en": "Pay for the compute and storage resources consumed by the graph instance." }
+        }, "scores": { "easeOfUse": 6, "control": 7, "cost": 5 }, "tags": ["hpc", "cloud", "paas"]
+      },
+      "ocr": {
+        "title": "Optical Character Recognition (OCR)",
+        "parent": "ai",
+        "tabs": {
+          "Summary": { "id": "Mengekstrak teks dari gambar dan dokumen secara otomatis.", "en": "Automatically extracts text from images and documents." },
+          "Use Case": { "id": "Digitalisasi formulir, ekstraksi data dari kartu identitas atau faktur, dan pengenalan plat nomor.", "en": "Digitizing forms, extracting data from ID cards or invoices, and license plate recognition." },
+          "Pricing": { "id": "Bayar per panggilan API, seringkali dengan tingkat gratis.", "en": "Pay per API call, often with a free tier." }
+        }, "scores": { "easeOfUse": 9, "control": 3, "cost": 8 }, "tags": ["serverless", "cloud", "paas"]
+      },
+       "cae": {
+        "title": "Cloud Application Engine (CAE)",
+        "parent": "application_services",
+        "tabs": {
+          "Summary": { "id": "Platform serverless untuk menjalankan aplikasi web tanpa mengelola infrastruktur.", "en": "A serverless platform for running web applications without managing infrastructure." },
+          "Use Case": { "id": "Menyebarkan aplikasi dari kode sumber atau kontainer dengan penskalaan otomatis dan pemeliharaan yang disederhanakan.", "en": "Deploying applications from source code or containers with auto-scaling and simplified maintenance." },
+          "Pricing": { "id": "Berdasarkan sumber daya (vCPU, memori) yang dikonsumsi oleh aplikasi Anda saat berjalan.", "en": "Based on the resources (vCPU, memory) consumed by your running application." }
+        }, "scores": { "easeOfUse": 9, "control": 5, "cost": 7 }, "tags": ["serverless", "cloud", "paas"]
+      },
+       "servicestage": {
+        "title": "ServiceStage",
+        "parent": "application_services",
+        "tabs": {
+          "Summary": { "id": "Platform terkelola untuk menyederhanakan penyebaran dan manajemen aplikasi dan microservices.", "en": "A managed platform to simplify the deployment and management of applications and microservices." },
+          "Use Case": { "id": "Mengelola seluruh siklus hidup aplikasi dari berbagai jenis, termasuk aplikasi web, seluler, dan microservices.", "en": "Managing the entire lifecycle of various application types, including web, mobile, and microservices." },
+          "Pricing": { "id": "Harga didasarkan pada sumber daya komputasi dan jaringan yang digunakan oleh aplikasi Anda.", "en": "Pricing is based on the compute and networking resources your applications use." }
+        }, "scores": { "easeOfUse": 8, "control": 6, "cost": 6 }, "tags": ["cloud", "paas"]
+      },
+       "apig": {
+        "title": "API Gateway (APIG)",
+        "parent": "application_services",
+        "tabs": {
+          "Summary": { "id": "Menerbitkan, mengelola, dan mengamankan API dalam skala apa pun.", "en": "Publish, manage, and secure APIs at any scale." },
+          "Use Case": { "id": "Mengekspos layanan backend (seperti FunctionGraph atau ECS) sebagai API yang aman dan dapat diskalakan.", "en": "Exposing backend services (like FunctionGraph or ECS) as secure, scalable APIs." },
+          "Pricing": { "id": "Bayar per panggilan API dan transfer data keluar.", "en": "Pay per API call and outbound data transfer." }
+        }, "scores": { "easeOfUse": 8, "control": 6, "cost": 7 }, "tags": ["serverless", "cloud", "paas"]
+      },
+       "sms": {
+        "title": "Server Migration Service (SMS)",
+        "parent": "migration",
+        "tabs": {
+          "Summary": { "id": "Layanan migrasi komprehensif untuk memindahkan server dari on-premise atau cloud lain ke Huawei Cloud.", "en": "A comprehensive migration service to move servers from on-premises or other clouds to Huawei Cloud." },
+          "Use Case": { "id": "Memigrasikan seluruh tumpukan aplikasi dari pusat data Anda ke instance ECS dengan downtime minimal.", "en": "Migrating an entire application stack from your data center to ECS instances with minimal downtime." },
+          "Pricing": { "id": "Gratis untuk digunakan; Anda hanya membayar untuk sumber daya Huawei Cloud yang digunakan setelah migrasi.", "en": "Free to use; you only pay for the Huawei Cloud resources consumed post-migration." }
+        }, "scores": { "easeOfUse": 8, "control": 5, "cost": 9 }, "tags": ["migration", "cloud"]
+      },
+       "mgc": {
+        "title": "Migration Center (MgC)",
+        "parent": "migration",
+        "tabs": {
+          "Summary": { "id": "Pusat terpadu untuk menemukan, merencanakan, dan melacak kemajuan proyek migrasi Anda.", "en": "A unified center to discover, plan, and track the progress of your migration projects." },
+          "Use Case": { "id": "Menilai infrastruktur on-premise, merencanakan strategi migrasi, dan mengelola seluruh proses pemindahan.", "en": "Assessing on-premises infrastructure, planning a migration strategy, and managing the entire move." },
+          "Pricing": { "id": "Gratis untuk digunakan; Anda membayar untuk layanan migrasi dan sumber daya yang digunakan.", "en": "Free to use; you pay for the migration services and resources consumed." }
+        }, "scores": { "easeOfUse": 8, "control": 4, "cost": 9 }, "tags": ["migration", "cloud"]
+      },
+      "ugo": {
+        "title": "Database and Application Migration UGO",
+        "parent": "migration",
+        "tabs": {
+          "Summary": { "id": "Mengevaluasi dan mengubah skema database dan aplikasi untuk migrasi.", "en": "Evaluates and converts database schemas and applications for migration." },
+          "Use Case": { "id": "Memigrasikan database komersial (misalnya Oracle) ke database Huawei Cloud dengan konversi skema otomatis.", "en": "Migrating commercial databases (e.g., Oracle) to Huawei Cloud databases with automated schema conversion." },
+          "Pricing": { "id": "Alat ini gratis, Anda membayar untuk sumber daya database target.", "en": "The tool is free, you pay for the target database resources." }
+        }, "scores": { "easeOfUse": 6, "control": 5, "cost": 9 }, "tags": ["migration", "cloud"]
+      },
+       "hcs": {
+        "title": "Huawei Cloud Stack (HCS)",
+        "parent": "hybrid_edge",
+        "tabs": {
+          "Summary": { "id": "Solusi cloud hybrid yang memperluas layanan dan API Huawei Cloud ke pusat data on-premise Anda.", "en": "A hybrid cloud solution that extends Huawei Cloud services and APIs into your on-premises data center." },
+          "Use Case": { "id": "Memenuhi persyaratan kedaulatan data atau latensi rendah sambil memanfaatkan layanan cloud.", "en": "Meeting data sovereignty or low-latency requirements while leveraging cloud services." },
+          "Pricing": { "id": "Model berbasis langganan, tergantung pada perangkat lunak dan perangkat keras yang digunakan.", "en": "Subscription-based model, dependent on the deployed software and hardware." }
+        }, "scores": { "easeOfUse": 5, "control": 9, "cost": 3 }, "tags": ["hybrid", "edge", "iaas"]
+      },
+      "iec": {
+        "title": "Intelligent Edge Cloud (IEC)",
+        "parent": "hybrid_edge",
+        "tabs": {
+          "Summary": { "id": "Memperluas layanan cloud ke lokasi edge di seluruh dunia untuk komputasi latensi rendah.", "en": "Extends cloud services to edge locations worldwide for low-latency computing." },
+          "Use Case": { "id": "Aplikasi IoT, game online, live streaming, dan pemrosesan data yang dekat dengan pengguna akhir.", "en": "IoT applications, online gaming, live streaming, and data processing close to end users." },
+          "Pricing": { "id": "Harga berdasarkan sumber daya komputasi dan jaringan yang digunakan di node edge.", "en": "Priced based on compute and network resources consumed at the edge nodes." }
+        }, "scores": { "easeOfUse": 6, "control": 7, "cost": 6 }, "tags": ["edge", "cloud", "iaas"]
+      },
+      "cloud-connect": {
+        "title": "Cloud Connect",
+        "parent": "hybrid_edge",
+        "tabs": {
+          "Summary": { "id": "Membangun jaringan global yang aman dan andal antara VPC dan pusat data on-premise.", "en": "Build a secure and reliable global network between VPCs and on-premises data centers." },
+          "Use Case": { "id": "Menghubungkan lingkungan on-premise ke Huawei Cloud untuk aplikasi hybrid skala besar.", "en": "Connecting on-premises environments to Huawei Cloud for large-scale hybrid applications." },
+          "Pricing": { "id": "Harga berdasarkan bandwidth koneksi dan transfer data.", "en": "Priced based on connection bandwidth and data transfer." }
+        }, "scores": { "easeOfUse": 6, "control": 9, "cost": 6 }, "tags": ["hybrid", "cloud"]
+      }
+    }
+  },
+    "translations": {
+    "navCategories": { "id": "Kategori", "en": "Categories" },
+    "navFinder": { "id": "Pencari Solusi", "en": "Solution Finder" },
+    "navComparison": { "id": "Perbandingan", "en": "Comparison" },
+    "homeButton": { "id": "Halaman Utama", "en": "Home" },
+    "mainTitle": { "id": "Panduan Interaktif Huawei Cloud Compute", "en": "Interactive Huawei Cloud Compute Guide" },
+    "mainSubtitle": { "id": "Jelajahi portofolio lengkap layanan komputasi Huawei Cloud, dari mesin virtual hingga platform serverless.", "en": "Explore the full portfolio of Huawei Cloud compute services, from virtual machines to serverless platforms." },
+    "categoryTitle": { "id": "Kategori Layanan Compute", "en": "Compute Service Categories" },
+    "categorySubtitle": { "id": "Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.", "en": "Select a category to explore the relevant services within it." },
+    "welcomeTitle": { "id": "Selamat Datang!", "en": "Welcome!" },
+    "welcomeSubtitle": { "id": "Pilih kategori layanan di atas untuk memulai.", "en": "Select a service category above to get started." },
+    "finderTitle": { "id": "Pencari Solusi Compute", "en": "Compute Solution Finder" },
+    "finderSubtitle": { "id": "Gunakan filter ini untuk menemukan layanan Huawei Cloud Compute yang paling sesuai untuk tugas Anda.", "en": "Use these filters to find the right Huawei Cloud Compute service for your task." },
+    "filter1Title": { "id": "1. Apa Jenis Beban Kerja Anda?", "en": "1. What is your Workload Type?" },
+    "filterVm": { "id": "Mesin Virtual", "en": "Virtual Machines" },
+    "filterContainer": { "id": "Containers", "en": "Containers" },
+    "filterServerless": { "id": "Serverless & Aplikasi", "en": "Serverless & Applications" },
+    "filterHpc": { "id": "HPC & AI/ML", "en": "HPC & AI/ML" },
+    "filterMigration": { "id": "Migrasi", "en": "Migration" },
+    "filter2Title": { "id": "2. Di Mana Anda Ingin Menjalankannya?", "en": "2. Where do you want to run it?" },
+    "filterCloud": { "id": "Provider Cloud Regions", "en": "Provider Cloud Regions" },
+    "filterHybrid": { "id": "Hybrid & On-Premises", "en": "Hybrid & On-Premises" },
+    "filterEdge": { "id": "Lokasi Edge", "en": "Edge Locations" },
+    "filter3Title": { "id": "3. Apa Model Manajemen Anda?", "en": "3. What is your Management Model?" },
+    "filterIaas": { "id": "Infrastructure-as-a-Service (IaaS)", "en": "Infrastructure-as-a-Service (IaaS)" },
+    "filterCaas": { "id": "Containers-as-a-Service (CaaS)", "en": "Containers-as-a-Service (CaaS)" },
+    "filterPaas": { "id": "Platform-as-a-Service (PaaS)", "en": "Platform-as-a-Service (PaaS)" },
+    "filterFaas": { "id": "Function-as-a-Service (FaaS)", "en": "Function-as-a-Service (FaaS)" },
+    "recommendationTitle": { "id": "Layanan yang Direkomendasikan", "en": "Recommended Services" },
+    "noRecommendation": { "id": "Pilih filter di atas untuk melihat rekomendasi.", "en": "Select a filter above to see recommendations." },
+    "comparisonTitle": { "id": "Visualisasi Perbandingan Layanan", "en": "Service Comparison Visualizer" },
+    "comparisonSubtitle": { "id": "Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.", "en": "Compare up to two services visually on key attributes." },
+    "comparisonLabel": { "id": "Layanan untuk dibandingkan:", "en": "Services to compare:" },
+    "clearButton": { "id": "Bersihkan Pilihan", "en": "Clear Selection" },
+    "chartPlaceholder": { "id": "Pilih layanan dari rekomendasi untuk mulai membandingkan.", "en": "Select a service from the recommendations to start comparing." }
+  }
+}

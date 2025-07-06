@@ -35,6 +35,16 @@
     "descKey": "alibabaDesc",
     "themeColor": "#FF6A00"
   },
+  
+  {
+    "id": "huawei",
+    "logo": "https://upload.wikimedia.org/wikipedia/en/0/04/Huawei_Standard_logo.svg",
+    "status": "active",
+    "link": "/cloud/huawei",
+    "titleKey": "huaweiTitle",
+    "descKey": "huaweiDesc",
+    "themeColor": "#CA1324"
+  },
   {
     "id": "oracle",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
@@ -61,15 +71,6 @@
     "titleKey": "doTitle",
     "descKey": "doDesc",
     "themeColor": "#0080FF"
-  },
-  {
-    "id": "huawei",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/0/04/Huawei_Standard_logo.svg",
-    "status": "coming-soon",
-    "link": "#",
-    "titleKey": "huaweiTitle",
-    "descKey": "huaweiDesc",
-    "themeColor": "#CA1324"
   },
   {
     "id": "tencent",

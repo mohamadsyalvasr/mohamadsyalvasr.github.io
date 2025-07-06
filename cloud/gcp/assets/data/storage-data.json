@@ -1,12 +1,12 @@
 {
   "pageData": {
     "theme": {
-      "primary": "#0F9D58",
-      "primaryDark": "#0b8043",
-      "primaryLight": "#34a853",
+      "primary": "#0d6efd",
+      "primaryDark": "#0b5ed7",
+      "primaryLight": "#6ea8fe",
       "secondary": "#6c757d",
       "textOnPrimary": "#ffffff"
-    },
+    ,
     "chartConfig": {
       "labels": {
         "id": [

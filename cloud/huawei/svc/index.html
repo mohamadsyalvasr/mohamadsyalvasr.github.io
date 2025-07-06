@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif Layanan Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .category-card.active {
+            border-color: #f59e0b; /* amber-500 */
+            box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -4px rgba(245, 158, 11, 0.1);
+        }
+        .category-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #f59e0b; /* amber-500 */
+            color: #f59e0b;
+        }
+        .content-section, .tab-content {
+            display: none;
+        }
+        .content-section.active, .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .decision-button.selected {
+            background-color: #f59e0b; /* amber-500 */
+            color: white;
+        }
+        .recommendation-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .recommendation-card.highlight {
+            border-color: #f59e0b; /* amber-500 */
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+        .lang-switcher button.active {
+            background-color: #f59e0b;
+            color: white;
+        }
+        /* Styling untuk popup */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal-hidden {
+            pointer-events: none;
+            opacity: 0;
+        }
+        .modal-hidden .modal-overlay {
+            opacity: 0;
+        }
+        .modal-hidden .modal-container {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* Efek untuk Tombol Rilis Baru */
+        @keyframes pulse-animation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 0 15px rgba(56, 189, 248, 0);
+            }
+        }
+        #release-note-btn.new-release {
+            animation: pulse-animation 1.5s infinite;
+        }
+        .notification-dot {
+            display: none;
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 9999px;
+            background-color: #ef4444; /* red-500 */
+            border: 2px solid #f8fafc; /* slate-50 */
+        }
+        #release-note-btn.new-release .notification-dot {
+            display: block;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <nav aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex items-center text-sm">
+                    <li>
+                        <a href="/cloud/" class="flex items-center text-slate-600">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                               <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                           </svg>
+                        </a>
+                    </li>
+                    <li><span class="mx-2 text-slate-300">/</span></li>
+                    <li><a href="/cloud/huawei/" class="font-semibold text-slate-600">Huawei Cloud</a></li>
+                    <li><span class="mx-2 text-slate-300">/</span></li>
+                    <!-- PERUBAHAN: Dropdown untuk memilih KATEGORI -->
+                    <li class="relative">
+                        <select id="category-selector" class="font-bold text-slate-800 bg-transparent -ml-2 appearance-none pr-6 focus:outline-none cursor-pointer rounded-md hover:bg-slate-100 pl-2 py-1 transition">
+                            <option value="aiml">AI & ML</option>
+                            <option value="compute">Compute</option>
+                            <option value="database">Database</option>
+                            <option value="storage">Storage</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
+                </nav>
+                
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-nav" class="hidden md:hidden border-t border-slate-200">
+            <nav class="px-2 pt-2 pb-4 space-y-1 sm:px-3">
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <div class="text-center mb-12 mt-8">
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-2">Panduan Interaktif Layanan</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi portofolio lengkap layanan, dari server virtual hingga pemrosesan khusus.</p>
+        </div>
+
+        <div class="text-center mb-12">
+            <button id="release-note-btn" class="relative inline-block bg-sky-100 text-sky-700 font-semibold px-4 py-2 rounded-full hover:bg-sky-200 transition duration-300 text-sm">
+                Lihat Catatan Rilis
+                <span class="notification-dot"></span>
+            </button>
+        </div>
+
+        <section id="category-nav-section" class="mb-12">
+            <h2 data-lang-key="categoryTitle" class="text-2xl font-bold text-center mb-4 text-slate-800">Kategori Layanan</h2>
+            <p data-lang-key="categorySubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Pilih kategori untuk menjelajahi layanan-layanan yang relevan di dalamnya.</p>
+            <div id="category-nav" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <main id="content-area" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[500px] transition-all duration-300">
+            <div id="welcome-content" class="content-section active text-center flex flex-col justify-center items-center h-full">
+                <span class="text-6xl mb-4">🚀</span>
+                <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
+                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih kategori layanan di atas untuk memulai.</p>
+            </div> 
+        </main>
+
+        <section id="decision-tool" class="mt-16">
+            <h2 data-lang-key="finderTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pencari Solusi</h2>
+            <p data-lang-key="finderSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Gunakan filter ini untuk menemukan layanan yang paling sesuai untuk tugas Anda.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <div id="decision-filters" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                </div>
+                
+                <hr class="my-8 border-slate-200">
+
+                <div>
+                    <div class="text-center mb-4">
+                        <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-slate-800">Layanan yang Direkomendasikan</h3>
+                    </div>
+                    <div id="recommendation-controls" class="hidden flex-col sm:flex-row justify-center items-center gap-4 mb-6 p-2 bg-slate-50 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-medium text-slate-600" data-lang-key="sortBy">Urutkan:</span>
+                            <div class="inline-flex rounded-md shadow-sm" role="group">
+                                <button type="button" id="sort-asc-btn" data-sort="asc" class="sort-btn px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100">A-Z</button>
+                                <button type="button" id="sort-desc-btn" data-sort="desc" class="sort-btn px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100">Z-A</button>
+                                <button type="button" id="sort-default-btn" data-sort="default" class="sort-btn px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-lg hover:bg-gray-100">Default</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="hide-others-checkbox" type="checkbox" class="w-4 h-4 rounded">
+                            <label for="hide-others-checkbox" class="ml-2 text-sm font-medium text-slate-700" data-lang-key="hideNotRecommended">Hanya tampilkan rekomendasi</label>
+                        </div>
+                    </div>
+
+                    <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    </div>
+                     <div id="no-recommendation" class="text-center text-slate-500 py-8">
+                        <p data-lang-key="noRecommendation">Pilih filter di atas untuk melihat rekomendasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comparison-chart-section" class="mt-16">
+            <h2 data-lang-key="comparisonTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Visualisasi Perbandingan Layanan</h2>
+            <p data-lang-key="comparisonSubtitle" class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Bandingkan hingga dua layanan secara visual berdasarkan atribut utama.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 relative">
+                <div id="comparison-alert" class="hidden absolute top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg z-20" role="alert">
+                </div>
+                <div class="text-center mb-4" id="comparison-controls">
+                     <p data-lang-key="comparisonLabel" class="text-slate-600 mb-2">Layanan untuk dibandingkan:</p>
+                     <div id="comparison-pills" class="flex flex-wrap justify-center gap-2 min-h-[24px]"></div>
+                     <button type="button" id="clear-comparison" data-lang-key="clearButton" class="mt-4 text-sm disabled:opacity-50 disabled:cursor-not-allowed">Bersihkan Pilihan</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                    <div id="chart-placeholder" class="absolute inset-0 flex justify-center items-center text-slate-500">
+                        <p data-lang-key="chartPlaceholder">Pilih layanan dari rekomendasi untuk mulai membandingkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    
+    <footer class="text-center mt-20 py-8 bg-slate-100">
+        <div class="container mx-auto">
+            <p data-lang-key="footer" class="text-slate-500 text-sm px-4"></p>
+            <p data-lang-key="disclaimer" class="text-slate-400 text-xs mt-4 px-4 max-w-4xl mx-auto"></p>
+        </div>
+    </footer>
+
+    <div id="disclaimer-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="modal-overlay absolute inset-0 bg-black/60"></div>
+        <div class="modal-container bg-white rounded-lg shadow-xl w-full max-w-lg transform">
+            <div class="p-6 text-center">
+                <h2 data-lang-key="disclaimerTitle" class="text-xl font-bold text-slate-800 mb-4">Pemberitahuan</h2>
+                <div class="text-slate-600 mb-6">
+                   <p data-lang-key="disclaimer"></p>
+                </div>
+                <button id="accept-disclaimer-btn" data-lang-key="acceptButton" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">Saya Mengerti & Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="release-note-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="modal-overlay absolute inset-0 bg-black/50"></div>
+        <div class="modal-container bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-2xl font-bold text-slate-800">Catatan Rilis</h2>
+                    <button id="close-modal-btn" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button>
+                </div>
+                <div id="release-note-content" class="prose max-w-none text-slate-600">
+                    <p>Memuat...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA SECTION ---
+        let pageData = {};
+        let translations = {};
+
+        // --- GLOBAL VARIABLES ---
+        let currentLang = 'id';
+        let comparisonChart;
+        let chartConfig = {}; // Variabel untuk menampung konfigurasi chart, diisi secara dinamis
+        let selectedForComparison = [];
+        let activeTheme = {};
+        let sortOrder = 'default';
+        let hideNotRecommended = false;
+
+        // --- FUNCTIONS ---
+
+        function hexToRgb(hex) {
+            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+        }
+
+        function applyTheme(theme) {
+            const styleOverrides = `
+                /* Main Accent Colors */
+                .category-card.active, .recommendation-card.highlight {
+                    border-color: ${theme.primary};
+                    box-shadow: 0 0 15px rgba(${theme.primary_rgb}, 0.2);
+                }
+                .tab-button.active {
+                    border-bottom-color: ${theme.primary};
+                    color: ${theme.primary};
+                }
+                .decision-button.selected, .lang-switcher button.active, #accept-disclaimer-btn, .sort-btn.active {
+                    background-color: ${theme.primary};
+                    color: ${theme.textOnPrimary};
+                    border-color: ${theme.primary};
+                }
+                #mobile-menu-btn:focus, #hide-others-checkbox:focus {
+                    --tw-ring-color: ${theme.primary};
+                }
+                #hide-others-checkbox:checked {
+                    background-color: ${theme.primary};
+                    border-color: ${theme.primary};
+                }
+
+                /* Hover & Interaction States */
+                #accept-disclaimer-btn:hover, .sort-btn.active:hover {
+                    background-color: ${theme.primaryDark};
+                }
+                a:hover {
+                    color: ${theme.primaryDark};
+                }
+                #clear-comparison {
+                    color: ${theme.primary};
+                }
+                #clear-comparison:hover {
+                    color: ${theme.primaryDark};
+                }
+                .tab-button:hover {
+                    color: ${theme.primary};
+                    border-bottom-color: ${theme.primaryLight};
+                }
+                .themed-mobile-nav-link:hover {
+                    background-color: ${theme.primary};
+                    color: ${theme.textOnPrimary};
+                }
+
+                /* Dynamic Text & Elements */
+                .recommendation-card .themed-accent-text, .recommendation-card .compare-button {
+                    color: ${theme.primaryDark};
+                }
+                .recommendation-card .compare-button:hover {
+                    color: ${theme.primary};
+                }
+                .comparison-pill {
+                    background-color: rgba(${theme.primary_rgb}, 0.15);
+                    color: ${theme.primaryDark};
+                }
+            `;
+
+            const styleSheet = document.createElement("style");
+            styleSheet.id = 'dynamic-theme-styles';
+            styleSheet.innerText = styleOverrides;
+
+            const oldStyleSheet = document.getElementById('dynamic-theme-styles');
+            if (oldStyleSheet) {
+                oldStyleSheet.remove();
+            }
+            
+            document.head.appendChild(styleSheet);
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.innerHTML = translations[key][lang];
+                }
+            });
+            
+            createNavigationMenu();
+            createCategoryCards();
+            createDecisionFilters();
+            
+            if(pageData.categories) {
+                for (const key in pageData.categories) {
+                    createServiceContent(key);
+                }
+            }
+
+            const activeCategory = document.querySelector('.category-card.active')?.dataset.target;
+            if (activeCategory) {
+                updateActiveView(activeCategory);
+            } else {
+                updateActiveView('welcome');
+            }
+
+            const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+            renderRecommendations(activeFilters);
+            updateChart();
+            
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        };
+
+        function createNavigationMenu() {
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNavContainer = document.querySelector('#mobile-nav nav');
+            if (!desktopNav || !mobileNavContainer || !pageData.navigation) return;
+
+            desktopNav.innerHTML = '';
+            mobileNavContainer.innerHTML = '';
+
+            pageData.navigation.forEach(item => {
+                const desktopLink = document.createElement('a');
+                desktopLink.href = item.href;
+                desktopLink.className = 'text-sm font-semibold text-slate-600 transition-colors';
+                desktopLink.dataset.langKey = item.langKey;
+                desktopLink.textContent = translations[item.langKey]?.[currentLang] || item.langKey;
+                desktopNav.appendChild(desktopLink);
+
+                const mobileLink = document.createElement('a');
+                mobileLink.href = item.href;
+                mobileLink.className = 'themed-mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 transition-colors';
+                mobileLink.dataset.langKey = item.langKey;
+                mobileLink.textContent = translations[item.langKey]?.[currentLang] || item.langKey;
+                mobileNavContainer.appendChild(mobileLink);
+            });
+        }
+        
+        function createCategoryCards() {
+            const navContainer = document.getElementById('category-nav');
+            if (!pageData.categories) return;
+            navContainer.innerHTML = '';
+            for (const key in pageData.categories) {
+                const category = pageData.categories[key];
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.dataset.target = key;
+                card.className = 'category-card text-left bg-white p-6 rounded-lg shadow-md hover:shadow-xl border-2 border-transparent';
+                card.innerHTML = `
+                    <span class="text-4xl">${category.icon}</span>
+                    <h3 class="text-xl font-bold mt-2 text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-sm text-slate-500 mt-1">${category.description[currentLang]}</p>
+                `;
+                navContainer.appendChild(card);
+            }
+        }
+        
+        function createDecisionFilters() {
+            const filtersContainer = document.getElementById('decision-filters');
+            if (!pageData.decisionFilters || !translations) return;
+            filtersContainer.innerHTML = '';
+
+            pageData.decisionFilters.forEach(group => {
+                const groupDiv = document.createElement('div');
+                
+                const title = document.createElement('h4');
+                title.className = 'font-bold mb-3 text-slate-700';
+                title.setAttribute('data-lang-key', group.titleLangKey);
+                title.textContent = translations[group.titleLangKey]?.[currentLang] || group.titleLangKey;
+                
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.className = 'flex flex-col space-y-2';
+
+                group.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.dataset.filter = option.filter;
+                    button.dataset.langKey = option.langKey;
+                    button.className = 'decision-button w-full text-left p-3 bg-stone-100 rounded-lg transition hover:bg-stone-200';
+                    button.textContent = translations[option.langKey]?.[currentLang] || option.langKey;
+                    buttonsDiv.appendChild(button);
+                });
+
+                groupDiv.appendChild(title);
+                groupDiv.appendChild(buttonsDiv);
+                filtersContainer.appendChild(groupDiv);
+            });
+        }
+
+        function createServiceContent(categoryKey) {
+            const category = pageData.categories[categoryKey];
+            const contentId = `${categoryKey}-content`;
+            let contentDiv = document.getElementById(contentId);
+            
+            if (!contentDiv) {
+                contentDiv = document.createElement('div');
+                contentDiv.id = contentId;
+                contentDiv.className = 'content-section';
+                document.getElementById('content-area').appendChild(contentDiv);
+            }
+            
+            contentDiv.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800">${category.title[currentLang]}</h3>
+                    <p class="text-slate-600 mt-1">${category.description[currentLang]}</p>
+                </div>
+                <div class="border-b border-slate-200 mb-4">
+                    <nav id="${categoryKey}-tabs" class="flex space-x-4 -mb-px overflow-x-auto" aria-label="Tabs"></nav>
+                </div>
+                <div id="${categoryKey}-tab-content"></div>
+            `;
+            
+            const tabsNav = contentDiv.querySelector(`#${categoryKey}-tabs`);
+            const tabsContent = contentDiv.querySelector(`#${categoryKey}-tab-content`);
+            
+            category.services.forEach((svcKey, index) => {
+                const service = pageData.services[svcKey];
+                const tabButton = document.createElement('button');
+                tabButton.type = 'button';
+                tabButton.dataset.target = `${svcKey}-pane-${categoryKey}`;
+                tabButton.className = `tab-button whitespace-nowrap py-4 px-3 border-b-2 font-medium text-sm text-slate-500 transition-colors ${index === 0 ? 'active' : ''}`;
+                tabButton.textContent = service.title;
+                tabsNav.appendChild(tabButton);
+
+                const tabPane = document.createElement('div');
+                tabPane.id = `${svcKey}-pane-${categoryKey}`;
+                tabPane.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                
+                tabPane.innerHTML = Object.entries(service.tabs).map(([tabKey, tabContent]) => {
+                    let tabTitle = tabKey;
+                    if(tabKey === 'Summary') tabTitle = currentLang === 'id' ? 'Ringkasan' : 'Summary';
+                    if(tabKey === 'Use Case') tabTitle = currentLang === 'id' ? 'Contoh Kasus' : 'Use Case';
+                    if(tabKey === 'Pricing') tabTitle = currentLang === 'id' ? 'Harga' : 'Pricing';
+                    
+                    return `
+                    <div class="mb-6">
+                        <h5 class="themed-accent-text font-semibold text-lg mb-2">${tabTitle}</h5>
+                        <div class="text-slate-600">${tabContent[currentLang]}</div>
+                    </div>`
+                }).join('');
+                tabsContent.appendChild(tabPane);
+            });
+
+            tabsNav.addEventListener('click', e => {
+                if (e.target.classList.contains('tab-button')) {
+                    tabsNav.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    tabsContent.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
+                    e.target.classList.add('active');
+                    document.getElementById(e.target.dataset.target).classList.add('active');
+                }
+            });
+        }
+        
+        function updateActiveView(targetId) {
+            const allSections = document.querySelectorAll('.content-section');
+            const targetContent = document.getElementById(`${targetId}-content`);
+            const welcomeContent = document.getElementById('welcome-content');
+
+            allSections.forEach(pane => pane.classList.remove('active'));
+
+            if (targetContent) {
+                targetContent.classList.add('active');
+                welcomeContent.classList.add('hidden');
+            } else if (welcomeContent) {
+                welcomeContent.classList.add('active');
+            }
+
+            document.querySelectorAll('#category-nav .category-card').forEach(button => {
+                button.classList.toggle('active', button.dataset.target === targetId);
+            });
+        }
+        
+        function renderRecommendations(filterTags = []) {
+            const recContainer = document.getElementById('recommendations');
+            const noRecDiv = document.getElementById('no-recommendation');
+            const controlsDiv = document.getElementById('recommendation-controls');
+
+            if (!pageData.services) return;
+            recContainer.innerHTML = '';
+
+            if (filterTags.length === 0) {
+                noRecDiv.classList.remove('hidden');
+                recContainer.classList.add('hidden');
+                controlsDiv.classList.add('hidden');
+                noRecDiv.querySelector('p').setAttribute('data-lang-key', 'noRecommendation');
+                noRecDiv.querySelector('p').textContent = translations.noRecommendation?.[currentLang] || 'Pilih filter di atas untuk melihat rekomendasi.';
+                return;
+            }
+
+            noRecDiv.classList.add('hidden');
+            recContainer.classList.remove('hidden');
+            controlsDiv.classList.remove('hidden');
+            controlsDiv.classList.add('flex'); // Pastikan flexbox aktif
+
+            const recommendedServiceKeys = Object.keys(pageData.services).filter(key => {
+                return filterTags.every(tag => pageData.services[key].tags.includes(tag));
+            });
+            
+            let serviceKeysToRender;
+            if (hideNotRecommended) {
+                serviceKeysToRender = [...recommendedServiceKeys];
+            } else {
+                serviceKeysToRender = Object.keys(pageData.services);
+            }
+            
+            if (sortOrder === 'asc') {
+                serviceKeysToRender.sort((a, b) => pageData.services[a].title.localeCompare(pageData.services[b].title));
+            } else if (sortOrder === 'desc') {
+                serviceKeysToRender.sort((a, b) => pageData.services[b].title.localeCompare(pageData.services[a].title));
+            }
+            
+            if (serviceKeysToRender.length === 0) {
+                noRecDiv.classList.remove('hidden');
+                recContainer.classList.add('hidden');
+                noRecDiv.querySelector('p').setAttribute('data-lang-key', 'noResults');
+                noRecDiv.querySelector('p').textContent = translations.noResults?.[currentLang] || 'Tidak ada layanan yang cocok dengan filter yang dipilih.';
+                return;
+            }
+            
+            serviceKeysToRender.forEach(key => {
+                const service = pageData.services[key];
+                const isRecommended = recommendedServiceKeys.includes(key);
+                const card = document.createElement('div');
+                
+                card.className = `recommendation-card border-2 p-4 rounded-lg duration-300 hover:shadow-xl hover:opacity-100 ${isRecommended ? 'highlight border-transparent' : 'opacity-40 border-transparent'}`;
+                card.dataset.target = key;
+
+                const dependencyHTML = service.dependency ? `<p class="themed-accent-text text-xs italic mt-1">${service.dependency[currentLang]}</p>` : '';
+                
+                // Set the initial HTML content for the card
+                card.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        ${service.icon
+                            ? `<img src="../assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />`
+                            : `<span class="text-2xl mr-3">⚙️</span>`}
+                        <h5 class="font-bold text-slate-800">${service.title}</h5>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
+                    ${dependencyHTML}
+                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold w-full text-left relative z-10 mt-3 transition-colors">
+                        ${selectedForComparison.includes(key) ? (translations.removeCompare?.[currentLang] || 'Remove') : (translations.addCompare?.[currentLang] || 'Compare +')}
+                    </button>
+                `;
+                
+                recContainer.appendChild(card);
+
+                // --- ERROR HANDLER ADDED HERE ---
+                // Find the image within the newly created card
+                const imgElement = card.querySelector('img');
+                
+                // If an image element exists, attach the error handler
+                if (imgElement) {
+                    imgElement.onerror = function() {
+                        // Create the fallback span element
+                        const fallbackIcon = document.createElement('span');
+                        fallbackIcon.className = 'text-2xl mr-3';
+                        fallbackIcon.textContent = '⚙️';
+                        
+                        // Replace the broken image with the fallback icon
+                        this.replaceWith(fallbackIcon);
+                    };
+                }
+            });
+        }
+        
+        function updateChart() {
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+
+            if (!chartConfig || !chartConfig.labels || !chartConfig.keys || !pageData.services) {
+                console.warn("Konfigurasi chart atau data layanan belum siap.");
+                return;
+            }
+
+            const chartLabels = chartConfig.labels[currentLang];
+            const placeholder = document.getElementById('chart-placeholder');
+            
+            if (selectedForComparison.length === 0) {
+                placeholder.classList.remove('hidden');
+                document.getElementById('clear-comparison').disabled = true;
+                return;
+            }
+            
+            placeholder.classList.add('hidden');
+            document.getElementById('clear-comparison').disabled = false;
+
+            const datasets = selectedForComparison.map((serviceKey, index) => {
+                const service = pageData.services[serviceKey];
+                const scores = service.scores;
+                
+                const colors = [
+                    { bg: `rgba(${activeTheme.primary_rgb}, 0.4)`, border: `rgba(${activeTheme.primary_rgb}, 1)` },
+                    { bg: `rgba(${activeTheme.secondary_rgb}, 0.4)`, border: `rgba(${activeTheme.secondary_rgb}, 1)` }
+                ];
+                
+                return {
+                    label: service.title,
+                    data: chartConfig.keys.map(key => scores[key] || 0),
+                    backgroundColor: colors[index % 2].bg,
+                    borderColor: colors[index % 2].border,
+                };
+            });
+            
+            comparisonChart = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
+                type: 'radar',
+                data: { labels: chartLabels, datasets: datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }},
+                    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#e5e7eb' }, pointLabels: { font: { size: 10 } } } }
+                }
+            });
+        }
+        
+        function setupReleaseNotes(releaseNoteFile) {
+            const modal = document.getElementById('release-note-modal');
+            const openBtn = document.getElementById('release-note-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const overlay = modal.querySelector('.modal-overlay');
+            const contentDiv = document.getElementById('release-note-content');
+            const releaseNoteButtonText = openBtn;
+
+            async function openModal() {
+                modal.classList.remove('modal-hidden');
+                contentDiv.innerHTML = '<p>Memuat...</p>';
+
+                try {
+                    const response = await fetch(`../assets/release/${releaseNoteFile}.json`);
+                    if (!response.ok) throw new Error('Gagal memuat catatan rilis.');
+                    const notes = await response.json();
+
+                     if (notes.length > 0) {
+                        const latestVersion = notes[0].version;
+                        releaseNoteButtonText.textContent = `Lihat Catatan Rilis (v${latestVersion})`;
+                    }
+                    
+                    let html = '';
+                    notes.forEach(note => {
+                        html += `<div class="mb-6">`;
+                        html += `<h3 class="text-xl font-semibold text-slate-700">${note.version} - <span class="text-base font-normal text-slate-500">${note.date}</span></h3>`;
+                        html += '<ul class="list-disc list-inside mt-2 space-y-1">';
+                        note.changes.forEach(change => {
+                            let tagClass = '';
+                            switch(change.type.toLowerCase()) {
+                                case 'new': tagClass = 'bg-blue-100 text-blue-800'; break;
+                                case 'fix': tagClass = 'bg-orange-100 text-orange-800'; break;
+                                case 'improvement': tagClass = 'bg-green-100 text-green-800'; break;
+                                default: tagClass = 'bg-slate-100 text-slate-800';
+                            }
+                            html += `<li><span class="text-xs font-semibold mr-2 px-2 py-0.5 rounded-full ${tagClass}">${change.type}</span> ${change.description}</li>`;
+                        });
+                        html += '</ul></div>';
+                    });
+                    contentDiv.innerHTML = html;
+
+                } catch (error) {
+                    contentDiv.innerHTML = `<p class="text-red-500">${error.message}</p>`;
+                }
+            }
+            function closeModal() {
+                modal.classList.add('modal-hidden');
+            }
+
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
+            openBtn.classList.add('new-release');
+        }
+
+        function setupDisclaimerModal() {
+            const modal = document.getElementById('disclaimer-modal');
+            if (!modal) return;
+            
+            const acceptBtn = document.getElementById('accept-disclaimer-btn');
+
+            function closeModal() {
+                localStorage.setItem('disclaimerShown', 'true');
+                modal.classList.add('modal-hidden');
+            }
+
+            acceptBtn.addEventListener('click', closeModal);
+            
+            if (!localStorage.getItem('disclaimerShown')) {
+                modal.classList.remove('modal-hidden');
+            }
+        }
+
+        async function initializeApp() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataFile = urlParams.get('data') || 'compute'; 
+
+            // Set dropdown value to match URL parameter
+            document.getElementById('category-selector').value = dataFile;
+            
+            const jsonDataPath = `../assets/data/${dataFile}-data.json`;
+            const releaseNotePath = `${dataFile}-guide`;
+            document.title = `Panduan Interaktif AWS ${dataFile.charAt(0).toUpperCase() + dataFile.slice(1)}`;
+
+            // **DIUBAH**: Menetapkan konfigurasi chart default dari HTML
+            const defaultChartConfig = {
+                labels: { 
+                    id: ['Kemudahan Penggunaan', 'Kendali', 'Biaya Efektif'], 
+                    en: ['Ease of Use', 'Control', 'Cost-Effectiveness'] 
+                },
+                keys: ['easeOfUse', 'control', 'cost']
+            };
+
+            try {
+                const [dataResponse, footerResponse] = await Promise.all([
+                    fetch(jsonDataPath),
+                    fetch('../footer-data.json')
+                ]);
+
+                if (!dataResponse.ok) {
+                     throw new Error(`HTTP error! status: ${dataResponse.status}, could not fetch ${jsonDataPath}`);
+                }
+                if (!footerResponse.ok) {
+                    console.warn(`Could not fetch footer-data.json, status: ${footerResponse.status}`);
+                }
+
+                const dataJSON = await dataResponse.json();
+                const footerJSON = footerResponse.ok ? await footerResponse.json() : {};
+
+                pageData = dataJSON.pageData || dataJSON.computeData; 
+                
+                chartConfig = pageData.chartConfig || defaultChartConfig;
+
+                translations = Object.assign(dataJSON.translations, footerJSON);
+                
+                const defaultTheme = {
+                    primary: '#f59e0b',
+                    primary_rgb: '245, 158, 11',
+                    secondary: '#0d9488',
+                    secondary_rgb: '13, 148, 136',
+                    textOnPrimary: '#ffffff',
+                    primaryDark: '#b45309',
+                    primaryLight: '#fcd34d'
+                };
+
+                let jsonTheme = pageData.theme || {};
+
+                if (jsonTheme.primary && !jsonTheme.primary_rgb) jsonTheme.primary_rgb = hexToRgb(jsonTheme.primary);
+                if (jsonTheme.secondary && !jsonTheme.secondary_rgb) jsonTheme.secondary_rgb = hexToRgb(jsonTheme.secondary);
+                
+                activeTheme = { ...defaultTheme, ...jsonTheme };
+                
+                if (pageData.theme) {
+                    applyTheme(activeTheme);
+                }
+
+                translations['sortBy'] = { "id": "Urutkan", "en": "Sort by" };
+                translations['hideNotRecommended'] = { "id": "Hanya tampilkan rekomendasi", "en": "Show recommended only" };
+                translations['noResults'] = { "id": "Tidak ada layanan yang cocok dengan filter yang dipilih.", "en": "No services match the selected filters." };
+                translations['addCompare'] = { "id": "Bandingkan +", "en": "Compare +" };
+                translations['removeCompare'] = { "id": "Hapus dari Perbandingan", "en": "Remove from Comparison" };
+
+                translations['disclaimer'] = {
+                    "id": "PENAFIAN: Situs ini adalah proyek independen yang dibuat untuk tujuan edukasi dan demonstrasi. Proyek ini tidak berafiliasi dengan, disponsori oleh, atau didukung oleh Huawei Cloud. Semua nama layanan, ikon, dan merek dagang adalah milik Huawei Cloud.",
+                    "en": "DISCLAIMER: This is an independent project for educational and demonstration purposes. It is not affiliated with, sponsored by, or endorsed by Huawei Cloud. All service names, icons, and trademarks are the property of Huawei Cloud."
+                };
+                translations['disclaimerTitle'] = { "id": "Pemberitahuan", "en": "Notice" };
+                translations['acceptButton'] = { "id": "Saya Mengerti & Lanjutkan", "en": "I Understand & Continue" };
+
+            } catch (error) {
+                console.error('Error loading page data:', error);
+                chartConfig = defaultChartConfig; // Gunakan default jika fetch gagal
+                document.getElementById('content-area').innerHTML = `<div class="text-center p-8"><p class="text-red-600">Gagal memuat data konten. Silakan periksa file JSON dan coba lagi. <br><small>Path: ${jsonDataPath}</small></p></div>`;
+                // Tetap jalankan sisa inisialisasi dengan data default
+            }
+
+            document.getElementById('category-selector').addEventListener('change', e => {
+                if (e.target.value) window.location.search = `?data=${e.target.value}`;
+            });
+
+            document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+            
+            document.getElementById('category-nav').addEventListener('click', (e) => {
+                const button = e.target.closest('.category-card');
+                if (button) updateActiveView(button.dataset.target);
+            });
+
+            document.getElementById('decision-filters').addEventListener('click', (e) => {
+                const button = e.target.closest('.decision-button');
+                if (button) {
+                    button.classList.toggle('selected');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                }
+            });
+
+            document.getElementById('recommendations').addEventListener('click', e => {
+                const compareButton = e.target.closest('.compare-button');
+                if (compareButton) {
+                    e.stopPropagation();
+                    const serviceKey = compareButton.dataset.service;
+                    const isSelected = selectedForComparison.includes(serviceKey);
+                    if (!isSelected && selectedForComparison.length >= 2) {
+                        const alertBox = document.getElementById('comparison-alert');
+                        alertBox.innerHTML = `<strong class="font-bold">${currentLang === 'id' ? 'Batas tercapai!' : 'Limit Reached!'}</strong><span class="block sm:inline"> ${currentLang === 'id' ? 'Hanya bisa membandingkan 2 layanan.' : 'You can only compare 2 services.'}</span>`;
+                        alertBox.classList.remove('hidden');
+                        setTimeout(() => alertBox.classList.add('hidden'), 3000);
+                        return;
+                    }
+                    selectedForComparison = isSelected ? selectedForComparison.filter(s => s !== serviceKey) : [...selectedForComparison, serviceKey];
+                    updateChart();
+                    document.getElementById('comparison-pills').innerHTML = selectedForComparison.map(key => `<span class="comparison-pill text-sm font-medium px-2.5 py-0.5 rounded-full">${pageData.services[key].title}</span>`).join('');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                }
+            });
+
+            document.getElementById('clear-comparison').addEventListener('click', () => {
+                selectedForComparison = [];
+                updateChart();
+                document.getElementById('comparison-pills').innerHTML = '';
+                const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                renderRecommendations(activeFilters);
+            });
+
+            const sortButtons = document.querySelectorAll('.sort-btn');
+            sortButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    sortOrder = button.dataset.sort;
+                    sortButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                    renderRecommendations(activeFilters);
+                });
+            });
+
+            document.getElementById('hide-others-checkbox').addEventListener('change', (e) => {
+                hideNotRecommended = e.target.checked;
+                const activeFilters = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+                renderRecommendations(activeFilters);
+            });
+            
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileNav.classList.toggle('hidden');
+            });
+
+            mobileNav.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    mobileNav.classList.add('hidden');
+                }
+            });
+
+            // Inisialisasi status UI
+            document.querySelector(`.sort-btn[data-sort="${sortOrder}"]`).classList.add('active');
+            const preferredLanguage = localStorage.getItem('language') || 'id';
+            setLanguage(preferredLanguage);
+            updateActiveView('welcome');
+            renderRecommendations([]);
+            setupReleaseNotes(releaseNotePath);
+            setupDisclaimerModal(); 
+        }
+        
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+    </script>
+    <script src="../../feedback.js" defer></script>
+</body>
+</html>
