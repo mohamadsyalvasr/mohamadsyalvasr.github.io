@@ -9,8 +9,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Konfigurasi (Bisa diubah sesuai kebutuhan) ---
-    const feedbackEmail = "feedback-guides@contoh.com";
-    const feedbackFormUrl = "https://www.contoh.com/feedback-form";
+    const feedbackEmail = "msyalva+guidefeeback@gmail.com";
+    const feedbackFormUrl = "https://forms.gle/f714VeBbuHCEeWJ77";
 
     // --- 1. Membuat Elemen-Elemen ---
 
