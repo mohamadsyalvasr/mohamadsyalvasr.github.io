@@ -248,7 +248,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             async function loadData() {
                 try {
-                    const response = await fetch('./Alibaba-data.json');
+                    const response = await fetch('./alibaba-data.json');
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
