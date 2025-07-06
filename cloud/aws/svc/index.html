@@ -132,6 +132,28 @@
             box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.1), 0 2px 4px -2px rgba(245, 158, 11, 0.1);
             transform: translateY(-2px);
         }
+        
+        /* WIZARD STYLES */
+        .wizard-option-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .wizard-option-card.selected {
+            border-color: #f59e0b;
+            background-color: #fffbeb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.1), 0 2px 4px -2px rgba(245, 158, 11, 0.1);
+        }
+        .wizard-step {
+            display: none;
+        }
+        .wizard-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -187,10 +209,12 @@
 
     <div class="container mx-auto p-4 md:p-8">
         
-        <div class="text-center mb-12 mt-8">
+        <div class="text-center mb-8 mt-8">
             <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-2">Panduan Interaktif Layanan</h1>
             <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Jelajahi portofolio lengkap layanan, dari server virtual hingga pemrosesan khusus.</p>
         </div>
+        
+        <p id="last-updated-display" class="text-center text-sm text-slate-500 -mt-4 mb-8"></p>
 
         <div class="text-center mb-12">
             <button id="release-note-btn" class="relative inline-block bg-sky-100 text-sky-700 font-semibold px-4 py-2 rounded-full hover:bg-sky-200 transition duration-300 text-sm">
@@ -199,14 +223,13 @@
             </button>
         </div>
 
-        <section id="scenario-guide-section" class="mb-16">
-            <h2 data-lang-key="scenarioTitle" class="text-3xl font-bold text-center mb-4 text-slate-800">Pemandu Skenario</h2>
-            <p data-lang-key="scenarioSubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Mulai dengan kasus penggunaan Anda. Pilih salah satu skenario di bawah ini untuk mendapatkan rekomendasi cepat.</p>
-            <div id="scenario-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Kartu Skenario akan di-generate oleh JavaScript -->
-            </div>
-             <div class="text-center mt-6">
-                <button id="reset-scenario-btn" class="hidden text-sm font-semibold text-amber-600 hover:text-amber-800 transition">Reset Pilihan Skenario</button>
+        <section id="wizard-section" class="mb-16 bg-white rounded-xl shadow-lg p-6 md:p-8" style="display: none;">
+             <div class="text-center">
+                <h2 data-lang-key="wizardTitle" class="text-3xl font-bold mb-4 text-slate-800">Bingung Memulai?</h2>
+                <p data-lang-key="wizardSubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Gunakan wizard interaktif kami untuk menemukan layanan yang paling sesuai dengan kebutuhan Anda hanya dalam beberapa langkah.</p>
+                <button id="start-wizard-btn" class="bg-amber-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-amber-600 transition duration-300 text-lg">
+                    🚀 <span data-lang-key="startWizardButton">Mulai Wizard</span>
+                </button>
             </div>
         </section>
 
@@ -221,7 +244,7 @@
             <div id="welcome-content" class="content-section active text-center flex flex-col justify-center items-center h-full">
                 <span class="text-6xl mb-4">🚀</span>
                 <h3 data-lang-key="welcomeTitle" class="text-2xl font-bold text-slate-700">Selamat Datang!</h3>
-                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Pilih skenario atau kategori layanan di atas untuk memulai.</p>
+                <p data-lang-key="welcomeSubtitle" class="text-slate-500 mt-2">Gunakan wizard di atas atau pilih kategori untuk memulai.</p>
             </div> 
         </main>
 
@@ -240,7 +263,6 @@
                         <h3 data-lang-key="recommendationTitle" class="text-xl font-bold text-slate-800">Hasil Rekomendasi</h3>
                     </div>
                     <div id="recommendation-explanation" class="hidden text-center bg-amber-50 text-amber-800 p-4 rounded-lg mb-6 max-w-3xl mx-auto">
-                        <!-- Penjelasan rekomendasi skenario akan muncul di sini -->
                     </div>
 
                     <div id="recommendation-controls" class="hidden flex-col sm:flex-row justify-center items-center gap-4 mb-6 p-2 bg-slate-50 rounded-lg">
@@ -261,7 +283,7 @@
                     <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     </div>
                      <div id="no-recommendation" class="text-center text-slate-500 py-8">
-                        <p data-lang-key="noRecommendation">Pilih skenario atau filter di atas untuk melihat rekomendasi.</p>
+                        <p data-lang-key="noRecommendation">Gunakan wizard atau filter di atas untuk melihat rekomendasi.</p>
                     </div>
                 </div>
             </div>
@@ -295,6 +317,25 @@
             <p data-lang-key="disclaimer" class="text-slate-400 text-xs mt-4 px-4 max-w-4xl mx-auto"></p>
         </div>
     </footer>
+
+    <!-- WIZARD MODAL START -->
+    <div id="wizard-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div id="wizard-overlay" class="modal-overlay absolute inset-0 bg-black/60"></div>
+        <div class="modal-container bg-slate-50 rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col transform">
+            <div class="p-4 border-b border-slate-200 flex justify-between items-center">
+                <h2 id="wizard-title" class="text-xl font-bold text-slate-800" data-lang-key="wizardModalTitle">Wizard Pencari Solusi</h2>
+                <button id="wizard-close-btn" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button>
+            </div>
+            <div id="wizard-content" class="p-6 md:p-8 flex-grow overflow-y-auto">
+            </div>
+            <div class="p-4 bg-white border-t border-slate-200 flex justify-between items-center">
+                <button id="wizard-back-btn" class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 transition" data-lang-key="wizardBackButton">Kembali</button>
+                <div id="wizard-step-indicator" class="text-sm text-slate-500"></div>
+                <button id="wizard-next-btn" class="bg-amber-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600 transition" data-lang-key="wizardNextButton">Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+    <!-- WIZARD MODAL END -->
 
     <div id="disclaimer-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
         <div class="modal-overlay absolute inset-0 bg-black/60"></div>
@@ -335,9 +376,12 @@
         let chartConfig = {}; 
         let selectedForComparison = [];
         let activeTheme = {};
-        let activeScenario = null;
         let sortOrder = 'default';
         let showAllServices = false;
+
+        // --- WIZARD VARIABLES ---
+        let currentWizardStep = 0;
+        let wizardAnswers = {};
 
         // --- FUNCTIONS ---
 
@@ -360,13 +404,15 @@
                     border-color: ${theme.secondary};
                 }
                 .tab-button.active { border-bottom-color: ${theme.primary}; color: ${theme.primary}; }
-                .decision-button.selected, .lang-switcher button.active, #accept-disclaimer-btn, .sort-btn.active { background-color: ${theme.primary}; color: ${theme.textOnPrimary}; border-color: ${theme.primary}; }
+                .decision-button.selected, .lang-switcher button.active, #accept-disclaimer-btn, .sort-btn.active, #start-wizard-btn, #wizard-next-btn { background-color: ${theme.primary}; color: ${theme.textOnPrimary}; border-color: ${theme.primary}; }
+                #start-wizard-btn:hover, #wizard-next-btn:hover { background-color: ${theme.primaryDark}; }
+                .wizard-option-card.selected { border-color: ${theme.primary}; background-color: rgba(${theme.primary_rgb}, 0.05); }
                 #mobile-menu-btn:focus, #show-all-checkbox:focus { --tw-ring-color: ${theme.primary}; }
                 #show-all-checkbox:checked { background-color: ${theme.primary}; border-color: ${theme.primary}; }
                 #accept-disclaimer-btn:hover { background-color: ${theme.primaryDark}; }
                 a:hover { color: ${theme.primaryDark}; }
-                #clear-comparison, #reset-scenario-btn { color: ${theme.primary}; }
-                #clear-comparison:hover, #reset-scenario-btn:hover { color: ${theme.primaryDark}; }
+                #clear-comparison { color: ${theme.primary}; }
+                #clear-comparison:hover { color: ${theme.primaryDark}; }
                 .tab-button:hover { color: ${theme.primary}; border-bottom-color: ${theme.primaryLight}; }
                 .themed-mobile-nav-link:hover { background-color: ${theme.primary}; color: ${theme.textOnPrimary}; }
                 .themed-accent-text, .recommendation-card .compare-button { color: ${theme.primaryDark}; }
@@ -403,7 +449,6 @@
             
             createNavigationMenu();
             createCategoryCards();
-            createScenarioCards();
             createDecisionFilters();
             
             if(pageData.categories) {
@@ -411,6 +456,8 @@
                     createServiceContent(key);
                 }
             }
+            
+            displayLastUpdated();
 
             const activeCategory = document.querySelector('.category-card.active')?.dataset.target;
             if (activeCategory) {
@@ -419,12 +466,27 @@
                 updateActiveView('welcome');
             }
 
-            renderRecommendations();
+            renderRecommendations(findRecommendations());
             updateChart();
             
             document.getElementById('lang-id').classList.toggle('active', lang === 'id');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            
+            // If wizard is open, re-render the current step to update language
+            if(!document.getElementById('wizard-modal').classList.contains('modal-hidden')) {
+                goToStep(currentWizardStep);
+            }
         };
+        
+        function displayLastUpdated() {
+            const dateElement = document.getElementById('last-updated-display');
+            if (pageData.lastUpdated && dateElement) {
+                const date = new Date(pageData.lastUpdated);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = date.toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', options);
+                dateElement.textContent = `${translations.lastUpdated?.[currentLang] || 'Terakhir diperbarui'}: ${formattedDate}`;
+            }
+        }
 
         function createNavigationMenu() {
             const desktopNav = document.getElementById('desktop-nav');
@@ -449,32 +511,6 @@
                 mobileLink.textContent = translations[item.langKey]?.[currentLang] || item.langKey;
                 mobileNavContainer.appendChild(mobileLink);
             });
-        }
-        
-        function createScenarioCards() {
-            const container = document.getElementById('scenario-cards');
-            const section = document.getElementById('scenario-guide-section');
-
-            if (!pageData.scenarios || Object.keys(pageData.scenarios).length === 0) {
-                if (section) section.style.display = 'none';
-                return;
-            }
-
-            if (section) section.style.display = 'block';
-            container.innerHTML = '';
-            for (const key in pageData.scenarios) {
-                const scenario = pageData.scenarios[key];
-                const card = document.createElement('button');
-                card.type = 'button';
-                card.dataset.scenarioKey = key;
-                card.className = 'scenario-card text-left bg-white p-6 rounded-lg shadow-md hover:shadow-xl border-2 border-transparent hover:-translate-y-1';
-                card.innerHTML = `
-                    <span class="text-4xl">${scenario.icon}</span>
-                    <h3 class="text-lg font-bold mt-3 text-slate-800">${scenario.title[currentLang]}</h3>
-                    <p class="text-sm text-slate-500 mt-1">${scenario.description[currentLang]}</p>
-                `;
-                container.appendChild(card);
-            }
         }
 
         function createCategoryCards() {
@@ -608,76 +644,97 @@
             });
         }
         
-        function renderRecommendations() {
+        function findRecommendations(answers = {}) {
+            const { scenario, techLevel, pricing } = answers;
+            const activeFilterTags = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+
+            let serviceScores = new Map();
+
+            if (scenario) {
+                const scn = pageData.scenarios[scenario];
+                if (scn) {
+                    serviceScores.set(scn.top_recommendation, 10);
+                    scn.alternatives.forEach(alt => serviceScores.set(alt, 5));
+                }
+            }
+
+            Object.entries(pageData.services).forEach(([key, service]) => {
+                let currentScore = serviceScores.get(key) || 0;
+
+                if (activeFilterTags.length > 0) {
+                    const matchCount = activeFilterTags.filter(tag => service.tags.includes(tag)).length;
+                    if (matchCount === activeFilterTags.length) currentScore += 10;
+                    else if (matchCount > 0) currentScore += 5;
+                }
+
+                if (techLevel && service.technicalLevel === techLevel) {
+                    currentScore += 8;
+                }
+                if (pricing) {
+                    if (pricing === 'fixed' && service.pricingModel === 'fixed') {
+                        currentScore += 8;
+                    } else if (pricing === 'usage' && service.pricingModel === 'usage') {
+                        currentScore += 8;
+                    } else if (pricing === 'lowest' && (service.pricingModel === 'lowest' || service.scores.cost >= 8)) {
+                        currentScore += 8;
+                    }
+                }
+                if (currentScore > 0) {
+                    serviceScores.set(key, currentScore);
+                }
+            });
+            
+            let scoredServices = Array.from(serviceScores.entries()).map(([key, score]) => ({
+                key,
+                service: pageData.services[key],
+                score
+            }));
+
+            return scoredServices;
+        }
+
+        function renderRecommendations(servicesToRender = []) {
             const recContainer = document.getElementById('recommendations');
             const noRecDiv = document.getElementById('no-recommendation');
             const explanationDiv = document.getElementById('recommendation-explanation');
             const controlsDiv = document.getElementById('recommendation-controls');
 
-            if (!pageData.services) return;
             recContainer.innerHTML = '';
             explanationDiv.classList.add('hidden');
             controlsDiv.classList.add('hidden');
 
-            const activeFilterTags = Array.from(document.querySelectorAll('.decision-button.selected')).map(btn => btn.dataset.filter);
+            if (wizardAnswers.scenario) {
+                const scenario = pageData.scenarios[wizardAnswers.scenario];
+                if (scenario && scenario.explanation) {
+                    explanationDiv.innerHTML = scenario.explanation[currentLang];
+                    explanationDiv.classList.remove('hidden');
+                }
+            }
             
-            let scoredServices = [];
-            let hasActiveSelection = false;
+            let finalServices = servicesToRender;
 
-            if (activeScenario) {
-                hasActiveSelection = true;
-                const scenario = pageData.scenarios[activeScenario];
-                scoredServices.push({ key: scenario.top_recommendation, service: pageData.services[scenario.top_recommendation], score: 3 });
-                scenario.alternatives?.forEach(altKey => {
-                    scoredServices.push({ key: altKey, service: pageData.services[altKey], score: 2 });
-                });
-                explanationDiv.innerHTML = scenario.explanation[currentLang];
-                explanationDiv.classList.remove('hidden');
+            if (sortOrder === 'asc') {
+                finalServices.sort((a, b) => a.service.title.localeCompare(b.service.title));
+            } else if (sortOrder === 'desc') {
+                finalServices.sort((a, b) => b.service.title.localeCompare(a.service.title));
+            } else { 
+                finalServices.sort((a, b) => b.score - a.score);
+            }
 
-            } else if (activeFilterTags.length > 0) {
-                hasActiveSelection = true;
+            if (showAllServices) {
+                const renderedKeys = new Set(finalServices.map(s => s.key));
                 Object.entries(pageData.services).forEach(([key, service]) => {
-                    const matchCount = activeFilterTags.filter(tag => service.tags.includes(tag)).length;
-                    if (matchCount > 0) {
-                        let score = 1;
-                        if (matchCount === activeFilterTags.length) score = 3;
-                        else if (matchCount > 0) score = 2;
-                        scoredServices.push({ key, service, score });
+                    if (!renderedKeys.has(key)) {
+                        finalServices.push({ key, service, score: 0 });
                     }
                 });
             }
 
-            if (!hasActiveSelection) {
+            if (finalServices.length === 0) {
                 noRecDiv.classList.remove('hidden');
                 recContainer.classList.add('hidden');
-                return;
-            }
-            
-            let servicesToRender;
-            if (showAllServices) {
-                const scoredMap = new Map(scoredServices.map(item => [item.key, item.score]));
-                servicesToRender = Object.entries(pageData.services).map(([key, service]) => ({
-                    key,
-                    service,
-                    score: scoredMap.get(key) || 0,
-                }));
-            } else {
-                servicesToRender = scoredServices;
-            }
-
-            if (sortOrder === 'asc') {
-                servicesToRender.sort((a, b) => a.service.title.localeCompare(b.service.title));
-            } else if (sortOrder === 'desc') {
-                servicesToRender.sort((a, b) => b.service.title.localeCompare(a.service.title));
-            } else { // default sort
-                servicesToRender.sort((a, b) => b.score - a.score);
-            }
-
-            if (servicesToRender.length === 0) {
-                noRecDiv.classList.remove('hidden');
-                recContainer.classList.add('hidden');
-                noRecDiv.querySelector('p').setAttribute('data-lang-key', 'noResults');
-                noRecDiv.querySelector('p').textContent = translations.noResults?.[currentLang] || 'Tidak ada layanan yang cocok.';
+                noRecDiv.querySelector('p').setAttribute('data-lang-key', 'noRecommendation');
+                noRecDiv.querySelector('p').textContent = translations.noRecommendation?.[currentLang] || 'Gunakan wizard atau filter di atas untuk melihat rekomendasi.';
                 return;
             }
 
@@ -686,19 +743,20 @@
             controlsDiv.classList.remove('hidden');
             controlsDiv.classList.add('flex');
             
-            servicesToRender.forEach(({ key, service, score }) => {
+            finalServices.forEach(({ key, service, score }) => {
                 const card = document.createElement('div');
-                let cardClass = 'recommendation-card border-2 p-4 rounded-lg';
+                let cardClass = 'recommendation-card border-2 p-4 rounded-lg flex flex-col';
                 let ribbonHTML = '';
                 
-                if (showAllServices && score === 0) {
+                if (score === 0) {
                     cardClass += ' opacity-50 hover:opacity-100';
                 }
 
-                if (score === 3) {
+                const topScore = Math.max(...finalServices.map(s => s.score));
+                if (score > 0 && score >= topScore * 0.8) {
                     cardClass += ' top-match';
                     ribbonHTML = `<div class="corner-ribbon top-match">${translations.topMatch?.[currentLang] || 'Pilihan Utama'}</div>`;
-                } else if (score === 2) {
+                } else if (score > 0) {
                     cardClass += ' good-alternative';
                     ribbonHTML = `<div class="corner-ribbon good-alternative">${translations.alternative?.[currentLang] || 'Alternatif'}</div>`;
                 }
@@ -706,20 +764,21 @@
                 card.className = cardClass;
                 card.dataset.target = key;
 
-                // PERUBAHAN: Menambahkan kembali dependencyHTML
                 const dependencyHTML = service.dependency ? `<p class="themed-accent-text text-xs italic mt-2">${service.dependency[currentLang]}</p>` : '';
                 const bestForHTML = service.bestFor ? `<p class="text-xs text-slate-600 mt-2 font-semibold">${translations.bestFor?.[currentLang] || 'Terbaik untuk'}: <span class="font-normal">${service.bestFor[currentLang]}</span></p>` : '';
                 
                 card.innerHTML = `
-                    ${ribbonHTML}
-                    <div class="flex items-center mb-2">
-                        ${service.icon ? `<img src="../assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />` : `<span class="text-2xl mr-3">⚙️</span>`}
-                        <h5 class="font-bold text-slate-800">${service.title}</h5>
+                    <div class="flex-grow">
+                        ${ribbonHTML}
+                        <div class="flex items-center mb-2">
+                            ${service.icon ? `<img src="../assets/icons/${service.icon}" alt="${service.title}" class="w-8 h-8 mr-3" />` : `<span class="text-2xl mr-3">⚙️</span>`}
+                            <h5 class="font-bold text-slate-800">${service.title}</h5>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
+                        ${dependencyHTML}
+                        ${bestForHTML}
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">${service.tabs.Summary[currentLang]}</p>
-                    ${dependencyHTML}
-                    ${bestForHTML}
-                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold w-full text-left relative z-10 mt-3 transition-colors">
+                    <button type="button" data-service="${key}" class="compare-button text-xs font-semibold w-full text-left relative z-10 mt-3 transition-colors pt-2 border-t border-slate-200">
                         ${selectedForComparison.includes(key) ? (translations.removeCompare?.[currentLang] || 'Hapus') : (translations.addCompare?.[currentLang] || 'Bandingkan +')}
                     </button>
                 `;
@@ -821,6 +880,131 @@
             }
         }
 
+        // --- WIZARD LOGIC ---
+        function setupWizard() {
+            const wizardSection = document.getElementById('wizard-section');
+            if (!pageData.wizard || !pageData.wizard.steps || pageData.wizard.steps.length === 0) {
+                wizardSection.style.display = 'none';
+                return;
+            }
+            wizardSection.style.display = 'block';
+
+            const startBtn = document.getElementById('start-wizard-btn');
+            const wizardModal = document.getElementById('wizard-modal');
+            const closeBtn = document.getElementById('wizard-close-btn');
+            const overlay = document.getElementById('wizard-overlay');
+            const backBtn = document.getElementById('wizard-back-btn');
+            const nextBtn = document.getElementById('wizard-next-btn');
+            const contentDiv = document.getElementById('wizard-content');
+
+            startBtn.addEventListener('click', openWizard);
+            closeBtn.addEventListener('click', closeWizard);
+            overlay.addEventListener('click', closeWizard);
+            backBtn.addEventListener('click', () => goToStep(currentWizardStep - 1));
+            nextBtn.addEventListener('click', () => {
+                const wizardSteps = pageData.wizard?.steps || [];
+                if (currentWizardStep < wizardSteps.length - 1) {
+                    goToStep(currentWizardStep + 1);
+                } else {
+                    finishWizard();
+                }
+            });
+
+            contentDiv.addEventListener('click', e => {
+                const card = e.target.closest('.wizard-option-card');
+                if (card) {
+                    const stepKey = (pageData.wizard?.steps || [])[currentWizardStep].key;
+                    wizardAnswers[stepKey] = card.dataset.value;
+                    
+                    contentDiv.querySelectorAll('.wizard-option-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    
+                    document.getElementById('wizard-next-btn').disabled = false;
+                }
+            });
+        }
+
+        function openWizard() {
+            wizardAnswers = {};
+            currentWizardStep = 0;
+            document.getElementById('wizard-modal').classList.remove('modal-hidden');
+            goToStep(0);
+        }
+
+        function closeWizard() {
+            document.getElementById('wizard-modal').classList.add('modal-hidden');
+        }
+
+        function goToStep(stepIndex) {
+            const wizardSteps = pageData.wizard?.steps || [];
+            if (!wizardSteps[stepIndex]) return;
+
+            currentWizardStep = stepIndex;
+            const step = wizardSteps[stepIndex];
+            const contentDiv = document.getElementById('wizard-content');
+            
+            let optionsHTML = '';
+            if (step.type === 'scenario') {
+                const scenarios = pageData.scenarios || {};
+                optionsHTML = Object.entries(scenarios).map(([key, scenario]) => `
+                    <button data-value="${key}" class="wizard-option-card w-full text-left bg-white p-4 rounded-lg shadow-sm hover:shadow-lg border-2 border-transparent">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">${scenario.icon}</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800">${scenario.title[currentLang]}</h4>
+                                <p class="text-sm text-slate-500">${scenario.description[currentLang]}</p>
+                            </div>
+                        </div>
+                    </button>
+                `).join('');
+            } else if (step.type === 'options') {
+                 optionsHTML = step.options.map(opt => `
+                    <button data-value="${opt.value}" class="wizard-option-card w-full text-left bg-white p-4 rounded-lg shadow-sm hover:shadow-lg border-2 border-transparent">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">${opt.icon}</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800">${opt.title[currentLang]}</h4>
+                                <p class="text-sm text-slate-500">${opt.description[currentLang]}</p>
+                            </div>
+                        </div>
+                    </button>
+                `).join('');
+            }
+
+            contentDiv.innerHTML = `
+                <div class="wizard-step active">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-2">${step.title[currentLang]}</h3>
+                    <p class="text-slate-600 mb-6">${step.question[currentLang]}</p>
+                    <div class="space-y-3">${optionsHTML}</div>
+                </div>
+            `;
+            
+            if (wizardAnswers[step.key]) {
+                const selectedCard = contentDiv.querySelector(`.wizard-option-card[data-value="${wizardAnswers[step.key]}"]`);
+                if (selectedCard) selectedCard.classList.add('selected');
+            }
+
+            const backBtn = document.getElementById('wizard-back-btn');
+            const nextBtn = document.getElementById('wizard-next-btn');
+            const stepIndicator = document.getElementById('wizard-step-indicator');
+
+            backBtn.style.visibility = stepIndex === 0 ? 'hidden' : 'visible';
+            nextBtn.textContent = stepIndex === wizardSteps.length - 1 ? (translations.wizardFinishButton?.[currentLang] || 'Lihat Hasil') : (translations.wizardNextButton?.[currentLang] || 'Lanjutkan');
+            nextBtn.disabled = !wizardAnswers[step.key];
+            stepIndicator.textContent = `${translations.wizardStepIndicator?.[currentLang] || 'Langkah'} ${stepIndex + 1} / ${wizardSteps.length}`;
+        }
+
+        function finishWizard() {
+            closeWizard();
+            document.querySelectorAll('.decision-button.selected').forEach(b => b.classList.remove('selected'));
+            
+            const recommendedServices = findRecommendations(wizardAnswers);
+            renderRecommendations(recommendedServices);
+            
+            document.getElementById('decision-tool').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        // --- END WIZARD LOGIC ---
+
         async function initializeApp() {
             const urlParams = new URLSearchParams(window.location.search);
             const dataFile = urlParams.get('data') || 'compute'; 
@@ -861,10 +1045,17 @@
                 activeTheme = { ...defaultTheme, ...jsonTheme };
                 applyTheme(activeTheme);
 
+                translations['lastUpdated'] = { "id": "Terakhir diperbarui", "en": "Last updated" };
+                translations['wizardTitle'] = { "id": "Bingung Memulai?", "en": "Confused Where to Start?" };
+                translations['wizardSubtitle'] = { "id": "Gunakan wizard interaktif kami untuk menemukan layanan yang paling sesuai dengan kebutuhan Anda hanya dalam beberapa langkah.", "en": "Use our interactive wizard to find the service that best suits your needs in just a few steps." };
+                translations['startWizardButton'] = { "id": "Mulai Wizard", "en": "Start Wizard" };
+                translations['wizardModalTitle'] = { "id": "Wizard Pencari Solusi", "en": "Solution Finder Wizard" };
+                translations['wizardBackButton'] = { "id": "Kembali", "en": "Back" };
+                translations['wizardNextButton'] = { "id": "Lanjutkan", "en": "Next" };
+                translations['wizardFinishButton'] = { "id": "Lihat Hasil", "en": "See Results" };
+                translations['wizardStepIndicator'] = { "id": "Langkah", "en": "Step" };
                 translations['sortBy'] = { "id": "Urutkan", "en": "Sort by" };
                 translations['showAllServices'] = { "id": "Tampilkan semua layanan", "en": "Show all services" };
-                translations['scenarioTitle'] = { "id": "Pemandu Skenario", "en": "Scenario Guide" };
-                translations['scenarioSubtitle'] = { "id": "Mulai dengan kasus penggunaan Anda. Pilih salah satu skenario di bawah ini untuk mendapatkan rekomendasi cepat.", "en": "Start with your use case. Select a scenario below to get quick recommendations." };
                 translations['topMatch'] = { "id": "Pilihan Utama", "en": "Top Match" };
                 translations['alternative'] = { "id": "Alternatif", "en": "Alternative" };
                 translations['bestFor'] = { "id": "Terbaik untuk", "en": "Best for" };
@@ -894,42 +1085,18 @@
             document.getElementById('category-nav').addEventListener('click', (e) => {
                 const button = e.target.closest('.category-card');
                 if (button) {
-                    activeScenario = null;
-                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
-                    document.getElementById('reset-scenario-btn').classList.add('hidden');
-                    renderRecommendations();
+                    wizardAnswers = {};
+                    renderRecommendations(findRecommendations());
                     updateActiveView(button.dataset.target);
                 }
-            });
-
-            document.getElementById('scenario-cards').addEventListener('click', e => {
-                const card = e.target.closest('.scenario-card');
-                if (card) {
-                    activeScenario = card.dataset.scenarioKey;
-                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
-                    card.classList.add('active');
-                    document.querySelectorAll('.decision-button.selected').forEach(b => b.classList.remove('selected'));
-                    document.getElementById('reset-scenario-btn').classList.remove('hidden');
-                    renderRecommendations();
-                    document.getElementById('decision-tool').scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-
-            document.getElementById('reset-scenario-btn').addEventListener('click', () => {
-                activeScenario = null;
-                document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
-                document.getElementById('reset-scenario-btn').classList.add('hidden');
-                renderRecommendations();
             });
 
             document.getElementById('decision-filters').addEventListener('click', (e) => {
                 const button = e.target.closest('.decision-button');
                 if (button) {
                     button.classList.toggle('selected');
-                    activeScenario = null;
-                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
-                    document.getElementById('reset-scenario-btn').classList.add('hidden');
-                    renderRecommendations();
+                    wizardAnswers = {};
+                    renderRecommendations(findRecommendations());
                 }
             });
 
@@ -939,13 +1106,13 @@
                     sortOrder = button.dataset.sort;
                     sortButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
-                    renderRecommendations();
+                    renderRecommendations(findRecommendations(wizardAnswers));
                 });
             });
 
             document.getElementById('show-all-checkbox').addEventListener('change', (e) => {
                 showAllServices = e.target.checked;
-                renderRecommendations();
+                renderRecommendations(findRecommendations(wizardAnswers));
             });
 
             document.getElementById('recommendations').addEventListener('click', e => {
@@ -964,7 +1131,7 @@
                     selectedForComparison = isSelected ? selectedForComparison.filter(s => s !== serviceKey) : [...selectedForComparison, serviceKey];
                     updateChart();
                     document.getElementById('comparison-pills').innerHTML = selectedForComparison.map(key => `<span class="comparison-pill text-sm font-medium px-2.5 py-0.5 rounded-full">${pageData.services[key].title}</span>`).join('');
-                    renderRecommendations();
+                    renderRecommendations(findRecommendations(wizardAnswers));
                 }
             });
 
@@ -972,7 +1139,7 @@
                 selectedForComparison = [];
                 updateChart();
                 document.getElementById('comparison-pills').innerHTML = '';
-                renderRecommendations();
+                renderRecommendations(findRecommendations(wizardAnswers));
             });
             
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -987,7 +1154,8 @@
             updateActiveView('welcome');
             renderRecommendations([]);
             setupReleaseNotes(releaseNotePath);
-            setupDisclaimerModal(); 
+            setupDisclaimerModal();
+            setupWizard();
         }
         
         document.addEventListener('DOMContentLoaded', initializeApp);
