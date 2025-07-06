@@ -88,7 +88,7 @@
     "services": {
       "azure-virtual-machines": {
         "title": "Azure Virtual Machines",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10021-icon-service-Virtual-Machine.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10021-icon-service-Virtual-Machine.svg",
         "parent": "virtual_machines",
         "tabs": {
           "Summary": { "id": "Menyediakan mesin virtual Linux dan Windows yang dapat diskalakan dan aman.", "en": "Provides scalable and secure Linux and Windows virtual machines." },
@@ -98,7 +98,7 @@
       },
       "vm-scale-sets": {
         "title": "Virtual Machine Scale Sets",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10034-icon-service-VM-Scale-Sets.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10034-icon-service-VM-Scale-Sets.svg",
         "parent": "virtual_machines",
         "tabs": {
           "Summary": { "id": "Buat dan kelola sekelompok VM yang identik dan dapat diseimbangkan bebannya.", "en": "Create and manage a group of identical, load-balanced VMs." },
@@ -108,7 +108,7 @@
       },
        "azure-dedicated-host": {
         "title": "Azure Dedicated Host",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10347-icon-service-Hosts.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10347-icon-service-Hosts.svg",
         "parent": "virtual_machines",
         "tabs": {
           "Summary": { "id": "Menyediakan server fisik yang menghosting satu atau lebih mesin virtual untuk organisasi Anda.", "en": "Provides physical servers that host one or more virtual machines for your organization." },
@@ -118,7 +118,7 @@
       },
       "aks": {
         "title": "Azure Kubernetes Service (AKS)",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10023-icon-service-Kubernetes-Services.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10023-icon-service-Kubernetes-Services.svg",
         "parent": "containers",
         "tabs": {
           "Summary": { "id": "Menyederhanakan penyebaran, pengelolaan, dan operasi Kubernetes.", "en": "Simplifies deploying, managing, and operating Kubernetes." },
@@ -128,7 +128,7 @@
       },
        "container-instances": {
         "title": "Azure Container Instances (ACI)",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10104-icon-service-Container-Instances.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10104-icon-service-Container-Instances.svg",
         "parent": "containers",
         "tabs": {
           "Summary": { "id": "Jalankan kontainer Docker dengan cepat tanpa mengelola server.", "en": "Run Docker containers on-demand without managing servers." },
@@ -138,7 +138,7 @@
       },
        "service-fabric": {
         "title": "Azure Service Fabric",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10036-icon-service-Service-Fabric-Clusters.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10036-icon-service-Service-Fabric-Clusters.svg",
         "parent": "containers",
         "tabs": {
           "Summary": { "id": "Platform sistem terdistribusi untuk mengemas, menyebarkan, dan mengelola layanan mikro.", "en": "A distributed systems platform to package, deploy, and manage microservices." },
@@ -148,7 +148,7 @@
       },
       "app-service": {
         "title": "Azure App Service",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10035-icon-service-App-Services.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10035-icon-service-App-Services.svg",
         "parent": "serverless_platforms",
         "tabs": {
           "Summary": { "id": "Platform terkelola penuh untuk membangun, menyebarkan, dan menskalakan aplikasi web dan API.", "en": "A fully managed platform for building, deploying, and scaling web apps and APIs." },
@@ -158,7 +158,7 @@
       },
       "azure-functions": {
         "title": "Azure Functions",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10029-icon-service-Function-Apps.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10029-icon-service-Function-Apps.svg",
         "parent": "serverless_platforms",
         "tabs": {
           "Summary": { "id": "Platform komputasi serverless yang digerakkan oleh peristiwa.", "en": "An event-driven, serverless compute platform." },
@@ -168,7 +168,7 @@
       },
        "azure-spring-apps": {
         "title": "Azure Spring Apps",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10370-icon-service-Azure-Spring-Apps.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10370-icon-service-Azure-Spring-Apps.svg",
         "parent": "serverless_platforms",
         "tabs": {
           "Summary": { "id": "Layanan terkelola penuh untuk pengembang Spring Boot.", "en": "A fully managed service for Spring Boot developers." },
@@ -178,7 +178,7 @@
       },
        "azure-batch": {
         "title": "Azure Batch",
-        "icon": "Azure_Public_Service_Icons/icons/compute/10031-icon-service-Batch-Accounts.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/10031-icon-service-Batch-Accounts.svg",
         "parent": "specialized_workloads",
         "tabs": {
           "Summary": { "id": "Jalankan pekerjaan komputasi paralel dan berkinerja tinggi skala besar di cloud.", "en": "Run large-scale parallel and high-performance computing jobs in the cloud." },
@@ -188,7 +188,7 @@
       },
       "azure-arc": {
         "title": "Azure Arc",
-        "icon": "Azure_Public_Service_Icons/icons/compute/azure-arc.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/azure-arc.svg",
         "parent": "hybrid_edge",
         "tabs": {
           "Summary": { "id": "Perluas manajemen Azure ke infrastruktur apa pun di on-premise, edge, dan multi-cloud.", "en": "Extend Azure management to any infrastructure on-premises, at the edge, and multi-cloud." },
@@ -198,7 +198,7 @@
       },
       "azure-compute-gallery": {
         "title": "Azure Compute Gallery",
-        "icon": "Azure_Public_Service_Icons/icons/compute/02864-icon-service-Azure-Compute-Galleries.svg",
+        "icon": "Azure_Public_Service_Icons/Icons/compute/02864-icon-service-Azure-Compute-Galleries.svg",
         "parent": "asset_management",
         "tabs": {
           "Summary": { "id": "Bagikan dan kelola gambar VM dan paket aplikasi di seluruh organisasi Anda.", "en": "Share and manage VM images and application packages across your organization." },
