@@ -58,17 +58,27 @@
             color: white;
         }
 
-        /* --- Gaya untuk Dropdown & Mega Menu --- */
-        .dropdown-menu, .mega-menu-content {
+        /* --- Gaya BARU untuk Dropdown & Mega Menu --- */
+        .dropdown-menu, .mega-menu-content, .submenu {
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease-out, transform 0.1s ease-out;
-            transform: translateY(-10px);
+            transform: translateY(10px);
             pointer-events: none;
         }
-        .group:hover .mega-menu-content,
-        .dropdown:hover .dropdown-menu {
+
+        /* Tampilkan menu saat hover */
+        .group:hover > .mega-menu-content,
+        .group:hover > .dropdown-menu {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        /* Tampilkan submenu saat hover di item parent-nya */
+        .group.relative:hover > .submenu {
+             display: block;
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
@@ -89,6 +99,12 @@
 
         .mobile-submenu {
             display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .submenu-toggle.open + .mobile-submenu {
+             max-height: 1000px; /* Nilai besar untuk menampung semua item */
         }
         .submenu-toggle svg {
             transition: transform 0.3s;
@@ -211,56 +227,83 @@
         };
 
         /**
-         * Builds the entire navigation (desktop and mobile) from menu data.
+         * FUNGSI REKURSIF DIPERBAIKI untuk membuat item menu desktop.
+         * Sekarang menangani status 'comingsoon' dengan benar.
          */
-        const buildNavigationStructure = () => {
-            const desktopNav = document.getElementById('desktop-nav');
-            const mobileNav = document.getElementById('mobile-nav');
-            if (!desktopNav || !mobileNav) return;
+        const createDesktopMenuItemsRecursive = (menuItems, isSubmenu = false) => {
+            let html = '';
+            menuItems.forEach(item => {
+                const isComingSoon = item.status === 'comingsoon';
+                const hasSubItems = item.items && item.items.length > 0;
 
-            desktopNav.innerHTML = '';
-            mobileNav.innerHTML = '';
-
-            appData.menu.forEach(item => {
-                // --- Build Desktop Menu Structure ---
+                // Handle item link (bisa active atau coming soon)
                 if (item.type === 'link') {
-                    desktopNav.innerHTML += `<a href="${item.href}" class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors" data-lang-key="${item.langKey}"></a>`;
-                } else if (item.type === 'dropdown') {
-                    const dropdownItems = item.items.map(subItem => {
-                        const isComingSoon = subItem.status === 'comingsoon';
-                        if (isComingSoon) {
-                            return `
-                            <div class="relative px-4 py-2 text-slate-400 flex justify-between items-center cursor-not-allowed">
-                                <span data-lang-key="${subItem.langKey}"></span>
-                                <span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span>
-                            </div>`;
-                        }
-                        return `<a href="${subItem.href}" class="block px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600" data-lang-key="${subItem.langKey}"></a>`;
-                    }).join('');
-
-                    desktopNav.innerHTML += `
-                        <div class="relative dropdown">
-                            <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                    if (isComingSoon) {
+                        const itemClass = isSubmenu 
+                            ? 'block w-full text-left px-4 py-2 text-slate-400 cursor-not-allowed flex justify-between items-center'
+                            : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center';
+                        html += `
+                            <div class="${itemClass}">
                                 <span data-lang-key="${item.langKey}"></span>
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="dropdown-menu absolute top-full left-0 w-56 z-50 bg-white rounded-lg shadow-xl py-2">${dropdownItems}</div>
-                        </div>`;
-                } else if (item.type === 'mega-menu') {
-                    let megaMenuHTML = '';
+                                <span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span>
+                            </div>`;
+                    } else {
+                        const itemClass = isSubmenu 
+                            ? 'block w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600'
+                            : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors';
+                        html += `<a href="${item.href}" class="${itemClass}" data-lang-key="${item.langKey}"></a>`;
+                    }
+                } 
+                // Handle item dropdown (bisa active atau coming soon)
+                else if (item.type === 'dropdown') {
+                    if (isComingSoon) {
+                        const buttonClasses = isSubmenu
+                                ? 'w-full flex items-center justify-between px-4 py-2 text-slate-400 cursor-not-allowed'
+                                : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center';
+                        html += `
+                            <div class="relative">
+                                <div class="${buttonClasses}">
+                                    <span data-lang-key="${item.langKey}"></span>
+                                    <span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span>
+                                </div>
+                            </div>`;
+                    } else if (hasSubItems) {
+                        const subMenuHTML = createDesktopMenuItemsRecursive(item.items, true);
+                        const menuContainerClasses = isSubmenu 
+                            ? 'submenu absolute left-full -top-2 mt-0 ml-1 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2' 
+                            : 'dropdown-menu absolute top-full left-0 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2';
+                        const icon = isSubmenu
+                            ? `<svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`
+                            : `<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                        const buttonClasses = isSubmenu
+                            ? 'w-full flex items-center px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600'
+                            : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center';
 
+                        html += `
+                            <div class="group relative">
+                                <a href="${item.href || '#'}" class="${buttonClasses}">
+                                    <span data-lang-key="${item.langKey}"></span>
+                                    ${icon}
+                                </a>
+                                <div class="${menuContainerClasses}">${subMenuHTML}</div>
+                            </div>`;
+                    }
+                } 
+                // Handle Mega Menu (tidak rekursif, logika comingsoon ada di item anak)
+                else if (item.type === 'mega-menu') {
+                     let megaMenuHTML = '';
                     if (item.content.columns) {
-                        const allItems = item.content.columns[0].items; // Ambil semua item dari kolom pertama
+                        const allItems = item.content.columns[0].items;
                         const midIndex = Math.ceil(allItems.length / 2);
                         const splitColumns = [allItems.slice(0, midIndex), allItems.slice(midIndex)];
 
                         const megaColumns = splitColumns.map(colItems => `
                             <div class="space-y-2">
                                 ${colItems.map(colItem => {
-                                    const isComingSoon = colItem.status === 'comingsoon';
-                                    const linkHref = isComingSoon ? '#' : colItem.href;
-                                    const linkClass = isComingSoon ? 'menu-item-disabled' : '';
-                                    const badgeHTML = isComingSoon ? '<span class="menu-item-badge" data-lang-key="comingSoon"></span>' : '';
+                                    const isItemComingSoon = colItem.status === 'comingsoon';
+                                    const linkHref = isItemComingSoon ? '#' : colItem.href;
+                                    const linkClass = isItemComingSoon ? 'menu-item-disabled' : '';
+                                    const badgeHTML = isItemComingSoon ? '<span class="menu-item-badge" data-lang-key="comingSoon"></span>' : '';
 
                                     return `
                                     <div class="relative">
@@ -308,35 +351,7 @@
                                 </div>
                             </div>`;
                     }
-                    // Case 2: The redesigned "About Us" mega menu
-                    else if (item.content.background) {
-                        const keyPoints = item.content.keyPoints.map(point => `
-                            <div class="bg-white/80 backdrop-blur-sm p-4 rounded-lg">
-                                <h4 class="font-bold text-slate-800" data-lang-key="${point.titleLangKey}"></h4>
-                                <p class="text-slate-600 text-sm mt-1" data-lang-key="${point.descLangKey}"></p>
-                            </div>
-                        `).join('');
-
-                        megaMenuHTML = `
-                            <div class="mega-menu-content absolute left-0 top-full w-full z-50">
-                                <div class="container mx-auto p-4">
-                                    <div class="bg-slate-200 rounded-lg shadow-lg overflow-hidden about-mega-menu-bg" style="background-image: url('${item.content.background.url}')">
-                                        <div class="bg-black/20 p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                                            <div class="text-white">
-                                                <h3 class="text-2xl font-bold" data-lang-key="${item.content.titleLangKey}"></h3>
-                                                <p class="mt-2" data-lang-key="${item.content.descLangKey}"></p>
-                                                <a href="${item.content.cta.href}" class="inline-block bg-amber-500 text-white font-semibold px-5 py-2 rounded-md hover:bg-amber-600 transition-colors mt-6" data-lang-key="${item.content.cta.langKey}"></a>
-                                            </div>
-                                            <div class="space-y-4">
-                                                ${keyPoints}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                    }
-
-                    desktopNav.innerHTML += `
+                    html += `
                         <div class="group static">
                             <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
                                 <span data-lang-key="${item.langKey}"></span>
@@ -345,40 +360,56 @@
                             ${megaMenuHTML}
                         </div>`;
                 }
+            });
+            return html;
+        };
 
-                // --- Build Mobile Menu Structure ---
-                if (item.type === 'link') {
-                    mobileNav.innerHTML += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
-                } else if (item.type === 'dropdown' || (item.type === 'mega-menu' && item.content.columns)) {
-                     const mobileSubItems = (item.items || item.content.columns.flatMap(col => col.items)).map(subItem => {
-                        const isComingSoon = subItem.status === 'comingsoon';
-                        if (isComingSoon) {
-                            return `
-                            <div class="flex items-center justify-between py-2 pl-4 text-slate-400 cursor-not-allowed">
-                                <span data-lang-key="${subItem.langKey || subItem.titleLangKey}"></span>
-                                <span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5 mr-2" data-lang-key="comingSoon"></span>
-                            </div>`;
-                        }
-                        return `<a href="${subItem.href}" class="block py-2 pl-4 text-slate-500 hover:text-amber-600" data-lang-key="${subItem.langKey || subItem.titleLangKey}"></a>`;
-                    }).join('');
+        /**
+         * FUNGSI REKURSIF DIPERBAIKI untuk membuat item menu mobile.
+         * Sekarang menangani status 'comingsoon' dengan benar.
+         */
+        const createMobileMenuItemsRecursive = (menuItems) => {
+            let html = '';
+            menuItems.forEach(item => {
+                const isComingSoon = item.status === 'comingsoon';
+                // Jika item 'comingsoon', anggap tidak punya anak agar ditampilkan sebagai item non-interaktif
+                const hasSubItems = !isComingSoon && ((item.items && item.items.length > 0) || (item.type === 'mega-menu' && item.content.columns));
 
-                    mobileNav.innerHTML += `
+                if (!hasSubItems) {
+                     if (isComingSoon) {
+                        html += `
+                        <div class="flex items-center justify-between py-2 text-slate-400 cursor-not-allowed">
+                            <span data-lang-key="${item.langKey || item.titleLangKey}"></span>
+                            <span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5 mr-2" data-lang-key="comingSoon"></span>
+                        </div>`;
+                    } else {
+                        html += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey || item.titleLangKey}"></a>`;
+                    }
+                } else { 
+                    const subItemsData = item.items || item.content.columns.flatMap(col => col.items);
+                    const mobileSubItems = createMobileMenuItemsRecursive(subItemsData);
+                    html += `
                         <div>
                             <button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle">
                                 <span data-lang-key="${item.langKey}"></span>
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </button>
-                            <div class="mt-1 space-y-1 mobile-submenu">${mobileSubItems}</div>
+                            <div class="pl-4 mobile-submenu">${mobileSubItems}</div>
                         </div>`;
-                } else if (item.type === 'mega-menu' && item.content.background) {
-                    mobileNav.innerHTML += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
                 }
             });
+            return html;
+        };
+        
+        const buildNavigationStructure = () => {
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (!desktopNav || !mobileNav) return;
+
+            desktopNav.innerHTML = createDesktopMenuItemsRecursive(appData.menu);
+            mobileNav.innerHTML = createMobileMenuItemsRecursive(appData.menu);
         };
 
-        /**
-         * Applies translations to all elements with data-lang-key attribute.
-         */
         const applyTranslations = (lang) => {
             document.querySelectorAll('[data-lang-key]').forEach(element => {
                 const key = element.getAttribute('data-lang-key');
@@ -387,12 +418,10 @@
                 }
             });
 
-            // Translate static sections
             document.getElementById('ebook-section-title').innerHTML = staticTranslations.ebookSectionTitle[lang];
             document.getElementById('ebook-section-subtitle').innerHTML = staticTranslations.ebookSectionSubtitle[lang];
             document.getElementById('view-all-ebooks-btn').innerHTML = staticTranslations.ebookViewAll[lang];
             
-            // Update search placeholder
             const searchInput = document.getElementById('search-input');
             if (searchInput && appData.translations.searchPlaceholder) {
                 searchInput.placeholder = appData.translations.searchPlaceholder[lang];
@@ -562,9 +591,13 @@
                     const toggle = e.target.closest('.submenu-toggle');
                     if (toggle) {
                         e.preventDefault();
-                        const submenu = toggle.nextElementSibling;
                         toggle.classList.toggle('open');
-                        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                        const submenu = toggle.nextElementSibling;
+                        if (submenu.style.maxHeight) {
+                            submenu.style.maxHeight = null;
+                        } else {
+                            submenu.style.maxHeight = submenu.scrollHeight + "px";
+                        }
                     }
                 });
             }

@@ -35,8 +35,8 @@ const AppNavigator = {
 
         try {
             // Load JSON files using the synchronous workaround
-            this.menu = this._fetchSync('../menu-data.json').menu;
-            this.translations = this._fetchSync('../translations.json');
+            this.menu = this._fetchSync('../../../menu-data.json').menu;
+            this.translations = this._fetchSync('../../../translations.json');
 
             // Build the HTML structure using the new recursive methods
             desktopNav.innerHTML = this._createDesktopMenuItemsRecursive(this.menu);

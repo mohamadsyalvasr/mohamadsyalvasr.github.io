@@ -1,0 +1,129 @@
+{
+  "lastUpdated": "2025-07-08",
+  "translations": {
+    "mainTitle": {
+      "id": "Panduan Free Tier Cloud",
+      "en": "Cloud Free Tier Guide"
+    },
+    "mainSubtitle": {
+      "id": "Temukan semua layanan yang bisa Anda gunakan secara gratis dari berbagai provider cloud terkemuka.",
+      "en": "Discover all the services you can use for free from leading cloud providers."
+    },
+    "lastUpdatedLabel": {
+      "id": "Data diperbarui pada",
+      "en": "Data last updated on"
+    },
+    "filterTitle": {
+      "id": "Filter Layanan",
+      "en": "Filter Services"
+    },
+    "providerLabel": {
+      "id": "Provider",
+      "en": "Provider"
+    },
+    "categoryLabel": {
+      "id": "Kategori",
+      "en": "Category"
+    },
+    "typeLabel": {
+      "id": "Tipe Gratis",
+      "en": "Free Tier Type"
+    },
+    "resetButton": {
+      "id": "Reset Filter",
+      "en": "Reset Filters"
+    },
+    "noResultsTitle": {
+      "id": "Tidak Ada Hasil",
+      "en": "No Results Found"
+    },
+    "noResultsSubtitle": {
+      "id": "Coba ubah atau reset filter Anda.",
+      "en": "Try changing or resetting your filters."
+    },
+    "detailsLink": {
+      "id": "Lihat Detail",
+      "en": "View Details"
+    },
+    "types": {
+      "all": { "id": "Semua Tipe", "en": "All Types" },
+      "always_free": { "id": "Gratis Selamanya", "en": "Always Free" },
+      "trial_12_months": { "id": "Gratis 12 Bulan", "en": "12-Month Trial" },
+      "trial_short": { "id": "Uji Coba Singkat", "en": "Short-term Trial" }
+    },
+    "categories": {
+      "compute": { "id": "Compute", "en": "Compute" },
+      "storage": { "id": "Storage", "en": "Storage" },
+      "database": { "id": "Database", "en": "Database" },
+      "ai_ml": { "id": "AI / ML", "en": "AI / ML" }
+    }
+  },
+  "providers": {
+    "aws": {
+      "name": "AWS",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
+    },
+    "gcp": {
+      "name": "Google Cloud",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg"
+    },
+    "azure": {
+      "name": "Azure",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg"
+    },
+    "oracle": {
+      "name": "Oracle Cloud",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg"
+    },
+    "alibaba": {
+      "name": "Alibaba Cloud",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b3/AlibabaCloudLogo.svg"
+    }
+  },
+  "services": [
+    {
+      "provider": "aws",
+      "serviceName": "Lambda",
+      "category": "compute",
+      "freeType": "always_free",
+      "description": {
+        "id": "1 juta request gratis per bulan dan 400.000 GB-detik waktu komputasi per bulan.",
+        "en": "1 million free requests per month and 400,000 GB-seconds of compute time per month."
+      },
+      "link": "https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all"
+    },
+    {
+      "provider": "aws",
+      "serviceName": "EC2",
+      "category": "compute",
+      "freeType": "trial_12_months",
+      "description": {
+        "id": "750 jam per bulan untuk t2.micro atau t3.micro (tergantung region).",
+        "en": "750 hours per month of t2.micro or t3.micro instance (depending on region)."
+      },
+      "link": "https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all"
+    },
+    {
+      "provider": "gcp",
+      "serviceName": "Cloud Storage",
+      "category": "storage",
+      "freeType": "always_free",
+      "description": {
+        "id": "5 GB-bulan Regional Storage (hanya region US), 5.000 Operasi Kelas A per bulan.",
+        "en": "5 GB-months of Regional Storage (US regions only), 5,000 Class A Operations per month."
+      },
+      "link": "https://cloud.google.com/free/docs/gcp-free-tier"
+    },
+    {
+      "provider": "oracle",
+      "serviceName": "Ampere A1 Compute",
+      "category": "compute",
+      "freeType": "always_free",
+      "description": {
+        "id": "Hingga 4 OCPU berbasis Arm dan 24 GB memori. Salah satu penawaran gratis paling besar.",
+        "en": "Up to 4 Arm-based Ampere A1 cores and 24 GB of memory. One of the most generous free offers."
+      },
+      "link": "https://www.oracle.com/cloud/free/"
+    }
+  ]
+}

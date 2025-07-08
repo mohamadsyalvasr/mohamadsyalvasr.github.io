@@ -1,0 +1,57 @@
+{
+    "translations": {
+    "pageTitle": { "id": "Katalog Skenario Cloud", "en": "Cloud Scenario Catalog" },
+    "breadcrumbCatalog": { "id": "Katalog Skenario", "en": "Scenario Catalog" },
+    "catalogTitle": { "id": "Katalog Skenario Cloud", "en": "Cloud Scenario Catalog" },
+    "catalogSubtitle": { "id": "Temukan solusi cloud yang tepat untuk setiap tantangan. Gunakan filter untuk menavigasi semua kemungkinan.", "en": "Find the right cloud solution for every challenge. Use the filters to navigate all possibilities." },
+    "filterTitle": { "id": "Filter Skenario", "en": "Filter Scenarios" },
+    "searchPlaceholder": { "id": "Cari skenario...", "en": "Search scenarios..." },
+    "sortLabel": { "id": "Urutkan:", "en": "Sort by:" },
+    "sortRelevance": { "id": "Paling Relevan", "en": "Most Relevant" },
+    "sortAZ": { "id": "Abjad (A-Z)", "en": "Alphabetical (A-Z)" },
+    "sortZA": { "id": "Abjad (Z-A)", "en": "Alphabetical (Z-A)" },
+    "resultsInfo": { "id": "Menampilkan {start}-{end} dari {total} skenario", "en": "Showing {start}-{end} of {total} scenarios" },
+    "paginationPrev": { "id": "Sebelumnya", "en": "Previous" },
+    "paginationNext": { "id": "Selanjutnya", "en": "Next" },
+    "solutionLabel": { "id": "REKOMENDASI SOLUSI:", "en": "SOLUTION RECOMMENDATIONS:" },
+    "noResults": { "id": "Tidak ada skenario yang cocok dengan filter Anda.", "en": "No scenarios match your filters." },
+    "loading": { "id": "Memuat skenario...", "en": "Loading scenarios..." }
+  },
+  "filters": [
+    {
+      "id": "tech-categories-filter",
+      "filterKey": "categories",
+      "label": { "id": "Kategori Teknologi", "en": "Technology Category" },
+      "options": [
+        { "value": "ai-ml", "label": { "id": "AI & Machine Learning", "en": "AI & Machine Learning" } },
+        { "value": "big-data", "label": { "id": "Big Data & Analytics", "en": "Big Data & Analytics" } },
+        { "value": "web-mobile", "label": { "id": "Web & Mobile", "en": "Web & Mobile" } }
+      ]
+    },
+    {
+      "id": "industry-filter",
+      "filterKey": "industry",
+      "label": { "id": "Industri", "en": "Industry" },
+      "options": [
+        { "value": "finansial", "label": { "id": "Finansial & Perbankan", "en": "Finance & Banking" } },
+        { "value": "kesehatan", "label": { "id": "Kesehatan", "en": "Healthcare" } },
+        { "value": "retail-ecommerce", "label": { "id": "Retail & E-Commerce", "en": "Retail & E-Commerce" } }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "web-dinamis",
+      "title": { "id": "Aplikasi Web Dinamis", "en": "Dynamic Web Application" },
+      "icon": "🚀",
+      "description": { "id": "Menjalankan aplikasi backend yang kompleks, seperti e-commerce atau SaaS.", "en": "Running complex backend applications, such as e-commerce or SaaS." },
+      "detailPage": "detail-skenario-1.html",
+      "categories": ["web-mobile"],
+      "industry": "retail-ecommerce",
+      "solutions": [
+        { "name": "AWS EC2", "logo": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_logo.svg" },
+        { "name": "App Service", "logo": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg" }
+      ]
+    }
+  ]
+}

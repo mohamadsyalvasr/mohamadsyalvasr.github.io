@@ -8,9 +8,21 @@
     {
       "type": "dropdown",
       "langKey": "navProducts",
+      "href": "#",
       "items": [
-        { "langKey": "productEbooks", "href": "/cloud/ebooks", "status": "active" },
-        { "langKey": "productTools", "href": "/cloud/tools", "status": "active" }
+        { "langKey": "productEbooks", "type": "link", "href": "/cloud/ebooks", "status": "active" },
+        { "langKey": "productFreeTier", "type": "link", "href": "/cloud/products/free-tier", "status": "comingsoon" },
+        { 
+          "langKey": "toolFinder",
+          "href": "#",
+          "type": "dropdown",
+          "status": "active",
+          "items": [
+            { "langKey": "computeFinder", "type": "link", "href": "/cloud/products/solution-finder/compute", "status": "active" },
+            { "langKey": "databaseFinder", "type": "link", "href": "#", "status": "comingsoon" }
+          ]
+        },
+        { "langKey": "productScenario", "type": "link", "href": "/cloud/products/1001-scenario", "status": "comingsoon" }
       ]
     },
     {
@@ -88,34 +100,9 @@
       }
     },
     {
-      "type": "mega-menu",
+      "type": "link",
       "langKey": "navAbout",
-      "href": "/cloud/about",
-      "content": {
-        "background": {
-            "url": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop"
-        },
-        "titleLangKey": "aboutMegaTitle",
-        "descLangKey": "aboutMegaDesc",
-        "cta": {
-            "langKey": "aboutMegaCTA",
-            "href": "/cloud/about-us"
-        },
-        "keyPoints": [
-            {
-                "titleLangKey": "aboutPoint1Title",
-                "descLangKey": "aboutPoint1Desc"
-            },
-            {
-                "titleLangKey": "aboutPoint2Title",
-                "descLangKey": "aboutPoint2Desc"
-            },
-            {
-                "titleLangKey": "aboutPoint3Title",
-                "descLangKey": "aboutPoint3Desc"
-            }
-        ]
-      }
+      "href": "/cloud/about-us"
     }
   ]
 }

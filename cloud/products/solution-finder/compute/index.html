@@ -46,17 +46,27 @@
             to { transform: rotate(360deg); }
         }
 
-        /* --- Gaya untuk Dropdown & Mega Menu --- */
-        .dropdown-menu, .mega-menu-content {
+        /* --- Gaya BARU untuk Dropdown & Mega Menu --- */
+        .dropdown-menu, .mega-menu-content, .submenu {
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease-out, transform 0.1s ease-out;
-            transform: translateY(-10px);
+            transform: translateY(10px);
             pointer-events: none;
         }
-        .group:hover .mega-menu-content,
-        .dropdown:hover .dropdown-menu {
+
+        /* Tampilkan menu saat hover */
+        .group:hover > .mega-menu-content,
+        .group:hover > .dropdown-menu {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        /* Tampilkan submenu saat hover di item parent-nya */
+        .group.relative:hover > .submenu {
+             display: block;
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
@@ -77,6 +87,12 @@
 
         .mobile-submenu {
             display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .submenu-toggle.open + .mobile-submenu {
+             max-height: 1000px; /* Nilai besar untuk menampung semua item */
         }
         .submenu-toggle svg {
             transition: transform 0.3s;
@@ -200,18 +216,18 @@
         </div>
     </footer>
 
-    <script src="../components/navigation.js" defer></script>
+    <script src="../navigation.js" defer></script>
     <script>
         // --- KONFIGURASI ---
          const DATA_FILES = {
             'aws': {
-                url: '../aws/assets/data/compute-data.json',
-                iconPath: '../aws/assets/icons/'
+                url: '../../../aws/assets/data/compute-data.json',
+                iconPath: '../../../aws/assets/icons/'
             },
-            'gcp': { url: '../gcp/assets/data/compute-data.json', iconPath: '../gcp/assets/icons/' },
-            'azure': { url: '../azure/assets/data/compute-data.json', iconPath: '../azure/assets/icons/' },
-            'alibaba': { url: '../alibaba/assets/data/compute-data.json', iconPath: '../alibaba/assets/icons/' },
-            'huawei': { url: '../huawei/assets/data/compute-data.json', iconPath: '../huawei/assets/icons/' },
+            'gcp': { url: '../../../gcp/assets/data/compute-data.json', iconPath: '../../../gcp/assets/icons/' },
+            'azure': { url: '../../../azure/assets/data/compute-data.json', iconPath: '../../../azure/assets/icons/' },
+            'alibaba': { url: '../../../alibaba/assets/data/compute-data.json', iconPath: '../../../alibaba/assets/icons/' },
+            'huawei': { url: '../../../huawei/assets/data/compute-data.json', iconPath: '../../../huawei/assets/icons/' },
         };
 
         const PROVIDER_DETAILS = {

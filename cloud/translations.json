@@ -135,6 +135,30 @@
     "id": "Tools",
     "en": "Tools"
   },
+  "toolFinder": {
+    "id": "Solution Finder",
+    "en": "Solution Finder"
+  },
+  "toolCalculator": {
+    "id": "Calculator",
+    "en": "Calculator"
+  },
+  "computeFinder": {
+    "id": "Compute",
+    "en": "Compute"
+  },
+  "databaseFinder": {
+    "id": "Databases",
+    "en": "Databases"
+  },
+  "productFreeTier": {
+    "id": "Free Tier",
+    "en": "Free Tier"
+  },
+  "productScenario": {
+    "id": "1001 Use Case",
+    "en": "1001 Use Case"
+  },
   "servicesTitle": {
     "id": "Panduan Cloud Terpopuler",
     "en": "Most Popular Cloud Guides"

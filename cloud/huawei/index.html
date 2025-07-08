@@ -61,16 +61,27 @@
             }
         }
         
-        .dropdown-menu, .mega-menu-content {
+        /* --- Gaya BARU untuk Dropdown & Mega Menu --- */
+        .dropdown-menu, .mega-menu-content, .submenu {
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease-out, transform 0.1s ease-out;
-            transform: translateY(-10px);
+            transform: translateY(10px);
             pointer-events: none;
         }
-        .group:hover .mega-menu-content,
-        .dropdown:hover .dropdown-menu {
+
+        /* Tampilkan menu saat hover */
+        .group:hover > .mega-menu-content,
+        .group:hover > .dropdown-menu {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        /* Tampilkan submenu saat hover di item parent-nya */
+        .group.relative:hover > .submenu {
+             display: block;
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
@@ -91,6 +102,12 @@
 
         .mobile-submenu {
             display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .submenu-toggle.open + .mobile-submenu {
+             max-height: 1000px; /* Nilai besar untuk menampung semua item */
         }
         .submenu-toggle svg {
             transition: transform 0.3s;
@@ -99,6 +116,7 @@
             transform: rotate(90deg);
         }
         
+        /* Gaya untuk badge dan item menu yang non-aktif */
         .menu-item-badge {
             position: absolute;
             top: 0.75rem;

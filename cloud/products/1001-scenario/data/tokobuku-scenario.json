@@ -1,0 +1,139 @@
+{
+  "project": {
+    "title": {
+      "id": "Skenario Proyek: Migrasi \"TokoBukuKu\"",
+      "en": "Project Scenario: \"TokoBukuKu\" Migration"
+    },
+    "subtitle": {
+      "id": "Peta Jalan Belajar untuk Memigrasikan Aplikasi Monolitik On-Premise ke Arsitektur Cloud yang Modern dan Scalable di AWS.",
+      "en": "A Learning Roadmap to Migrate a Monolithic On-Premise Application to a Modern and Scalable Cloud Architecture on AWS."
+    },
+    "scenario": {
+      "title": {
+        "id": "Deskripsi Skenario",
+        "en": "Scenario Description"
+      },
+      "description": {
+        "id": "Anda adalah seorang IT Engineer di perusahaan \"Pustaka Digital\". Perusahaan memiliki aplikasi internal bernama \"TokoBukuKu\" yang berjalan di server fisik (on-premise) di kantor. Aplikasi ini mulai sering lambat saat banyak karyawan mengaksesnya, dan biaya perawatan server fisiknya cukup tinggi. Manajemen memutuskan untuk memigrasikan aplikasi ini ke AWS untuk meningkatkan skalabilitas, keandalan, dan efisiensi biaya.",
+        "en": "You are an IT Engineer at \"Pustaka Digital\". The company has an internal application called \"TokoBukuKu\" running on on-premise physical servers in the office. The application is becoming slow as more employees access it, and the maintenance cost of the physical servers is quite high. Management has decided to migrate this application to AWS to improve scalability, reliability, and cost-efficiency."
+      },
+      "architecture": {
+        "title": {
+          "id": "Arsitektur On-Premise Saat Ini:",
+          "en": "Current On-Premise Architecture:"
+        },
+        "components": [
+          { "type": "Web Server", "details": { "id": "1x Server Fisik (Nginx)", "en": "1x Physical Server (Nginx)" }, "icon": "web-server" },
+          { "type": "Application Server", "details": { "id": "Node.js/Python/Java", "en": "Node.js/Python/Java" }, "icon": "app-server" },
+          { "type": "Database Server", "details": { "id": "MySQL/PostgreSQL", "en": "MySQL/PostgreSQL" }, "icon": "database" }
+        ]
+      }
+    },
+    "roadmap": {
+      "title": {
+        "id": "Peta Jalan Belajar (Learning Roadmap)",
+        "en": "Learning Roadmap"
+      },
+      "phases": [
+        {
+          "id": "fase-0",
+          "tag": { "id": "Wajib!", "en": "Required!" },
+          "tagColor": "red",
+          "title": { "id": "Fase 0: Fondasi & Persiapan", "en": "Phase 0: Foundation & Preparation" },
+          "description": { "id": "Sebelum menyentuh migrasi, Anda harus memahami pilar-pilar dasar AWS. Jangan lewatkan tahap ini!", "en": "Before touching the migration, you must understand the basic pillars of AWS. Do not skip this stage!" },
+          "sections": [
+            {
+              "title": { "id": "Tujuan Belajar:", "en": "Learning Objectives:" },
+              "points": [
+                { "id": "Memahami terminologi dasar cloud dan AWS.", "en": "Understand basic cloud and AWS terminology." },
+                { "id": "Membuat akun AWS dan mengamankannya.", "en": "Create and secure an AWS account." },
+                { "id": "Memahami layanan inti pengganti infrastruktur on-premise.", "en": "Understand the core services that will replace the on-premise infrastructure." }
+              ]
+            },
+            {
+              "title": { "id": "Materi & Praktik:", "en": "Materials & Practice:" },
+              "points": [
+                { "id": "<b>Konsep Global AWS:</b> Regions, Availability Zones (AZs).", "en": "<b>AWS Global Concepts:</b> Regions, Availability Zones (AZs)." },
+                { "id": "<b>IAM:</b> Membuat Akun, IAM User, dan mengaktifkan MFA.", "en": "<b>IAM:</b> Create Account, IAM User, and enable MFA." },
+                { "id": "<b>VPC:</b> Subnets, Route Tables, Internet Gateway, Security Groups.", "en": "<b>VPC:</b> Subnets, Route Tables, Internet Gateway, Security Groups." },
+                { "id": "<b>Layanan Inti:</b> Teori EC2, S3, RDS, dan ELB.", "en": "<b>Core Services:</b> Theory of EC2, S3, RDS, and ELB." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fase-1",
+          "tag": { "id": "Migrasi", "en": "Migration" },
+          "tagColor": "orange",
+          "title": { "id": "Fase 1: Migrasi \"Lift and Shift\" (Rehosting)", "en": "Phase 1: \"Lift and Shift\" Migration (Rehosting)" },
+          "description": { "id": "Strategi migrasi paling sederhana. Tujuannya adalah memindahkan aplikasi ke AWS dengan perubahan arsitektur seminimal mungkin.", "en": "The simplest migration strategy. The goal is to move the application to AWS with minimal architectural changes." },
+          "sections": [
+            {
+              "title": { "id": "Materi & Praktik:", "en": "Materials & Practice:" },
+              "points": [
+                { "id": "<b>Setup Jaringan (VPC):</b> Buat VPC, Public/Private Subnets, Route Tables, Internet Gateway, dan NAT Gateway.", "en": "<b>Network Setup (VPC):</b> Create VPC, Public/Private Subnets, Route Tables, Internet Gateway, and NAT Gateway." },
+                { "id": "<b>Migrasi Database (RDS):</b> Buat RDS Instance di private subnet, lalu lakukan backup/restore database dari on-premise.", "en": "<b>Database Migration (RDS):</b> Create an RDS Instance in a private subnet, then perform a database backup/restore from on-premise." },
+                { "id": "<b>Migrasi Server (EC2):</b> Launch EC2 instances for the app and web servers, configure them, and connect to the RDS.", "en": "<b>Server Migration (EC2):</b> Launch EC2 instances for the app and web servers, configure them, and connect to the RDS." },
+                { "id": "<b>Testing & Go-Live:</b> Akses Public IP Web Server, lalu (opsional) gunakan Route 53 untuk domain.", "en": "<b>Testing & Go-Live:</b> Access the Web Server's Public IP, then (optionally) use Route 53 for the domain." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fase-2",
+          "tag": { "id": "Optimasi", "en": "Optimization" },
+          "tagColor": "yellow",
+          "title": { "id": "Fase 2: Optimasi & Modernisasi (Replatforming)", "en": "Phase 2: Optimization & Modernization (Replatforming)" },
+          "description": { "id": "Aplikasi sudah berjalan, tetapi belum memanfaatkan kekuatan cloud sepenuhnya. Sekarang saatnya melakukan optimasi.", "en": "The application is running, but not yet fully leveraging the power of the cloud. Now it's time for optimization." },
+          "sections": [
+            {
+              "title": { "id": "Materi & Praktik:", "en": "Materials & Practice:" },
+              "points": [
+                { "id": "<b>Skalabilitas & Ketersediaan:</b> Implementasikan Application Load Balancer (ALB) dan Auto Scaling Group (ASG) untuk Web Server.", "en": "<b>Scalability & Availability:</b> Implement an Application Load Balancer (ALB) and Auto Scaling Group (ASG) for the Web Servers." },
+                { "id": "<b>Membuat Aplikasi \"Stateless\":</b> Modifikasi aplikasi untuk menyimpan file unggahan (gambar) ke S3 Bucket.", "en": "<b>Creating a \"Stateless\" Application:</b> Modify the application to store uploaded files (images) in an S3 Bucket." },
+                { "id": "<b>Manajemen Sesi Terpusat:</b> Gunakan Amazon ElastiCache (Redis) untuk menyimpan data sesi secara terpusat.", "en": "<b>Centralized Session Management:</b> Use Amazon ElastiCache (Redis) to store session data centrally." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fase-3",
+          "tag": { "id": "Production Grade", "en": "Production Grade" },
+          "tagColor": "green",
+          "title": { "id": "Fase 3: Keamanan, Monitoring & Otomasi", "en": "Phase 3: Security, Monitoring & Automation" },
+          "description": { "id": "Aplikasi sudah scalable. Sekarang, buat menjadi production-grade.", "en": "The application is now scalable. It's time to make it production-grade." },
+          "sections": [
+            {
+              "title": { "id": "Materi & Praktik:", "en": "Materials & Practice:" },
+              "points": [
+                { "id": "<b>Keamanan Tingkat Lanjut:</b> Gunakan AWS WAF, AWS Secrets Manager, dan terapkan IAM Roles pada EC2.", "en": "<b>Advanced Security:</b> Use AWS WAF, AWS Secrets Manager, and apply IAM Roles to EC2 Instances." },
+                { "id": "<b>Monitoring & Logging:</b> Buat Amazon CloudWatch Alarms dan konfigurasikan CloudWatch Logs.", "en": "<b>Monitoring & Logging:</b> Create Amazon CloudWatch Alarms and configure CloudWatch Logs." },
+                { "id": "<b>Infrastructure as Code (IaC):</b> Pelajari dasar AWS CloudFormation atau Terraform untuk otomasi infrastruktur.", "en": "<b>Infrastructure as Code (IaC):</b> Learn the basics of AWS CloudFormation or Terraform for infrastructure automation." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "navigation": {
+      "title": { "id": "Navigasi Cepat", "en": "Quick Navigation" },
+      "links": [
+        { "target": "#scenario", "text": { "id": "Deskripsi", "en": "Description" } },
+        { "target": "#fase-0", "text": { "id": "Fase 0", "en": "Phase 0" } },
+        { "target": "#fase-1", "text": { "id": "Fase 1", "en": "Phase 1" } },
+        { "target": "#fase-2", "text": { "id": "Fase 2", "en": "Phase 2" } },
+        { "target": "#fase-3", "text": { "id": "Fase 3", "en": "Phase 3" } }
+      ]
+    },
+    "tips": {
+      "title": { "id": "Tips Sukses Belajar", "en": "Tips for Successful Learning" },
+      "points": [
+        { "id": "Manfaatkan AWS Free Tier.", "en": "Leverage the AWS Free Tier." },
+        { "id": "Hands-On adalah Kunci.", "en": "Hands-On is Key." },
+        { "id": "Baca Dokumentasi Resmi.", "en": "Read the Official Documentation." },
+        { "id": "Mulai dari yang Kecil.", "en": "Start Small." },
+        { "id": "Selalu Hapus Sumber Daya setelah latihan.", "en": "Always Delete Resources After Practice." }
+      ]
+    }
+  }
+}
