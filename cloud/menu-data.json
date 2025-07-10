@@ -19,7 +19,7 @@
           "status": "active",
           "items": [
             { "langKey": "computeFinder", "type": "link", "href": "/cloud/products/solution-finder/compute", "status": "active" },
-            { "langKey": "databaseFinder", "type": "link", "href": "#", "status": "comingsoon" }
+            { "langKey": "databaseFinder", "type": "link", "href": "/cloud/products/solution-finder/database", "status": "active" }
           ]
         },
         { "langKey": "productScenario", "type": "link", "href": "/cloud/products/1001-scenario", "status": "comingsoon" }

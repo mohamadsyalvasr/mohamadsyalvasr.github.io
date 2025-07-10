@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compute Solution Finder</title>
+    <title>Database Solution Finder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -221,26 +221,26 @@
         // --- KONFIGURASI ---
          const DATA_FILES = {
             'aws': {
-                url: '../../../aws/assets/data/compute-data.json',
+                url: '../../../aws/assets/data/database-data.json',
                 iconPath: '../../../aws/assets/icons/'
             },
-            'gcp': { url: '../../../gcp/assets/data/compute-data.json', iconPath: '../../../gcp/assets/icons/' },
-            'azure': { url: '../../../azure/assets/data/compute-data.json', iconPath: '../../../azure/assets/icons/' },
-            'alibaba': { url: '../../../alibaba/assets/data/compute-data.json', iconPath: '../../../alibaba/assets/icons/' },
-            'huawei': { url: '../../../huawei/assets/data/compute-data.json', iconPath: '../../../huawei/assets/icons/' },
+            'gcp': { url: '../../../gcp/assets/data/database-data.json', iconPath: '../../../gcp/assets/icons/' },
+            // 'azure': { url: '../../../azure/assets/data/database-data.json', iconPath: '../../../azure/assets/icons/' },
+            // 'alibaba': { url: '../../../alibaba/assets/data/database-data.json', iconPath: '../../../alibaba/assets/icons/' },
+            // 'huawei': { url: '../../../huawei/assets/data/database-data.json', iconPath: '../../../huawei/assets/icons/' },
         };
 
         const PROVIDER_DETAILS = {
             'aws': { name: 'AWS', logo: 'https://www.svgrepo.com/show/376356/aws.svg', borderColor: '#FF9900' },
             'gcp': { name: 'GCP', logo: 'https://www.svgrepo.com/show/448223/gcp.svg', borderColor: '#4285F4' },
-            'azure': { name: 'Azure', logo: 'https://swimburger.net/media/ppnn3pcl/azure.png', borderColor: '#0078D4' },
-            'alibaba': { name: 'Alibaba', logo: 'https://cdn.worldvectorlogo.com/logos/ali-cloud.svg', borderColor: '#ed6b1e' },
-            'huawei': { name: 'Huawei', logo: 'https://upload.wikimedia.org/wikipedia/en/0/04/Huawei_Standard_logo.svg', borderColor: '#ca1324' }
+            // 'azure': { name: 'Azure', logo: 'https://swimburger.net/media/ppnn3pcl/azure.png', borderColor: '#0078D4' },
+            // 'alibaba': { name: 'Alibaba', logo: 'https://cdn.worldvectorlogo.com/logos/ali-cloud.svg', borderColor: '#ed6b1e' },
+            // 'huawei': { name: 'Huawei', logo: 'https://upload.wikimedia.org/wikipedia/en/0/04/Huawei_Standard_logo.svg', borderColor: '#ca1324' }
         };
         
         // PERUBAHAN: Terjemahan statis untuk kerangka aplikasi
         const staticTranslations = {
-            // 'appTitle': { 'id': 'Pencari Komputasi Multi-Cloud', 'en': 'Multi-Cloud Compute Finder' },
+            // 'appTitle': { 'id': 'Pencari Komputasi Multi-Cloud', 'en': 'Multi-Cloud Database Finder' },
             'providerTitle': { 'id': 'Penyedia Cloud', 'en': 'Cloud Providers' },
             'newFinderTitle': { 'id': 'Pencari Solusi', 'en': 'Solution Finder' },
             'newFinderSubtitle': { 'id': 'Gunakan filter ini untuk menemukan layanan yang paling sesuai untuk tugas Anda.', 'en': 'Use these filters to find the right service for your task.' },
