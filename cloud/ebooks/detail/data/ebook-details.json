@@ -1,0 +1,83 @@
+[
+  {
+    "id": "ebook1",
+    "isFeatured": true,
+    "purchaseCount": 157,
+    "coverImage": "https://placehold.co/400x600/38bdf8/ffffff?text=Cloud+Engineer",
+    "link": "https://lynk.id/mohamadsyalvasr/v9n751k3zxln",
+    "status": "available",
+    "title": {
+      "id": "Langkah Demi Langkah Jadi Cloud Engineer di Tahun 2025",
+      "en": "Step-by-Step to Become a Cloud Engineer in 2025"
+    },
+    "shortDescription": {
+        "id": "Panduan lengkap untuk kamu yang ingin jadi Cloud Engineer di tahun 2025.",
+        "en": "A Complete Guide for Aspiring Cloud Engineers in 2025."
+    },
+    "longDescription": {
+        "id": "E-book ini adalah panduan paling komprehensif yang dirancang untuk membimbing Anda dari nol hingga menjadi seorang Cloud Engineer yang siap kerja di tahun 2025. Materi disusun secara sistematis, mencakup konsep dasar cloud computing, pengenalan platform AWS, Google Cloud, dan Azure, hingga praktik terbaik dalam implementasi dan manajemen infrastruktur cloud.",
+        "en": "This e-book is the most comprehensive guide designed to take you from zero to a job-ready Cloud Engineer in 2025. The material is structured systematically, covering basic cloud computing concepts, an introduction to AWS, Google Cloud, and Azure platforms, and best practices in implementing and managing cloud infrastructure."
+    },
+    "author": "Mohamad Syalva",
+    "pages": 210,
+    "format": "PDF",
+    "tableOfContents": [
+        { "id": "Bab 1: Pengenalan Cloud Computing", "en": "Chapter 1: Introduction to Cloud Computing" },
+        { "id": "Bab 2: Memilih Platform Cloud yang Tepat", "en": "Chapter 2: Choosing the Right Cloud Platform" },
+        { "id": "Bab 3: Fondasi Jaringan di Cloud", "en": "Chapter 3: Cloud Networking Foundations" },
+        { "id": "Bab 4: Layanan Komputasi (Compute Services)", "en": "Chapter 4: Compute Services" },
+        { "id": "Bab 5: Keamanan di Cloud", "en": "Chapter 5: Security in the Cloud" },
+        { "id": "Bab 6: Studi Kasus dan Proyek Akhir", "en": "Chapter 6: Case Study and Final Project" }
+    ],
+    "price": {
+      "id": "Rp 150.000",
+      "en": "$9.00"
+    },
+    "discountPrice": {
+      "id": "Rp 25.000",
+      "en": "$1.53"
+    },
+    "buttonText": {
+        "id": "Beli Sekarang",
+        "en": "Buy Now"
+    }
+  },
+  {
+    "id": "ebook2",
+    "isFeatured": false,
+    "purchaseCount": 0,
+    "coverImage": "https://placehold.co/400x600/f97316/ffffff?text=AWS+Compute",
+    "link": "#",
+    "status": "coming_soon",
+     "title": {
+      "id": "Jagoan AWS Compute: Belajar Layanan Komputasi AWS dari Nol di Tahun 2025",
+      "en": "AWS Compute Unlocked: Your 2025 Roadmap to Cloud Mastery"
+    },
+    "shortDescription": {
+      "id": "Panduan ini menyajikan langkah-langkah praktis untuk memahami EC2, Lambda, Auto Scaling, dan layanan penting lainnya.",
+      "en": "This guide walks you through key services like EC2, Lambda, and Auto Scaling with hands-on steps."
+    },
+    "longDescription": {
+        "id": "Fokus pada layanan komputasi AWS, e-book ini akan membongkar cara kerja EC2, Lambda, ECS, dan EKS. Anda akan belajar kapan dan bagaimana menggunakan setiap layanan untuk membangun aplikasi yang skalabel dan efisien. Dilengkapi dengan tutorial langkah demi langkah dan contoh kode.",
+        "en": "Focusing on AWS compute services, this e-book demystifies how EC2, Lambda, ECS, and EKS work. You'll learn when and how to use each service to build scalable and efficient applications. Comes with step-by-step tutorials and code examples."
+    },
+    "author": "Mohamad Syalva",
+    "pages": 180,
+    "format": "PDF",
+    "tableOfContents": [
+        { "id": "Bab 1: Pengenalan AWS Compute", "en": "Chapter 1: Introduction to AWS Compute" },
+        { "id": "Bab 2: Menguasai Amazon EC2", "en": "Chapter 2: Mastering Amazon EC2" },
+        { "id": "Bab 3: Komputasi Tanpa Server dengan AWS Lambda", "en": "Chapter 3: Serverless Computing with AWS Lambda" },
+        { "id": "Bab 4: Orkestrasi Kontainer dengan ECS dan EKS", "en": "Chapter 4: Container Orchestration with ECS and EKS" }
+    ],
+    "price": {
+      "id": "Segera",
+      "en": "Soon"
+    },
+    "discountPrice": null,
+    "buttonText": {
+        "id": "Segera Hadir",
+        "en": "Coming Soon"
+    }
+  }
+]

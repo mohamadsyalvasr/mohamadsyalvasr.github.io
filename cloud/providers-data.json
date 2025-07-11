@@ -6,7 +6,15 @@
     "link": "/cloud/aws/",
     "titleKey": "awsTitle",
     "descKey": "awsDesc",
-    "themeColor": "#FF9900"
+    "themeColor": "#FF9900",
+    "dataUrl": "aws/aws-data.json",
+    "servicesUrl": {
+      "compute": "aws/assets/data/compute-data.json",
+      "storage": "aws/assets/data/storage-data.json",
+      "database": "aws/assets/data/database-data.json",
+      "aiml": "aws/assets/data/aiml-data.json"
+    },
+    "infoTags": ["Market Leader", "IaaS", "PaaS", "SaaS", "Global Reach"]
   },
   {
     "id": "gcp",
@@ -15,7 +23,15 @@
     "link": "/cloud/gcp/",
     "titleKey": "gcpTitle",
     "descKey": "gcpDesc",
-    "themeColor": "#4285F4"
+    "themeColor": "#4285F4",
+    "dataUrl": "gcp/gcp-data.json",
+    "servicesUrl": {
+      "compute": "gcp/assets/data/compute-data.json",
+      "storage": "gcp/assets/data/storage-data.json",
+      "database": "gcp/assets/data/database-data.json",
+      "aiml": "gcp/assets/data/aiml-data.json"
+    },
+    "infoTags": ["Data Analytics", "AI/ML", "Kubernetes", "Networking"]
   },
   {
     "id": "azure",
@@ -24,7 +40,12 @@
     "link": "/cloud/azure/",
     "titleKey": "azureTitle",
     "descKey": "azureDesc",
-    "themeColor": "#0078D4"
+    "themeColor": "#0078D4",
+    "dataUrl": "azure/azure-data.json",
+    "servicesUrl": {
+      "compute": "azure/assets/data/compute-data.json"
+    },
+    "infoTags": ["Enterprise", "Hybrid Cloud", "PaaS", ".NET Ecosystem"]
   },
   {
     "id": "alibaba",
@@ -33,9 +54,13 @@
     "link": "/cloud/alibaba",
     "titleKey": "alibabaTitle",
     "descKey": "alibabaDesc",
-    "themeColor": "#FF6A00"
+    "themeColor": "#FF6A00",
+    "dataUrl": "alibaba/alibaba-data.json",
+    "servicesUrl": {
+      "compute": "alibaba/assets/data/compute-data.json"
+    },
+    "infoTags": ["Asia Market", "E-commerce", "Data Intelligence", "IaaS"]
   },
-  
   {
     "id": "huawei",
     "logo": "https://upload.wikimedia.org/wikipedia/en/0/04/Huawei_Standard_logo.svg",
@@ -43,7 +68,12 @@
     "link": "/cloud/huawei",
     "titleKey": "huaweiTitle",
     "descKey": "huaweiDesc",
-    "themeColor": "#CA1324"
+    "themeColor": "#CA1324",
+    "dataUrl": "huawei/huawei-data.json",
+    "servicesUrl": {
+      "compute": "huawei/assets/data/compute-data.json"
+    },
+    "infoTags": ["Telecommunications", "AI", "5G", "Emerging Markets"]
   },
   {
     "id": "oracle",
@@ -52,7 +82,10 @@
     "link": "#",
     "titleKey": "oracleTitle",
     "descKey": "oracleDesc",
-    "themeColor": "#F80000"
+    "themeColor": "#F80000",
+    "dataUrl": null,
+    "servicesUrl": null,
+    "infoTags": ["Database", "Enterprise Apps", "Bare Metal"]
   },
   {
     "id": "ibm",
@@ -61,7 +94,10 @@
     "link": "#",
     "titleKey": "ibmTitle",
     "descKey": "ibmDesc",
-    "themeColor": "#0530AD"
+    "themeColor": "#0530AD",
+    "dataUrl": null,
+    "servicesUrl": null,
+    "infoTags": ["Hybrid Cloud", "AI (Watson)", "Enterprise", "Security"]
   },
   {
     "id": "digitalocean",
@@ -70,7 +106,10 @@
     "link": "#",
     "titleKey": "doTitle",
     "descKey": "doDesc",
-    "themeColor": "#0080FF"
+    "themeColor": "#0080FF",
+    "dataUrl": null,
+    "servicesUrl": null,
+    "infoTags": ["Developer-Friendly", "Simplicity", "VPS", "Startups"]
   },
   {
     "id": "tencent",
@@ -79,7 +118,10 @@
     "link": "#",
     "titleKey": "tencentTitle",
     "descKey": "tencentDesc",
-    "themeColor": "#0052D9"
+    "themeColor": "#0052D9",
+    "dataUrl": null,
+    "servicesUrl": null,
+    "infoTags": ["Gaming", "Social Media", "Asia Market"]
   },
   {
     "id": "byteplus",
@@ -88,6 +130,9 @@
     "link": "#",
     "titleKey": "byteplusTitle",
     "descKey": "byteplusDesc",
-    "themeColor": "#3C59FF"
+    "themeColor": "#3C59FF",
+    "dataUrl": null,
+    "servicesUrl": null,
+    "infoTags": ["AI/ML", "Content Delivery", "Video Apps"]
   }
 ]

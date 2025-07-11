@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail E-Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .toc-item {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="loading-state" class="flex items-center justify-center h-screen">
+        <p class="text-slate-500">Memuat detail e-book...</p>
+    </div>
+
+    <div id="ebook-detail-container" class="container mx-auto px-4 py-12 md:py-20 hidden">
+        <!-- Content will be injected here by JavaScript -->
+    </div>
+    
+    <div id="not-found-state" class="text-center py-20 hidden">
+         <h2 class="text-2xl font-bold text-slate-800">E-Book Tidak Ditemukan</h2>
+         <p class="text-slate-600 mt-2">Maaf, kami tidak dapat menemukan e-book yang Anda cari.</p>
+         <a href="index.html" class="mt-6 inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg">&larr; Kembali ke Daftar E-book</a>
+    </div>
+
+    <script>
+        // Helper function to get translated text
+        const getTranslatedText = (obj, lang, fallbackLang = 'id') => {
+            if (obj && typeof obj === 'object' && obj[lang]) {
+                return obj[lang];
+            }
+            return obj && typeof obj === 'object' ? obj[fallbackLang] : '';
+        };
+
+        const renderEbookDetail = (book, lang) => {
+            const container = document.getElementById('ebook-detail-container');
+
+            const title = getTranslatedText(book.title, lang);
+            const longDescription = getTranslatedText(book.longDescription, lang);
+            const buttonText = getTranslatedText(book.buttonText, lang);
+            const price = getTranslatedText(book.price, lang);
+            const discountPrice = getTranslatedText(book.discountPrice, lang);
+
+            let priceHTML = '';
+            if (discountPrice) {
+                priceHTML = `
+                    <p class="text-3xl font-bold text-red-600">${discountPrice}</p>
+                    <p class="ml-3 text-xl text-slate-500 line-through">${price}</p>
+                `;
+            } else {
+                priceHTML = `<p class="text-3xl font-bold text-blue-600">${price}</p>`;
+            }
+
+            const isComingSoon = book.status === 'coming_soon';
+            const buttonClass = isComingSoon 
+                ? 'bg-slate-400 text-slate-600 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700 text-white';
+
+            const tableOfContentsHTML = book.tableOfContents.map(item => `
+                <li class="toc-item p-4 flex items-center">
+                    <i class="fa-solid fa-check-circle text-blue-500 mr-3"></i>
+                    <span>${getTranslatedText(item, lang)}</span>
+                </li>
+            `).join('');
+
+            const detailHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                    <!-- Left Column: Image and Price -->
+                    <div class="md:col-span-1">
+                        <img src="${book.coverImage}" alt="Sampul ${title}" class="w-full rounded-xl shadow-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/400x600/e2e8f0/475569?text=Image+Not+Found';">
+                        <div class="bg-white p-6 rounded-xl border border-slate-200">
+                            <div class="flex items-baseline justify-center mb-4">
+                                ${priceHTML}
+                            </div>
+                            <a href="${isComingSoon ? '#' : book.link}" target="_blank" 
+                               class="block w-full text-center font-bold text-lg px-6 py-3 rounded-lg transition-colors ${buttonClass}"
+                               ${isComingSoon ? 'aria-disabled="true" role="button"' : ''}>
+                                ${buttonText}
+                            </a>
+                        </div>
+                         <a href="index.html" class="mt-6 inline-block text-blue-600 hover:text-blue-800 font-semibold transition text-sm">&larr; Kembali ke Daftar</a>
+                    </div>
+
+                    <!-- Right Column: Details -->
+                    <div class="md:col-span-2">
+                        <h1 class="text-3xl md:text-4xl font-bold text-slate-900">${title}</h1>
+                        <div class="flex items-center text-sm text-slate-600 mt-4 space-x-4">
+                            <span>Oleh: <strong>${book.author}</strong></span>
+                            <span>|</span>
+                            <span>${book.pages} Halaman</span>
+                            <span>|</span>
+                            <span>Format: ${book.format}</span>
+                        </div>
+                        <p class="text-slate-700 mt-6 text-lg leading-relaxed">${longDescription}</p>
+
+                        <div class="mt-10">
+                            <h2 class="text-2xl font-bold text-slate-800 mb-4">Apa yang akan Anda Pelajari?</h2>
+                            <ul class="bg-white rounded-xl border border-slate-200">
+                                ${tableOfContentsHTML}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = detailHTML;
+        };
+
+        const initDetail = async () => {
+            const loadingEl = document.getElementById('loading-state');
+            const containerEl = document.getElementById('ebook-detail-container');
+            const notFoundEl = document.getElementById('not-found-state');
+
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const ebookId = urlParams.get('id');
+                const lang = localStorage.getItem('language') || 'id';
+
+                if (!ebookId) {
+                    throw new Error('No ebook ID provided');
+                }
+
+                // Assuming the new JSON file is in a 'data' folder
+                const response = await fetch('data/ebook-details.json');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch ebook data');
+                }
+                const allEbooks = await response.json();
+                
+                const book = allEbooks.find(b => b.id === ebookId);
+
+                if (book) {
+                    document.title = getTranslatedText(book.title, lang) + " - Detail E-Book";
+                    renderEbookDetail(book, lang);
+                    loadingEl.classList.add('hidden');
+                    containerEl.classList.remove('hidden');
+                } else {
+                    throw new Error('Ebook not found');
+                }
+            } catch (error) {
+                console.error("Error initializing detail page:", error);
+                loadingEl.classList.add('hidden');
+                notFoundEl.classList.remove('hidden');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', initDetail);
+    </script>
+</body>
+</html>
