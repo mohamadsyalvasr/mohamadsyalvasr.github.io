@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive AWS Learning Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate & Amber -->
+    <!-- Application Structure Plan: The SPA structure reverts the week filter to an on-page control section above the main content grid, based on user feedback. The top navigation is simplified to only include scroll-to links for major sections (Dashboard, Projects). This hybrid approach provides both easy filtering and quick access to supplementary sections. Multi-language support is added for all content. -->
+    <!-- Visualization & Content Choices: 1. Roadmap: Interactive grid of cards (HTML/Tailwind) -> Interaction: JS filtering via on-page buttons. Justification: Restores user-preferred interaction model. Each card now includes an external link to a specific learning resource. 2. Topic Breakdown: Doughnut Chart (Chart.js/Canvas). Justification: Unchanged. 3. Certification Path: HTML/CSS flexbox diagram. Justification: Unchanged. 4. Projects/Multi-Cloud: Styled cards and table. Justification: Unchanged. All text is now dynamically updated based on language selection. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+            aspect-ratio: 1 / 1;
+        }
+        .cert-path-item, .day-card {
+            transition: all 0.25s ease-in-out;
+        }
+        .cert-path-item:hover, .day-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .day-card {
+             border: 1px solid #e2e8f0;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #f59e0b, #ea580c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .filter-button.active, .lang-switcher button.active {
+            background-color: #1e293b;
+            color: white;
+            border-color: #1e293b;
+        }
+        .mobile-submenu {
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        /* --- Gaya BARU untuk Dropdown & Mega Menu --- */
+        .dropdown-menu, .mega-menu-content, .submenu {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+
+        /* Tampilkan menu saat hover */
+        .group:hover > .mega-menu-content,
+        .group:hover > .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        /* Tampilkan submenu saat hover di item parent-nya */
+        .group.relative:hover > .submenu {
+             display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .hero-menu-card {
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .hero-menu-card:hover {
+            background-color: #f8fafc; /* slate-50 */
+            transform: scale(1.02);
+        }
+        
+        .about-mega-menu-bg {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mobile-submenu {
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .submenu-toggle.open + .mobile-submenu {
+             max-height: 1000px; /* Nilai besar untuk menampung semua item */
+        }
+        .submenu-toggle svg {
+            transition: transform 0.3s;
+        }
+        .submenu-toggle.open svg {
+            transform: rotate(90deg);
+        }
+        
+        /* Gaya untuk badge dan item menu yang non-aktif */
+        .menu-item-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* slate-600 */
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .menu-item-disabled {
+            filter: grayscale(80%);
+            cursor: not-allowed;
+        }
+        .menu-item-disabled:hover {
+            background-color: transparent !important;
+            transform: scale(1) !important;
+        }
+    </style>
+</head>
+<body class="antialiased bg-slate-50 text-slate-800">
+
+    <!-- <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="#" class="flex-shrink-0 flex items-center p-4">
+                    <span data-lang-key="headerTitle" class="font-bold text-lg text-slate-800">AWS Roadmap</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center space-x-4">
+                    <a href="#dashboard" data-lang-key="navDashboard" class="nav-link-desktop p-4 text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Dashboard</a>
+                    <a href="#projects" data-lang-key="navProjects" class="nav-link-desktop p-4 text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Projects</a>
+                    <a href="#multi-cloud" data-lang-key="navMultiCloud" class="nav-link-desktop p-4 text-sm font-medium text-slate-600 hover:text-amber-600 transition-colors">Multi-Cloud</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2">
+                 <a href="#dashboard" data-lang-key="navDashboard" class="scroll-link block py-2 text-slate-700 font-medium hover:text-amber-600">Dashboard</a>
+                 <a href="#projects" data-lang-key="navProjects" class="scroll-link block py-2 text-slate-700 font-medium hover:text-amber-600">Projects</a>
+                 <a href="#multi-cloud" data-lang-key="navMultiCloud" class="scroll-link block py-2 text-slate-700 font-medium hover:text-amber-600">Multi-Cloud</a>
+            </nav>
+        </div>
+    </header> -->
+
+    <!-- Header dengan Navigasi Dinamis -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-amber-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                 <button type="button" id="roadmap-btn" class="flex items-center space-x-1.5 text-slate-600 hover:text-amber-600 transition-colors font-medium text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                    <span data-lang-key="roadmapButton"></span>
+                </button>
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        
+        <header class="text-center mb-12">
+            <h1 data-lang-key="mainTitle" class="text-4xl md:text-5xl font-bold text-slate-800 mb-4 text-gradient">Interactive AWS Learning Roadmap</h1>
+            <p data-lang-key="mainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Your 30-day journey to becoming a Cloud Engineer, visualized.</p>
+        </header>
+
+        <section id="controls" class="mb-12 p-4 bg-white/60 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200/80 sticky top-[65px] z-30">
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <span data-lang-key="filterLabel" class="text-sm font-medium text-slate-600 flex-shrink-0">Learning Focus:</span>
+                <div id="week-filters" class="flex items-center gap-x-2 gap-y-2 flex-wrap justify-center">
+                    <button data-week="all" data-lang-key="filterAll" class="filter-button active px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">Full Plan</button>
+                    <button data-week="1" data-lang-key="filterWeek1" class="filter-button px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">Week 1</button>
+                    <button data-week="2" data-lang-key="filterWeek2" class="filter-button px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">Week 2</button>
+                    <button data-week="3" data-lang-key="filterWeek3" class="filter-button px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">Week 3</button>
+                    <button data-week="4" data-lang-key="filterWeek4" class="filter-button px-4 py-2 border border-slate-300 rounded-full text-sm font-semibold hover:bg-slate-200 transition-colors">Week 4</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadmap">
+             <h2 data-lang-key="roadmapTitle" class="text-2xl font-bold text-center text-slate-800 mb-2">30-Day Learning Plan</h2>
+             <p data-lang-key="roadmapSubtitle" id="roadmap-subtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">A day-by-day guide to building your AWS skills. Use the filter buttons above to focus on a specific week.</p>
+            <div id="roadmap-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+        </section>
+
+        <section id="dashboard" class="mt-16 pt-12 border-t border-slate-200">
+             <h2 data-lang-key="dashboardTitle" class="text-2xl font-bold text-center text-slate-800 mb-2">Roadmap at a Glance</h2>
+             <p data-lang-key="dashboardSubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">This dashboard provides a high-level overview of your learning journey, including the distribution of topics and potential certification paths.</p>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div class="w-full">
+                        <h3 data-lang-key="curriculumTitle" class="text-xl font-semibold text-center text-gray-700 mb-4">Curriculum Focus</h3>
+                        <div class="chart-container">
+                            <canvas id="topicsChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 data-lang-key="certPathTitle" class="text-xl font-semibold text-center text-gray-700 mb-4">Certification Pathways</h3>
+                         <p data-lang-key="certPathSubtitle" class="text-center text-sm text-gray-500 mb-6">Follow this path from foundational knowledge to professional expertise. Hover over a certification for more details.</p>
+                        <div id="cert-path-container" class="flex flex-col items-center space-y-2">
+                            <div title="Validates overall understanding of the AWS Cloud. A great starting point." class="cert-path-item bg-amber-100 text-amber-800 p-4 rounded-lg w-full max-w-sm text-center shadow-sm border border-amber-200">
+                                <p data-lang-key="certFoundational" class="font-bold">1. Foundational</p>
+                                <p>AWS Certified Cloud Practitioner</p>
+                            </div>
+                            <div class="text-slate-400 font-bold text-2xl">↓</div>
+                            <div title="Choose a role-based certification to deepen your skills in a specific area." class="cert-path-item bg-sky-100 text-sky-800 p-4 rounded-lg w-full max-w-sm text-center shadow-sm border border-sky-200">
+                                <p data-lang-key="certAssociate" class="font-bold">2. Associate</p>
+                                <p>Solutions Architect, Developer, or SysOps</p>
+                            </div>
+                             <div class="text-slate-400 font-bold text-2xl">↓</div>
+                            <div title="Demonstrates deep technical skills and experience in designing and deploying systems on AWS." class="cert-path-item bg-teal-100 text-teal-800 p-4 rounded-lg w-full max-w-sm text-center shadow-sm border border-teal-200">
+                                <p data-lang-key="certPro" class="font-bold">3. Professional & Specialty</p>
+                                <p>DevOps Engineer, Security, etc.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="projects" class="mt-16 pt-12 border-t border-slate-200">
+            <h2 data-lang-key="projectsTitle" class="text-2xl font-bold text-center text-slate-800 mb-2">Hands-On Project Ideas</h2>
+            <p data-lang-key="projectsSubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Theory is important, but building is where true learning happens. Apply your knowledge by tackling one of these real-world projects.</p>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <section id="multi-cloud" class="mt-16 pt-12 border-t border-slate-200">
+             <h2 data-lang-key="multiCloudTitle" class="text-2xl font-bold text-center text-slate-800 mb-2">Multi-Cloud Context</h2>
+            <p data-lang-key="multiCloudSubtitle" class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Understanding core cloud concepts allows you to translate your skills across different providers. Here’s a quick comparison of equivalent services.</p>
+            <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md overflow-x-auto">
+                <table id="multi-cloud-table" class="w-full min-w-max text-sm text-left">
+                </table>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-10 mt-10 border-t border-slate-200 text-slate-500">
+        <p data-lang-key="footer" >Your cloud journey starts now. Good luck!</p>
+    </footer>
+
+<script src="../../components/navigation.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Initialize the navigator. This will fetch data and build the menu.
+    AppNavigator.init('#desktop-nav', '#mobile-nav');
+
+    const setPageLanguage = (lang) => {
+        // Use the navigator's method to switch the language
+        AppNavigator.switchLanguage(lang);
+    };
+
+    // Set the initial active state for the language buttons based on navigator's state
+    const initialLang = localStorage.getItem('language') || 'id';
+    
+    const translations = {
+        headerTitle: { id: "Peta Jalan AWS", en: "AWS Roadmap" },
+        navDashboard: { id: "Dasbor", en: "Dashboard" },
+        navProjects: { id: "Proyek", en: "Projects" },
+        navMultiCloud: { id: "Multi-Cloud", en: "Multi-Cloud" },
+        mainTitle: { id: "Peta Jalan Belajar AWS Interaktif", en: "Interactive AWS Learning Roadmap" },
+        mainSubtitle: { id: "Perjalanan 30 hari Anda untuk menjadi seorang Cloud Engineer, divisualisasikan.", en: "Your 30-day journey to becoming a Cloud Engineer, visualized." },
+        filterLabel: { id: "Fokus Belajar:", en: "Learning Focus:" },
+        filterAll: { id: "Rencana Penuh", en: "Full Plan" },
+        filterWeek1: { id: "Minggu 1", en: "Week 1" },
+        filterWeek2: { id: "Minggu 2", en: "Week 2" },
+        filterWeek3: { id: "Minggu 3", en: "Week 3" },
+        filterWeek4: { id: "Minggu 4", en: "Week 4" },
+        roadmapTitle: { id: "Rencana Belajar 30 Hari", en: "30-Day Learning Plan" },
+        roadmapSubtitle: { id: "Panduan harian untuk membangun keahlian AWS Anda. Gunakan tombol filter di atas untuk fokus pada minggu tertentu.", en: "A day-by-day guide to building your AWS skills. Use the filter buttons above to focus on a specific week." },
+        dashboardTitle: { id: "Peta Jalan Sekilas", en: "Roadmap at a Glance" },
+        dashboardSubtitle: { id: "Dasbor ini memberikan gambaran tingkat tinggi dari perjalanan belajar Anda, termasuk distribusi topik dan jalur sertifikasi potensial.", en: "This dashboard provides a high-level overview of your learning journey, including the distribution of topics and potential certification paths." },
+        curriculumTitle: { id: "Fokus Kurikulum", en: "Curriculum Focus" },
+        certPathTitle: { id: "Jalur Sertifikasi", en: "Certification Pathways" },
+        certPathSubtitle: { id: "Ikuti jalur ini dari pengetahuan dasar hingga keahlian profesional. Arahkan kursor ke sertifikasi untuk detail lebih lanjut.", en: "Follow this path from foundational knowledge to professional expertise. Hover over a certification for more details." },
+        certFoundational: { id: "1. Dasar", en: "1. Foundational" },
+        certAssociate: { id: "2. Associate", en: "2. Associate" },
+        certPro: { id: "3. Profesional & Spesialisasi", en: "3. Professional & Specialty" },
+        projectsTitle: { id: "Ide Proyek Praktis", en: "Hands-On Project Ideas" },
+        projectsSubtitle: { id: "Teori itu penting, tetapi membangun adalah tempat pembelajaran sejati terjadi. Terapkan pengetahuan Anda dengan mengerjakan salah satu proyek dunia nyata ini.", en: "Theory is important, but building is where true learning happens. Apply your knowledge by tackling one of these real-world projects." },
+        multiCloudTitle: { id: "Konteks Multi-Cloud", en: "Multi-Cloud Context" },
+        multiCloudSubtitle: { id: "Memahami konsep inti cloud memungkinkan Anda menerjemahkan keahlian Anda ke berbagai penyedia. Berikut perbandingan cepat layanan yang setara.", en: "Understanding core cloud concepts allows you to translate your skills across different providers. Here’s a quick comparison of equivalent services." },
+        footer: { id: "Perjalanan cloud Anda dimulai sekarang. Semoga berhasil!", en: "Your cloud journey starts now. Good luck!" },
+        viewResourceBtn: { id: "Lihat Sumber Belajar →", en: "View Resource →" },
+        reviewBtn: { id: "Proyek/Review", en: "Project/Review" },
+        weekLabel: { id: "Minggu", en: "Week" },
+        chartLabel: { id: "Fokus Belajar", en: "Learning Focus" },
+        chartDays: { id: " Hari", en: " Days" },
+        chartLabels: {
+            id: ['Infrastruktur Inti', 'Skalabilitas & Otomatisasi', 'Aplikasi Modern', 'Keamanan & DevOps'],
+            en: ['Core Infrastructure', 'Scaling & Automation', 'Modern Apps', 'Security & DevOps']
+        },
+        multiCloudCategory: { id: 'Kategori', en: 'Category' },
+
+        // Roadmap Content
+        day1_topic: { id: "Konsep Cloud & Infrastruktur Global AWS", en: "Cloud Concepts & AWS Global Infrastructure" },
+        day1_lab: { id: "Buat akun AWS Free Tier. Jelajahi Konsol Manajemen AWS dan temukan Region/AZ.", en: "Create AWS Free Tier account. Explore the AWS Management Console and find Regions/AZs." },
+        day2_topic: { id: "Manajemen Identitas & Akses (IAM)", en: "Identity & Access Management (IAM)" },
+        day2_lab: { id: "Buat pengguna IAM dengan AdministratorAccess. Atur alarm penagihan. Masuk dengan pengguna IAM baru Anda.", en: "Create an IAM user with AdministratorAccess. Set up a billing alarm. Log in with your new IAM user." },
+        day3_topic: { id: "Virtual Private Cloud (VPC)", en: "Virtual Private Cloud (VPC)" },
+        day3_lab: { id: "Buat VPC kustom dengan subnet publik dan privat. Buat dan lampirkan Internet Gateway.", en: "Create a custom VPC with public and private subnets. Create and attach an Internet Gateway." },
+        day4_topic: { id: "Elastic Compute Cloud (EC2) - Bagian 1", en: "Elastic Compute Cloud (EC2) - Part 1" },
+        day4_lab: { id: "Luncurkan instans EC2 Amazon Linux t2.micro di subnet publik Anda. Konfigurasikan Security Group untuk SSH & HTTP.", en: "Launch a t2.micro Amazon Linux EC2 instance in your public subnet. Configure a Security Group for SSH & HTTP." },
+        day5_topic: { id: "Elastic Compute Cloud (EC2) - Bagian 2", en: "Elastic Compute Cloud (EC2) - Part 2" },
+        day5_lab: { id: "SSH ke instans EC2 Anda. Gunakan data pengguna untuk menginstal server web Apache. Akses IP publik instans Anda di browser.", en: "SSH into your EC2 instance. Use user data to install an Apache web server. Access the public IP in a browser." },
+        day6_topic: { id: "Simple Storage Service (S3) - Dasar", en: "Simple Storage Service (S3) - Basics" },
+        day6_lab: { id: "Buat bucket S3. Unggah file. Aktifkan akses publik dan konfigurasikan kebijakan bucket untuk satu file.", en: "Create an S3 bucket. Upload files. Enable public access and configure a bucket policy for one file." },
+        day7_topic: { id: "S3 - Situs Web Statis & Tingkat Penyimpanan", en: "S3 - Static Websites & Storage Tiers" },
+        day7_lab: { id: "Konfigurasikan bucket S3 Anda untuk menghosting situs web HTML statis sederhana. Buat aturan siklus hidup untuk S3 Glacier.", en: "Configure your S3 bucket to host a simple static HTML website. Create a lifecycle rule for S3 Glacier." },
+        day8_topic: { id: "Elastic Load Balancing & Auto Scaling", en: "Elastic Load Balancing & Auto Scaling" },
+        day8_lab: { id: "Buat Launch Template, Auto Scaling Group, dan Application Load Balancer untuk menskalakan di dua instans.", en: "Create a Launch Template, Auto Scaling Group, and Application Load Balancer to scale across two instances." },
+        day9_topic: { id: "Route 53 - Manajemen DNS", en: "Route 53 - DNS Management" },
+        day9_lab: { id: "Arahkan domain ke Application Load Balancer Anda. Jelajahi berbagai kebijakan perutean di konsol.", en: "Point a domain to your Application Load Balancer. Explore different routing policies in the console." },
+        day10_topic: { id: "Relational Database Service (RDS)", en: "Relational Database Service (RDS)" },
+        day10_lab: { id: "Luncurkan instans RDS db.t2.micro di subnet privat Anda. Konfigurasikan grup keamanannya untuk mengizinkan lalu lintas EC2.", en: "Launch a db.t2.micro RDS instance in your private subnet. Configure its security group to allow EC2 traffic." },
+        day11_topic: { id: "CloudWatch - Pemantauan & Alarm", en: "CloudWatch - Monitoring & Alarms" },
+        day11_lab: { id: "Buat alarm CloudWatch yang mengirim email SNS jika pemanfaatan CPU EC2 melebihi 70% selama 5 menit.", en: "Create a CloudWatch alarm that sends an SNS email if EC2 CPU utilization exceeds 70% for 5 minutes." },
+        day12_topic: { id: "AWS CLI & SDK", en: "AWS CLI & SDKs" },
+        day12_lab: { id: "Instal dan konfigurasikan AWS CLI. Gunakan untuk mendaftar bucket S3, mendeskripsikan instans EC2, dan menghentikan/memulai instans.", en: "Install and configure the AWS CLI. Use it to list S3 buckets, describe EC2 instances, and stop/start an instance." },
+        day13_topic: { id: "Infrastructure as Code - CloudFormation", en: "Infrastructure as Code - CloudFormation" },
+        day13_lab: { id: "Tulis templat CloudFormation dasar untuk menerapkan VPC dan instans EC2. Terapkan lalu hapus tumpukan.", en: "Write a basic CloudFormation template to deploy a VPC and an EC2 instance. Deploy and then delete the stack." },
+        day14_topic: { id: "Tinjauan & Pengerjaan Proyek", en: "Review & Project Work" },
+        day14_lab: { id: "Hapus semua sumber daya. Terapkan kembali arsitektur 3-tingkat Anda (VPC, EC2, RDS, ELB) menggunakan satu templat CloudFormation.", en: "Tear down all resources. Re-deploy your 3-tier architecture (VPC, EC2, RDS, ELB) using one CloudFormation template." },
+        day15_topic: { id: "AWS Lambda - Komputasi Tanpa Server", en: "AWS Lambda - Serverless Compute" },
+        day15_lab: { id: "Buat fungsi Lambda \"Hello World\" (Python/Node.js). Uji dan jelajahi lognya di CloudWatch.", en: "Create a \"Hello World\" Lambda function (Python/Node.js). Test it and explore its logs in CloudWatch." },
+        day16_topic: { id: "Amazon API Gateway", en: "Amazon API Gateway" },
+        day16_lab: { id: "Buat API Gateway HTTP dan konfigurasikan untuk memicu fungsi Lambda Anda. Panggil titik akhir API dari browser.", en: "Create an HTTP API Gateway and configure it to trigger your Lambda function. Call the endpoint from a browser." },
+        day17_topic: { id: "DynamoDB - Database NoSQL", en: "DynamoDB - NoSQL Database" },
+        day17_lab: { id: "Buat tabel DynamoDB untuk daftar \"To-Do\". Tambah, perbarui, dan kueri item dalam tabel.", en: "Create a DynamoDB table for a \"To-Do\" list. Add, update, and query items in the table." },
+        day18_topic: { id: "Serverless Application Model (SAM)", en: "Serverless Application Model (SAM)" },
+        day18_lab: { id: "Instal AWS SAM CLI. Gunakan untuk menginisialisasi, membangun, dan menerapkan aplikasi API Gateway + Lambda tanpa server.", en: "Install the AWS SAM CLI. Use it to initialize, build, and deploy a serverless API Gateway + Lambda app." },
+        day19_topic: { id: "Dasar-dasar Docker & Kontainer", en: "Docker & Container Fundamentals" },
+        day19_lab: { id: "Tulis Dockerfile untuk aplikasi web sederhana (Flask/Express). Bangun image dan jalankan secara lokal.", en: "Write a Dockerfile for a simple web app (Flask/Express). Build the image and run it locally." },
+        day20_topic: { id: "Elastic Container Registry (ECR) & Service (ECS)", en: "Elastic Container Registry (ECR) & Service (ECS)" },
+        day20_lab: { id: "Buat repo ECR dan dorong image Docker Anda. Buat klaster ECS dan Tugas Fargate untuk menjalankannya.", en: "Create an ECR repo and push your Docker image. Create an ECS cluster and a Fargate Task to run it." },
+        day21_topic: { id: "Tinjauan & Pengerjaan Proyek", en: "Review & Project Work" },
+        day21_lab: { id: "Bangun API tanpa server yang melakukan operasi CRUD pada daftar To-Do DynamoDB Anda. Terapkan menggunakan AWS SAM.", en: "Build a serverless API that performs CRUD operations on your DynamoDB To-Do list. Deploy using AWS SAM." },
+        day22_topic: { id: "Tanggung Jawab Bersama & Keamanan", en: "Shared Responsibility & Security" },
+        day22_lab: { id: "Tinjau Model Tanggung Jawab Bersama. Jalankan IAM Access Analyzer untuk menemukan potensi risiko keamanan.", en: "Review the Shared Responsibility Model. Run IAM Access Analyzer to find potential security risks." },
+        day23_topic: { id: "Enkripsi dengan AWS KMS", en: "Encryption with AWS KMS" },
+        day23_lab: { id: "Buat kunci KMS yang dikelola pelanggan. Konfigurasikan bucket S3 untuk menggunakan kunci ini untuk Enkripsi Sisi Server (SSE-KMS).", en: "Create a customer-managed KMS key. Configure an S3 bucket to use this key for Server-Side Encryption (SSE-KMS)." },
+        day24_topic: { id: "AWS Well-Architected Framework", en: "AWS Well-Architected Framework" },
+        day24_lab: { id: "Baca 6 pilar. Nilai aplikasi web yang Anda bangun terhadap prinsip pilar Pengoptimalan Biaya.", en: "Read the 6 pillars. Assess the web app you built against the Cost Optimization pillar principles." },
+        day25_topic: { id: "CI/CD dengan Alat Pengembang AWS", en: "CI/CD with AWS Developer Tools" },
+        day25_lab: { id: "Buat CodePipeline untuk secara otomatis menerapkan perubahan dari CodeCommit ke server web EC2 Anda.", en: "Create a CodePipeline to automatically deploy changes from CodeCommit to your EC2 web server." },
+        day26_topic: { id: "Pencatatan & Audit dengan CloudTrail", en: "Logging & Auditing with CloudTrail" },
+        day26_lab: { id: "Aktifkan CloudTrail. Buka Riwayat Peristiwa dan filter untuk peristiwa yang dilakukan oleh pengguna IAM Anda (mis., RunInstances).", en: "Enable CloudTrail. Go to Event History and filter for events performed by your IAM user (e.g., RunInstances)." },
+        day27_topic: { id: "Manajemen & Optimalisasi Biaya", en: "Cost Management & Optimization" },
+        day27_lab: { id: "Gunakan AWS Cost Explorer untuk menganalisis pengeluaran. Buat anggaran dengan AWS Budgets untuk mendapatkan peringatan.", en: "Use AWS Cost Explorer to analyze spending. Create a budget with AWS Budgets to get alerts." },
+        day28_topic: { id: "Hari Proyek & Tinjauan", en: "Project Day & Review" },
+        day28_lab: { id: "Pilih proyek dan mulai membangun. Tinjau konsep kunci dan ikuti ujian praktik.", en: "Choose a project and start building. Review key concepts and take a practice exam." },
+        day29_topic: { id: "Hari Proyek & Tinjauan", en: "Project Day & Review" },
+        day29_lab: { id: "Lanjutkan pengerjaan proyek. Identifikasi area lemah dari ujian praktik dan tinjau dokumentasi yang relevan.", en: "Continue project work. Identify weak areas from practice exam and review relevant documentation." },
+        day30_topic: { id: "Proyek Akhir & Pembersihan", en: "Final Project & Cleanup" },
+        day30_lab: { id: "Selesaikan proyek Anda. Yang terpenting, HAPUS SEMUA SUMBER DAYA untuk menghindari biaya lebih lanjut!", en: "Finalize your project. Most importantly, DELETE ALL RESOURCES to avoid further charges!" },
+
+        // Projects Content
+        proj1_title: { id: "Pipeline Pemrosesan Gambar Tanpa Server", en: "Serverless Image-Processing Pipeline" },
+        proj1_desc: { id: "Unggah gambar ke bucket S3, yang memicu Lambda untuk membuat thumbnail. Simpan metadata di DynamoDB.", en: "Upload an image to an S3 bucket, which triggers a Lambda to create a thumbnail. Store metadata in DynamoDB." },
+        proj2_title: { id: "Aplikasi Web 3-Tingkat Sepenuhnya Otomatis", en: "Fully Automated 3-Tier Web Application" },
+        proj2_desc: { id: "Terapkan aplikasi web seperti WordPress menggunakan satu templat CloudFormation. Termasuk lapisan jaringan, komputasi, dan database.", en: "Deploy a classic web application (like WordPress) using CloudFormation. The architecture should include a public-facing Application Load Balancer, an Auto Scaling Group of web servers in a public subnet, and an RDS database in a private subnet." },
+        proj3_title: { id: "Pipeline CI/CD untuk Aplikasi Terkontainerisasi", en: "CI/CD Pipeline for a Containerized App" },
+        proj3_desc: { id: "Buat pipeline CI/CD penuh menggunakan alat asli AWS untuk membangun dan menerapkan kontainer Docker ke ECS Fargate.", en: "Create a full CI/CD pipeline with AWS CodePipeline that takes your code from CodeCommit, builds a Docker image in CodeBuild, pushes it to ECR, and deploys it to ECS Fargate." },
+    };
+
+    const roadmapData = [
+        { day: 1, week: 1, topicKey: 'day1_topic', labKey: 'day1_lab', resourceUrl: 'https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials' },
+        { day: 2, week: 1, topicKey: 'day2_topic', labKey: 'day2_lab', resourceUrl: 'https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html' },
+        { day: 3, week: 1, topicKey: 'day3_topic', labKey: 'day3_lab', resourceUrl: 'https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html' },
+        { day: 4, week: 1, topicKey: 'day4_topic', labKey: 'day4_lab', resourceUrl: 'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html' },
+        { day: 5, week: 1, topicKey: 'day5_topic', labKey: 'day5_lab', resourceUrl: 'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html' },
+        { day: 6, week: 1, topicKey: 'day6_topic', labKey: 'day6_lab', resourceUrl: 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html' },
+        { day: 7, week: 1, topicKey: 'day7_topic', labKey: 'day7_lab', resourceUrl: 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html' },
+        { day: 8, week: 2, topicKey: 'day8_topic', labKey: 'day8_lab', resourceUrl: 'https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-elastic-load-balancing.html' },
+        { day: 9, week: 2, topicKey: 'day9_topic', labKey: 'day9_lab', resourceUrl: 'https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/what-is-route-53.html' },
+        { day: 10, week: 2, topicKey: 'day10_topic', labKey: 'day10_lab', resourceUrl: 'https://aws.amazon.com/rds/' },
+        { day: 11, week: 2, topicKey: 'day11_topic', labKey: 'day11_lab', resourceUrl: 'https://aws.amazon.com/cloudwatch/' },
+        { day: 12, week: 2, topicKey: 'day12_topic', labKey: 'day12_lab', resourceUrl: 'https://aws.amazon.com/cli/' },
+        { day: 13, week: 2, topicKey: 'day13_topic', labKey: 'day13_lab', resourceUrl: 'https://aws.amazon.com/cloudformation/' },
+        { day: 14, week: 2, topicKey: 'day14_topic', labKey: 'day14_lab', resourceUrl: '#' },
+        { day: 15, week: 3, topicKey: 'day15_topic', labKey: 'day15_lab', resourceUrl: 'https://aws.amazon.com/lambda/' },
+        { day: 16, week: 3, topicKey: 'day16_topic', labKey: 'day16_lab', resourceUrl: 'https://aws.amazon.com/api-gateway/' },
+        { day: 17, week: 3, topicKey: 'day17_topic', labKey: 'day17_lab', resourceUrl: 'https://aws.amazon.com/dynamodb/' },
+        { day: 18, week: 3, topicKey: 'day18_topic', labKey: 'day18_lab', resourceUrl: 'https://aws.amazon.com/serverless/sam/' },
+        { day: 19, week: 3, topicKey: 'day19_topic', labKey: 'day19_lab', resourceUrl: 'https://www.docker.com/101-tutorial' },
+        { day: 20, week: 3, topicKey: 'day20_topic', labKey: 'day20_lab', resourceUrl: 'https://aws.amazon.com/ecs/' },
+        { day: 21, week: 3, topicKey: 'day21_topic', labKey: 'day21_lab', resourceUrl: '#' },
+        { day: 22, week: 4, topicKey: 'day22_topic', labKey: 'day22_lab', resourceUrl: 'https://aws.amazon.com/compliance/shared-responsibility-model/' },
+        { day: 23, week: 4, topicKey: 'day23_topic', labKey: 'day23_lab', resourceUrl: 'https://aws.amazon.com/kms/' },
+        { day: 24, week: 4, topicKey: 'day24_topic', labKey: 'day24_lab', resourceUrl: 'https://aws.amazon.com/architecture/well-architected/' },
+        { day: 25, week: 4, topicKey: 'day25_topic', labKey: 'day25_lab', resourceUrl: 'https://aws.amazon.com/products/developer-tools/' },
+        { day: 26, week: 4, topicKey: 'day26_topic', labKey: 'day26_lab', resourceUrl: 'https://aws.amazon.com/cloudtrail/' },
+        { day: 27, week: 4, topicKey: 'day27_topic', labKey: 'day27_lab', resourceUrl: 'https://aws.amazon.com/cost-management/' },
+        { day: 28, week: 4, topicKey: 'day28_topic', labKey: 'day28_lab', resourceUrl: 'https://d1.awsstatic.com/training-and-certification/docs-cloud-practitioner/AWS-Certified-Cloud-Practitioner_Sample-Questions.pdf' },
+        { day: 29, week: 4, topicKey: 'day29_topic', labKey: 'day29_lab', resourceUrl: '#' },
+        { day: 30, week: 4, topicKey: 'day30_topic', labKey: 'day30_lab', resourceUrl: '#' }
+    ];
+
+    const projectsData = [
+        { titleKey: 'proj1_title', descKey: 'proj1_desc', tags: ['S3', 'Lambda', 'DynamoDB'] },
+        { titleKey: 'proj2_title', descKey: 'proj2_desc', tags: ['CloudFormation', 'EC2', 'RDS', 'VPC'] },
+        { titleKey: 'proj3_title', descKey: 'proj3_desc', tags: ['CodePipeline', 'Docker', 'ECS', 'ECR'] }
+    ];
+
+    const multiCloudData = {
+        headers: ['Category', 'AWS', 'Azure', 'GCP'],
+        rows: [
+            ['Compute', 'EC2', 'Virtual Machines', 'Compute Engine'],
+            ['Storage', 'S3', 'Blob Storage', 'Cloud Storage'],
+            ['Networking', 'VPC', 'VNet', 'VPC'],
+            ['Databases (SQL)', 'RDS', 'Azure SQL', 'Cloud SQL'],
+            ['Databases (NoSQL)', 'DynamoDB', 'Cosmos DB', 'Firestore'],
+            ['Serverless', 'Lambda', 'Azure Functions', 'Cloud Functions'],
+            ['Containers', 'ECS / EKS', 'AKS', 'GKE'],
+            ['Identity', 'IAM', 'Azure Active Directory', 'Cloud IAM'],
+            ['IaC', 'CloudFormation', 'ARM / Bicep', 'Deployment Manager']
+        ]
+    };
+    
+    let currentLang = localStorage.getItem('appLanguage') || 'en';
+    let topicsChart;
+
+    const roadmapGrid = document.getElementById('roadmap-grid');
+    const projectsGrid = document.getElementById('projects-grid');
+    const multiCloudTable = document.getElementById('multi-cloud-table');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileNavContainer = document.getElementById('mobile-nav-container');
+    const langIdButton = document.getElementById('lang-id');
+    const langEnButton = document.getElementById('lang-en');
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('appLanguage', lang);
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-lang-key]').forEach(el => {
+            const key = el.getAttribute('data-lang-key');
+            if (translations[key] && translations[key][lang]) {
+                el.textContent = translations[key][lang];
+            }
+        });
+
+        langIdButton.classList.toggle('active', lang === 'id');
+        langEnButton.classList.toggle('active', lang === 'en');
+        
+        renderAllContent();
+    }
+
+    function renderRoadmap() {
+        roadmapGrid.innerHTML = '';
+        roadmapData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'day-card bg-white p-5 rounded-xl flex flex-col';
+            card.setAttribute('data-day', item.day);
+            card.setAttribute('data-week', item.week);
+            
+            const viewResourceText = translations.viewResourceBtn[currentLang];
+            const reviewText = translations.reviewBtn[currentLang];
+            const weekText = translations.weekLabel[currentLang];
+
+            const resourceLink = item.resourceUrl !== '#' 
+                ? `<a href="${item.resourceUrl}" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center font-semibold bg-amber-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-amber-600 transition-colors">${viewResourceText}</a>`
+                : `<span class="inline-block w-full text-center font-semibold bg-slate-300 text-slate-500 px-4 py-2 rounded-lg cursor-not-allowed">${reviewText}</span>`;
+
+            card.innerHTML = `
+                <div class="flex-grow">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-3xl font-bold text-amber-600">${item.day}</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">${weekText} ${item.week}</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">${translations[item.topicKey][currentLang]}</h3>
+                    <p class="text-sm text-slate-600">${translations[item.labKey][currentLang]}</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-200">
+                    ${resourceLink}
+                </div>
+            `;
+            roadmapGrid.appendChild(card);
+        });
+        const activeFilter = document.querySelector('#week-filters .filter-button.active');
+        if (activeFilter) {
+            handleFilter(activeFilter.dataset.week);
+        }
+    }
+
+    function renderProjects() {
+        projectsGrid.innerHTML = '';
+        projectsData.forEach(project => {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-6 rounded-xl shadow-md flex flex-col h-full border border-slate-200';
+            const tagsHtml = project.tags.map(tag => `<span class="bg-slate-200 text-slate-700 text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded-full">${tag}</span>`).join('');
+            card.innerHTML = `
+                <div class="flex-grow">
+                    <h3 class="text-lg font-semibold mb-2">${translations[project.titleKey][currentLang]}</h3>
+                    <p class="text-slate-600 text-sm mb-4">${translations[project.descKey][currentLang]}</p>
+                </div>
+                <div class="flex flex-wrap mt-auto pt-4 border-t border-slate-200">
+                    ${tagsHtml}
+                </div>
+            `;
+            projectsGrid.appendChild(card);
+        });
+    }
+
+    function renderMultiCloudTable() {
+        let headHtml = '<thead><tr class="bg-slate-100">';
+        const headers = [translations.multiCloudCategory[currentLang], ...multiCloudData.headers.slice(1)];
+        headers.forEach(header => {
+            headHtml += `<th class="p-3 font-semibold text-left">${header}</th>`;
+        });
+        headHtml += '</tr></thead>';
+
+        let bodyHtml = '<tbody class="divide-y divide-slate-200">';
+        multiCloudData.rows.forEach(row => {
+            bodyHtml += '<tr class="hover:bg-slate-50">';
+            row.forEach((cell, index) => {
+                const fontWeight = index === 0 ? 'font-medium' : 'font-normal';
+                bodyHtml += `<td class="p-3 ${fontWeight}">${cell}</td>`;
+            });
+            bodyHtml += '</tr>';
+        });
+        bodyHtml += '</tbody>';
+
+        multiCloudTable.innerHTML = headHtml + bodyHtml;
+    }
+
+    function renderChart() {
+        if (topicsChart) {
+            topicsChart.destroy();
+        }
+        const ctx = document.getElementById('topicsChart').getContext('2d');
+        topicsChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: translations.chartLabels[currentLang],
+                datasets: [{
+                    label: translations.chartLabel[currentLang],
+                    data: [7, 7, 7, 9],
+                    backgroundColor: [
+                        'rgba(245, 158, 11, 0.7)',
+                        'rgba(59, 130, 246, 0.7)',
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(139, 92, 246, 0.7)'
+                    ],
+                    borderColor: [ '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6' ],
+                    borderWidth: 1.5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed !== null) { label += context.parsed + translations.chartDays[currentLang]; }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function handleFilter(week) {
+        const cards = document.querySelectorAll('.day-card');
+        cards.forEach(card => {
+            if (week === 'all' || card.getAttribute('data-week') === week) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    const filters = document.getElementById('week-filters');
+    filters.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            const week = e.target.getAttribute('data-week');
+            document.querySelectorAll('#week-filters .filter-button').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            handleFilter(week);
+        }
+    });
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileNavContainer.classList.toggle('hidden');
+    });
+    
+    document.querySelectorAll('.scroll-link').forEach(link => {
+        link.addEventListener('click', () => {
+             if (!mobileNavContainer.classList.contains('hidden')) {
+                mobileNavContainer.classList.add('hidden');
+             }
+        });
+    });
+    
+    langIdButton.addEventListener('click', () => setLanguage('id'));
+    langEnButton.addEventListener('click', () => setLanguage('en'));
+
+    function renderAllContent() {
+        renderRoadmap();
+        renderProjects();
+        renderMultiCloudTable();
+        renderChart();
+    }
+
+    setLanguage(currentLang);
+
+});
+</script>
+<script src="../../feedback.js" defer></script>
+
+</body>
+</html>

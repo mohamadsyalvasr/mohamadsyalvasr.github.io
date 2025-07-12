@@ -1,0 +1,112 @@
+[
+  {
+    "id": "ebook1",
+    "coverImage": "./detail/cover/ebook1.webp",
+    "link": "https://lynk.id/mohamadsyalvasr/v9n751k3zxln",
+    "status": "available",
+    "tags": ["discount", "bestseller"],
+    "title": {
+      "id": "Langkah Demi Langkah Jadi Cloud Engineer di Tahun 2025",
+      "en": "Step-by-Step to Become a Cloud Engineer in 2025"
+    },
+    "description": {
+      "id": "Siap Jadi Cloud Engineer? Cloud Engineer bukan lagi sekadar teknisi—mereka adalah arsitek dan penggerak utama transformasi digital. Permintaan tenaga ahli cloud terus melonjak, dan pasar globalnya sudah tembus USD 602 miliar! Stop belajar tanpa arah. Ikuti roadmap yang dirancang untuk bikin kamu unggul dan siap bersaing di industri cloud.",
+      "en": "Ready to Become a Cloud Engineer? Cloud engineers are no longer just technicians—they are the architects and key drivers of digital transformation. Demand for cloud professionals continues to soar, and the global market has already reached USD 602 billion! Stop learning aimlessly. Follow a roadmap designed to give you an edge and prepare you to compete in the cloud industry."
+    },
+    "price": {
+      "id": "Rp 150.000",
+      "en": "$9.00"
+    },
+    "discountPrice": {
+      "id": "Rp 25.000",
+      "en": "$1.53"
+    },
+    "buttonText": {
+        "id": "Beli Sekarang",
+        "en": "Buy Now"
+    },
+    "pages": 50,
+    "format": "PDF",
+    "details": {
+      "author": {
+        "name": "Mohamad Syalva SR",
+        "bio": {
+          "id": "Seorang cloud engineer, memiliki sertifikasi AWS, Oracle dan Alibaba Cloud.",
+          "en": "A cloud engineer, holds AWS, Oracle and Alibaba Cloud certifications."
+        }
+      },
+      "toc": {
+        "id": [
+          "Bab 1: Kuasai dasar sistem operasi, jaringan, dan scripting",
+          "Bab 2: Pelajari core cloud, alat penting, dan pilih satu platform fokus",
+          "Bab 3: Rancang jalur belajar sesuai sertifikasi industri",
+          "Bab 4: Bangun portofolio lewat praktik langsung",
+          "Bab 5:  Susun resume, pahami pasar, dan taklukkan wawancara."
+        ],
+        "en": [
+          "Chapter 1: Master the fundamentals of operating systems, networking, and scripting",
+          "Chapter 2: Learn core cloud computing, essential tools, and choose a platform to focus on",
+          "Chapter 3: Design a learning path based on industry certifications",
+          "Chapter 4: Build a portfolio through hands-on practice",
+          "Chapter 5: Build your resume, understand the market, and nail the interview."
+        ]
+      },
+      "reviews": 45,
+      "rating": 4.8
+    }
+  },
+  {
+    "id": "ebook2",
+    "coverImage": "https://placehold.co/400x600/f97316/ffffff?text=AWS+Compute",
+    "link": "#",
+    "status": "coming_soon",
+    "tags": ["featured"],
+     "title": {
+      "id": "Jagoan AWS Compute: Belajar Layanan Komputasi AWS dari Nol di Tahun 2025",
+      "en": "AWS Compute Unlocked: Your 2025 Roadmap to Cloud Mastery"
+    },
+    "description": {
+      "id": "Panduan ini menyajikan langkah-langkah praktis untuk memahami EC2, Lambda, Auto Scaling, dan layanan penting lainnya di tahun 2025.",
+      "en": "This guide walks you through key services like EC2, Lambda, and Auto Scaling with hands-on steps tailored for 2025."
+    },
+    "price": {
+      "id": "Segera",
+      "en": "Soon"
+    },
+    "discountPrice": null,
+    "buttonText": {
+        "id": "Segera Hadir",
+        "en": "Coming Soon"
+    },
+    "pages": 0,
+    "format": "PDF",
+    "details": null
+  },
+  {
+    "id": "ebook4",
+    "coverImage": "https://placehold.co/400x600/a78bfa/ffffff?text=Kubernotes",
+    "link": "#",
+    "status": "coming_soon",
+    "tags": [],
+     "title": {
+      "id": "Kubernetes dari A-Z",
+      "en": "Kubernetes from A-Z"
+    },
+    "description": {
+      "id": "Kuasai orkestrasi kontainer dengan panduan mendalam tentang Kubernetes.",
+      "en": "Master container orchestration with this in-depth guide to Kubernetes."
+    },
+    "price": {
+      "id": "Segera",
+      "en": "Soon"
+    },
+    "discountPrice": null,
+    "buttonText": {
+        "id": "Segera Hadir",
+        "en": "Coming Soon"
+    },
+    "pages": 0,
+    "format": "PDF",
+    "details": null
+  }
+]

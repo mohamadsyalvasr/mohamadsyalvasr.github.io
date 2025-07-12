@@ -3,244 +3,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar E-Book - Desain Grid</title>
+    <title>E-Book Cloud Computing - Panduan Interaktif</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.1.3/24/outline/styles.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* slate-50 */
             color: #1e293b; /* slate-800 */
-        }
-        .ebook-card {
-            background-color: white;
-            border-radius: 0.75rem; /* rounded-xl */
-            border: 1px solid #e2e8f0; /* slate-200 */
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            position: relative; /* Needed for badge positioning */
-        }
-        .ebook-card:not(.inactive-card):hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            border-color: #3b82f6; /* blue-500 */
-        }
-        .inactive-card {
-            filter: grayscale(90%);
-            background-color: #f1f5f9; /* slate-100 */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e2e8f0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         .lang-switcher button.active {
             background-color: #1e293b; /* slate-800 */
             color: white;
         }
-        .featured-badge {
+
+        /* --- Gaya untuk Efek Flip Card --- */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+            border-radius: 0.75rem;
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+        }
+        .flip-card-front {
+            background-color: #bbb;
+            color: black;
+            overflow: hidden;
+        }
+        .flip-card-back {
+            background-color: white;
+            color: #1e293b;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            text-align: left;
+        }
+        .ebook-card.inactive-card {
+            filter: grayscale(90%);
+        }
+        
+        /* --- Gaya untuk Label Sisi --- */
+        .side-badge-container {
             position: absolute;
             top: 1rem;
-            left: -1px;
-            background-color: #db2777; /* pink-600 */
-            color: white;
+            left: -2px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            z-index: 5;
+        }
+        .side-badge {
             padding: 0.25rem 0.75rem;
             font-size: 0.75rem;
             font-weight: 600;
-            border-top-right-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+            color: white;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border-top-right-radius: 0.375rem;
+            border-bottom-right-radius: 0.375rem;
         }
+        .side-badge-discount { background-color: #ef4444; }
+        .side-badge-bestseller { background-color: #f97316; }
+        .side-badge-featured { background-color: #8b5cf6; }
+        .side-badge-comingsoon { background-color: #475569; }
+
+        /* --- Gaya untuk Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-container {
+            background-color: white;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(-50px);
+            transition: all 0.3s ease-in-out;
+        }
+        .modal-overlay.visible .modal-container {
+            transform: translateY(0);
+        }
+        .modal-content {
+            padding: 2rem;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            color: #64748b;
+            z-index: 10;
+        }
+        .modal-close-btn:hover {
+            color: #1e293b;
+        }
+
+        /* Navigasi */
+        .dropdown-menu, .mega-menu-content, .submenu { display: none; opacity: 0; transition: opacity 0.3s ease-out, transform 0.1s ease-out; transform: translateY(10px); pointer-events: none; }
+        .group:hover > .mega-menu-content, .group:hover > .dropdown-menu, .group.relative:hover > .submenu { display: block; opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .menu-item-disabled { filter: grayscale(80%); cursor: not-allowed; }
+        .menu-item-disabled:hover { background-color: transparent !important; transform: scale(1) !important; }
+        .mobile-submenu { display: none; max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .submenu-toggle.open + .mobile-submenu { max-height: 1000px; }
+        .submenu-toggle svg { transition: transform 0.3s; }
+        .submenu-toggle.open svg { transform: rotate(90deg); }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="container mx-auto px-4 py-12 md:py-20">
-        
-        <header class="relative text-center mb-12">
-            <div class="lang-switcher absolute top-0 right-0 bg-slate-200 rounded-full p-1 flex space-x-1">
-                <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
-                <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+    <!-- Header dengan Navigasi -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-amber-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
             </div>
-            <h1 id="ebook-list-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-2 pt-12 md:pt-0">Telusuri E-Book Kami</h1>
-            <p id="ebook-list-subtitle" class="text-base text-slate-600 max-w-2xl mx-auto">Temukan panduan yang tepat untuk meningkatkan keahlian teknologi Anda.</p>
-            <div class="mt-8 max-w-lg mx-auto">
-                <input type="search" id="search-input" placeholder="Cari berdasarkan judul e-book..." class="w-full px-5 py-3 rounded-full border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
             </div>
-            <div class="mt-6 text-center">
-                <a href="/cloud/" id="back-to-home" class="text-blue-600 hover:text-blue-800 font-semibold transition text-sm">&larr; Kembali ke Halaman Utama</a>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-12 md:py-20">
+        <header class="relative text-center mb-16">
+            <h1 data-lang-key="ebookMainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 pt-12 md:pt-0"></h1>
+            <p data-lang-key="ebookMainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto"></p>
+            <div class="mt-8 max-w-xl mx-auto">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input type="search" id="search-input" class="w-full pl-11 pr-5 py-3 rounded-full border-2 border-slate-300 focus:border-blue-500 focus:ring-blue-500 transition-colors" placeholder="">
+                </div>
             </div>
         </header>
 
         <main>
-            <!-- E-Book cards will be dynamically inserted here -->
-            <div id="ebooks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                 <!-- Loading state -->
-                <p id="loading-text" class="col-span-full text-center text-slate-500">Memuat data e-book...</p>
+            <div id="ebooks-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <p class="col-span-full text-center text-slate-500">Memuat data e-book...</p>
             </div>
         </main>
+        
+        <footer class="text-center mt-20 pt-10 border-t border-slate-200">
+            <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
+        </footer>
+
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="ebook-modal" class="modal-overlay">
+        <div class="modal-container">
+            <span id="modal-close-btn" class="modal-close-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </span>
+            <div class="modal-content" id="modal-body">
+                 <!-- Scrollable Content will be injected by JavaScript -->
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                 <!-- Sticky Footer Content will be injected by JavaScript -->
+            </div>
+        </div>
     </div>
 
     <script>
-        // Global variables
-        let allEbooks = [];
-        let currentLang = 'id';
-
-        // Static translations for this page
-        const pageTranslations = {
-            title: { id: "Telusuri E-Book Kami", en: "Browse Our E-Books" },
-            subtitle: { id: "Temukan panduan yang tepat untuk meningkatkan keahlian teknologi Anda.", en: "Find the right guide to level up your tech skills." },
-            searchPlaceholder: { id: "Cari berdasarkan judul e-book...", en: "Search by e-book title..." },
-            backToHome: { id: "&larr; Kembali ke Halaman Utama", en: "&larr; Back to Home" },
-            loading: { id: "Memuat data e-book...", en: "Loading e-book data..." },
-            notFound: { id: "E-book tidak ditemukan. Coba kata kunci lain.", en: "No e-books found. Try another keyword." },
-            error: { id: "Gagal memuat data. Silakan coba lagi nanti.", en: "Failed to load data. Please try again later." },
-            comingSoon: { id: "Segera Hadir", en: "Coming Soon" },
-            featured: { id: "Unggulan", en: "Featured" },
-            sold: { id: "Terjual", en: "Sold" }
+        let appData = {
+            ebooks: [],
+            translations: {},
+            menu: []
+        };
+        
+        // --- HELPER FUNCTIONS ---
+        const parsePrice = (priceStr, lang) => {
+            if (!priceStr || typeof priceStr !== 'string') return 0;
+            if (lang === 'id') {
+                return Number(priceStr.replace(/Rp|\s|\./g, ''));
+            } else {
+                return Number(priceStr.replace(/\$|,/g, ''));
+            }
         };
 
-        const renderEbookCards = (filteredEbooks) => {
-            const ebooksContainer = document.getElementById('ebooks');
+        const formatCurrency = (amount, lang) => {
+            if (lang === 'id') {
+                return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+            } else {
+                return '$' + new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+            }
+        };
+
+        // --- MODAL FUNCTIONS ---
+        const openModal = (bookId) => {
+            const lang = localStorage.getItem('language') || 'id';
+            const book = appData.ebooks.find(b => b.id === bookId);
+            if (!book) return;
+
+            const modal = document.getElementById('ebook-modal');
+            const modalBody = document.getElementById('modal-body');
+            const modalFooter = document.getElementById('modal-footer');
+            const details = book.details;
+            const price = book.price[lang] || '';
+            const discountPrice = book.discountPrice ? book.discountPrice[lang] : null;
+
+            let tocHTML = '';
+            if (details && details.toc && details.toc[lang] && details.toc[lang].length > 0) {
+                tocHTML = `
+                    <h4 class="font-semibold text-slate-700 mt-6 mb-2" data-lang-key="tocTitle"></h4>
+                    <ul class="list-disc list-inside text-slate-600 text-sm space-y-1">
+                        ${details.toc[lang].map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                `;
+            }
+
+            let authorHTML = '';
+            if (details && details.author && details.author.name) {
+                authorHTML = `
+                    <div class="mt-4 pt-4 border-t">
+                        <h4 class="font-semibold text-slate-700 mb-2" data-lang-key="authorTitle"></h4>
+                        <p class="font-bold text-slate-800">${details.author.name}</p>
+                        <p class="text-sm text-slate-500 italic">${details.author.bio[lang]}</p>
+                    </div>
+                `;
+            }
+            
+            let detailsHTML = '';
+            if (details) {
+                detailsHTML = `
+                    <div class="flex items-center gap-4 text-sm text-slate-500 mt-2">
+                        <div class="flex items-center gap-1">
+                            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <b>${details.rating || 'N/A'}</b> 
+                            <span>(${details.reviews || 0} ${appData.translations.reviewsText?.[lang] || 'ulasan'})</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let tagsHTML = '';
+            if (book.tags && book.tags.length > 0) {
+                tagsHTML += '<div class="flex flex-wrap gap-2 mt-4">';
+                const tagOrder = ['discount', 'bestseller', 'featured'];
+                
+                tagOrder.forEach(tag => {
+                    if (book.tags.includes(tag)) {
+                        let badgeText = '';
+                        let badgeClass = '';
+                        switch (tag) {
+                            case 'discount': badgeText = appData.translations.badgeDiscount?.[lang] || 'Diskon'; badgeClass = 'side-badge-discount'; break;
+                            case 'bestseller': badgeText = appData.translations.badgeBestseller?.[lang] || 'Terlaris'; badgeClass = 'side-badge-bestseller'; break;
+                            case 'featured': badgeText = appData.translations.badgeFeatured?.[lang] || 'Unggulan'; badgeClass = 'side-badge-featured'; break;
+                        }
+                        if (badgeText) {
+                            tagsHTML += `<span class="text-xs font-semibold text-white px-2.5 py-1 rounded-full ${badgeClass}">${badgeText}</span>`;
+                        }
+                    }
+                });
+                tagsHTML += '</div>';
+            }
+            
+            let fileInfoHTML = `
+                <div class="mt-4 pt-4 border-t grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div>
+                        <span class="font-semibold text-slate-500" data-lang-key="pagesText"></span>
+                        <p class="text-slate-800">${book.pages || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-slate-500" data-lang-key="formatText"></span>
+                        <p class="text-slate-800">${book.format || 'N/A'}</p>
+                    </div>
+                </div>
+            `;
+            
+            let savingsHTML = '';
+            if (discountPrice) {
+                const originalValue = parsePrice(price, lang);
+                const discountValue = parsePrice(discountPrice, lang);
+                if (originalValue > discountValue) {
+                    const savingsValue = originalValue - discountValue;
+                    const formattedSavings = formatCurrency(savingsValue, lang);
+                    const savingsText = appData.translations.savingsText?.[lang] || 'Hemat';
+                    savingsHTML = `<p class="text-sm font-semibold text-green-600">${savingsText} ${formattedSavings}</p>`;
+                }
+            }
+
+            // Inject scrollable content
+            modalBody.innerHTML = `
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <div class="sm:w-1/3 flex-shrink-0">
+                        <img src="${book.coverImage}" alt="Cover E-Book" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    </div>
+                    <div class="sm:w-2/3">
+                        ${tagsHTML}
+                        <h3 class="text-2xl font-bold text-slate-900 mt-2">${book.title[lang]}</h3>
+                        ${detailsHTML}
+                        <p class="text-sm text-slate-600 mt-4">${book.description[lang]}</p>
+                        ${fileInfoHTML}
+                        ${tocHTML}
+                        ${authorHTML}
+                    </div>
+                </div>
+            `;
+            
+            // Inject sticky footer content
+            modalFooter.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <div class="text-left">
+                        ${discountPrice ? `<p class="text-lg text-slate-400 line-through">${price}</p>` : ''}
+                        <p class="text-3xl font-bold text-slate-800">${discountPrice || price}</p>
+                        ${savingsHTML}
+                    </div>
+                    <a href="${book.link}" target="_blank" rel="noopener noreferrer" class="inline-block text-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors ${book.status === 'coming_soon' ? 'hidden' : ''}">
+                        ${book.buttonText[lang]}
+                    </a>
+                </div>
+            `;
+            
+            modal.classList.add('visible');
+            applyTranslations(lang);
+        };
+
+        const closeModal = () => {
+            const modal = document.getElementById('ebook-modal');
+            modal.classList.remove('visible');
+        };
+
+        // Navigasi
+        const createDesktopMenuItemsRecursive = (menuItems, isSubmenu = false) => { let html = ''; menuItems.forEach(item => { const isComingSoon = item.status === 'comingsoon'; const hasSubItems = item.items && item.items.length > 0; if (item.type === 'link') { if (isComingSoon) { const itemClass = isSubmenu ? 'block w-full text-left px-4 py-2 text-slate-400 cursor-not-allowed flex justify-between items-center' : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center'; html += `<div class="${itemClass}"><span data-lang-key="${item.langKey}"></span><span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span></div>`; } else { const itemClass = isSubmenu ? 'block w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600' : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors'; html += `<a href="${item.href}" class="${itemClass}" data-lang-key="${item.langKey}"></a>`; } } else if (item.type === 'dropdown') { if (isComingSoon) { const buttonClasses = isSubmenu ? 'w-full flex items-center justify-between px-4 py-2 text-slate-400 cursor-not-allowed' : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center'; html += `<div class="relative"><div class="${buttonClasses}"><span data-lang-key="${item.langKey}"></span><span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span></div></div>`; } else if (hasSubItems) { const subMenuHTML = createDesktopMenuItemsRecursive(item.items, true); const menuContainerClasses = isSubmenu ? 'submenu absolute left-full -top-2 mt-0 ml-1 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2' : 'dropdown-menu absolute top-full left-0 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2'; const icon = isSubmenu ? `<svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>` : `<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`; const buttonClasses = isSubmenu ? 'w-full flex items-center px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600' : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center'; html += `<div class="group relative"><a href="${item.href || '#'}" class="${buttonClasses}"><span data-lang-key="${item.langKey}"></span>${icon}</a><div class="${menuContainerClasses}">${subMenuHTML}</div></div>`; } } }); return html; };
+        const createMobileMenuItemsRecursive = (menuItems) => { let html = ''; menuItems.forEach(item => { const isComingSoon = item.status === 'comingsoon'; const hasSubItems = !isComingSoon && ((item.items && item.items.length > 0) || (item.type === 'mega-menu' && item.content.columns)); if (!hasSubItems) { if (isComingSoon) { html += `<div class="flex items-center justify-between py-2 text-slate-400 cursor-not-allowed"><span data-lang-key="${item.langKey || item.titleLangKey}"></span><span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5 mr-2" data-lang-key="comingSoon"></span></div>`; } else { html += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey || item.titleLangKey}"></a>`; } } else { const subItemsData = item.items || item.content.columns.flatMap(col => col.items); const mobileSubItems = createMobileMenuItemsRecursive(subItemsData); html += `<div><button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle"><span data-lang-key="${item.langKey}"></span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button><div class="pl-4 mobile-submenu">${mobileSubItems}</div></div>`; } }); return html; };
+        const buildNavigationStructure = () => { const desktopNav = document.getElementById('desktop-nav'); const mobileNav = document.getElementById('mobile-nav'); if (!desktopNav || !mobileNav || !appData.menu) return; desktopNav.innerHTML = createDesktopMenuItemsRecursive(appData.menu); mobileNav.innerHTML = createMobileMenuItemsRecursive(appData.menu); };
+        const initNav = () => { const mobileMenuBtn = document.getElementById('mobile-menu-btn'); const mobileNavContainer = document.getElementById('mobile-nav-container'); if(mobileMenuBtn) { mobileMenuBtn.addEventListener('click', () => { mobileNavContainer.classList.toggle('hidden'); }); } const mobileNav = document.getElementById('mobile-nav'); if(mobileNav) { mobileNav.addEventListener('click', (e) => { const toggle = e.target.closest('.submenu-toggle'); if (toggle) { e.preventDefault(); toggle.classList.toggle('open'); const submenu = toggle.nextElementSibling; if (submenu.style.maxHeight) { submenu.style.maxHeight = null; } else { submenu.style.maxHeight = submenu.scrollHeight + "px"; } } }); } };
+        
+        const applyTranslations = (lang) => {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (appData.translations[key] && appData.translations[key][lang]) {
+                    element.innerHTML = appData.translations[key][lang];
+                }
+            });
+            const searchInput = document.getElementById('search-input');
+            if (searchInput && appData.translations.searchPlaceholder) {
+                searchInput.placeholder = appData.translations.searchPlaceholder[lang];
+            }
+        };
+
+        const renderEbookCards = (lang) => {
+            const ebooksContainer = document.getElementById('ebooks-container');
             if (!ebooksContainer) return;
-            ebooksContainer.innerHTML = ''; 
+            
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filteredEbooks = appData.ebooks.filter(book => {
+                const title = book.title?.[lang] || book.title?.id || '';
+                return title.toLowerCase().includes(searchTerm);
+            });
+
+            ebooksContainer.innerHTML = '';
 
             if (filteredEbooks.length === 0) {
-                ebooksContainer.innerHTML = `<p class="col-span-full text-center text-slate-500">${pageTranslations.notFound[currentLang]}</p>`;
+                ebooksContainer.innerHTML = `<p class="col-span-full text-center text-slate-500 text-lg">${appData.translations.noResults?.[lang] || 'E-book tidak ditemukan.'}</p>`;
                 return;
             }
 
             filteredEbooks.forEach(book => {
-                const title = book.title?.[currentLang] || book.title?.id;
-                const description = book.description?.[currentLang] || book.description?.id;
-                const price = book.price?.[currentLang] || book.price?.id;
-                const discountPrice = book.discountPrice?.[currentLang] || book.discountPrice?.id;
-                const buttonText = book.buttonText?.[currentLang] || book.buttonText?.id;
-                
+                const title = book.title?.[lang] || book.title?.id || 'Judul Tidak Tersedia';
+                const description = book.description?.[lang] || '';
+                const price = book.price?.[lang] || '';
+                const discountPrice = book.discountPrice?.[lang] || null;
                 const isComingSoon = book.status === 'coming_soon';
-                const cardClass = isComingSoon ? 'inactive-card' : '';
-                const buttonClass = isComingSoon 
-                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed' 
-                    : 'bg-blue-600 hover:bg-blue-700 text-white';
-
-                let priceHTML = '';
-                if (discountPrice) {
-                    priceHTML = `
-                        <span class="text-xl font-bold text-red-600">${discountPrice}</span>
-                        <span class="ml-2 text-base text-slate-500 line-through">${price}</span>
-                    `;
-                } else {
-                    priceHTML = `<span class="text-xl font-bold text-blue-600">${price}</span>`;
-                }
                 
-                // Badge for featured items
-                let badgeHTML = '';
-                if(book.isFeatured) {
-                    badgeHTML = `<div class="featured-badge"><i class="fa-solid fa-star fa-xs mr-1"></i> ${pageTranslations.featured[currentLang]}</div>`;
+                const pages = book.pages || 120;
+                const format = book.format || 'PDF, EPUB';
+
+                // Membuat HTML untuk badge
+                let badgesHTML = '';
+                if (isComingSoon) {
+                    const badgeText = appData.translations.comingSoon?.[lang] || 'Segera Hadir';
+                    badgesHTML = `<div class="side-badge-container"><span class="side-badge side-badge-comingsoon">${badgeText}</span></div>`;
+                } else if (book.tags && book.tags.length > 0) {
+                    badgesHTML += '<div class="side-badge-container">';
+                    const tagOrder = ['discount', 'bestseller', 'featured'];
+                    
+                    tagOrder.forEach(tag => {
+                        if (book.tags.includes(tag)) {
+                            let badgeText = ''; let badgeClass = '';
+                            switch (tag) {
+                                case 'discount': badgeText = appData.translations.badgeDiscount?.[lang] || 'Diskon'; badgeClass = 'side-badge-discount'; break;
+                                case 'bestseller': badgeText = appData.translations.badgeBestseller?.[lang] || 'Terlaris'; badgeClass = 'side-badge-bestseller'; break;
+                                case 'featured': badgeText = appData.translations.badgeFeatured?.[lang] || 'Unggulan'; badgeClass = 'side-badge-featured'; break;
+                            }
+                            if (badgeText) { badgesHTML += `<span class="side-badge ${badgeClass}">${badgeText}</span>`; }
+                        }
+                    });
+                    badgesHTML += '</div>';
                 }
 
-                // Sales count info
-                let salesInfoHTML = '';
-                if(book.purchaseCount > 0) {
-                    salesInfoHTML = `<p class="text-xs text-slate-500 mt-2 font-medium">${book.purchaseCount}+ ${pageTranslations.sold[currentLang]}</p>`;
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = `flip-card ebook-card ${isComingSoon ? 'inactive-card' : ''}`;
+                if (!isComingSoon) {
+                    cardWrapper.dataset.ebookId = book.id;
                 }
 
-
-                const cardContent = `
-                    <div class="ebook-card ${cardClass}">
-                        ${badgeHTML}
-                        <img src="${book.coverImage}" alt="Sampul E-Book ${title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x240/e2e8f0/475569?text=Image+Not+Found';">
-                        
-                        <div class="p-5 flex flex-col flex-grow">
-                            <h3 class="text-md font-semibold text-slate-800 flex-grow">${title}</h3>
-                            ${salesInfoHTML}
-                            <p class="text-sm text-slate-500 mt-3">${description.substring(0, 80)}${description.length > 80 ? '...' : ''}</p>
+                cardWrapper.innerHTML = `
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            ${badgesHTML}
+                            <img src="${book.coverImage}" alt="Cover E-Book ${title}" class="w-full h-full object-cover" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/400x600/e2e8f0/94a3b8?text=Image+Error';">
                         </div>
+                        <div class="flip-card-back">
+                            <h3 class="font-bold text-lg text-slate-800">${title}</h3>
+                            <p class="text-sm text-slate-500 mt-2 mb-4 flex-grow overflow-y-auto">${description}</p>
+                            
+                            <div class="text-xs space-y-2 my-3">
+                                <p><span class="font-semibold">${appData.translations.pagesText?.[lang] || 'Halaman'}:</span> ${pages}</p>
+                                <p><span class="font-semibold">${appData.translations.formatText?.[lang] || 'Format'}:</span> ${format}</p>
+                            </div>
 
-                        <div class="p-5 pt-0 mt-auto">
-                           <div class="flex justify-between items-center mt-4">
-                                ${isComingSoon ? `<span class="text-lg font-bold text-slate-500">${price}</span>` : priceHTML}
-                           </div>
-                           <a href="${isComingSoon ? '#' : book.link}" target="_blank" 
-                               class="block w-full text-center font-semibold px-4 py-2 mt-4 rounded-lg transition-colors ${buttonClass}"
-                               ${isComingSoon ? 'aria-disabled="true" role="button"' : ''}>
-                                ${buttonText}
-                            </a>
+                            <div class="mt-auto pt-4 border-t border-slate-100">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-lg font-bold text-blue-600">${discountPrice || price}</p>
+                                        ${discountPrice ? `<p class="text-sm text-slate-400 line-through">${price}</p>` : ''}
+                                    </div>
+                                    <span class="text-sm font-semibold text-blue-600" data-lang-key="detailsButtonText"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
-
-                const cardWrapper = document.createElement('div');
-                cardWrapper.innerHTML = cardContent;
-                ebooksContainer.appendChild(cardWrapper.firstElementChild);
+                ebooksContainer.appendChild(cardWrapper);
             });
         };
-
-        const filterEbooks = () => {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filtered = allEbooks.filter(book => {
-                const titleId = book.title?.id.toLowerCase() || '';
-                const titleEn = book.title?.en.toLowerCase() || '';
-                return titleId.includes(searchTerm) || titleEn.includes(searchTerm);
-            });
-            renderEbookCards(filtered);
-        };
-
+        
         const setLanguage = (lang) => {
-            currentLang = lang;
-            document.documentElement.lang = lang;
+            if (!Object.keys(appData.translations).length) return;
             localStorage.setItem('language', lang);
-
-            document.getElementById('ebook-list-title').innerHTML = pageTranslations.title[lang];
-            document.getElementById('ebook-list-subtitle').innerHTML = pageTranslations.subtitle[lang];
-            document.getElementById('search-input').placeholder = pageTranslations.searchPlaceholder[lang];
-            document.getElementById('back-to-home').innerHTML = pageTranslations.backToHome[lang];
-
-            filterEbooks(); // Re-render books with the new language
-
+            document.documentElement.lang = lang;
+            applyTranslations(lang);
+            renderEbookCards(lang);
             document.getElementById('lang-id').classList.toggle('active', lang === 'id');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
         };
 
         const initApp = async () => {
-            const ebooksContainer = document.getElementById('ebooks');
-            const loadingText = document.getElementById('loading-text');
+            const ebooksContainer = document.getElementById('ebooks-container');
             try {
-                loadingText.innerText = pageTranslations.loading[currentLang];
+                const [ebooksRes, translationsRes, menuRes] = await Promise.all([
+                    fetch('ebooks-data.json'),
+                    fetch('../translations.json'),
+                    fetch('../menu-data.json').catch(err => { console.warn("menu-data.json not found, skipping."); return {ok: false}; })
+                ]);
 
-                const ebooksResponse = await fetch('../ebooks-data.json');
-
-                if (!ebooksResponse.ok) {
-                    throw new Error('Network response was not ok for ebooks data.');
+                if (!ebooksRes.ok || !translationsRes.ok) {
+                    throw new Error('Satu atau lebih file data tidak dapat dimuat.');
                 }
                 
-                let fetchedEbooks = await ebooksResponse.json();
+                appData.ebooks = await ebooksRes.json();
+                appData.translations = await translationsRes.json();
+
+                // Menambahkan terjemahan baru
+                appData.translations.ebookMainTitle = { id: "Jelajahi E-Book Pilihan Kami", en: "Explore Our Curated E-Books" };
+                appData.translations.ebookMainSubtitle = { id: "Perdalam pengetahuan cloud computing Anda dengan koleksi e-book dari para ahli.", en: "Deepen your cloud computing knowledge with our collection of e-books from experts." };
+                appData.translations.searchPlaceholder = { id: "Cari judul e-book...", en: "Search e-book title..." };
+                appData.translations.badgeDiscount = { id: "Diskon", en: "Sale" };
+                appData.translations.badgeFeatured = { id: "Unggulan", en: "Featured" };
+                appData.translations.badgeBestseller = { id: "Terlaris", en: "Bestseller" };
+                appData.translations.comingSoon = { id: "Segera Hadir", en: "Coming Soon" };
+                appData.translations.detailsButtonText = { id: "Klik untuk Detail", en: "Click for Details" };
+                appData.translations.tocTitle = { id: "Daftar Isi", en: "Table of Contents" };
+                appData.translations.authorTitle = { id: "Tentang Penulis", en: "About the Author" };
+                appData.translations.reviewsText = { id: "ulasan", en: "reviews" };
+                appData.translations.pagesText = { id: "Halaman", en: "Pages" };
+                appData.translations.formatText = { id: "Format", en: "Format" };
+                appData.translations.savingsText = { id: "Hemat", en: "Save" };
                 
-                // --- DEMO DATA INJECTION ---
-                // Manually add featured status and purchase counts to demonstrate the feature
-                allEbooks = fetchedEbooks.map(book => {
-                    if (book.id === 'ebook1') {
-                        return { ...book, isFeatured: true, purchaseCount: 157 };
-                    }
-                    return { ...book, isFeatured: false, purchaseCount: 0 };
-                });
-                // --- END DEMO DATA ---
-
-
-                document.getElementById('search-input').addEventListener('input', filterEbooks);
+                if(menuRes.ok) appData.menu = (await menuRes.json()).menu;
+                
+                buildNavigationStructure();
+                
+                // Event Listeners
                 document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
                 document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+                document.getElementById('search-input').addEventListener('input', () => {
+                    const lang = localStorage.getItem('language') || 'id';
+                    renderEbookCards(lang);
+                });
                 
+                // Modal Listeners
+                const modal = document.getElementById('ebook-modal');
+                document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+                ebooksContainer.addEventListener('click', (e) => {
+                    const card = e.target.closest('.flip-card');
+                    if (card && card.dataset.ebookId) {
+                        openModal(card.dataset.ebookId);
+                    }
+                });
+                
+                initNav();
+
                 const preferredLanguage = localStorage.getItem('language') || 'id';
                 setLanguage(preferredLanguage);
 
             } catch (error) {
-                console.error('Failed to load initial data:', error);
-                if (ebooksContainer) ebooksContainer.innerHTML = `<p class="col-span-full text-center text-red-500">${pageTranslations.error[currentLang]}</p>`;
+                console.error('Gagal memuat data awal:', error);
+                const errorMsg = 'Gagal memuat data. Pastikan semua file .json yang diperlukan ada dan dapat diakses.';
+                if (ebooksContainer) ebooksContainer.innerHTML = `<p class="text-center text-red-500 col-span-full">${errorMsg}</p>`;
             }
         };
 
         document.addEventListener('DOMContentLoaded', initApp);
+
     </script>
+    <script src="../feedback.js" defer></script>
 </body>
 </html>

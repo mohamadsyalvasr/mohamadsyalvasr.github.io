@@ -1,0 +1,36 @@
+[
+  {
+    "id": "roadmap-cloud-engineer",
+    "status": "active",
+    "link": "/cloud/roadmaps/aws",
+    "iconUrl": "https://img.icons8.com/fluency-systems-regular/48/cloud.png",
+    "themeColor": "#ed6b1e",
+    "title": {
+      "id": "30 Hari - Roadmap Belajar AWS",
+      "en": "30 Days - AWS Learning Roadmap"
+    },
+    "description": {
+      "id": "Panduan harian untuk membangun keahlian AWS mu.",
+      "en": "A day-by-day guide to building your AWS skills."
+    },
+    "steps": 30,
+    "level": "beginner"
+  },
+  {
+    "id": "roadmap-coming-soon",
+    "status": "coming_soon",
+    "link": "#",
+    "iconUrl": "https://img.icons8.com/fluency-systems-regular/48/cloud.png",
+    "themeColor": "#db2777",
+    "title": {
+      "id": "Coming Soon",
+      "en": "Coming Soon"
+    },
+    "description": {
+      "id": "-",
+      "en": "-"
+    },
+    "steps": 99,
+    "level": "advanced"
+  }
+]

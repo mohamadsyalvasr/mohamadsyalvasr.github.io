@@ -7,12 +7,12 @@
     "titleKey": "awsTitle",
     "descKey": "awsDesc",
     "themeColor": "#FF9900",
-    "dataUrl": "aws/aws-data.json",
+    "dataUrl": "../aws/aws-data.json",
     "servicesUrl": {
-      "compute": "aws/assets/data/compute-data.json",
-      "storage": "aws/assets/data/storage-data.json",
-      "database": "aws/assets/data/database-data.json",
-      "aiml": "aws/assets/data/aiml-data.json"
+      "compute": "../aws/assets/data/compute-data.json",
+      "storage": "../aws/assets/data/storage-data.json",
+      "database": "../aws/assets/data/database-data.json",
+      "aiml": "../aws/assets/data/aiml-data.json"
     },
     "infoTags": ["Market Leader", "IaaS", "PaaS", "SaaS", "Global Reach"]
   },
@@ -24,12 +24,12 @@
     "titleKey": "gcpTitle",
     "descKey": "gcpDesc",
     "themeColor": "#4285F4",
-    "dataUrl": "gcp/gcp-data.json",
+    "dataUrl": "../gcp/gcp-data.json",
     "servicesUrl": {
-      "compute": "gcp/assets/data/compute-data.json",
-      "storage": "gcp/assets/data/storage-data.json",
-      "database": "gcp/assets/data/database-data.json",
-      "aiml": "gcp/assets/data/aiml-data.json"
+      "compute": "../gcp/assets/data/compute-data.json",
+      "storage": "../gcp/assets/data/storage-data.json",
+      "database": "../gcp/assets/data/database-data.json",
+      "aiml": "../gcp/assets/data/aiml-data.json"
     },
     "infoTags": ["Data Analytics", "AI/ML", "Kubernetes", "Networking"]
   },
@@ -41,9 +41,9 @@
     "titleKey": "azureTitle",
     "descKey": "azureDesc",
     "themeColor": "#0078D4",
-    "dataUrl": "azure/azure-data.json",
+    "dataUrl": "../azure/azure-data.json",
     "servicesUrl": {
-      "compute": "azure/assets/data/compute-data.json"
+      "compute": "../azure/assets/data/compute-data.json"
     },
     "infoTags": ["Enterprise", "Hybrid Cloud", "PaaS", ".NET Ecosystem"]
   },
@@ -55,9 +55,9 @@
     "titleKey": "alibabaTitle",
     "descKey": "alibabaDesc",
     "themeColor": "#FF6A00",
-    "dataUrl": "alibaba/alibaba-data.json",
+    "dataUrl": "../alibaba/alibaba-data.json",
     "servicesUrl": {
-      "compute": "alibaba/assets/data/compute-data.json"
+      "compute": "../alibaba/assets/data/compute-data.json"
     },
     "infoTags": ["Asia Market", "E-commerce", "Data Intelligence", "IaaS"]
   },
@@ -69,9 +69,9 @@
     "titleKey": "huaweiTitle",
     "descKey": "huaweiDesc",
     "themeColor": "#CA1324",
-    "dataUrl": "huawei/huawei-data.json",
+    "dataUrl": "../huawei/huawei-data.json",
     "servicesUrl": {
-      "compute": "huawei/assets/data/compute-data.json"
+      "compute": "../huawei/assets/data/compute-data.json"
     },
     "infoTags": ["Telecommunications", "AI", "5G", "Emerging Markets"]
   },
