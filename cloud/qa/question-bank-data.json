@@ -1,0 +1,178 @@
+
+[
+  {
+    "id": "clf002",
+    "coverImage": "https://placehold.co/400x600/333f4d/ffffff?text=AWS+CLF",
+    "link": "https://lynk.id/mohamadsyalvasr/ypmwxmzmqxke",
+    "status": "available",
+    "tags": ["featured"],
+    "title": {
+      "id": "Bank Soal AWS Cloud Practitioner (CLF-C02)",
+      "en": "AWS Cloud Practitioner (CLF-C02) Question Bank"
+    },
+    "description": {
+      "id": "Kumpulan soal latihan teruji untuk membantu Anda lulus ujian sertifikasi AWS CLF-C02. Mencakup semua domain ujian dengan penjelasan mendalam.",
+      "en": "A collection of proven practice questions to help you pass the AWS CLF-C02 certification exam. Covers all exam domains with in-depth explanations."
+    },
+    "price": {
+      "id": "Gratis",
+      "en": "Free"
+    },
+    "buttonText": {
+        "id": "Download Sekarang",
+        "en": "Download Now"
+    },
+    "pages": 100,
+    "format": "PDF + Akses Online",
+    "details": {
+      "author": {
+        "name": "Artem Polynko",
+        "bio": {
+          "id": "Cloud Security & AI Compliance | 21x Certified | CISSP & CCSP Associate | Securing Healthcare Innovations | Helping You Learn IT, Grow, Build Your Network, and Get Certified .",
+          "en": "Cloud Security & AI Compliance | 21x Certified | CISSP & CCSP Associate | Securing Healthcare Innovations | Helping You Learn IT, Grow, Build Your Network, and Get Certified ."
+        }
+      },
+      "toc": {
+        "id": [
+          "Domain 1: Cloud Concepts – 24%",
+          "Domain 2: Security and Compliance – 30% ",
+          "Domain 3: Cloud Technology and Services – 34%",
+          "Domain 4: Billing, Pricing, and Support – 12%"
+        ],
+        "en": [
+          "Domain 1: Cloud Concepts – 24%",
+          "Domain 2: Security and Compliance – 30% ",
+          "Domain 3: Cloud Technology and Services – 34%",
+          "Domain 4: Billing, Pricing, and Support – 12%"
+        ]
+      },
+      "reviews": 1000,
+      "rating": 5.0
+    }
+  },
+  {
+    "id": "qc1",
+    "coverImage": "https://placehold.co/400x600/1826ad/ffffff?text=AWS+SAA",
+    "link": "https://lynk.id/mohamadsyalvasr/yzmnlmjpqy55",
+    "status": "coming_soon",
+    "tags": ["featured"],
+    "title": {
+      "id": "Bank Soal AWS Certified Solutions Architect - Associate (SAA-C03)",
+      "en": "AWS Certified Solutions Architect - Associate (SAA-C03) Question Bank"
+    },
+    "description": {
+      "id": "Kumpulan soal latihan teruji untuk membantu Anda lulus ujian sertifikasi AWS SAA-C03. Mencakup semua domain ujian dengan penjelasan mendalam.",
+      "en": "A collection of proven practice questions to help you pass the AWS SAA-C03 certification exam. Covers all exam domains with in-depth explanations."
+    },
+    "price": {
+      "id": "Segera",
+      "en": "Soon"
+    },
+    "buttonText": {
+        "id": "Download Sekarang",
+        "en": "Download Now"
+    },
+    "pages": 100,
+    "format": "PDF + Akses Online",
+    "details": {
+      "author": {
+        "name": "Artem Polynko",
+        "bio": {
+          "id": "Cloud Security & AI Compliance | 21x Certified | CISSP & CCSP Associate | Securing Healthcare Innovations | Helping You Learn IT, Grow, Build Your Network, and Get Certified .",
+          "en": "Cloud Security & AI Compliance | 21x Certified | CISSP & CCSP Associate | Securing Healthcare Innovations | Helping You Learn IT, Grow, Build Your Network, and Get Certified ."
+        }
+      },
+      "toc": {
+        "id": [
+          "Domain 1: Design Secure Architectures – 30%",
+          "Domain 2: Design Resilient Architectures – 26%",
+          "Domain 3: Design High-Performing Architectures – 24%",
+          "Domain 4: Design Cost-Optimized Architectures – 20%"
+        ],
+        "en": [
+          "Domain 1: Design Secure Architectures – 30%",
+          "Domain 2: Design Resilient Architectures – 26%",
+          "Domain 3: Design High-Performing Architectures – 24%",
+          "Domain 4: Design Cost-Optimized Architectures – 20%"
+        ]
+      },
+      "reviews": 12000,
+      "rating": 5.0
+    }
+  },
+  {
+    "id": "qc2",
+    "coverImage": "https://placehold.co/400x600/f59e0b/ffffff?text=CQB CC",
+    "link": "#",
+    "status": "coming_soon",
+    "tags": ["bestseller", "featured", "preview"],
+    "title": {
+      "id": "Cloud Question Bank: Comprehensive Collection",
+      "en": "Cloud Question Bank: Comprehensive Collection"
+    },
+    "description": {
+      "id": "Kumpulan soal ini dirancang untuk mendukung pembelajaran dan evaluasi dalam konteks teknologi cloud. Tersusun secara sistematis, setiap pertanyaan mencakup topik-topik penting seperti komputasi awan, layanan cloud (AWS, GCP, Azure), serta praktik terbaik dalam arsitektur dan keamanan cloud. Dengan akses fleksibel dan berbasis cloud, koleksi ini cocok digunakan oleh pendidik, profesional IT, dan pelajar yang ingin memperdalam pemahaman mereka secara efisien dan modern.",
+      "en": "This question bank is crafted to support learning and assessment in cloud technology contexts. Systematically structured, each question covers key topics such as cloud computing, services (AWS, GCP, Azure), and best practices in architecture and security. With flexible, cloud-based accessibility, this collection is ideal for educators, IT professionals, and learners seeking to enhance their knowledge efficiently and in a modern way."
+    },
+    "price": {
+      "id": "Segera",
+      "en": "Soon"
+    },
+    "discountPrice": {
+      "id": "Segera",
+      "en": "Soon"
+    },
+    "buttonText": {
+        "id": "Beli Sekarang",
+        "en": "Buy Now"
+    },
+    "pages": 500,
+    "format": "PDF + Akses Online",
+    "details": {
+      "author": {
+        "name": "CloudGuides Team",
+        "bio": {
+          "id": "Tim ahli cloud dengan sertifikasi dan pengalaman industri.",
+          "en": "A team of cloud experts with industry certifications and experience."
+        }
+      },
+      "toc": {
+        "id": [
+          "Simulasi Ujian Penuh"
+        ],
+        "en": [
+          "Full Exam Simulation"
+        ]
+      },
+      "reviews": 128,
+      "rating": 4.9
+    }
+  },
+  {
+    "id": "qc3",
+    "coverImage": "https://placehold.co/400x600/f59e0b/ffffff?text=AZ-900",
+    "link": "#",
+    "status": "coming_soon",
+    "tags": [],
+     "title": {
+      "id": "Latihan Soal Ujian Microsoft Azure Fundamentals (AZ-900)",
+      "en": "Microsoft Azure Fundamentals (AZ-900) Practice Exam Questions"
+    },
+    "description": {
+      "id": "Persiapkan diri Anda untuk sertifikasi dasar Microsoft Azure dengan soal-soal yang mencakup konsep cloud, layanan inti Azure, dan keamanan.",
+      "en": "Prepare yourself for the foundational Microsoft Azure certification with questions covering cloud concepts, core Azure services, and security."
+    },
+    "price": {
+      "id": "Segera",
+      "en": "Soon"
+    },
+    "discountPrice": null,
+    "buttonText": {
+        "id": "Segera Hadir",
+        "en": "Coming Soon"
+    },
+    "pages": 250,
+    "format": "Akses Online",
+    "details": null
+  }
+]

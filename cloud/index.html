@@ -127,7 +127,7 @@
         </header>
 
         <!-- Kontainer untuk Kartu Kategori (Grid diubah untuk 4 kolom) -->
-        <main id="category-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <main id="category-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- Kartu dinamis akan dimuat di sini -->
         </main>
         
@@ -142,6 +142,8 @@
         let appData = {
             providers: [],
             ebooks: [],
+            cheatsheets: [],
+            questionsBanks : [],
             roadmaps: [],
             translations: {},
             menu: []
@@ -356,6 +358,24 @@
                     icon: `https://api.iconify.design/ph:signpost-bold.svg?color=white`
                 },
                 { 
+                    titleKey: 'cheatsheetCategoryTitle', // KARTU BARU
+                    descKey: 'cheatsheetCategoryDesc',
+                    link: '/cloud/cheatsheets',
+                    count: appData.cheatsheets.length,
+                    countTextKey: 'cheatsheetCountText',
+                    themeColor: '#f59e0b', // Amber
+                    icon: `https://api.iconify.design/ph:scroll-bold.svg?color=white`
+                },
+                { 
+                    titleKey: 'questionBankCategoryTitle', // KARTU BARU
+                    descKey: 'questionBankCategoryDesc',
+                    link: '/cloud/qa',
+                    count: appData.questionsBanks.length,
+                    countTextKey: 'questionBankCountText',
+                    themeColor: '#6366f1', // Indigo
+                    icon: `https://api.iconify.design/ph:question-bold.svg?color=white`,
+                },
+                { 
                     titleKey: 'solutionFinderCategoryTitle',
                     descKey: 'solutionFinderCategoryDesc',
                     link: '#',
@@ -481,12 +501,14 @@
         const initApp = async () => {
             const container = document.getElementById('category-cards-container');
             try {
-                const [providersRes, translationsRes, menuRes, ebooksRes, roadmapsRes] = await Promise.all([
+                const [providersRes, translationsRes, menuRes, ebooksRes, roadmapsRes, cheatsheetRes, questionsBanksRes] = await Promise.all([
                     fetch('./providers/providers-data.json'),
                     fetch('translations.json'),
                     fetch('menu-data.json').catch(err => { console.warn("menu-data.json not found, skipping."); return {ok: false}; }),
                     fetch('./ebooks/ebooks-data.json').catch(err => { console.warn("ebooks-data.json not found, skipping."); return {ok: false}; }),
-                    fetch('./roadmaps/roadmaps-data.json').catch(err => { console.warn("roadmaps-data.json not found, skipping."); return {ok: false}; })
+                    fetch('./roadmaps/roadmaps-data.json').catch(err => { console.warn("roadmaps-data.json not found, skipping."); return {ok: false}; }),
+                    fetch('./cheatsheets/cheatsheets-data.json').catch(err => { console.warn("cheatsheets-data.json not found, skipping."); return {ok: false}; }),
+                    fetch('./qa/question-bank-data.json').catch(err => { console.warn("question-bank-data.json not found, skipping."); return {ok: false}; })
                 ]);
 
                 if (!providersRes.ok || !translationsRes.ok) {
@@ -511,13 +533,21 @@
                 appData.translations.solutionFinderCategoryTitle = { id: "Solution Finder", en: "Solution Finder" };
                 appData.translations.solutionFinderCategoryDesc = { id: "Temukan solusi cloud yang tepat untuk kebutuhan teknis Anda dengan beberapa klik.", en: "Find the right cloud solution for your technical needs with just a few clicks." };
                 appData.translations.solutionFinderCountText = { id: "Finders", en: "Finders" };
-                appData.translations.freeTierCategoryTitle = { id: "Perbandingan Gratis", en: "Free Tier Comparison" };
+                appData.translations.freeTierCategoryTitle = { id: "Free Tier Comparison", en: "Free Tier Comparison" };
                 appData.translations.freeTierCategoryDesc = { id: "Bandingkan penawaran tingkat gratis dari berbagai penyedia cloud untuk memulai tanpa biaya.", en: "Compare free tier offerings from various cloud providers to get started at no cost." };
                 appData.translations.freeTierFinderCountText = { id: "Provider", en: "Providrs" };
                 appData.translations.useCaseCategoryTitle = { id: "Use Cases", en: "Use Cases" };
                 appData.translations.useCaseCategoryDesc = { id: "Lihat contoh nyata bagaimana teknologi cloud diterapkan untuk memecahkan masalah bisnis.", en: "See real-world examples of how cloud technology is applied to solve business problems." };
                 appData.translations.useCaseCountText = { id: "Contoh", en: "Cases" };
-                // Terjemahan untuk kartu baru
+                
+                // TERJEMAHAN UNTUK KARTU BARU
+                appData.translations.cheatsheetCategoryTitle = { id: "Cheatsheet", en: "Cheatsheets" };
+                appData.translations.cheatsheetCountText = { id: "Cheatsheet", en: "Cheatsheets" };
+                appData.translations.cheatsheetCategoryDesc = { id: "Kumpulan perintah, konfigurasi, dan tips cepat untuk berbagai layanan cloud.", en: "Collection of commands, configs, and quick tips for various cloud services." };
+                appData.translations.questionBankCategoryTitle = { id: "Bank Soal", en: "Question Bank" };
+                appData.translations.questionBankCategoryDesc = { id: "Uji pengetahuan Anda dengan koleksi soal latihan dan persiapan sertifikasi.", en: "Test your knowledge with a collection of practice questions and certification prep." };
+                appData.translations.questionBankCountText = { id: "Bank Soal", en: "Question Bank" };
+
                 if (!appData.translations.comingSoon) {
                   appData.translations.comingSoon = { id: "Segera Hadir", en: "Coming Soon" };
                 }
@@ -526,6 +556,8 @@
                 if(menuRes.ok) appData.menu = (await menuRes.json()).menu;
                 if(ebooksRes.ok) appData.ebooks = await ebooksRes.json();
                 if(roadmapsRes.ok) appData.roadmaps = await roadmapsRes.json();
+                if(cheatsheetRes.ok) appData.cheatsheets = await cheatsheetRes.json();
+                if(questionsBanksRes.ok) appData.questionsBanks = await questionsBanksRes.json();
                 
                 // Bangun struktur navigasi
                 buildNavigationStructure();
@@ -536,7 +568,7 @@
                 document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
                 
                 // Atur bahasa awal dan render konten
-                const preferredLanguage = localStorage.getItem('language') || 'id';
+                const preferredLanguage = localStorage.getItem('language') || 'en';
                 setLanguage(preferredLanguage);
 
             } catch (error) {

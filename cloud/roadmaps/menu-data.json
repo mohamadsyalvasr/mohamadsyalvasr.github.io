@@ -13,6 +13,8 @@
         { "langKey": "providerGuides", "type": "link", "href": "/cloud/providers", "status": "active" },
         { "langKey": "productEbooks", "type": "link", "href": "/cloud/ebooks", "status": "active" },
         { "langKey": "learningRoadmaps", "type": "link", "href": "/cloud/roadmaps", "status": "active" },
+        { "langKey": "navCheatsheets", "type": "link", "href": "/cloud/cheatsheets", "status": "active" },
+        { "langKey": "navQuestionBank", "type": "link", "href": "/cloud/qa", "status": "active" },
         { 
           "langKey": "toolFinder",
           "href": "#",

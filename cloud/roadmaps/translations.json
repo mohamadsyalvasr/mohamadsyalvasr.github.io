@@ -266,5 +266,59 @@
   "aboutPoint3Desc": {
     "id": "Baik Anda pemula atau profesional, temukan konten yang sesuai untuk Anda.",
     "en": "Whether you're a beginner or a pro, find content tailored for you."
+  },
+  "navEbooks": { "id": "E-Books", "en": "E-Books" },
+  "navCheatsheets": { "id": "Cheatsheets", "en": "Cheatsheets" },
+  "navQuestionBank": { "id": "Bank Soal", "en": "Question Bank" },
+  "ebookMainTitle": {
+    "id": "Jelajahi E-Book Pilihan Kami",
+    "en": "Explore Our Curated E-Books"
+  },
+  "ebookMainSubtitle": {
+    "id": "Perdalam pengetahuan cloud computing Anda dengan koleksi e-book dari para ahli.",
+    "en": "Deepen your cloud computing knowledge with our collection of e-books from experts."
+  },
+  "noResults": {
+    "id": "E-book tidak ditemukan.",
+    "en": "No e-books found."
+  },
+  "badgeDiscount": { "id": "Diskon", "en": "Sale" },
+  "badgeFeatured": { "id": "Unggulan", "en": "Featured" },
+  "badgeBestseller": { "id": "Terlaris", "en": "Bestseller" },
+  "badgeComingsoon": { "id": "Segera Hadir", "en": "Coming Soon" },
+  "detailsButtonText": { "id": "Klik untuk Detail", "en": "Click for Details" },
+  "tocTitle": { "id": "Daftar Isi", "en": "Table of Contents" },
+  "authorTitle": { "id": "Tentang Penulis", "en": "About the Author" },
+  "reviewsText": { "id": "ulasan", "en": "reviews" },
+  "pagesText": { "id": "Jumlah Soal", "en": "Questions" },
+  "formatText": { "id": "Format", "en": "Format" },
+  "savingsText": { "id": "Hemat", "en": "Save" },
+  "cheatsheetMainTitle": {
+    "id": "Kumpulan Cheatsheet Cloud",
+    "en": "Cloud Cheatsheet Collection"
+  },
+  "cheatsheetMainSubtitle": {
+    "id": "Referensi cepat untuk konsep dan perintah penting dalam cloud computing.",
+    "en": "Quick references for important concepts and commands in cloud computing."
+  },
+  "viewButtonText": {
+    "id": "Lihat Detail",
+    "en": "View Details"
+  },
+  "qcMainTitle": {
+    "id": "Koleksi Soal Latihan Sertifikasi",
+    "en": "Certification Practice Question Collections"
+  },
+  "qcMainSubtitle": {
+    "id": "Uji pengetahuan Anda dan bersiaplah untuk ujian sertifikasi cloud dengan koleksi soal pilihan kami.",
+    "en": "Test your knowledge and prepare for cloud certification exams with our curated question collections."
+  },
+  "qcSearchPlaceholder": {
+    "id": "Cari koleksi soal...",
+    "en": "Search question collections..."
+  },
+  "noResultsQC": {
+    "id": "Koleksi soal tidak ditemukan.",
+    "en": "No question collections found."
   }
 }

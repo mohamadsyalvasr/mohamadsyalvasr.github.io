@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheatsheets - Cloud Computing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e2e8f0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .lang-switcher button.active { background-color: #1e293b; color: white; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-container { background-color: white; border-radius: 0.75rem; width: 90%; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; position: relative; transform: translateY(-50px); transition: all 0.3s ease-in-out; }
+        .modal-overlay.visible .modal-container { transform: translateY(0); }
+        .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;}
+        .modal-content { padding: 2rem; overflow-y: auto; flex-grow: 1; }
+        .modal-footer { padding: 1.5rem 2rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; flex-shrink: 0; }
+        .modal-close-btn { position: absolute; top: 1rem; right: 1rem; cursor: pointer; color: #64748b; z-index: 10; }
+        
+        /* Gaya Navigasi Rekursif */
+        /* Navigasi */
+        .dropdown-menu, .mega-menu-content, .submenu { display: none; opacity: 0; transition: opacity 0.3s ease-out, transform 0.1s ease-out; transform: translateY(10px); pointer-events: none; }
+        .group:hover > .mega-menu-content, .group:hover > .dropdown-menu, .group.relative:hover > .submenu { display: block; opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .menu-item-disabled { filter: grayscale(80%); cursor: not-allowed; }
+        .menu-item-disabled:hover { background-color: transparent !important; transform: scale(1) !important; }
+        .mobile-submenu { display: none; max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .submenu-toggle.open + .mobile-submenu { max-height: 1000px; }
+        .submenu-toggle svg { transition: transform 0.3s; }
+        .submenu-toggle.open svg { transform: rotate(90deg); }
+        .menu-item-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* slate-600 */
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-amber-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <div class="container mx-auto px-6 py-12 md:py-20">
+        <header class="text-center mb-16">
+            <h1 data-lang-key="cheatsheetMainTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3"></h1>
+            <p data-lang-key="cheatsheetMainSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto"></p>
+             <div class="mt-8 max-w-xl mx-auto">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input type="search" id="search-input" class="w-full pl-11 pr-5 py-3 rounded-full border-2 border-slate-300 focus:border-blue-500 focus:ring-blue-500 transition-colors" placeholder="">
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div id="cheatsheets-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <p class="col-span-full text-center text-slate-500">Memuat data cheatsheet...</p>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-20 pt-10 border-t border-slate-200">
+            <p data-lang-key="footer" class="text-slate-500 text-sm"></p>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="cheatsheet-modal" class="modal-overlay">
+        <div class="modal-container">
+            <span id="modal-close-btn" class="modal-close-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </span>
+            <div id="modal-content-wrapper">
+                <!-- Konten Modal akan di-inject di sini -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let appData = { cheatsheets: [], translations: {}, menu: [] };
+
+        // --- FUNGSI PEMBANTU ---
+        const parsePrice = (priceStr, lang) => {
+            if (!priceStr || typeof priceStr !== 'string') return 0;
+            if (lang === 'id') return Number(priceStr.replace(/Rp|\s|\./g, ''));
+            return Number(priceStr.replace(/\$|,/g, ''));
+        };
+
+        const formatCurrency = (amount, lang) => {
+            if (lang === 'id') return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+            return '$' + new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+        };
+
+        const openModal = (sheetId) => {
+            const lang = localStorage.getItem('language') || 'id';
+            const sheet = appData.cheatsheets.find(s => s.id === sheetId);
+            if (!sheet) return;
+
+            const modal = document.getElementById('cheatsheet-modal');
+            const modalContainer = modal.querySelector('.modal-container');
+            const contentWrapper = document.getElementById('modal-content-wrapper');
+            
+            modalContainer.style.maxWidth = '800px';
+            contentWrapper.innerHTML = '';
+
+            if (sheet.type === 'pdf') {
+                modalContainer.style.maxWidth = '90vw';
+                contentWrapper.innerHTML = `
+                    <div class="modal-header">
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-red-100 text-red-600 rounded-lg">${sheet.icon}</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">${sheet.title[lang]}</h3>
+                                <p class="text-slate-500 text-sm">${sheet.description[lang]}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-[75vh]">
+                        <iframe src="${sheet.url}" class="w-full h-full border-0" title="${sheet.title[lang]}"></iframe>
+                    </div>
+                `;
+            } else if (sheet.type === 'url') {
+                const price = sheet.price[lang] || '';
+                const discountPrice = sheet.discountPrice ? sheet.discountPrice[lang] : null;
+                let savingsHTML = '';
+                if (discountPrice) {
+                    const savingsValue = parsePrice(price, lang) - parsePrice(discountPrice, lang);
+                    if (savingsValue > 0) {
+                        savingsHTML = `<p class="text-sm font-semibold text-green-600">${appData.translations.savingsText?.[lang] || 'Hemat'} ${formatCurrency(savingsValue, lang)}</p>`;
+                    }
+                }
+
+                contentWrapper.innerHTML = `
+                    <div class="modal-content">
+                         <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-green-100 text-green-600 rounded-lg">${sheet.icon}</div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-900">${sheet.title[lang]}</h3>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 mt-4">${sheet.description[lang]}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="flex justify-between items-center">
+                            <div class="text-left">
+                                ${discountPrice ? `<p class="text-lg text-slate-400 line-through">${price}</p>` : ''}
+                                <p class="text-3xl font-bold text-slate-800">${discountPrice || price}</p>
+                                ${savingsHTML}
+                            </div>
+                            <a href="${sheet.url}" target="_blank" rel="noopener noreferrer" class="inline-block text-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                                ${sheet.buttonText[lang]}
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else { // inline
+                const contentHTML = sheet.content[lang].map(item => `
+                    <div class="py-2">
+                        <code class="block bg-slate-100 text-slate-800 p-2 rounded-md font-mono text-sm">${item.command}</code>
+                        <p class="text-slate-600 mt-1 text-sm">${item.desc}</p>
+                    </div>
+                `).join('<hr class="my-2 border-slate-200">');
+
+                contentWrapper.innerHTML = `
+                    <div class="modal-content">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-amber-100 text-amber-600 rounded-lg">${sheet.icon}</div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-900">${sheet.title[lang]}</h3>
+                                <p class="text-slate-500">${sheet.description[lang]}</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 border-t pt-4 space-y-2">${contentHTML}</div>
+                    </div>
+                `;
+            }
+            
+            modal.classList.add('visible');
+            applyTranslations(lang);
+        };
+
+        const closeModal = () => document.getElementById('cheatsheet-modal').classList.remove('visible');
+
+        // --- FUNGSI NAVIGASI (REKURSIF & LENGKAP) ---
+       const createDesktopMenuItemsRecursive = (menuItems, isSubmenu = false) => {
+            let html = '';
+            menuItems.forEach(item => {
+                const isComingSoon = item.status === 'comingsoon';
+                const hasSubItems = item.items && item.items.length > 0;
+
+                if (item.type === 'link') {
+                    if (isComingSoon) {
+                        const itemClass = isSubmenu 
+                            ? 'block w-full text-left px-4 py-2 text-slate-400 cursor-not-allowed flex justify-between items-center'
+                            : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center';
+                        html += `<div class="${itemClass}"><span data-lang-key="${item.langKey}"></span><span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span></div>`;
+                    } else {
+                        const itemClass = isSubmenu 
+                            ? 'block w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600'
+                            : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors';
+                        html += `<a href="${item.href}" class="${itemClass}" data-lang-key="${item.langKey}"></a>`;
+                    }
+                } 
+                else if (item.type === 'dropdown') {
+                    if (isComingSoon) {
+                        const buttonClasses = isSubmenu
+                                ? 'w-full flex items-center justify-between px-4 py-2 text-slate-400 cursor-not-allowed'
+                                : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center';
+                        html += `<div class="relative"><div class="${buttonClasses}"><span data-lang-key="${item.langKey}"></span><span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span></div></div>`;
+                    } else if (hasSubItems) {
+                        const subMenuHTML = createDesktopMenuItemsRecursive(item.items, true);
+                        const menuContainerClasses = isSubmenu 
+                            ? 'submenu absolute left-full -top-2 mt-0 ml-1 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2' 
+                            : 'dropdown-menu absolute top-full left-0 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2';
+                        const icon = isSubmenu
+                            ? `<svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`
+                            : `<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                        const buttonClasses = isSubmenu
+                            ? 'w-full flex items-center px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600'
+                            : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center';
+
+                        html += `<div class="group relative"><a href="${item.href || '#'}" class="${buttonClasses}"><span data-lang-key="${item.langKey}"></span>${icon}</a><div class="${menuContainerClasses}">${subMenuHTML}</div></div>`;
+                    }
+                } 
+                else if (item.type === 'mega-menu') {
+                    let megaMenuHTML = '';
+                    if (item.content && item.content.columns) {
+                        const allItems = item.content.columns[0].items;
+                        const midIndex = Math.ceil(allItems.length / 2);
+                        const splitColumns = [allItems.slice(0, midIndex), allItems.slice(midIndex)];
+
+                        const megaColumns = splitColumns.map(colItems => `
+                            <div class="space-y-2">
+                                ${colItems.map(colItem => {
+                                    const isItemComingSoon = colItem.status === 'comingsoon';
+                                    const linkHref = isItemComingSoon ? '#' : colItem.href;
+                                    const linkClass = isItemComingSoon ? 'menu-item-disabled' : '';
+                                    const badgeHTML = isItemComingSoon ? '<span class="menu-item-badge" data-lang-key="comingSoon"></span>' : '';
+
+                                    return `
+                                    <div class="relative">
+                                        <a href="${linkHref}" class="flex items-center p-3 rounded-lg hover:bg-slate-50 ${linkClass}">
+                                            <img src="${colItem.img}" class="mr-4 rounded-md flex-shrink-0 w-12 h-12 object-contain" alt="">
+                                            <div>
+                                                <p class="font-semibold text-slate-700" data-lang-key="${colItem.titleLangKey}"></p>
+                                                <p class="text-sm text-slate-500" data-lang-key="${colItem.descLangKey}"></p>
+                                            </div>
+                                        </a>
+                                        ${badgeHTML}
+                                    </div>`;
+                                }).join('')}
+                            </div>
+                        `).join('');
+
+                        let viewAllLink = '';
+                        if (item.content.viewAll && item.content.viewAll.active) {
+                            viewAllLink = `
+                                <div class="md:col-span-2 mt-4 text-center border-t border-slate-200 pt-4">
+                                    <a href="${item.content.viewAll.href}" class="font-semibold text-amber-600 hover:text-amber-700 transition-colors" data-lang-key="${item.content.viewAll.langKey}"></a>
+                                </div>
+                            `;
+                        }
+
+                        const featured = item.content.featured;
+                        megaMenuHTML = `
+                            <div class="mega-menu-content absolute left-0 top-full w-full z-50">
+                                <div class="bg-white shadow-lg border-t border-slate-200/50">
+                                    <div class="container mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        <div class="md:col-span-2">
+                                            <h3 class="font-bold text-slate-800 px-3 mb-4" data-lang-key="${item.content.columns[0].titleLangKey}"></h3>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                                                ${megaColumns}
+                                            </div>
+                                            ${viewAllLink}
+                                        </div>
+                                        <div class="bg-slate-50 rounded-lg p-6 flex flex-col justify-center">
+                                            <img src="${featured.img}" class="rounded-md mb-4" alt="" onerror="this.onerror=null;this.src='https://placehold.co/400x200/fb923c/ffffff?text=Image+Not+Found';">
+                                            <h3 class="font-bold text-slate-800" data-lang-key="${featured.titleLangKey}"></h3>
+                                            <p class="text-slate-500 mt-2 mb-4 text-sm" data-lang-key="${featured.descLangKey}"></p>
+                                            <a href="${featured.href}" class="inline-block text-amber-600 font-semibold hover:text-amber-700 transition-colors" data-lang-key="${featured.linkLangKey}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
+                    html += `
+                        <div class="group static">
+                            <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                                <span data-lang-key="${item.langKey}"></span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            ${megaMenuHTML}
+                        </div>`;
+                }
+            });
+            return html;
+        };
+        
+        const createMobileMenuItemsRecursive = (menuItems) => {
+            let html = '';
+            menuItems.forEach(item => {
+                const isComingSoon = item.status === 'comingsoon';
+                const hasSubItems = !isComingSoon && item.items && item.items.length > 0;
+                
+                if (!hasSubItems) {
+                    if (isComingSoon) {
+                        html += `<div class="flex items-center justify-between py-2 text-slate-400 cursor-not-allowed"><span data-lang-key="${item.langKey}"></span><span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5 mr-2" data-lang-key="badgeComingsoon"></span></div>`;
+                    } else {
+                        html += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey}"></a>`;
+                    }
+                } else {
+                    const mobileSubItems = createMobileMenuItemsRecursive(item.items);
+                    html += `<div><button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle"><span data-lang-key="${item.langKey}"></span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button><div class="pl-4 mobile-submenu">${mobileSubItems}</div></div>`;
+                }
+            });
+            return html;
+        };
+        
+        const buildNavigation = () => {
+            if (!appData.menu) return;
+            document.getElementById('desktop-nav').innerHTML = createDesktopMenuItemsRecursive(appData.menu);
+            document.getElementById('mobile-nav').innerHTML = createMobileMenuItemsRecursive(appData.menu);
+        };
+
+        const initNav = () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNavContainer = document.getElementById('mobile-nav-container');
+            if(mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileNavContainer.classList.toggle('hidden');
+                });
+            }
+            const mobileNav = document.getElementById('mobile-nav');
+            if(mobileNav) {
+                mobileNav.addEventListener('click', (e) => {
+                    const toggle = e.target.closest('.submenu-toggle');
+                    if (toggle) {
+                        e.preventDefault();
+                        toggle.classList.toggle('open');
+                        const submenu = toggle.nextElementSibling;
+                        if (submenu.style.maxHeight) {
+                            submenu.style.maxHeight = null;
+                        } else {
+                            submenu.style.maxHeight = submenu.scrollHeight + "px";
+                        }
+                    }
+                });
+            }
+        };
+
+        const applyTranslations = (lang) => {
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (appData.translations[key]?.[lang]) {
+                    el.innerHTML = appData.translations[key][lang];
+                }
+            });
+            const searchInput = document.getElementById('search-input');
+            if (searchInput && appData.translations.cheatsheetSearchPlaceholder) {
+                searchInput.placeholder = appData.translations.cheatsheetSearchPlaceholder[lang];
+            }
+        };
+
+        const renderCheatsheetCards = (lang) => {
+            const container = document.getElementById('cheatsheets-container');
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            
+            const filteredSheets = appData.cheatsheets.filter(sheet => {
+                const title = sheet.title?.[lang] || '';
+                const description = sheet.description?.[lang] || '';
+                return title.toLowerCase().includes(searchTerm) || description.toLowerCase().includes(searchTerm);
+            });
+
+            if (filteredSheets.length === 0) {
+                container.innerHTML = `<p class="col-span-full text-center text-slate-500 text-lg">${appData.translations.noResultsCheatsheet?.[lang] || 'Cheatsheet tidak ditemukan.'}</p>`;
+                return;
+            }
+
+            container.innerHTML = filteredSheets.map(sheet => {
+                let iconBgClass, buttonColorClass;
+                switch(sheet.type) {
+                    case 'pdf':
+                        iconBgClass = 'bg-red-100 text-red-600';
+                        buttonColorClass = 'text-red-600';
+                        break;
+                    case 'url':
+                        iconBgClass = 'bg-green-100 text-green-600';
+                        buttonColorClass = 'text-green-600';
+                        break;
+                    default: // inline
+                        iconBgClass = 'bg-amber-100 text-amber-600';
+                        buttonColorClass = 'text-amber-600';
+                }
+
+                return `
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col" data-sheet-id="${sheet.id}">
+                    <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center ${iconBgClass} rounded-lg mb-4">${sheet.icon}</div>
+                    <h3 class="text-lg font-bold text-slate-800">${sheet.title[lang]}</h3>
+                    <p class="text-slate-500 text-sm mt-2 flex-grow">${sheet.description[lang]}</p>
+                    <div class="mt-6 text-right">
+                        <span class="font-semibold ${buttonColorClass}" data-lang-key="viewButtonText"></span>
+                    </div>
+                </div>
+            `}).join('');
+        };
+
+        const setLanguage = (lang) => {
+            if (!Object.keys(appData.translations).length) return;
+            localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
+            renderCheatsheetCards(lang);
+            applyTranslations(lang);
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        };
+
+        const initApp = async () => {
+            try {
+                const [sheetsRes, translationsRes, menuRes] = await Promise.all([
+                    fetch('cheatsheets-data.json'),
+                    fetch('../translations.json'),
+                    fetch('../menu-data.json')
+                ]);
+
+                if (!sheetsRes.ok || !translationsRes.ok || !menuRes.ok) throw new Error('Gagal memuat file data.');
+
+                appData.cheatsheets = await sheetsRes.json();
+                appData.translations = await translationsRes.json();
+                appData.menu = (await menuRes.json()).menu;
+
+                appData.translations.cheatsheetSearchPlaceholder = { id: "Cari cheatsheet...", en: "Search cheatsheets..." };
+                appData.translations.noResultsCheatsheet = { id: "Cheatsheet tidak ditemukan.", en: "No cheatsheets found." };
+
+
+                buildNavigation();
+
+                document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+                document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+                document.getElementById('search-input').addEventListener('input', () => {
+                    const lang = localStorage.getItem('language') || 'id';
+                    renderCheatsheetCards(lang);
+                    applyTranslations(lang);
+                });
+                
+                const modal = document.getElementById('cheatsheet-modal');
+                document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+                modal.addEventListener('click', (e) => e.target === modal && closeModal());
+                document.getElementById('cheatsheets-container').addEventListener('click', (e) => {
+                    const card = e.target.closest('[data-sheet-id]');
+                    if (card) openModal(card.dataset.sheetId);
+                });
+
+                initNav();
+                setLanguage(localStorage.getItem('language') || 'id');
+
+            } catch (error) {
+                console.error('Gagal memuat data:', error);
+                document.getElementById('cheatsheets-container').innerHTML = `<p class="text-center text-red-500 col-span-full">Gagal memuat data. Periksa konsol.</p>`;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
