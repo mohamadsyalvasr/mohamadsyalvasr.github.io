@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertifikasi Gratis - CloudGuides</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .lang-switcher button.active {
+            background-color: #1e293b;
+            color: white;
+        }
+        .dropdown-menu, .mega-menu-content, .submenu {
+            display: none; opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.1s ease-out;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+        .group:hover > .mega-menu-content,
+        .group:hover > .dropdown-menu,
+        .group.relative:hover > .submenu {
+            display: block; opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .menu-item-badge {
+            position: absolute; top: 0.75rem; right: 0.75rem;
+            background-color: #475569; color: white;
+            padding: 0.125rem 0.5rem; border-radius: 9999px;
+            font-size: 0.75rem; font-weight: 600; z-index: 10;
+        }
+        .menu-item-disabled { filter: grayscale(80%); cursor: not-allowed; }
+        .menu-item-disabled:hover { background-color: transparent !important; transform: scale(1) !important; }
+        .mobile-submenu { display: none; max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .submenu-toggle.open + .mobile-submenu { max-height: 1000px; }
+        .submenu-toggle svg { transition: transform 0.3s; }
+        .submenu-toggle.open svg { transform: rotate(90deg); }
+        
+        /* Custom scrollbar styles */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d1d5db; /* gray-300 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af; /* gray-400 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header dengan Navigasi (Tidak Diubah) -->
+    <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="/cloud/" class="flex-shrink-0 flex items-center text-slate-600 hover:text-amber-600 p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span class="font-bold ml-2 text-lg text-slate-800">CloudGuides</span>
+                </a>
+                <nav id="desktop-nav" class="hidden md:flex items-center"></nav>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4 pr-4">
+                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
+                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition">ID</button>
+                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition">EN</button>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-nav-container" class="hidden md:hidden border-t border-slate-200">
+            <nav id="mobile-nav" class="px-4 pt-4 pb-8 space-y-2"></nav>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <div class="container mx-auto px-6 py-12 md:py-20">
+        <header class="text-center mb-12">
+            <h1 data-lang-key="pageTitle" class="text-4xl md:text-5xl font-bold text-slate-900 mb-3">Sertifikasi Cloud Gratis</h1>
+            <p data-lang-key="pageSubtitle" class="text-lg text-slate-600 max-w-3xl mx-auto">Temukan dan dapatkan sertifikasi dari penyedia cloud terkemuka untuk meningkatkan karir Anda tanpa biaya.</p>
+        </header>
+
+        <!-- Fitur Pencarian -->
+        <div class="mb-12 max-w-2xl mx-auto">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </div>
+                <input type="text" id="search-input" data-lang-placeholder="searchPlaceholder" class="w-full py-3 pl-12 pr-4 text-slate-800 bg-white border border-slate-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500" placeholder="Cari sertifikasi...">
+            </div>
+        </div>
+
+        <main id="cert-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Kartu Sertifikasi akan dimuat di sini -->
+        </main>
+    </div>
+
+    <script>
+        let appData = {
+            certifications: [],
+            translations: {},
+            menu: []
+        };
+
+        // --- FUNGSI NAVIGASI (Tidak Diubah) ---
+        const createDesktopMenuItemsRecursive = (menuItems, isSubmenu = false) => {
+            let html = '';
+            menuItems.forEach(item => {
+                const isComingSoon = item.status === 'comingsoon';
+                const hasSubItems = item.items && item.items.length > 0;
+
+                if (item.type === 'link') {
+                    if (isComingSoon) {
+                        const itemClass = isSubmenu 
+                            ? 'block w-full text-left px-4 py-2 text-slate-400 cursor-not-allowed flex justify-between items-center'
+                            : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center';
+                        html += `<div class="${itemClass}"><span data-lang-key="${item.langKey}"></span><span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span></div>`;
+                    } else {
+                        const itemClass = isSubmenu 
+                            ? 'block w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600'
+                            : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors';
+                        html += `<a href="${item.href}" class="${itemClass}" data-lang-key="${item.langKey}"></a>`;
+                    }
+                } 
+                else if (item.type === 'dropdown') {
+                    if (isComingSoon) {
+                        const buttonClasses = isSubmenu
+                                ? 'w-full flex items-center justify-between px-4 py-2 text-slate-400 cursor-not-allowed'
+                                : 'px-4 py-5 text-slate-400 font-medium cursor-not-allowed flex items-center';
+                        html += `<div class="relative"><div class="${buttonClasses}"><span data-lang-key="${item.langKey}"></span><span class="ml-2 text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5" data-lang-key="comingSoon"></span></div></div>`;
+                    } else if (hasSubItems) {
+                        const subMenuHTML = createDesktopMenuItemsRecursive(item.items, true);
+                        const menuContainerClasses = isSubmenu 
+                            ? 'submenu absolute left-full -top-2 mt-0 ml-1 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2' 
+                            : 'dropdown-menu absolute top-full left-0 w-auto min-w-max whitespace-nowrap z-50 bg-white rounded-lg shadow-xl py-2';
+                        const icon = isSubmenu
+                            ? `<svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`
+                            : `<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+                        const buttonClasses = isSubmenu
+                            ? 'w-full flex items-center px-4 py-2 text-slate-600 hover:bg-slate-100 hover:text-amber-600'
+                            : 'px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center';
+
+                        html += `<div class="group relative"><a href="${item.href || '#'}" class="${buttonClasses}"><span data-lang-key="${item.langKey}"></span>${icon}</a><div class="${menuContainerClasses}">${subMenuHTML}</div></div>`;
+                    }
+                } 
+                else if (item.type === 'mega-menu') {
+                    let megaMenuHTML = '';
+                    if (item.content && item.content.columns) {
+                        const allItems = item.content.columns[0].items;
+                        const midIndex = Math.ceil(allItems.length / 2);
+                        const splitColumns = [allItems.slice(0, midIndex), allItems.slice(midIndex)];
+
+                        const megaColumns = splitColumns.map(colItems => `
+                            <div class="space-y-2">
+                                ${colItems.map(colItem => {
+                                    const isItemComingSoon = colItem.status === 'comingsoon';
+                                    const linkHref = isItemComingSoon ? '#' : colItem.href;
+                                    const linkClass = isItemComingSoon ? 'menu-item-disabled' : '';
+                                    const badgeHTML = isItemComingSoon ? '<span class="menu-item-badge" data-lang-key="comingSoon"></span>' : '';
+
+                                    return `
+                                    <div class="relative">
+                                        <a href="${linkHref}" class="flex items-center p-3 rounded-lg hover:bg-slate-50 ${linkClass}">
+                                            <img src="${colItem.img}" class="mr-4 rounded-md flex-shrink-0 w-12 h-12 object-contain" alt="">
+                                            <div>
+                                                <p class="font-semibold text-slate-700" data-lang-key="${colItem.titleLangKey}"></p>
+                                                <p class="text-sm text-slate-500" data-lang-key="${colItem.descLangKey}"></p>
+                                            </div>
+                                        </a>
+                                        ${badgeHTML}
+                                    </div>`;
+                                }).join('')}
+                            </div>
+                        `).join('');
+
+                        let viewAllLink = '';
+                        if (item.content.viewAll && item.content.viewAll.active) {
+                            viewAllLink = `
+                                <div class="md:col-span-2 mt-4 text-center border-t border-slate-200 pt-4">
+                                    <a href="${item.content.viewAll.href}" class="font-semibold text-amber-600 hover:text-amber-700 transition-colors" data-lang-key="${item.content.viewAll.langKey}"></a>
+                                </div>
+                            `;
+                        }
+
+                        const featured = item.content.featured;
+                        megaMenuHTML = `
+                            <div class="mega-menu-content absolute left-0 top-full w-full z-50">
+                                <div class="bg-white shadow-lg border-t border-slate-200/50">
+                                    <div class="container mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        <div class="md:col-span-2">
+                                            <h3 class="font-bold text-slate-800 px-3 mb-4" data-lang-key="${item.content.columns[0].titleLangKey}"></h3>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                                                ${megaColumns}
+                                            </div>
+                                            ${viewAllLink}
+                                        </div>
+                                        <div class="bg-slate-50 rounded-lg p-6 flex flex-col justify-center">
+                                            <img src="${featured.img}" class="rounded-md mb-4" alt="" onerror="this.onerror=null;this.src='https://placehold.co/400x200/fb923c/ffffff?text=Image+Not+Found';">
+                                            <h3 class="font-bold text-slate-800" data-lang-key="${featured.titleLangKey}"></h3>
+                                            <p class="text-slate-500 mt-2 mb-4 text-sm" data-lang-key="${featured.descLangKey}"></p>
+                                            <a href="${featured.href}" class="inline-block text-amber-600 font-semibold hover:text-amber-700 transition-colors" data-lang-key="${featured.linkLangKey}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
+                    html += `
+                        <div class="group static">
+                            <button class="px-4 py-5 text-slate-600 font-medium hover:text-amber-600 transition-colors flex items-center">
+                                <span data-lang-key="${item.langKey}"></span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            ${megaMenuHTML}
+                        </div>`;
+                }
+            });
+            return html;
+        };
+        const createMobileMenuItemsRecursive = (menuItems) => {
+            let html = '';
+            menuItems.forEach(item => {
+                const isComingSoon = item.status === 'comingsoon';
+                const hasSubItems = !isComingSoon && ((item.items && item.items.length > 0) || (item.type === 'mega-menu' && item.content.columns));
+
+                if (!hasSubItems) {
+                     if (isComingSoon) {
+                        html += `<div class="flex items-center justify-between py-2 text-slate-400 cursor-not-allowed"><span data-lang-key="${item.langKey || item.titleLangKey}"></span><span class="text-xs bg-slate-200 text-slate-500 font-semibold rounded-full px-2 py-0.5 mr-2" data-lang-key="comingSoon"></span></div>`;
+                    } else {
+                        html += `<a href="${item.href}" class="block py-2 text-slate-600 font-medium hover:text-amber-600" data-lang-key="${item.langKey || item.titleLangKey}"></a>`;
+                    }
+                } else { 
+                    const subItemsData = item.items || item.content.columns.flatMap(col => col.items);
+                    const mobileSubItems = createMobileMenuItemsRecursive(subItemsData);
+                    html += `<div><button class="w-full flex justify-between items-center py-2 text-slate-600 font-medium hover:text-amber-600 submenu-toggle"><span data-lang-key="${item.langKey}"></span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button><div class="pl-4 mobile-submenu">${mobileSubItems}</div></div>`;
+                }
+            });
+            return html;
+        };
+        const buildNavigationStructure = () => {
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (!desktopNav || !mobileNav || !appData.menu) return;
+
+            desktopNav.innerHTML = createDesktopMenuItemsRecursive(appData.menu);
+            mobileNav.innerHTML = createMobileMenuItemsRecursive(appData.menu);
+        };
+        const initNav = () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNavContainer = document.getElementById('mobile-nav-container');
+            
+            if(mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileNavContainer.classList.toggle('hidden');
+                });
+            }
+
+            const mobileNav = document.getElementById('mobile-nav');
+            if(mobileNav) {
+                mobileNav.addEventListener('click', (e) => {
+                    const toggle = e.target.closest('.submenu-toggle');
+                    if (toggle) {
+                        e.preventDefault();
+                        toggle.classList.toggle('open');
+                        const submenu = toggle.nextElementSibling;
+                        if (submenu.style.maxHeight) {
+                            submenu.style.maxHeight = null;
+                        } else {
+                            submenu.style.maxHeight = submenu.scrollHeight + "px";
+                        }
+                    }
+                });
+            }
+        };
+
+        // --- RENDER KARTU SERTIFIKASI ---
+        const renderCertificationCards = (lang) => {
+            const container = document.getElementById('cert-cards-container');
+            const searchInput = document.getElementById('search-input');
+            if (!container || !searchInput) return;
+
+            const searchTerm = searchInput.value.toLowerCase();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // 1. Filter berdasarkan pencarian
+            const filteredCerts = appData.certifications.filter(cert => {
+                const title = (appData.translations[cert.title_lang_key]?.[lang] || '').toLowerCase();
+                const provider = cert.provider.toLowerCase();
+                return title.includes(searchTerm) || provider.includes(searchTerm);
+            });
+
+            // 2. Urutkan: yang aktif di atas, yang kedaluwarsa di bawah
+            const sortedCerts = filteredCerts.sort((a, b) => {
+                const aIsActive = new Date(a.end_date) >= today;
+                const bIsActive = new Date(b.end_date) >= today;
+                return bIsActive - aIsActive; // Mengembalikan 1, 0, atau -1 untuk mengurutkan
+            });
+
+            container.innerHTML = ''; // Kosongkan kontainer
+
+            if (sortedCerts.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-500 col-span-full" data-lang-key="noResults"></p>`;
+                applyTranslations(lang);
+                return;
+            }
+
+            sortedCerts.forEach(cert => {
+                const title = appData.translations[cert.title_lang_key]?.[lang] || cert.title_lang_key;
+                const description = appData.translations[cert.desc_lang_key]?.[lang] || cert.desc_lang_key;
+                const level = appData.translations[cert.level.toLowerCase()]?.[lang] || cert.level;
+                
+                const endDate = new Date(cert.end_date);
+                const isActive = endDate >= today;
+
+                const levelColors = {
+                    beginner: 'bg-green-100 text-green-800',
+                    intermediate: 'bg-yellow-100 text-yellow-800',
+                    advanced: 'bg-red-100 text-red-800'
+                };
+
+                const cardClasses = isActive 
+                    ? 'card bg-white rounded-2xl shadow-md overflow-hidden block group flex flex-col'
+                    : 'card bg-slate-50 rounded-2xl shadow-md overflow-hidden block group filter grayscale opacity-75 cursor-not-allowed flex flex-col';
+                
+                const linkTag = isActive ? 'a' : 'div';
+                
+                const expiredBadge = !isActive
+                    ? `<span class="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10" data-lang-key="expired_badge"></span>`
+                    : '';
+
+                const formatDate = (dateString) => {
+                    const date = new Date(dateString);
+                    const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                    const correctedDate = new Date(date.getTime() + userTimezoneOffset);
+                    return correctedDate.toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {
+                        day: 'numeric', month: 'long', year: 'numeric'
+                    });
+                };
+
+                const cardElement = document.createElement(linkTag);
+                cardElement.className = cardClasses;
+                if(isActive) {
+                    cardElement.href = cert.url;
+                    cardElement.target = '_blank';
+                    cardElement.rel = 'noopener noreferrer';
+                }
+
+                cardElement.innerHTML = `
+                    <div class="relative">
+                        ${expiredBadge}
+                        <img src="${cert.image}" alt="${title}" class="w-full h-40 object-cover transition-transform duration-300 ${isActive ? 'group-hover:scale-105' : ''}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e2e8f0/94a3b8?text=Image+Error';">
+                        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20"></div>
+                        <img src="${cert.provider_logo}" alt="${cert.provider}" class="absolute bottom-4 right-4 h-10 w-auto bg-white p-1.5 rounded-lg shadow-lg" onerror="this.style.display='none'">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-sm font-semibold ${isActive ? 'text-amber-600' : 'text-slate-500'}">${cert.provider}</span>
+                            <span class="text-xs font-bold px-2 py-1 rounded-full ${levelColors[cert.level.toLowerCase()] || 'bg-gray-100 text-gray-800'}">${level}</span>
+                        </div>
+                        <h3 class="text-xl font-bold ${isActive ? 'text-slate-800 group-hover:text-amber-700' : 'text-slate-600'} mb-2">${title}</h3>
+                        <div class="h-24 mb-4 flex-grow relative">
+                            <p class="text-slate-600 text-sm absolute inset-0 overflow-y-auto pr-2 custom-scrollbar">${description}</p>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-slate-100">
+                            <p class="text-xs text-slate-500 font-semibold" data-lang-key="active_period"></p>
+                            <p class="text-sm text-slate-700 font-medium">${formatDate(cert.start_date)} - ${formatDate(cert.end_date)}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(cardElement);
+            });
+            
+            applyTranslations(lang);
+        };
+
+        // --- FUNGSI UTAMA & INISIALISASI ---
+        const applyTranslations = (lang) => {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (appData.translations[key] && appData.translations[key][lang]) {
+                     element.innerHTML = appData.translations[key][lang];
+                }
+            });
+
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                const placeholderKey = searchInput.getAttribute('data-lang-placeholder');
+                if (appData.translations[placeholderKey] && appData.translations[placeholderKey][lang]) {
+                    searchInput.placeholder = appData.translations[placeholderKey][lang];
+                }
+            }
+        };
+
+        const setLanguage = (lang) => {
+            if (!Object.keys(appData.translations).length) return;
+            localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
+            
+            renderCertificationCards(lang);
+            applyTranslations(lang);
+
+            document.getElementById('lang-id').classList.toggle('active', lang === 'id');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        };
+
+        const initApp = async () => {
+            try {
+                const [certRes, translationsRes, menuRes] = await Promise.all([
+                    fetch('./certification-data.json'),
+                    fetch('./certification.json'),
+                    fetch('../menu-data.json').catch(err => { console.warn("menu-data.json not found"); return { ok: false }; })
+                ]);
+
+                if (!certRes.ok || !translationsRes.ok) {
+                    throw new Error('Gagal memuat file data penting.');
+                }
+
+                appData.certifications = await certRes.json();
+                appData.translations = await translationsRes.json();
+                if (menuRes.ok) appData.menu = (await menuRes.json()).menu;
+
+                // Menambahkan terjemahan tambahan
+                appData.translations.searchPlaceholder = { id: "Cari sertifikasi atau penyedia...", en: "Search for certifications or providers..." };
+                appData.translations.noResults = { id: "Tidak ada sertifikasi yang cocok ditemukan.", en: "No matching certifications found." };
+
+                if(appData.menu.length > 0) {
+                    const menuTranslationsRes = await fetch('../translations.json').catch(err => { console.warn("translations.json not found"); return { ok: false }; });
+                    if(menuTranslationsRes.ok) {
+                        const menuTranslations = await menuTranslationsRes.json();
+                        appData.translations = {...appData.translations, ...menuTranslations};
+                    }
+                }
+
+                buildNavigationStructure();
+                initNav();
+
+                document.getElementById('lang-id').addEventListener('click', () => setLanguage('id'));
+                document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+                
+                const searchInput = document.getElementById('search-input');
+                searchInput.addEventListener('keyup', () => {
+                    const lang = localStorage.getItem('language') || 'en';
+                    renderCertificationCards(lang);
+                });
+
+                const preferredLanguage = localStorage.getItem('language') || 'en';
+                setLanguage(preferredLanguage);
+
+            } catch (error) {
+                console.error('Gagal menginisialisasi aplikasi:', error);
+                document.getElementById('cert-cards-container').innerHTML = `<p class="text-center text-red-500 col-span-full">Gagal memuat data sertifikasi.</p>`;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+    <script src="../feedback.js" defer></script>
+</body>
+</html>

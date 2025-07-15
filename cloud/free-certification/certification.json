@@ -1,0 +1,39 @@
+{
+  "pageTitle": {
+    "id": "Sertifikasi Gratis",
+    "en": "Free Certifications"
+  },
+  "pageSubtitle": {
+    "id": "Temukan dan dapatkan sertifikasi untuk meningkatkan karir Anda tanpa biaya.",
+    "en": "Find and earn certifications to boost your career at no cost."
+  },
+  "oci_foundations_title": {
+    "id": "Oracle Cloud Infrastructure Foundations",
+    "en": "Oracle Cloud Infrastructure Foundations"
+  },
+  "oci_foundations_desc": {
+    "id": "Bangun dan validasi keahlian Anda di seluruh platform OCI, mulai dari konsep cloud dasar hingga arsitektur tingkat lanjut, teknik migrasi, jaringan, dan otomatisasi. Dapatkan sertifikasi di bidang OCI Foundations, Architect, Migration Architect, dan Networking untuk mengembangkan keterampilan yang dibutuhkan dalam merancang dan memodernisasi infrastruktur kelas perusahaan. Perkuat kapabilitas cloud-native Anda dengan sertifikasi Developer dan DevOps, serta pastikan performa, keandalan, dan ketahanan dengan Observability dan Integrasi Aplikasi. Baik Anda baru memulai maupun sedang mengembangkan lingkungan yang kompleks, sertifikasi ini memberdayakan Anda untuk memimpin solusi yang aman dan berkinerja tinggi dalam lanskap OCI yang dinamis.",
+    "en": "Build and validate your expertise across the OCI platform, from foundational cloud concepts to advanced architecture, migration techniques, networking, and automation. Earn certifications in OCI Foundations, Architect, Migration Architect, and Networking to develop the skills needed to design and modernize enterprise-grade infrastructure. Strengthen your cloud-native capabilities with Developer and DevOps certifications, and ensure performance, reliability, and resilience with Observability and Application Integration. Whether you're just beginning or scaling complex environments, these certifications empower you to lead secure, high-performing solutions in a dynamic OCI landscape."
+  },
+  "oci_ai_foundations_title": {
+    "id": "Oracle Cloud Infrastructure AI Foundations",
+    "en": "Oracle Cloud Infrastructure AI Foundations"
+  },
+  "oci_ai_desc": {
+    "id": "Bangun keahlian AI yang dibutuhkan dengan jalur pembelajaran AI Oracle. Mulailah dengan AI Foundations—tanpa perlu pengalaman sebelumnya—lalu lanjutkan dengan sertifikasi di bidang AI Generatif, Ilmu Data, dan Pencarian Vektor AI. Pelajari cara merancang, membangun, dan menerapkan solusi AI di dunia nyata menggunakan infrastruktur AI kelas perusahaan Oracle, layanan AI Generatif, Platform Data AI, dan perangkat Pembelajaran Mesin yang dirancang untuk setiap lapisan tumpukan. Terapkan keahlian Anda pada kasus penggunaan di dunia nyata dan jadilah praktisi AI yang handal.",
+    "en": "Build in-demand AI expertise with Oracle’s AI learning paths. Start with AI Foundations—no prior experience needed—and then advance through certifications in Generative AI, Data Science, and AI Vector Search. Learn to design, build, and deploy real-world AI solutions using Oracle’s enterprise-grade AI infrastructure, Generative AI services, AI Data Platform, and Machine Learning tools built for every layer of the stack. Apply your expertise to real-world use cases and stand out as a skilled AI practitioner."
+  },
+  "oci_multicloud_desc": {
+    "id": "Pimpin dunia multicloud dengan sertifikasi OCI Multicloud Architect Professional. Dapatkan keahlian untuk merancang dan mengoperasikan solusi cloud terintegrasi menggunakan layanan multicloud OCI. Pahami penawaran multicloud OCI, kuasai konektivitas jaringan lintas cloud, dan pelajari cara mengimplementasikan Interconnect untuk Microsoft Azure dan Oracle Database@Azure, serta Interconnect untuk Google Cloud dan Oracle Database@Google Cloud, yang memungkinkan arsitektur multicloud yang aman, berkinerja tinggi, dan hemat biaya.",
+    "en": "Take the lead in a multicloud world with the OCI Multicloud Architect Professional certification. Gain the skills to design and operate integrated cloud solutions using OCI’s multicloud services. Understand OCI’s multicloud offerings, become proficient in network connectivity across clouds, and learn to implement Interconnect for Microsoft Azure and Oracle Database@Azure, as well as Interconnect for Google Cloud and Oracle Database@Google Cloud, enabling secure, high-performance, and cost-optimized multicloud architectures."
+  },
+  "oci_data_desc": {
+    "id": "Jelajahi Oracle Data Platform dan bangun keterampilan untuk mengelola, menganalisis, dan berinovasi dengan data berskala besar. Pelajari cara menggunakan Autonomous Database, Database Cloud Services, dan MySQL HeatWave untuk mendukung beragam beban kerja. Kembangkan aplikasi yang aman dan skalabel dengan Oracle APEX, dapatkan wawasan dengan Oracle Analytics Cloud, dan kuasai arsitektur data modern, seperti data lakehouse dan data mesh. Kuasai perangkat dan praktik terbaik yang diperlukan untuk mengamankan, mengoptimalkan, dan mempersiapkan lingkungan data Anda untuk masa depan.",
+    "en": "Explore Oracle Data Platform and build the skills to manage, analyze, and innovate with data at scale. Learn how to use Autonomous Database, Database Cloud Services, and MySQL HeatWave to support diverse workloads. Develop secure, scalable applications with Oracle APEX, unlock insights with Oracle Analytics Cloud, and dive into modern data architectures, such as data lakehouse and data mesh. Master the tools and best practices needed to secure, optimize, and future-proof your data environment."
+  },
+  "beginner": { "id": "Pemula", "en": "Beginner" },
+  "intermediate": { "id": "Menengah", "en": "Intermediate" },
+  "advanced": { "id": "Mahir", "en": "Advanced" },
+  "active_period": { "id": "Periode Aktif", "en": "Active Period" },
+  "expired_badge": { "id": "Sudah Berakhir", "en": "Expired" }
+}

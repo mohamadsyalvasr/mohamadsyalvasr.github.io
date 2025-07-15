@@ -145,6 +145,7 @@
             cheatsheets: [],
             questionsBanks : [],
             roadmaps: [],
+            certifications: [], // DITAMBAHKAN: Untuk data sertifikasi gratis
             translations: {},
             menu: []
         };
@@ -358,7 +359,7 @@
                     icon: `https://api.iconify.design/ph:signpost-bold.svg?color=white`
                 },
                 { 
-                    titleKey: 'cheatsheetCategoryTitle', // KARTU BARU
+                    titleKey: 'cheatsheetCategoryTitle',
                     descKey: 'cheatsheetCategoryDesc',
                     link: '/cloud/cheatsheets',
                     count: appData.cheatsheets.length,
@@ -367,13 +368,23 @@
                     icon: `https://api.iconify.design/ph:scroll-bold.svg?color=white`
                 },
                 { 
-                    titleKey: 'questionBankCategoryTitle', // KARTU BARU
+                    titleKey: 'questionBankCategoryTitle',
                     descKey: 'questionBankCategoryDesc',
                     link: '/cloud/qa',
                     count: appData.questionsBanks.length,
                     countTextKey: 'questionBankCountText',
                     themeColor: '#6366f1', // Indigo
                     icon: `https://api.iconify.design/ph:question-bold.svg?color=white`,
+                },
+                { 
+                    // KARTU BARU DITAMBAHKAN
+                    titleKey: 'freeCertCategoryTitle',
+                    descKey: 'freeCertCategoryDesc',
+                    link: '/cloud/free-certification/',
+                    count: appData.certifications.length,
+                    countTextKey: 'freeCertCountText',
+                    themeColor: '#d946ef', // Fuchsia
+                    icon: `https://api.iconify.design/ph:seal-check-bold.svg?color=white`
                 },
                 { 
                     titleKey: 'solutionFinderCategoryTitle',
@@ -501,14 +512,16 @@
         const initApp = async () => {
             const container = document.getElementById('category-cards-container');
             try {
-                const [providersRes, translationsRes, menuRes, ebooksRes, roadmapsRes, cheatsheetRes, questionsBanksRes] = await Promise.all([
+                // DITAMBAHKAN: fetch untuk free-certification-data.json
+                const [providersRes, translationsRes, menuRes, ebooksRes, roadmapsRes, cheatsheetRes, questionsBanksRes, certificationsRes] = await Promise.all([
                     fetch('./providers/providers-data.json'),
                     fetch('translations.json'),
                     fetch('menu-data.json').catch(err => { console.warn("menu-data.json not found, skipping."); return {ok: false}; }),
                     fetch('./ebooks/ebooks-data.json').catch(err => { console.warn("ebooks-data.json not found, skipping."); return {ok: false}; }),
                     fetch('./roadmaps/roadmaps-data.json').catch(err => { console.warn("roadmaps-data.json not found, skipping."); return {ok: false}; }),
                     fetch('./cheatsheets/cheatsheets-data.json').catch(err => { console.warn("cheatsheets-data.json not found, skipping."); return {ok: false}; }),
-                    fetch('./qa/question-bank-data.json').catch(err => { console.warn("question-bank-data.json not found, skipping."); return {ok: false}; })
+                    fetch('./qa/question-bank-data.json').catch(err => { console.warn("question-bank-data.json not found, skipping."); return {ok: false}; }),
+                    fetch('./free-certification/certification-data.json').catch(err => { console.warn("free-certification-data.json not found, skipping."); return {ok: false}; })
                 ]);
 
                 if (!providersRes.ok || !translationsRes.ok) {
@@ -540,13 +553,17 @@
                 appData.translations.useCaseCategoryDesc = { id: "Lihat contoh nyata bagaimana teknologi cloud diterapkan untuk memecahkan masalah bisnis.", en: "See real-world examples of how cloud technology is applied to solve business problems." };
                 appData.translations.useCaseCountText = { id: "Contoh", en: "Cases" };
                 
-                // TERJEMAHAN UNTUK KARTU BARU
                 appData.translations.cheatsheetCategoryTitle = { id: "Cheatsheet", en: "Cheatsheets" };
                 appData.translations.cheatsheetCountText = { id: "Cheatsheet", en: "Cheatsheets" };
                 appData.translations.cheatsheetCategoryDesc = { id: "Kumpulan perintah, konfigurasi, dan tips cepat untuk berbagai layanan cloud.", en: "Collection of commands, configs, and quick tips for various cloud services." };
                 appData.translations.questionBankCategoryTitle = { id: "Bank Soal", en: "Question Bank" };
                 appData.translations.questionBankCategoryDesc = { id: "Uji pengetahuan Anda dengan koleksi soal latihan dan persiapan sertifikasi.", en: "Test your knowledge with a collection of practice questions and certification prep." };
                 appData.translations.questionBankCountText = { id: "Bank Soal", en: "Question Bank" };
+
+                // DITAMBAHKAN: Terjemahan untuk kartu sertifikasi gratis
+                appData.translations.freeCertCategoryTitle = { id: "Sertifikasi Gratis", en: "Free Certifications" };
+                appData.translations.freeCertCategoryDesc = { id: "Dapatkan sertifikasi dari penyedia cloud terkemuka tanpa biaya.", en: "Get certified by leading cloud providers at no cost." };
+                appData.translations.freeCertCountText = { id: "Sertifikasi", en: "Certifications" };
 
                 if (!appData.translations.comingSoon) {
                   appData.translations.comingSoon = { id: "Segera Hadir", en: "Coming Soon" };
@@ -558,6 +575,8 @@
                 if(roadmapsRes.ok) appData.roadmaps = await roadmapsRes.json();
                 if(cheatsheetRes.ok) appData.cheatsheets = await cheatsheetRes.json();
                 if(questionsBanksRes.ok) appData.questionsBanks = await questionsBanksRes.json();
+                // DITAMBAHKAN: Memasukkan data sertifikasi ke appData
+                if(certificationsRes.ok) appData.certifications = await certificationsRes.json();
                 
                 // Bangun struktur navigasi
                 buildNavigationStructure();

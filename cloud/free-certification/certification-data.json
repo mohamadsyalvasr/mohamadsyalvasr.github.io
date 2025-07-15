@@ -1,0 +1,235 @@
+[
+  {
+    "id": "oci",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "oci_foundations_title",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Beginner",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/9b5734/ffffff?text=OCI+Foundations",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oracle-data-platform",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Data Platform",
+    "desc_lang_key": "oci_data_desc",
+    "level": "Beginner",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/9b5734/ffffff?text=Oracle+Data+Platform",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-ai",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "oci_ai_foundations_title",
+    "desc_lang_key": "oci_ai_desc",
+    "level": "Beginner",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/9b5734/ffffff?text=OCI+AI+Foundations",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-generative-ai",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Generative AI",
+    "desc_lang_key": "oci_ai_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Generative+AI",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-ai-vector-search",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle AI Vector Search",
+    "desc_lang_key": "oci_ai_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+AI+Vector+Search",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-data-science",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Data Science",
+    "desc_lang_key": "oci_ai_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Data+Science",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-architect",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Architect",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Intermediate",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/dae2ef/ffffff?text=OCI+Architect",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-migration-architect",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Migration Architect",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Migration+Architect",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-networking",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Networking",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Networking",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-developer",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Developer",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Developer",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-devops",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure DevOps",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+DevOps",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-applications-integration",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Applications Integration",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Applications+Integration",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-observability",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Observability",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Observability",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-observability",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Observability",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Observability",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-redwood-application-developer",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Redwood Application Developer",
+    "desc_lang_key": "oci_foundations_desc",
+    "level": "Intermediate",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/dae2ef/ffffff?text=Oracle+Redwood+Application+Developer",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oci-multicloud-architect",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Infrastructure Multicloud Architect",
+    "desc_lang_key": "oci_multicloud_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=OCI+Multicloud+Architect",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  }
+
+  ,
+  {
+    "id": "oracle-autonomous-database-cloud",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Autonomous Database Cloud",
+    "desc_lang_key": "oci_data_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=Oracle+Autonomous+Database+Cloud",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "Oracle-cloud-database-services",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Cloud Database Services",
+    "desc_lang_key": "oci_data_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=Oracle+Cloud+Database+Services",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oracle-apex-cloud-developer",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle APEX Cloud Developer",
+    "desc_lang_key": "oci_data_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=Oracle+APEX+Cloud+Developer",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "oracle-analytics-cloud",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "Oracle Analytics Cloud",
+    "desc_lang_key": "oci_data_desc",
+    "level": "Advanced",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/deb068/ffffff?text=Oracle+Analytics+Cloud",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  },
+  {
+    "id": "mysql-heatwave-implementation-associate",
+    "provider": "Oracle Cloud",
+    "title_lang_key": "MySQL HeatWave Implementation Associate",
+    "desc_lang_key": "oci_data_desc",
+    "level": "Intermediate",
+    "url": "https://education.oracle.com/race-to-certification-2025",
+    "image": "https://placehold.co/600x400/dae2ef/ffffff?text=MySQL+HeatWave+Implementation+Associate",
+    "start_date": "2025-07-01",
+    "end_date": "2025-10-31"
+  }
+]

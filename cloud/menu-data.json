@@ -105,6 +105,11 @@
     },
     {
       "type": "link",
+      "langKey": "freeCertification",
+      "href": "/cloud/free-certification"
+    },
+    {
+      "type": "link",
       "langKey": "navAbout",
       "href": "/cloud/about-us"
     }
