@@ -1,3 +1,4 @@
+
 {
   "menu": [
     {
@@ -6,28 +7,78 @@
       "href": "/cloud/"
     },
     {
-      "type": "dropdown",
+      "type": "mega-menu",
       "langKey": "navProducts",
-      "href": "#",
-      "items": [
-        { "langKey": "providerGuides", "type": "link", "href": "/cloud/providers", "status": "active" },
-        { "langKey": "productEbooks", "type": "link", "href": "/cloud/ebooks", "status": "active" },
-        { "langKey": "learningRoadmaps", "type": "link", "href": "/cloud/roadmaps", "status": "active" },
-        { "langKey": "navCheatsheets", "type": "link", "href": "/cloud/cheatsheets", "status": "active" },
-        { "langKey": "navQuestionBank", "type": "link", "href": "/cloud/qa", "status": "active" },
-        { 
-          "langKey": "toolFinder",
-          "href": "#",
-          "type": "dropdown",
-          "status": "comingsoon",
-          "items": [
-            { "langKey": "computeFinder", "type": "link", "href": "/cloud/products/solution-finder/compute", "status": "active" },
-            { "langKey": "databaseFinder", "type": "link", "href": "/cloud/products/solution-finder/database", "status": "active" }
-          ]
+      "content": {
+        "columns": [
+          {
+            "titleLangKey": "productsTitle",
+            "items": [
+              {
+                "img": "https://api.iconify.design/ph:folder-open-duotone.svg?color=%23f97316",
+                "alt": "Icon",
+                "titleLangKey": "guidesCategoryTitle",
+                "descLangKey": "guidesCategoryDesc",
+                "href": "/cloud/providers/",
+                "status": "active"
+              },
+              {
+                "img": "https://api.iconify.design/ph:book-open-duotone.svg?color=%232563eb",
+                "alt": "Icon",
+                "titleLangKey": "ebooksCategoryTitle",
+                "descLangKey": "ebooksCategoryDesc",
+                "href": "/cloud/ebooks",
+                "status": "active"
+              },
+              {
+                "img": "https://api.iconify.design/ph:question-duotone.svg?color=%236366f1",
+                "alt": "Icon",
+                "titleLangKey": "questionBankCategoryTitle",
+                "descLangKey": "questionBankCategoryDesc",
+                "href": "/cloud/qa",
+                "status": "active"
+              },
+              {
+                "img": "https://api.iconify.design/ph:chats-circle-duotone.svg?color=%23ef4444",
+                "alt": "Icon",
+                "titleLangKey": "interviewQuestionCategoryTitle",
+                "descLangKey": "interviewQuestionCategoryDesc",
+                "href": "/cloud/interview-questions",
+                "status": "comingsoon"
+              },
+              {
+                "img": "https://api.iconify.design/ph:puzzle-piece-duotone.svg?color=%2314b8a6",
+                "alt": "Icon",
+                "titleLangKey": "solutionFinderCategoryTitle",
+                "descLangKey": "solutionFinderCategoryDesc",
+                "href": "/cloud/solution-finder",
+                "status": "comingsoon"
+              },
+              {
+                "img": "https://api.iconify.design/ph:lightbulb-duotone.svg?color=%238b5cf6",
+                "alt": "Icon",
+                "titleLangKey": "useCaseCategoryTitle",
+                "descLangKey": "useCaseCategoryDesc",
+                "href": "/cloud/use-cases",
+                "status": "comingsoon"
+              }
+            ]
+          }
+        ],
+        "featured": {
+          "img": "https://placehold.co/400x200/6366f1/ffffff?text=Question+Bank",
+          "alt": "Case Study Image",
+          "titleLangKey": "questionBankCategoryTitle",
+          "descLangKey": "questionBankCategoryDesc",
+          "linkLangKey": "featuredLink",
+          "href": "/cloud/qa/"
         },
-        { "langKey": "productFreeTier", "type": "link", "href": "/cloud/products/free-tier", "status": "comingsoon" },
-        { "langKey": "productScenario", "type": "link", "href": "/cloud/products/1001-scenario", "status": "comingsoon" }
-      ]
+        "viewAll": {
+          "active": true,
+          "langKey": "navViewAllProducts",
+          "href": "/cloud"
+        }
+      }
     },
     {
       "type": "mega-menu",
@@ -99,7 +150,7 @@
         "viewAll": {
           "active": true,
           "langKey": "navViewAllServices",
-          "href": "/cloud/"
+          "href": "/cloud/providers"
         }
       }
     },

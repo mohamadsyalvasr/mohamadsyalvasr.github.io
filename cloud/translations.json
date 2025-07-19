@@ -7,7 +7,7 @@
     "id": "Pilih penyedia cloud untuk memulai perjalanan Anda dalam menjelajahi layanan-layanan cloud terkemuka.",
     "en": "Select a cloud provider to begin your journey exploring leading cloud services."
   },
-  "searchPlaceholder" : {
+  "searchPlaceholder": {
     "id": "Cari penyedia layanan cloud",
     "en": "Search cloud service provider"
   },
@@ -112,8 +112,8 @@
     "en": "Products"
   },
   "navServices": {
-    "id": "Layanan",
-    "en": "Services"
+    "id": "Panduan",
+    "en": "Guides"
   },
   "navAbout": {
     "id": "Tentang Kami",
@@ -121,7 +121,11 @@
   },
   "navViewAllServices": {
     "id": "Lihat Semua Layanan &rarr;",
-    "en": "View All Services &rarr;"
+    "en": "View All Guides &rarr;"
+  },
+  "navViewAllProducts": {
+    "id": "Lihat Semua Produk &rarr;",
+    "en": "View All Products &rarr;"
   },
   "productEbooks": {
     "id": "E-Book Eksklusif",
@@ -170,6 +174,10 @@
   "servicesTitle": {
     "id": "Panduan Cloud Terpopuler",
     "en": "Most Popular Cloud Guides"
+  },
+  "productsTitle": {
+    "id": "Produk Terpopuler",
+    "en": "Most Popular Products"
   },
   "serviceAwsTitle": {
     "id": "Panduan AWS",
@@ -267,10 +275,22 @@
     "id": "Baik Anda pemula atau profesional, temukan konten yang sesuai untuk Anda.",
     "en": "Whether you're a beginner or a pro, find content tailored for you."
   },
-  "freeCertification": { "id": "Free Certification", "en": "Free Certification" },
-  "navEbooks": { "id": "E-Books", "en": "E-Books" },
-  "navCheatsheets": { "id": "Cheatsheets", "en": "Cheatsheets" },
-  "navQuestionBank": { "id": "Bank Soal", "en": "Question Bank" },
+  "freeCertification": {
+    "id": "Free Certification",
+    "en": "Free Certification"
+  },
+  "navEbooks": {
+    "id": "E-Books",
+    "en": "E-Books"
+  },
+  "navCheatsheets": {
+    "id": "Cheatsheets",
+    "en": "Cheatsheets"
+  },
+  "navQuestionBank": {
+    "id": "Bank Soal",
+    "en": "Question Bank"
+  },
   "ebookMainTitle": {
     "id": "Jelajahi E-Book Pilihan Kami",
     "en": "Explore Our Curated E-Books"
@@ -283,17 +303,50 @@
     "id": "E-book tidak ditemukan.",
     "en": "No e-books found."
   },
-  "badgeDiscount": { "id": "Diskon", "en": "Sale" },
-  "badgeFeatured": { "id": "Unggulan", "en": "Featured" },
-  "badgeBestseller": { "id": "Terlaris", "en": "Bestseller" },
-  "badgeComingsoon": { "id": "Segera Hadir", "en": "Coming Soon" },
-  "detailsButtonText": { "id": "Klik untuk Detail", "en": "Click for Details" },
-  "tocTitle": { "id": "Daftar Isi", "en": "Table of Contents" },
-  "authorTitle": { "id": "Tentang Penulis", "en": "About the Author" },
-  "reviewsText": { "id": "ulasan", "en": "reviews" },
-  "pagesText": { "id": "Jumlah Soal", "en": "Questions" },
-  "formatText": { "id": "Format", "en": "Format" },
-  "savingsText": { "id": "Hemat", "en": "Save" },
+  "badgeDiscount": {
+    "id": "Diskon",
+    "en": "Sale"
+  },
+  "badgeFeatured": {
+    "id": "Unggulan",
+    "en": "Featured"
+  },
+  "badgeBestseller": {
+    "id": "Terlaris",
+    "en": "Bestseller"
+  },
+  "badgeComingsoon": {
+    "id": "Segera Hadir",
+    "en": "Coming Soon"
+  },
+  "detailsButtonText": {
+    "id": "Klik untuk Detail",
+    "en": "Click for Details"
+  },
+  "tocTitle": {
+    "id": "Daftar Isi",
+    "en": "Table of Contents"
+  },
+  "authorTitle": {
+    "id": "Tentang Penulis",
+    "en": "About the Author"
+  },
+  "reviewsText": {
+    "id": "ulasan",
+    "en": "reviews"
+  },
+  "pagesText": {
+    "id": "Jumlah Soal",
+    "en": "Questions"
+  },
+  "formatText": {
+    "id": "Format",
+    "en": "Format"
+  },
+  "savingsText": {
+    "id": "Hemat",
+    "en": "Save"
+  },
   "cheatsheetMainTitle": {
     "id": "Kumpulan Cheatsheet Cloud",
     "en": "Cloud Cheatsheet Collection"
@@ -321,5 +374,133 @@
   "noResultsQC": {
     "id": "Koleksi soal tidak ditemukan.",
     "en": "No question collections found."
+  },
+  "pageTitle": {
+    "id": "Selamat Datang di CloudGuides",
+    "en": "Welcome to CloudGuides"
+  },
+  "pageSubtitle": {
+    "id": "Pilih kategori untuk memulai perjalanan cloud Anda. Semua sumber daya yang Anda butuhkan ada di sini.",
+    "en": "Select a category to start your cloud journey. All the resources you need are here."
+  },
+  "guidesCategoryTitle": {
+    "id": "Panduan Cloud Interaktif",
+    "en": "Interactive Cloud Guides"
+  },
+  "guidesCategoryDesc": {
+    "id": "Jelajahi panduan mendalam untuk setiap provider cloud terkemuka.",
+    "en": "Explore in-depth guides for every leading cloud provider."
+  },
+  "providerCountText": {
+    "id": "Provider",
+    "en": "Providers"
+  },
+  "ebooksCategoryTitle": {
+    "id": "E-Book Eksklusif",
+    "en": "Exclusive E-Books"
+  },
+  "ebooksCategoryDesc": {
+    "id": "Tingkatkan keahlian Anda dengan koleksi e-book pilihan kami.",
+    "en": "Level up your skills with our curated collection of e-books."
+  },
+  "ebookCountText": {
+    "id": "E-Book",
+    "en": "E-Books"
+  },
+  "roadmapsCategoryTitle": {
+    "id": "Roadmap Belajar",
+    "en": "Learning Roadmaps"
+  },
+  "roadmapsCategoryDesc": {
+    "id": "Ikuti jalur belajar terstruktur yang dirancang oleh para ahli.",
+    "en": "Follow structured learning paths designed by experts."
+  },
+  "roadmapCountText": {
+    "id": "Roadmap",
+    "en": "Roadmaps"
+  },
+  "solutionFinderCategoryTitle": {
+    "id": "Solution Finder",
+    "en": "Solution Finder"
+  },
+  "solutionFinderCategoryDesc": {
+    "id": "Temukan solusi cloud yang tepat untuk kebutuhan teknis Anda dengan beberapa klik.",
+    "en": "Find the right cloud solution for your technical needs with just a few clicks."
+  },
+  "solutionFinderCountText": {
+    "id": "Solusi",
+    "en": "Solutions"
+  },
+  "freeTierCategoryTitle": {
+    "id": "Free Tier Comparison",
+    "en": "Free Tier Comparison"
+  },
+  "freeTierCategoryDesc": {
+    "id": "Bandingkan penawaran tingkat gratis dari berbagai penyedia cloud untuk memulai tanpa biaya.",
+    "en": "Compare free tier offerings from various cloud providers to get started at no cost."
+  },
+  "freeTierFinderCountText": {
+    "id": "Provider",
+    "en": "Providrs"
+  },
+  "useCaseCategoryTitle": {
+    "id": "Use Cases",
+    "en": "Use Cases"
+  },
+  "useCaseCategoryDesc": {
+    "id": "Lihat contoh nyata bagaimana teknologi cloud diterapkan untuk memecahkan masalah bisnis.",
+    "en": "See real-world examples of how cloud technology is applied to solve business problems."
+  },
+  "useCaseCountText": {
+    "id": "Kasus",
+    "en": "Cases"
+  },
+  "cheatsheetCategoryTitle": {
+    "id": "Cheatsheet",
+    "en": "Cheatsheets"
+  },
+  "cheatsheetCountText": {
+    "id": "Cheatsheet",
+    "en": "Cheatsheets"
+  },
+  "cheatsheetCategoryDesc": {
+    "id": "Kumpulan perintah, konfigurasi, dan tips cepat untuk berbagai layanan cloud.",
+    "en": "Collection of commands, configs, and quick tips for various cloud services."
+  },
+  "questionBankCategoryTitle": {
+    "id": "Bank Soal",
+    "en": "Question Bank"
+  },
+  "questionBankCategoryDesc": {
+    "id": "Uji pengetahuan Anda dengan koleksi soal latihan dan persiapan sertifikasi.",
+    "en": "Test your knowledge with a collection of practice questions and certification prep."
+  },
+  "questionBankCountText": {
+    "id": "Bank Soal",
+    "en": "Question Bank"
+  },
+  "interviewQuestionCategoryTitle": {
+    "id": "Pertanyaan Wawancara",
+    "en": "Interview Questions"
+  },
+  "interviewQuestionCategoryDesc": {
+    "id": "Persiapkan wawancara teknis Anda dengan koleksi pertanyaan umum.",
+    "en": "Prepare for your technical interviews with a collection of common questions."
+  },
+  "interviewQuestionCountText": {
+    "id": "Pertanyaan",
+    "en": "Questions"
+  },
+  "freeCertCategoryTitle": {
+    "id": "Sertifikasi Gratis",
+    "en": "Free Certifications"
+  },
+  "freeCertCategoryDesc": {
+    "id": "Dapatkan sertifikasi dari penyedia cloud terkemuka tanpa biaya.",
+    "en": "Get certified by leading cloud providers at no cost."
+  },
+  "freeCertCountText": {
+    "id": "Sertifikasi",
+    "en": "Certifications"
   }
 }
