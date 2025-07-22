@@ -9,21 +9,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- PERUBAHAN: Mengadopsi gaya body dari index.html --- */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
-            color: #1e293b; 
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e2e8f0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
+        
+        /* --- PERUBAHAN: Mengadopsi gaya kartu dari index.html --- */
         .guide-card {
-            transition: all 0.25s ease-in-out;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.06);
-            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0; /* slate-200 */
+            overflow: hidden;
         }
         .guide-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            border-color: var(--hover-border-color, #f59e0b);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border-color: #cbd5e1; /* slate-300 */
         }
+
+        /* Gaya lain yang dipertahankan */
         .lang-switcher button.active {
             background-color: #f59e0b;
             color: white;
@@ -61,7 +68,6 @@
             }
         }
         
-        /* --- Gaya BARU untuk Dropdown & Mega Menu --- */
         .dropdown-menu, .mega-menu-content, .submenu {
             display: none;
             opacity: 0;
@@ -69,8 +75,6 @@
             transform: translateY(10px);
             pointer-events: none;
         }
-
-        /* Tampilkan menu saat hover */
         .group:hover > .mega-menu-content,
         .group:hover > .dropdown-menu {
             display: block;
@@ -78,15 +82,12 @@
             transform: translateY(0);
             pointer-events: auto;
         }
-        
-        /* Tampilkan submenu saat hover di item parent-nya */
         .group.relative:hover > .submenu {
              display: block;
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
         }
-
         .hero-menu-card {
             transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
         }
@@ -94,12 +95,10 @@
             background-color: #f8fafc; /* slate-50 */
             transform: scale(1.02);
         }
-        
         .about-mega-menu-bg {
             background-size: cover;
             background-position: center;
         }
-
         .mobile-submenu {
             display: none;
             max-height: 0;
@@ -115,8 +114,6 @@
         .submenu-toggle.open svg {
             transform: rotate(90deg);
         }
-        
-        /* Gaya untuk badge dan item menu yang non-aktif */
         .menu-item-badge {
             position: absolute;
             top: 0.75rem;
@@ -139,39 +136,8 @@
         }
     </style>
 </head>
-<body class="antialiased bg-gradient-to-br from-slate-50 to-sky-100">
+<body class="antialiased">
 
-    <!-- <header id="main-header" class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-lg shadow-md transition-all duration-300">
-        <div class="container mx-auto flex items-center justify-between p-4">
-            <nav aria-label="Breadcrumb">
-                <ol class="list-none p-0 inline-flex items-center text-sm">
-                    <li>
-                        <a href="/cloud/" class="flex items-center text-slate-600 hover:text-amber-600 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                            </svg>
-                        </a>
-                    </li>
-                    <li><span class="mx-2 text-slate-400">/</span></li>
-                    <li><a href="#" class="font-semibold text-slate-700 hover:text-amber-600 transition-colors">AWS</a></li>
-                </ol>
-            </nav>
-            <div class="flex items-center space-x-4 md:space-x-6">
-                <button type="button" id="roadmap-btn" class="flex items-center space-x-1.5 text-slate-600 hover:text-amber-600 transition-colors font-medium text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                    <span data-lang-key="roadmapButton">Roadmap</span>
-                </button>
-                <div class="lang-switcher bg-slate-200 rounded-full p-1 flex space-x-1">
-                    <button type="button" id="lang-id" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">ID</button>
-                    <button type="button" id="lang-en" class="px-3 py-1 text-sm font-semibold rounded-full transition-colors">EN</button>
-                </div>
-            </div>
-        </div>
-    </header> -->
-
-    <!-- Header dengan Navigasi Dinamis -->
     <header id="main-header" class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm transition-all duration-300">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-8">
@@ -209,7 +175,6 @@
             <div id="active-guides-count" class="mt-4 text-md font-semibold text-slate-600"></div>
         </header>
 
-        <!-- Search and Sort Controls -->
         <div class="mb-12 p-4 bg-white/60 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200/80 sticky top-[80px] z-30">
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
                 <div class="relative w-full md:w-auto md:flex-grow lg:flex-grow-0">
@@ -245,7 +210,6 @@
         </footer>
     </div>
 
-    <!-- Roadmap Modal -->
     <div id="roadmap-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div id="roadmap-modal-content" class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative">
             <button id="roadmap-close-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors z-10">
@@ -270,7 +234,6 @@
                     }
                     const data = await response.json();
                     
-                    // --- PERUBAHAN --- Menambahkan terjemahan baru secara dinamis
                     data.translations.hideComingSoonLabel = { id: "Sembunyikan \"Segera Hadir\"", en: "Hide \"Coming Soon\"" };
                     data.translations.activeGuidesCountText = { id: ":count Kategori Tersedia", en: ":count Categories Available" };
 
@@ -315,53 +278,32 @@
             const mobileNavContainer = document.getElementById('mobile-nav-container');
 
             const setPageLanguage = (lang) => {
-                // Use the navigator's method to switch the language
                 AppNavigator.switchLanguage(lang);
-                
-                // Update the active state of the language buttons
                 langIdButton.classList.toggle('active', lang === 'id');
                 langEnButton.classList.toggle('active', lang === 'en');
             };
 
-            // Add event listeners for language buttons
             langIdButton.addEventListener('click', () => setPageLanguage('id'));
             langEnButton.addEventListener('click', () => setPageLanguage('en'));
             
-            // Add event listener for the main mobile menu toggle
             mobileMenuBtn.addEventListener('click', () => mobileNavContainer.classList.toggle('hidden'));
 
-            // Set the initial active state for the language buttons based on navigator's state
             const initialLang = localStorage.getItem('language') || 'id';
             langIdButton.classList.toggle('active', initialLang === 'id');
             langEnButton.classList.toggle('active', initialLang === 'en');
             
             // --- Rendering Functions ---
 
-            const tailwindColorMap = {
-                'orange-500': '#f97316',
-                'lime-600': '#65a30d',
-                'fuchsia-500': '#d946ef',
-                'teal-500': '#14b8a6'
-            };
-
             const createCardHTML = (guide) => {
                 const isComingSoon = guide.status === 'coming-soon';
                 const cardTag = isComingSoon ? 'div' : 'a';
                 const cardHref = isComingSoon ? '' : `href="${guide.href}"`;
                 
+                // --- PERUBAHAN: Kelas kartu disederhanakan agar cocok dengan gaya baru.
                 const cardClasses = isComingSoon 
-                    ? 'flex flex-col bg-white p-8 rounded-xl shadow-sm border border-slate-200 transition-opacity duration-300 opacity-75' 
+                    ? 'flex flex-col bg-white p-8 rounded-xl transition-opacity duration-300 opacity-75' 
                     : `guide-card flex flex-col bg-white p-8 rounded-xl`;
                 
-                let cardStyle = '';
-                if (!isComingSoon && guide.buttonGradient) {
-                    const fromColor = guide.buttonGradient.split(' ')[0].replace('from-', '');
-                    const hoverColor = tailwindColorMap[fromColor];
-                    if (hoverColor) {
-                        cardStyle = `style="--hover-border-color: ${hoverColor}"`;
-                    }
-                }
-
                 const buttonKey = isComingSoon ? 'comingSoonButton' : 'exploreButton';
                 
                 const buttonClasses = isComingSoon 
@@ -379,8 +321,9 @@
 
                 const titleClasses = isComingSoon ? 'text-slate-600' : 'text-slate-800';
 
+                // --- PERUBAHAN: Menghapus cardStyle dinamis untuk border hover ---
                 return `
-                    <${cardTag} ${cardHref} class="${cardClasses}" ${cardStyle}>
+                    <${cardTag} ${cardHref} class="${cardClasses}">
                         <div class="flex-grow">
                             <div class="flex items-center justify-center w-20 h-20 bg-slate-100 rounded-2xl mb-6">
                                 ${iconHtml}${emojiFallback}

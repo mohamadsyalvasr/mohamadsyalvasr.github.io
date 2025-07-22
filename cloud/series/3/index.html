@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Judul halaman akan diubah oleh JavaScript -->
+    <title>Daftar Episode</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #e2e8f0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Kelas .text-gradient statis telah dihapus. Gradien sekarang dibuat dengan Tailwind. */
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- NEW: Sticky Navigation Header -->
+    <div class="fixed top-0 left-0 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-3 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center gap-2 sm:gap-4">
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                <span class="hidden sm:inline">Kembali</span>
+            </a>
+            
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Series Button -->
+                <a href="/cloud/series/" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                    <span class="hidden sm:inline">Daftar Seri</span>
+                    <span class="sm:hidden">Seri</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative min-h-screen">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <!-- Header akan diisi oleh JavaScript -->
+            <header class="py-16 sm:py-24 text-center">
+                <h1 id="series-title" class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-tight">
+                    <!-- Judul Seri dimuat di sini -->
+                </h1>
+                <p id="series-description" class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">
+                    <!-- Deskripsi Seri dimuat di sini -->
+                </p>
+            </header>
+
+            <!-- Daftar Episode akan diisi oleh JavaScript -->
+            <main class="max-w-4xl mx-auto px-4 pb-24">
+                <div id="episode-list-container" class="space-y-8">
+                    <!-- KARTU EPISODE AKAN DIBUAT SECARA DINAMIS DI SINI -->
+                </div>
+                
+                <div class="text-center mt-16">
+                    <a href="/cloud/series/" class="text-slate-400 hover:text-sky-400 transition-colors">← Kembali ke Daftar Seri</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Memuat file data terlebih dahulu -->
+    <script src="../series-data.js"></script>
+
+    <!-- Script untuk membangun halaman -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- KONFIGURASI ---
+            // Ubah nilai ini untuk menampilkan seri yang berbeda. 
+            // Contoh: 'seri_1', 'seri_2', 'seri_3', dst.
+            const seriesIdToShow = 'seri_3'; 
+            
+            // --- LOGIKA UTAMA ---
+            const seriesData = allSeriesData[seriesIdToShow];
+            if (!seriesData) {
+                console.error(`Data untuk ${seriesIdToShow} tidak ditemukan.`);
+                document.getElementById('series-title').textContent = 'Seri Tidak Ditemukan';
+                return;
+            }
+
+            // Mapping warna ke kelas Tailwind CSS, sekarang dengan properti 'gradient'
+            const colorStyles = {
+                sky:    { text: 'text-sky-400', bg: 'bg-sky-500 hover:bg-sky-600', gradient: 'from-sky-400 to-blue-500' },
+                teal:   { text: 'text-teal-400', bg: 'bg-teal-500 hover:bg-teal-600', gradient: 'from-teal-400 to-emerald-500' },
+                amber:  { text: 'text-amber-400', bg: 'bg-amber-500 hover:bg-amber-600', gradient: 'from-amber-400 to-orange-500' },
+                indigo: { text: 'text-indigo-400', bg: 'bg-indigo-500 hover:bg-indigo-600', gradient: 'from-indigo-400 to-violet-500' },
+                rose:   { text: 'text-rose-400', bg: 'bg-rose-500 hover:bg-rose-600', gradient: 'from-rose-400 to-pink-500' },
+                fuchsia:{ text: 'text-fuchsia-400', bg: 'bg-fuchsia-500 hover:bg-fuchsia-600', gradient: 'from-fuchsia-400 to-purple-500' },
+                slate:  { text: 'text-slate-400', bg: 'bg-slate-500', gradient: 'from-slate-400 to-slate-500' }
+            };
+            const styles = colorStyles[seriesData.color] || colorStyles.slate;
+
+            // Update Header dan Judul Halaman
+            const titleElement = document.getElementById('series-title');
+            document.title = `Episode - ${seriesData.seriesTitle}`;
+            titleElement.textContent = seriesData.seriesTitle;
+            document.getElementById('series-description').textContent = seriesData.seriesDescription;
+
+            // Tambahkan kelas gradient dinamis ke judul
+            titleElement.classList.add('bg-gradient-to-r', 'text-transparent', 'bg-clip-text', ...styles.gradient.split(' '));
+
+            const container = document.getElementById('episode-list-container');
+            container.innerHTML = ''; // Kosongkan kontainer
+
+            // Buat kartu untuk setiap episode
+            seriesData.episodes.forEach(episode => {
+                const isAvailable = episode.status === 'available';
+                
+                const episodeCardHTML = `
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 ${!isAvailable ? 'opacity-60' : ''}">
+                        <div class="text-center md:text-left flex-grow">
+                            <p class="${styles.text} font-bold">Episode ${episode.episodeNumber}</p>
+                            <h2 class="text-2xl font-bold mt-1">${episode.title}</h2>
+                            <p class="mt-2 text-slate-400">${episode.description}</p>
+                        </div>
+                        ${isAvailable ? `
+                        <a href="${episode.url}" class="w-full md:w-auto flex-shrink-0 ${styles.bg} text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 text-center">
+                            Buka Episode
+                        </a>
+                        ` : `
+                        <button disabled class="w-full md:w-auto flex-shrink-0 bg-slate-700 text-slate-500 font-bold py-3 px-6 rounded-full cursor-not-allowed text-center">
+                            Segera Hadir
+                        </button>
+                        `}
+                    </div>
+                `;
+                container.innerHTML += episodeCardHTML;
+            });
+        });
+    </script>
+
+</body>
+</html>

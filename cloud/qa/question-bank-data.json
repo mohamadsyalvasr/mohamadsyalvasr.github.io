@@ -2,7 +2,7 @@
 [
   {
     "id": "clf002",
-    "coverImage": "https://placehold.co/400x600/333f4d/ffffff?text=AWS+CLF",
+    "coverImage": "/cloud/qa/cover/clf.jpg",
     "link": "https://lynk.id/mohamadsyalvasr/ypmwxmzmqxke",
     "status": "available",
     "tags": ["featured"],
@@ -52,7 +52,7 @@
   },
   {
     "id": "qc1",
-    "coverImage": "https://placehold.co/400x600/1826ad/ffffff?text=AWS+SAA",
+    "coverImage": "/cloud/qa/cover/saa.jpg",
     "link": "https://lynk.id/mohamadsyalvasr/yzmnlmjpqy55",
     "status": "coming_soon",
     "tags": ["featured"],

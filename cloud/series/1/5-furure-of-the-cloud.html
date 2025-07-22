@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman Seri dan Masa Depan Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-snap-type: y mandatory;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #e2e8f0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-screen {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NEW: Sticky Navigation Header -->
+    <div class="fixed top-0 left-0 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-3 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center gap-2 sm:gap-4">
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                <span class="hidden sm:inline">Kembali</span>
+            </a>
+            
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Episode List Button -->
+                <a href="/cloud/series/1" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 text-sm">
+                    <span class="hidden sm:inline">Daftar Episode</span>
+                    <span class="sm:hidden">Daftar</span>
+                </a>
+                <!-- Next Episode Button -->
+                <a href="/cloud/series/2/1-virtual-machine.html" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                    <span class="hidden sm:inline">Seri Selanjutnya</span>
+                    <span class="sm:hidden">Lanjut</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="section-screen text-center bg-gradient-to-b from-slate-900 to-slate-900/80 relative">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <p class="text-sky-400 font-semibold">Episode 5 (Terakhir)</p>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight mt-2">
+                Masa Depan Cloud
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">
+                Merangkum perjalanan kita dan melihat tren teknologi yang akan mendefinisikan era komputasi awan berikutnya.
+            </p>
+        </div>
+        <div class="absolute bottom-10 animate-bounce left-1/2 -translate-x-1/2">
+            <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+    </header>
+
+    <main class="bg-slate-900">
+        <!-- Section: Rangkuman -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-7xl w-full mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-12 text-center">Rangkuman Perjalanan Kita</h2>
+                <div class="grid md:grid-cols-2 gap-8 text-left">
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">Ep 1: Konsep Dasar</h3>
+                        <p class="text-slate-400">Kita belajar bahwa cloud adalah model 'menyewa' sumber daya komputasi melalui internet, bukan 'memiliki'. Ini memberikan fleksibilitas dan aksesibilitas.</p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">Ep 2: Model Layanan</h3>
+                        <p class="text-slate-400">Kita membedah IaaS (infrastruktur dasar), PaaS (platform untuk developer), dan SaaS (perangkat lunak jadi) menggunakan analogi pizza.</p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">Ep 3: Model Deployment</h3>
+                        <p class="text-slate-400">Kita memahami perbedaan Public Cloud (apartemen), Private Cloud (rumah pribadi), dan Hybrid Cloud (kombinasi keduanya).</p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">Ep 4: Manfaat & Risiko</h3>
+                        <p class="text-slate-400">Kita menganalisis keuntungan strategis seperti efisiensi biaya dan kelincahan, serta tantangan seperti keamanan dan vendor lock-in.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Tren Masa Depan -->
+        <section class="section-screen">
+            <div class="max-w-7xl w-full mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-12 text-center">Tren yang Membentuk Masa Depan Cloud</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+                    <!-- Tren 1: Serverless -->
+                    <div class="bg-slate-800 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-3">Serverless Computing</h3>
+                        <p class="text-slate-400">Evolusi dari PaaS, di mana developer hanya fokus pada kode (fungsi) tanpa memikirkan server sama sekali. Biaya dihitung hanya saat fungsi dieksekusi, hingga hitungan milidetik. Ini mendorong efisiensi biaya ke tingkat ekstrem.</p>
+                    </div>
+                    <!-- Tren 2: AI/ML -->
+                    <div class="bg-slate-800 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-3">AI/ML as a Service</h3>
+                        <p class="text-slate-400">Penyedia cloud membuat teknologi Kecerdasan Buatan (AI) dan Pembelajaran Mesin (ML) yang kompleks menjadi mudah diakses melalui API. Perusahaan dapat mengintegrasikan pengenalan gambar, analisis sentimen, atau chatbot tanpa perlu tim data scientist yang besar.</p>
+                    </div>
+                    <!-- Tren 3: Edge Computing -->
+                    <div class="bg-slate-800 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-3">Edge Computing</h3>
+                        <p class="text-slate-400">Memproses data lebih dekat ke lokasi sumber data (misalnya, di pabrik atau toko ritel) untuk mengurangi latensi dan beban jaringan. Edge Computing tidak menggantikan cloud, tetapi melengkapinya untuk aplikasi yang membutuhkan respons real-time, seperti IoT dan mobil otonom.</p>
+                    </div>
+                    <!-- Tren 4: FinOps -->
+                    <div class="bg-slate-800 p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-3">FinOps (Cloud Financial Ops)</h3>
+                        <p class="text-slate-400">Sebuah disiplin baru yang menggabungkan tim Keuangan, Operasional, dan Teknologi untuk mengelola dan mengoptimalkan biaya cloud. Seiring pertumbuhan penggunaan cloud, kemampuan untuk mengontrol pengeluaran menjadi sangat krusial bagi perusahaan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Penutup Seri -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Penutup Seri</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Terima kasih telah mengikuti seri "Belajar Cloud Computing" dari awal hingga akhir. Komputasi awan bukan lagi sekadar tren, melainkan fondasi dari hampir semua inovasi teknologi saat ini. Perjalanan Anda untuk memahami cloud tidak berhenti di sini. Teknologi ini terus berevolusi, membuka peluang-peluang baru yang tak terbatas.
+                </p>
+                <p class="mt-6 text-lg text-slate-300 font-semibold">
+                    Teruslah belajar, teruslah bereksperimen, dan jadilah bagian dari masa depan yang dibangun di atas awan.
+                </p>
+                <div class="mt-8">
+                    <a href="/cloud/series/1/" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
+                        Kembali ke Daftar Episode
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

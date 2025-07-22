@@ -1,3 +1,69 @@
 [
-    
+  {
+    "id": "aws-basic-qa",
+    "type": "inline",
+    "icon": "<svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' /></svg>",
+    "title": {
+      "id": "Pertanyaan Dasar AWS",
+      "en": "Basic AWS Questions"
+    },
+    "description": {
+      "id": "Kumpulan pertanyaan mendasar tentang layanan inti Amazon Web Services.",
+      "en": "A collection of fundamental questions about core Amazon Web Services."
+    },
+    "content": {
+      "id": [
+        {
+          "q": "Apa itu S3 dan apa kegunaan utamanya?",
+          "a": "Amazon S3 (Simple Storage Service) adalah layanan penyimpanan objek yang menawarkan skalabilitas, ketersediaan data, keamanan, dan kinerja terdepan di industri. Kegunaan utamanya adalah untuk menyimpan dan mengambil sejumlah data kapan pun, dari mana pun di web. Contoh penggunaan termasuk hosting situs web statis, backup dan recovery, serta penyimpanan data untuk aplikasi."
+        },
+        {
+          "q": "Jelaskan perbedaan antara EC2 dan Lambda.",
+          "a": "<strong>EC2 (Elastic Compute Cloud)</strong> adalah layanan yang menyediakan kapasitas komputasi (server virtual) yang dapat diskalakan di cloud. Anda bertanggung jawab untuk mengelola server, OS, dan runtime. <br><br> <strong>Lambda</strong> adalah layanan komputasi 'serverless' yang menjalankan kode Anda sebagai respons terhadap trigger/event. Anda tidak perlu memikirkan server sama sekali. Lambda cocok untuk fungsi singkat dan berbasis event, sedangkan EC2 lebih fleksibel untuk aplikasi yang berjalan terus-menerus."
+        }
+      ],
+      "en": [
+        {
+          "q": "What is S3 and what is its primary use?",
+          "a": "Amazon S3 (Simple Storage Service) is an object storage service that offers industry-leading scalability, data availability, security, and performance. Its primary use is to store and retrieve any amount of data at any time, from anywhere on the web. Use cases include static website hosting, backup and recovery, and data storage for applications."
+        },
+        {
+          "q": "Explain the difference between EC2 and Lambda.",
+          "a": "<strong>EC2 (Elastic Compute Cloud)</strong> is a service that provides scalable computing capacity (virtual servers) in the cloud. You are responsible for managing the server, OS, and runtime. <br><br> <strong>Lambda</strong> is a 'serverless' compute service that runs your code in response to triggers/events. You don't have to think about servers at all. Lambda is suitable for short, event-driven functions, while EC2 is more flexible for long-running applications."
+        }
+      ]
+    }
+  },
+  {
+    "id": "gcp-network-pdf",
+    "type": "pdf",
+    "icon": "<svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' /></svg>",
+    "title": {
+      "id": "Panduan Interview Jaringan GCP",
+      "en": "GCP Networking Interview Guide"
+    },
+    "description": {
+      "id": "Unduh panduan PDF lengkap berisi pertanyaan dan jawaban seputar jaringan di Google Cloud Platform.",
+      "en": "Download the complete PDF guide with questions and answers about networking on Google Cloud Platform."
+    },
+    "url": "./path/to/your/gcp_networking_guide.pdf"
+  },
+  {
+    "id": "docker-cheatsheet-link",
+    "type": "url",
+    "icon": "<svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14' /></svg>",
+    "title": {
+      "id": "Top 50 Pertanyaan Docker",
+      "en": "Top 50 Docker Questions"
+    },
+    "description": {
+      "id": "Kunjungi tautan eksternal untuk melihat daftar 50 pertanyaan interview Docker yang paling sering diajukan.",
+      "en": "Visit an external link to see a list of the 50 most frequently asked Docker interview questions."
+    },
+    "url": "https://www.edureka.co/blog/interview-questions/docker-interview-questions/",
+    "buttonText": {
+        "id": "Lihat Pertanyaan",
+        "en": "View Questions"
+    }
+  }
 ]
