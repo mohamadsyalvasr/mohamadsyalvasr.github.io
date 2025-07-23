@@ -38,7 +38,7 @@ function createMainNavigation() {
                     <div id="contact-info" class="contact-popup">
                         <h4 class="font-bold text-slate-100 mb-2">Hubungi Kami</h4>
                         <p class="text-sm text-slate-300">Punya pertanyaan atau masukan?</p>
-                        <a href="mailto:support@example.com" class="text-sm text-sky-400 block mt-2 hover:underline">support@example.com</a>
+                        <a href="mailto:msyalva+support@gmail.com" class="text-sm text-sky-400 block mt-2 hover:underline">support@syalva.my.id</a>
                     </div>
                 </div>
             </div>
