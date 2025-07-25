@@ -11,7 +11,7 @@
     <style>
         html { scroll-snap-type: y mandatory; }
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        .text-gradient { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gradient { background: linear-gradient(90deg, #0d9488, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .section-screen { scroll-snap-align: start; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 2rem; }
     </style>
 </head>
@@ -20,7 +20,7 @@
     <header class="section-screen text-center bg-gradient-to-b from-slate-900 to-slate-900/80 relative">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         <div class="relative z-10">
-            <p class="text-sky-400 font-semibold">Seri 2: Cloud dalam Praktik</p>
+            <p class="text-teal-400 font-semibold">Seri 2: Cloud dalam Praktik</p>
             <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight mt-2">Terhubung ke Virtual Machine</h1>
             <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">Setelah memiliki 'komputer' di cloud, bagaimana cara kita mengakses dan menggunakannya? Mari kita pelajari SSH dan RDP.</p>
         </div>
@@ -33,7 +33,7 @@
         <section class="section-screen bg-slate-800/50">
             <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div class="text-center md:text-left">
-                    <span class="text-sm font-bold text-sky-400">UNTUK LINUX: SSH</span>
+                    <span class="text-sm font-bold text-teal-400">UNTUK LINUX: SSH</span>
                     <h2 class="text-3xl md:text-5xl font-bold mt-2">Secure Shell (SSH)</h2>
                     <p class="mt-4 text-lg text-slate-400">SSH adalah protokol untuk mengakses VM berbasis teks (command-line) secara aman. Ini adalah standar de-facto untuk mengelola server Linux.</p>
                     <p class="mt-4 text-lg text-slate-300">**Analogi:** Anggap SSH seperti memiliki sebuah kunci digital yang sangat aman (*private key*). Anda tidak bisa masuk melalui pintu utama, melainkan melalui pintu belakang khusus yang hanya bisa dibuka dengan kunci digital Anda. Komunikasi Anda pun terenkripsi sepenuhnya.</p>
@@ -50,7 +50,7 @@
                     <img src="https://placehold.co/600x400/1e293b/e2e8f0?text=Tampilan+Desktop+Jarak+Jauh" alt="Analogi RDP" class="rounded-2xl shadow-lg">
                 </div>
                 <div class="text-center md:text-left order-1 md:order-2">
-                    <span class="text-sm font-bold text-sky-400">UNTUK WINDOWS: RDP</span>
+                    <span class="text-sm font-bold text-teal-400">UNTUK WINDOWS: RDP</span>
                     <h2 class="text-3xl md:text-5xl font-bold mt-2">Remote Desktop Protocol (RDP)</h2>
                     <p class="mt-4 text-lg text-slate-400">RDP adalah protokol buatan Microsoft yang memungkinkan Anda untuk melihat dan berinteraksi dengan tampilan desktop grafis dari VM Windows, seolah-olah Anda duduk di depannya.</p>
                     <p class="mt-4 text-lg text-slate-300">**Analogi:** RDP seperti melakukan panggilan video dengan fitur *screen sharing* ke komputer Anda di cloud. Anda dapat menggerakkan mouse, membuka aplikasi, dan melakukan apapun dengan tampilan visual yang lengkap, bukan hanya teks.</p>

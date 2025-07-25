@@ -20,7 +20,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
         .text-gradient {
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            background: linear-gradient(90deg, #0d9488, #2dd4bf);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -32,6 +32,21 @@
             justify-content: center;
             padding: 2rem;
         }
+
+        .spoiler-hover {
+            background-color: #475569; /* Warna sensor (slate-600) */
+            color: #475569; /* Samakan warna teks dengan background untuk menyembunyikannya */
+            border-radius: 5px;
+            padding: 1px 5px;
+            cursor: help; /* Ubah kursor untuk menandakan ada interaksi */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none; /* Mencegah teks terpilih saat disensor */
+        }
+        .spoiler-hover:hover {
+            background-color: transparent; /* Hapus background saat hover */
+            color: inherit; /* Tampilkan teks dengan mewarisi warna dari elemen induk */
+            user-select: auto; /* Izinkan teks untuk dipilih kembali */
+        }
     </style>
 </head>
 <body>
@@ -40,7 +55,7 @@
     <header class="section-screen text-center bg-gradient-to-b from-slate-900 to-slate-900/80 relative">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         <div class="relative z-10">
-            <p class="text-sky-400 font-semibold">Seri 2: Cloud dalam Praktik</p>
+            <p class="text-teal-400 font-semibold">Seri 2: Cloud dalam Praktik</p>
             <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight mt-2">
                 Dasar-Dasar Virtual Machine
             </h1>
@@ -59,10 +74,10 @@
             <div class="max-w-4xl mx-auto text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-gradient">Menyambung dari Seri 1</h2>
                 <p class="mt-4 text-lg text-slate-400">
-                    Pada Seri 1, kita telah membahas model layanan IaaS, di mana kita 'menyewa' infrastruktur dasar. Pertanyaannya, apa wujud nyata dari infrastruktur tersebut? Jawabannya adalah **Virtual Machine (VM)**.
+                    Pada Seri 1, kita telah membahas model layanan IaaS, di mana kita 'menyewa' infrastruktur dasar. Pertanyaannya, apa wujud nyata dari infrastruktur tersebut? Jawabannya adalah <span class="spoiler-hover"><strong>Virtual Machine (VM)</strong></span>.
                 </p>
                  <p class="mt-4 text-lg text-slate-300">
-                    VM adalah unit komputasi fundamental yang akan kita sewa dan kelola. Memahami VM adalah langkah pertama untuk benar-benar mempraktikkan penggunaan cloud.
+                    VM adalah unit komputasi fundamental yang akan kita sewa dan kelola.<br> Memahami VM adalah langkah pertama untuk benar-benar mempraktikkan penggunaan cloud.
                 </p>
             </div>
         </section>
@@ -71,13 +86,13 @@
         <section class="section-screen">
             <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div class="text-center md:text-left">
-                    <span class="text-sm font-bold text-sky-400">ANALOGI SEDERHANA</span>
+                    <span class="text-sm font-bold text-teal-400">ANALOGI SEDERHANA</span>
                     <h2 class="text-3xl md:text-5xl font-bold mt-2">Apa Itu Virtual Machine?</h2>
                     <p class="mt-4 text-lg text-slate-400">
-                        Bayangkan Anda memiliki sebuah laptop Mac yang sangat kuat. Dengan perangkat lunak seperti Parallels atau VMware, Anda dapat menginstal dan menjalankan sistem operasi Windows di dalam Mac Anda, seolah-olah Windows tersebut adalah sebuah program biasa.
+                        Bayangkan Kamu memiliki sebuah laptop Mac yang sangat kuat. Dengan perangkat lunak seperti Parallels atau VMware, Kamu dapat menginstal dan menjalankan sistem operasi Windows di dalam Mac Kamu, seolah-olah Windows tersebut adalah sebuah program biasa.
                     </p>
                     <p class="mt-4 text-lg text-slate-300">
-                        VM bekerja dengan prinsip yang sama. Sebuah server fisik yang sangat kuat (disebut *hypervisor*) dibagi-bagi sumber dayanya untuk menjalankan beberapa "komputer tamu" yang terisolasi satu sama lain. Setiap "komputer tamu" inilah yang disebut Virtual Machine.
+                        VM bekerja dengan prinsip yang sama. Sebuah server fisik yang sangat kuat (disebut <strong>hypervisor</strong>) dibagi-bagi sumber dayanya untuk menjalankan beberapa "komputer tamu" yang terisolasi satu sama lain. Setiap "komputer tamu" inilah yang disebut Virtual Machine.
                     </p>
                 </div>
                 <div>
@@ -93,19 +108,19 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
                     <div class="bg-slate-800 p-6 rounded-xl">
                         <h3 class="text-xl font-bold mb-2">vCPU (Virtual CPU)</h3>
-                        <p class="text-slate-400">Bagian dari kekuatan pemrosesan (otak) server fisik yang dialokasikan untuk VM Anda.</p>
+                        <p class="text-slate-400">Bagian dari kekuatan pemrosesan (otak) server fisik yang dialokasikan untuk VM Kamu.</p>
                     </div>
                     <div class="bg-slate-800 p-6 rounded-xl">
                         <h3 class="text-xl font-bold mb-2">RAM (Virtual Memory)</h3>
-                        <p class="text-slate-400">Bagian dari memori server fisik yang dipinjamkan untuk VM Anda sebagai memori jangka pendek.</p>
+                        <p class="text-slate-400">Bagian dari memori server fisik yang dipinjamkan untuk VM Kamu sebagai memori jangka pendek.</p>
                     </div>
                     <div class="bg-slate-800 p-6 rounded-xl">
                         <h3 class="text-xl font-bold mb-2">Storage (Virtual Disk)</h3>
-                        <p class="text-slate-400">Ruang penyimpanan pada hard disk server fisik yang berfungsi sebagai 'hard disk' untuk VM Anda.</p>
+                        <p class="text-slate-400">Ruang penyimpanan pada hard disk server fisik yang berfungsi sebagai 'hard disk' untuk VM Kamu.</p>
                     </div>
                     <div class="bg-slate-800 p-6 rounded-xl">
                         <h3 class="text-xl font-bold mb-2">vNIC (Virtual Network Card)</h3>
-                        <p class="text-slate-400">Komponen virtual yang memungkinkan VM Anda terhubung ke jaringan internet dan berkomunikasi.</p>
+                        <p class="text-slate-400">Komponen virtual yang memungkinkan VM Kamu terhubung ke jaringan internet dan berkomunikasi.</p>
                     </div>
                 </div>
             </div>
@@ -121,16 +136,16 @@
                     <h2 class="text-3xl md:text-5xl font-bold mt-2">Mengapa Menggunakan VM?</h2>
                     <ul class="mt-4 space-y-4 text-lg text-slate-300">
                         <li class="flex items-start gap-3">
-                            <span class="text-sky-400 mt-1">✓</span>
-                            <span>**Isolasi:** Setiap VM adalah lingkungan 'kotak pasir' (*sandbox*) yang terpisah. Jika satu VM mengalami masalah, VM lain di server fisik yang sama tidak akan terpengaruh.</span>
+                            <span class="text-teal-400 mt-1">✓</span>
+                            <span><strong>Isolasi:</strong> Setiap VM adalah lingkungan 'kotak pasir' (<strong>sandbox</strong>) yang terpisah. Jika satu VM mengalami masalah, VM lain di server fisik yang sama tidak akan terpengaruh.</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="text-sky-400 mt-1">✓</span>
-                            <span>**Efisiensi:** Satu server fisik dapat menjalankan banyak VM dengan sistem operasi yang berbeda, memaksimalkan penggunaan perangkat keras.</span>
+                            <span class="text-teal-400 mt-1">✓</span>
+                            <span><strong>Efisiensi:</strong> Satu server fisik dapat menjalankan banyak VM dengan sistem operasi yang berbeda, memaksimalkan penggunaan perangkat keras.</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="text-sky-400 mt-1">✓</span>
-                            <span>**Deployment Cepat:** Membuat, mengkloning, atau menghapus VM hanya membutuhkan beberapa menit, sangat kontras dengan pengadaan server fisik.</span>
+                            <span class="text-teal-400 mt-1">✓</span>
+                            <span><strong>Deployment Cepat:</strong> Membuat, mengkloning, atau menghapus VM hanya membutuhkan beberapa menit, sangat kontras dengan pengadaan server fisik.</span>
                         </li>
                     </ul>
                 </div>
@@ -142,15 +157,15 @@
             <div class="max-w-4xl mx-auto px-4 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-gradient">Apa Selanjutnya?</h2>
                 <p class="mt-4 text-lg text-slate-400">
-                    Sekarang Anda memahami bahwa VM adalah 'komputer sewaan' di cloud. Anda dapat memilih spesifikasinya (CPU, RAM, Storage) seperti saat membeli komputer fisik.
+                    Sekarang Kamu memahami bahwa VM adalah 'komputer sewaan' di cloud. Kamu dapat memilih spesifikasinya (CPU, RAM, Storage) seperti saat membeli komputer fisik.
                 </p>
                 <p class="mt-6 text-lg text-slate-300 font-semibold">
-                    Pada episode berikutnya, kita akan membahas langkah praktis selanjutnya: Bagaimana cara kita terhubung dan 'masuk' ke dalam Virtual Machine yang telah kita buat?
+                    Pada episode berikutnya, kita akan membahas langkah praktis selanjutnya: <br>Bagaimana cara kita terhubung dan 'masuk' ke dalam Virtual Machine yang telah kita buat?
                 </p>
                 <div class="mt-8">
-                    <button class="bg-slate-700 text-slate-400 font-bold py-3 px-8 rounded-full cursor-not-allowed">
+                    <a href="/cloud/series/2/2-terhubung-ke-vm.html" class="w-full sm:w-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
                         Episode Selanjutnya
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>
