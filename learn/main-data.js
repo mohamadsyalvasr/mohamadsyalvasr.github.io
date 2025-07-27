@@ -11,13 +11,21 @@ const learningPaths = [
         title: "Kubernetes Dari Nol",
         description: "Belajar untuk menguasai orkestrasi kontainer paling populer di dunia, dari dasar hingga mahir.",
         icon: "https://api.iconify.design/logos:kubernetes.svg", // URL ke ikon Kubernetes
-        url: "kubernetes/index.html",
+        url: "/learn/series/kubernetes/",
         status: "active"
     },
     {
+        id: "data-stream",
+        title: "Data Stream di AWS",
+        description: "Ikuti perjalanan belajarku memahami Data Stream di AWS—satu eksperimen, satu wawasan, dan satu langkah maju setiap harinya.",
+        icon: "https://api.iconify.design/ph:arrows-merge-duotone.svg?color=%23e65100", // URL ke ikon Machine Learning
+        url: "#",
+        status: "coming_soon"
+    },
+    {
         id: "machine-learning",
-        title: "Day-by-day Machine Learning",
-        description: "Ikuti perjalanan belajarku memahami Machine Learning—satu eksperimen, satu wawasan, dan satu langkah maju setiap harinya.",
+        title: "Machine Learning",
+        description: "Ikuti perjalanan belajarku memahami Machine Learning di AWS—satu eksperimen, satu wawasan, dan satu langkah maju setiap harinya.",
         icon: "https://api.iconify.design/ph:brain-light.svg?color=%23818cf8", // URL ke ikon Machine Learning
         url: "#",
         status: "coming_soon"

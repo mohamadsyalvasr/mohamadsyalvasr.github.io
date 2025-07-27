@@ -54,7 +54,7 @@
     "id": "qc1",
     "coverImage": "/cloud/qa/cover/saa.jpg",
     "link": "https://lynk.id/mohamadsyalvasr/yzmnlmjpqy55",
-    "status": "coming_soon",
+    "status": "available",
     "tags": ["featured"],
     "title": {
       "id": "Bank Soal AWS Certified Solutions Architect - Associate (SAA-C03)",
@@ -65,8 +65,8 @@
       "en": "A collection of proven practice questions to help you pass the AWS SAA-C03 certification exam. Covers all exam domains with in-depth explanations."
     },
     "price": {
-      "id": "Segera",
-      "en": "Soon"
+      "id": "Gratis",
+      "en": "Free"
     },
     "buttonText": {
         "id": "Download Sekarang",

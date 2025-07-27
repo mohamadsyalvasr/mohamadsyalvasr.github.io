@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux untuk Cloud Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-snap-type: y mKamutory;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #e2e8f0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #0d9488, #2dd4bf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-screen {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Styles for the 3D flip effect */
+        .card-container {
+            perspective: 1000px; /* Provides the 3D depth for the flip */
+            height: 250px; /* Fixed height for consistent card size */
+            position: relative; /* Needed for absolute positioning of faces */
+            transform-style: preserve-3d; /* Ensures child elements are positioned in 3D space */
+            /* No transform on card-container itself, only its children will transform */
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Hide the back face when rotated away (for Safari) */
+            backface-visibility: hidden; /* Hide the back face when rotated away */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem; /* Equivalent to p-6 */
+            border-radius: 0.75rem; /* Equivalent to rounded-xl */
+            background-color: #1e293b; /* bg-slate-800 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Tailwind shadow-md */
+            transition: transform 0.8s; /* Smooth transition for the flip */
+        }
+
+        .card-front {
+            transform: rotateY(0deg); /* Default state for the front face */
+            z-index: 2; /* Ensures front is on top initially */
+        }
+
+        .card-container:hover .card-front {
+            transform: rotateY(-180deg); /* Flip front away on container hover */
+        }
+
+        .card-back {
+            transform: rotateY(180deg); /* Initial state for the back face (hidden) */
+            background-color: #334155; /* Slightly different background for the back */
+            color: #cbd5e1; /* text-slate-300 */
+        }
+
+        .card-container:hover .card-back {
+            transform: rotateY(0deg); /* Bring back into view on container hover */
+        }
+
+        /* Specific adjustments for content within faces */
+        .card-face h3 {
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+        .card-face p {
+            margin-top: 0.5rem; /* mt-2 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Navigation Header -->
+    <div class="fixed top-0 left-0 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-3 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center gap-2 sm:gap-4">
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                <span class="hidden sm:inline">Kembali</span>
+            </a>
+            
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Episode List Button -->
+                <a href="/learn/presentation/cloud/2/" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 text-sm">
+                    <span class="hidden sm:inline">Daftar Episode</span>
+                    <span class="sm:hidden">Daftar</span>
+                </a>
+                <!-- Next Episode Button -->
+                <a href="#" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm cursor-not-allowed">
+                    <span class="hidden sm:inline">Selanjutnya</span>
+                    <span class="sm:hidden">Lanjut</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="section-screen text-center bg-gradient-to-b from-slate-900 to-slate-900/80 relative">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <p class="text-teal-400 font-semibold">Episode 0 (Seri 2)</p>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight mt-2">
+                Linux untuk Cloud Engineer
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">
+                Pondasi tak tergantikan: Memahami Linux adalah kunci sukses di dunia komputasi awan.
+            </p>
+        </div>
+        <div class="absolute bottom-10 animate-bounce left-1/2 -translate-x-1/2">
+            <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+    </header>
+
+    <main class="bg-slate-900">
+        <!-- Section: Mengapa Linux Penting -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-7xl w-full mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-12 text-center">Mengapa Linux Penting untuk Cloud Engineer?</h2>
+                <div class="grid md:grid-cols-4 gap-8 text-left">
+                    <!-- Poin 1: Dominasi Infrastruktur Cloud -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Dominasi Infrastruktur Cloud</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Mayoritas server yang menjalankan layanan cloud, dari VM hingga kontainer, berbasis Linux. Memahaminya krusial untuk operasional dan troubleshooting.</p>
+                        </div>
+                    </div>
+                    <!-- Poin 2: Fleksibilitas & Kontrol Penuh -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Fleksibilitas dan Kontrol Penuh</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Linux menawarkan tingkat kustomisasi dan kontrol yang tak tertandingi, memungkinkan optimasi performa dan keamanan sesuai kebutuhan spesifik.</p>
+                        </div>
+                    </div>
+                    <!-- Poin 3: Otomatisasi & Scripting -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Otomatisasi dan Scripting</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Kemampuan scripting (Bash, Python) di Linux adalah inti dari otomatisasi, memungkinkan pengelolaan infrastruktur cloud dalam skala besar.</p>
+                        </div>
+                    </div>
+                    <!-- Poin 4: Keamanan -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Aspek Keamanan Bawaan</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Struktur keamanan Linux yang kuat dan audit komunitas menjadikannya pilihan aman dan tangguh terhadap ancaman siber di cloud.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Mengapa Penyedia Cloud Memilih Linux -->
+        <section class="section-screen">
+            <div class="max-w-7xl w-full mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-12 text-center">Mengapa Penyedia Cloud Memilih Linux?</h2>
+                <div class="grid md:grid-cols-4 gap-8 text-left">
+                    <!-- Alasan 1: Biaya Lisensi Rendah/Nihil -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Biaya Lisensi Rendah/Nihil</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Sebagai sistem operasi open-source, Linux tidak memerlukan biaya lisensi, memungkinkan penyedia cloud menawarkan layanan yang lebih kompetitif.</p>
+                        </div>
+                    </div>
+                    <!-- Alasan 2: Stabilitas dan KeKamulan -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Stabilitas dan KeKamulan</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Linux sangat stabil dan dapat beroperasi tanpa henti untuk waktu yang sangat lama, menjadikannya fondasi yang ideal untuk infrastruktur cloud yang kritis.</p>
+                        </div>
+                    </div>
+                    <!-- Alasan 3: Komunitas Besar & Inovasi -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2m3-2v2m0-2h.01M12 7v4m0 0l-3-3m3 3l3-3" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Komunitas Besar & Inovasi Cepat</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Dukungan komunitas global yang masif memastikan pengembangan dan pembaruan yang konstan, serta solusi cepat untuk berbagai tantangan.</p>
+                        </div>
+                    </div>
+                    <!-- Alasan 4: Keamanan -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <div class="bg-teal-500/10 p-3 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold">Keamanan yang Kuat</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Model pengembangan open-source memungkinkan audit keamanan yang transparan dan perbaikan cepat, menghasilkan sistem yang sangat aman.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Distro Linux Populer -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-7xl w-full mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-12 text-center">Distro Linux Populer di Lingkungan Cloud</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                    <!-- Distro 1: Ubuntu -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/UbuntuCoF.svg" alt="Ubuntu Logo" class="h-12 w-12 mb-4 rounded-lg">
+                            <h3 class="text-2xl font-bold">Ubuntu</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Sangat populer di cloud karena kemudahan penggunaan, komunitas besar, dan rilis LTS (Long Term Support) yang stabil. Banyak tutorial dan dokumentasi tersedia.</p>
+                        </div>
+                    </div>
+                    <!-- Distro 2: CentOS/RHEL -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Red_Hat_logo.svg" alt="RHEL/CentOS Logo" class="h-12 w-12 mb-4 rounded-lg">
+                            <h3 class="text-2xl font-bold">CentOS / Red Hat Enterprise Linux (RHEL)</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Pilihan utama untuk lingkungan enterprise karena stabilitas, keamanan, dan dukungan jangka panjang. CentOS Stream adalah penerus CentOS Linux.</p>
+                        </div>
+                    </div>
+                    <!-- Distro 3: Debian -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg" alt="Debian Logo" class="h-12 w-12 mb-4 rounded-lg">
+                            <h3 class="text-2xl font-bold">Debian</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Dikenal karena stabilitas dan komitmennya terhadap perangkat lunak bebas. Menjadi dasar bagi banyak distro lain, termasuk Ubuntu.</p>
+                        </div>
+                    </div>
+                    <!-- Distro 4: Alpine Linux -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/New_Logo_Alpine_Linux.svg" alt="Alpine Linux Logo" class="h-12 w-12 mb-4 rounded-lg">
+                            <h3 class="text-2xl font-bold">Alpine Linux</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Distro yang sangat ringan dan fokus pada keamanan, ideal untuk kontainer (Docker) dan lingkungan yang membutuhkan jejak kecil.</p>
+                        </div>
+                    </div>
+                    <!-- Distro 5: Amazon Linux -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <img src="https://d1.awsstatic.com/Amazon-Linux_1200x900_Logo-2.71696520835a68e1fcd9b7eda847db9dd81e95b0.png" alt="Amazon Linux Logo" class="h-12 w-12 mb-4 rounded-lg">
+                            <h3 class="text-2xl font-bold">Amazon Linux</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Dioptimalkan oleh AWS untuk berjalan di Amazon EC2. Menyediakan lingkungan yang stabil, aman, dan berkinerja tinggi untuk aplikasi di AWS.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Konsep Linux Esensial -->
+        <section class="section-screen">
+            <div class="max-w-7xl w-full mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-12 text-center">Konsep Linux Esensial untuk Cloud Engineer</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                    <!-- Konsep 1: CLI -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <h3 class="text-2xl font-bold">Command Line Interface (CLI)</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Penguasaan terminal adalah keharusan. Perintah dasar seperti <code>ls</code>, <code>cd</code>, <code>cp</code>, <code>mv</code>, <code>rm</code>, <code>grep</code>, <code>cat</code>, <code>less</code>, dan <code>sudo</code> adalah roti dan mentega Kamu.</p>
+                        </div>
+                    </div>
+                    <!-- Konsep 2: File System -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <h3 class="text-2xl font-bold">Struktur Sistem File</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Memahami hierarki seperti <code>/etc</code> (konfigurasi), <code>/var</code> (log), <code>/home</code>, dan <code>/opt</code> akan membantu navigasi dan troubleshooting.</p>
+                        </div>
+                    </div>
+                    <!-- Konsep 3: Permissions -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <h3 class="text-2xl font-bold">Manajemen Izin (Permissions)</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Konsep user, group, dan others, serta perintah <code>chmod</code> dan <code>chown</code>, sangat penting untuk keamanan dan akses.</p>
+                        </div>
+                    </div>
+                    <!-- Konsep 4: Networking -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <h3 class="text-2xl font-bold">Dasar Jaringan</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Pahami perintah seperti <code>ip a</code>, <code>ping</code>, <code>netstat</code>/<code>ss</code>, serta konsep SSH dan SCP untuk konektivitas antar server.</p>
+                        </div>
+                    </div>
+                    <!-- Konsep 5: Process Management -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <h3 class="text-2xl font-bold">Manajemen Proses</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Pelajari cara melihat (<code>ps</code>, <code>top</code>, <code>htop</code>) dan mengelola proses (<code>kill</code>), serta layanan sistem dengan <code>systemctl</code>.</p>
+                        </div>
+                    </div>
+                    <!-- Konsep 6: Scripting -->
+                    <div class="card-container group">
+                        <div class="card-face card-front flex flex-col items-center justify-center text-center">
+                            <h3 class="text-2xl font-bold">Shell Scripting & Otomatisasi</h3>
+                        </div>
+                        <div class="card-face card-back flex flex-col items-center justify-center text-center">
+                            <p class="text-slate-400">Kemampuan menulis skrip Bash sederhana akan sangat mempercepat tugas-tugas operasional dan deployment Kamu di cloud.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Sumber Belajar -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-8">Sumber Belajar Linux</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Untuk mendalami Linux, berikut adalah beberapa sumber belajar yang direkomendasikan:
+                </p>
+                <div class="mt-8 grid gap-4">
+                    <a href="https://linuxjourney.com/" target="_blank" class="block bg-orange-700 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                        Linux Journey (Interaktif)
+                    </a>
+                    <a href="https://training.linuxfoundation.org/training/introduction-to-linux/" target="_blank" class="block bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                        Linux Foundation - Introduction to Linux (LFS101)
+                    </a>
+                    <a href="https://www.freecodecamp.org/news/search/?query=linux" target="_blank" class="block bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                        FreeCodeCamp: Belajar Linux
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Apa Selanjutnya -->
+        <section class="section-screen">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Apa Selanjutnya?</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Dengan pemahaman kuat tentang Linux, Kamu siap menyelam lebih dalam ke komponen inti komputasi awan.
+                </p>
+                <p class="mt-4 text-lg text-slate-300 font-semibold">
+                    Pada episode berikutnya, kita akan membahas salah satu fondasi utama cloud: Virtual Machines (VMs).
+                </p>
+                <div class="mt-8">
+                    <a href="/cloud/series/2/1-virtual-machine.html" class="w-full md:w-auto flex-shrink-0 bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 text-center">
+                        Episode Selanjutnya: Virtual Machines
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

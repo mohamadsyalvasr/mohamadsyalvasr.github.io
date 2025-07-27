@@ -1,0 +1,188 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.main-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.main-header {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1.1;
+}
+
+.main-subtitle {
+    margin-top: 1rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.125rem;
+    color: #94a3b8; /* slate-400 */
+}
+
+/* Styling untuk item daftar (level dan seri) */
+.list-item-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(30, 41, 59, 0.5); /* bg-slate-800/50 */
+    border: 1px solid #334155; /* border-slate-700 */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+@media (min-width: 768px) {
+    .list-item-link {
+        flex-direction: row;
+    }
+}
+
+.list-item-button {
+    font-weight: 700;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .list-item-button {
+        width: auto;
+    }
+}
+
+
+/* Styling untuk daftar episode */
+.content-box {
+    background-color: rgba(30, 41, 59, 0.5); /* bg-slate-800/50 */
+    border: 1px solid #475569; /* border-slate-600 */
+    border-radius: 1rem;
+    padding: 2rem 3rem;
+}
+
+.episode-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.episode-list-item:hover {
+    background-color: rgba(51, 65, 85, 0.5);
+}
+
+.episode-button {
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease;
+    align-self: center;
+}
+
+
+/* Breadcrumb */
+.breadcrumb-container {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1.125rem;
+}
+
+.breadcrumb-inner {
+    display: inline-block;
+    background-color: rgba(30, 41, 59, 0.6);
+    border: 1px solid #334155;
+    border-radius: 9999px;
+    padding: 0.5rem 1.5rem;
+}
+
+/* Halaman Detail Episode */
+.episode-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #cbd5e1; /* slate-300 */
+}
+
+.episode-content p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+}
+
+.episode-content .code-block {
+    background-color: #020617; /* slate-950 */
+    color: #94a3b8; /* slate-400 */
+    padding: 1rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.episode-content .inline-code {
+    background-color: rgba(51, 65, 85, 0.7);
+    color: #e2e8f0;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+}
+
+.episode-navigation {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #334155; /* slate-700 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-button {
+    display: flex;
+    align-items: center;
+    color: #38bdf8; /* sky-400 */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav-button:hover {
+    color: #7dd3fc; /* sky-300 */
+}

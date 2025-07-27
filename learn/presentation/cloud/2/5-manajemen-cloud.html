@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seri 2 Ep 5: Manajemen Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-snap-type: y mandatory; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        .text-gradient { background: linear-gradient(90deg, #0d9488, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-screen { scroll-snap-align: start; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 2rem; }
+    </style>
+</head>
+<body>
+
+    <header class="section-screen text-center bg-gradient-to-b from-slate-900 to-slate-900/80 relative">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <p class="text-teal-400 font-semibold">Seri 2: Cloud dalam Praktik</p>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight mt-2">Manajemen Cloud</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">Mengontrol akses dengan IAM dan mengawasi sistem dengan Monitoring.</p>
+        </div>
+        <div class="absolute bottom-10 animate-bounce left-1/2 -translate-x-1/2">
+            <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+    </header>
+
+    <main class="bg-slate-900">
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <span class="text-sm font-bold text-teal-400">KONTROL AKSES</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-2">Identity & Access Management (IAM)</h2>
+                    <p class="mt-4 text-lg text-slate-400">IAM adalah sistem yang mengatur "siapa boleh melakukan apa" di dalam akun cloud Anda.</p>
+                    <p class="mt-4 text-lg text-slate-300">**Analogi: Kunci dengan Level Berbeda.** Bayangkan Anda adalah manajer hotel. Anda memberikan *master key* (Admin) kepada diri sendiri, kunci untuk semua kamar (Developer) kepada staf teknik, dan kunci kamar spesifik saja (User) kepada tamu. IAM memungkinkan Anda membuat peran dan izin yang sangat spesifik untuk keamanan maksimal.</p>
+                </div>
+                <div>
+                    <img src="https://placehold.co/600x400/1e293b/e2e8f0?text=Manajemen+Peran+%26+Izin" alt="Analogi IAM" class="rounded-2xl shadow-lg">
+                </div>
+            </div>
+        </section>
+
+        <section class="section-screen">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                 <div class="order-2 md:order-1">
+                    <img src="https://placehold.co/600x400/1e293b/e2e8f0?text=CCTV+%26+Laporan+Kinerja" alt="Analogi Monitoring" class="rounded-2xl shadow-lg">
+                </div>
+                <div class="text-center md:text-left order-1 md:order-2">
+                    <span class="text-sm font-bold text-teal-400">PENGAWASAN SISTEM</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-2">Monitoring & Logging</h2>
+                    <p class="mt-4 text-lg text-slate-400">Monitoring melacak metrik kinerja, sementara Logging mencatat semua peristiwa yang terjadi.</p>
+                    <p class="mt-4 text-lg text-slate-300">**Analogi: CCTV dan Buku Log Satpam.** **Monitoring** adalah CCTV yang terus-menerus memantau metrik seperti penggunaan CPU VM (apakah 'mesinnya' kepanasan?) atau lalu lintas jaringan. **Logging** adalah buku catatan satpam yang mencatat setiap peristiwa: "Si A login jam 9 pagi", "VM B dihapus jam 10 malam".</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Penutup Seri 2</h2>
+                <p class="mt-4 text-lg text-slate-400">Selamat! Anda telah menyelesaikan Seri 2 dan kini memiliki pemahaman praktis tentang blok bangunan fundamental di cloud: komputasi (VM), jaringan (VPC), penyimpanan (Storage), dan manajemen (IAM & Monitoring).</p>
+                <p class="mt-6 text-lg text-slate-300 font-semibold">Dengan fondasi ini, Anda siap untuk menjelajahi topik-topik yang lebih canggih seperti database, container, atau serverless. Terima kasih telah mengikuti seri ini!</p>
+                <div class="mt-8">
+                     <a href="/cloud/series/2/" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">Kembali ke Daftar Episode</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

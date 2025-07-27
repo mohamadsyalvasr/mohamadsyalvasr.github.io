@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengantar Kontainerisasi: Solusi "Works on My Machine"</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-snap-type: y mandatory;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #e2e8f0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-screen {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        /* Style for the code block */
+        pre.code-block {
+            background-color: #1e293b; /* slate-800 */
+            color: #cbd5e1; /* slate-300 */
+            padding: 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 1px solid #334155; /* slate-700 */
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Navigation Header -->
+    <div class="fixed top-0 left-0 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-3 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center gap-2 sm:gap-4">
+            <!-- Back Button (Placeholder) -->
+            <a href="javascript:history.back()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                <span class="hidden sm:inline">Kembali</span>
+            </a>
+            
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Next Episode Button (Placeholder) -->
+                <a href="#" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                    <span class="hidden sm:inline">Selanjutnya</span>
+                    <span class="sm:hidden">Lanjut</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <header class="section-screen text-center p-4 bg-gradient-to-b from-slate-900 to-slate-900/80 relative">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/subtle-prism.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight">
+                Akhir dari "Works on My Machine"
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">
+                Memahami Konsep Kontainerisasi untuk Konsistensi Lingkungan Development dan Produksi.
+            </p>
+            <div class="mt-8">
+                <a href="#mulai" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 transform hover:scale-105">
+                    Mulai Pembahasan
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 animate-bounce left-1/2 -translate-x-1/2">
+            <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+    </header>
+
+    <main class="bg-slate-900">
+        <section id="mulai" class="section-screen py-20 sm:py-28">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Mimpi Buruk Setiap Developer</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Bayangkan: Kamu baru saja menyelesaikan fitur brilian. Di laptopmu, semua berjalan sempurna. Namun, setelah di-deploy, tim Ops melapor: <strong class="text-white">"Aplikasinya error di server!"</strong>
+                </p>
+                <p class="mt-6 text-2xl font-mono bg-slate-800 p-6 rounded-lg inline-block">
+                    "Tapi... di laptop saya jalan kok!"
+                </p>
+                <p class="mt-6 text-lg text-slate-400">
+                    Frasa ini adalah sumber frustrasi tak berujung, yang disebabkan oleh masalah fundamental: <strong class="text-white">perbedaan lingkungan (environment)</strong> antara mesin developer dan server produksi.
+                </p>
+            </div>
+        </section>
+
+        <section class="section-screen py-20 sm:py-28 bg-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Analogi: Resep Kue di Dua Dapur Berbeda</h2>
+                    <p class="mt-3 text-lg text-slate-400 max-w-3xl mx-auto">Membuat software itu seperti mengikuti resep kue. Kode adalah resepnya. Laptopmu adalah dapur pribadimu, dan server adalah dapur restoran.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+                    <!-- Dapur Developer -->
+                    <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-rose-500/10 p-3 rounded-full">
+                                <img src="https://api.iconify.design/ph:laptop-duotone.svg?color=%23f43f5e" class="w-8 h-8 text-rose-400">
+                            </div>
+                            <h3 class="text-2xl font-bold">Dapur Developer (Laptop)</h3>
+                        </div>
+                        <p class="mt-4 text-slate-400">Lingkungan yang familier dan terkontrol penuh.</p>
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                            <li class="flex items-start gap-3"><span>🔥 Oven 200°C (misal: Node.js v20)</span></li>
+                            <li class="flex items-start gap-3"><span>🌾 Tepung Merek A (misal: OpenSSL v1.1)</span></li>
+                            <li class="flex items-start gap-3"><span>⚡ Mixer Listrik (misal: Arsitektur x86)</span></li>
+                            <li class="flex items-start gap-3"><span>📂 Gula di Rak Atas (misal: PATH=/usr/local/bin)</span></li>
+                        </ul>
+                    </div>
+                    <!-- Dapur Produksi -->
+                    <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-amber-500/10 p-3 rounded-full">
+                                <img src="https://api.iconify.design/ph:server-duotone.svg?color=%23f59e0b" class="w-8 h-8 text-amber-400">
+                            </div>
+                            <h3 class="text-2xl font-bold">Dapur Produksi (Server)</h3>
+                        </div>
+                        <p class="mt-4 text-slate-400">Lingkungan yang berbeda dan seringkali tidak terduga.</p>
+                        <ul class="mt-6 space-y-3 text-slate-300">
+                            <li class="flex items-start gap-3"><span>🌋 Oven 220°C (misal: Node.js v18)</span></li>
+                            <li class="flex items-start gap-3"><span>🍞 Tepung Merek B (misal: OpenSSL v3.0)</span></li>
+                            <li class="flex items-start gap-3"><span>💪 Mixer Manual (misal: Arsitektur ARM)</span></li>
+                            <li class="flex items-start gap-3"><span>🗄️ Gula di Lemari Bawah (misal: PATH=/usr/bin)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center mt-10">
+                     <p class="text-xl font-bold text-red-400">Meskipun Resep (Kode) Sama, Hasilnya Bisa Gagal Total!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-screen py-20 sm:py-28">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <div class="bg-sky-500/10 inline-block p-4 rounded-full mb-4">
+                    <img class="w-12 h-12" src="https://api.iconify.design/ph:package-duotone.svg?color=%2338bdf8" alt="Kontainer Icon">
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Solusi: Bawa Dapurmu Sendiri!</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Bagaimana jika, alih-alih hanya memberi resep (kode), Kamu bisa membungkus <strong class="text-white">seluruh dapur mini Kamu</strong>—lengkap dengan oven, tepung, dan semua peralatannya—ke dalam sebuah kotak ajaib?
+                </p>
+                <p class="mt-6 text-2xl text-slate-200 font-bold">
+                    Kotak inilah yang kita sebut <strong class="text-gradient">Kontainer</strong>.
+                </p>
+                <p class="mt-4 text-lg text-slate-400">
+                    Dengan membungkus aplikasi beserta seluruh dependensinya menjadi satu paket, Kamu tidak perlu lagi peduli seperti apa dapur restoran (server produksi). Cukup letakkan "kotak dapur" Kamu di sana, dan dijamin hasilnya akan sama persis.
+                </p>
+            </div>
+        </section>
+
+        <section class="section-screen py-20 sm:py-28 bg-slate-800/50">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Rekapitulasi dan Langkah Berikutnya</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Masalah <em class="italic text-white">"works on my machine"</em> pun lenyap. Inilah kekuatan transformatif dari <strong class="text-white">kontainerisasi</strong>.
+                </p>
+                <p class="mt-4 text-lg text-slate-300 font-semibold">
+                    Pada episode selanjutnya, kita akan berkenalan dengan <strong class="text-white">Docker</strong>, alat paling populer untuk membuat dan mengelola "kotak dapur ajaib" ini.
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                        Lanjut ke Pengenalan Docker
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800/50 border-t border-slate-800 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500">
+            <p>&copy; 2025 Pengantar Kontainerisasi. Disusun untuk tujuan edukasi.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

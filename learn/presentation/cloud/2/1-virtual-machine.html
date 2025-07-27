@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seri 2 Ep 1: Dasar-Dasar Virtual Machine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-snap-type: y mandatory;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #e2e8f0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #0d9488, #2dd4bf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-screen {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .spoiler-hover {
+            background-color: #475569; /* Warna sensor (slate-600) */
+            color: #475569; /* Samakan warna teks dengan background untuk menyembunyikannya */
+            border-radius: 5px;
+            padding: 1px 5px;
+            cursor: help; /* Ubah kursor untuk menandakan ada interaksi */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none; /* Mencegah teks terpilih saat disensor */
+        }
+        .spoiler-hover:hover {
+            background-color: transparent; /* Hapus background saat hover */
+            color: inherit; /* Tampilkan teks dengan mewarisi warna dari elemen induk */
+            user-select: auto; /* Izinkan teks untuk dipilih kembali */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="section-screen text-center bg-gradient-to-b from-slate-900 to-slate-900/80 relative">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <p class="text-teal-400 font-semibold">Seri 2: Cloud dalam Praktik</p>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight mt-2">
+                Dasar-Dasar Virtual Machine
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">
+                Mengenal 'Komputer di dalam Komputer' yang menjadi tulang punggung dari layanan Infrastructure as a Service (IaaS).
+            </p>
+        </div>
+        <div class="absolute bottom-10 animate-bounce left-1/2 -translate-x-1/2">
+            <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+    </header>
+
+    <main class="bg-slate-900">
+        <!-- Section: Bridge from Series 1 -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Menyambung dari Seri 1</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Pada Seri 1, kita telah membahas model layanan IaaS, di mana kita 'menyewa' infrastruktur dasar. Pertanyaannya, apa wujud nyata dari infrastruktur tersebut? Jawabannya adalah <span class="spoiler-hover"><strong>Virtual Machine (VM)</strong></span>.
+                </p>
+                 <p class="mt-4 text-lg text-slate-300">
+                    VM adalah unit komputasi fundamental yang akan kita sewa dan kelola.<br> Memahami VM adalah langkah pertama untuk benar-benar mempraktikkan penggunaan cloud.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section: What is a VM -->
+        <section class="section-screen">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <span class="text-sm font-bold text-teal-400">ANALOGI SEDERHANA</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-2">Apa Itu Virtual Machine?</h2>
+                    <p class="mt-4 text-lg text-slate-400">
+                        Bayangkan Kamu memiliki sebuah laptop Mac yang sangat kuat. Dengan perangkat lunak seperti Parallels atau VMware, Kamu dapat menginstal dan menjalankan sistem operasi Windows di dalam Mac Kamu, seolah-olah Windows tersebut adalah sebuah program biasa.
+                    </p>
+                    <p class="mt-4 text-lg text-slate-300">
+                        VM bekerja dengan prinsip yang sama. Sebuah server fisik yang sangat kuat (disebut <strong>hypervisor</strong>) dibagi-bagi sumber dayanya untuk menjalankan beberapa "komputer tamu" yang terisolasi satu sama lain. Setiap "komputer tamu" inilah yang disebut Virtual Machine.
+                    </p>
+                </div>
+                <div>
+                    <img src="https://placehold.co/600x400/1e293b/e2e8f0?text=Satu+Server+Fisik,+Banyak+VM" alt="Analogi Virtual Machine" class="rounded-2xl shadow-lg">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Anatomy of a VM -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-7xl w-full mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient mb-12">Anatomi Sebuah Virtual Machine</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">vCPU (Virtual CPU)</h3>
+                        <p class="text-slate-400">Bagian dari kekuatan pemrosesan (otak) server fisik yang dialokasikan untuk VM Kamu.</p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">RAM (Virtual Memory)</h3>
+                        <p class="text-slate-400">Bagian dari memori server fisik yang dipinjamkan untuk VM Kamu sebagai memori jangka pendek.</p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">Storage (Virtual Disk)</h3>
+                        <p class="text-slate-400">Ruang penyimpanan pada hard disk server fisik yang berfungsi sebagai 'hard disk' untuk VM Kamu.</p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-2">vNIC (Virtual Network Card)</h3>
+                        <p class="text-slate-400">Komponen virtual yang memungkinkan VM Kamu terhubung ke jaringan internet dan berkomunikasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Why use VMs -->
+        <section class="section-screen">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                 <div class="order-2 md:order-1">
+                    <img src="https://placehold.co/600x400/1e293b/e2e8f0?text=Isolasi+dan+Efisiensi" alt="Manfaat VM" class="rounded-2xl shadow-lg">
+                </div>
+                <div class="text-center md:text-left order-1 md:order-2">
+                    <h2 class="text-3xl md:text-5xl font-bold mt-2">Mengapa Menggunakan VM?</h2>
+                    <ul class="mt-4 space-y-4 text-lg text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <span class="text-teal-400 mt-1">✓</span>
+                            <span><strong>Isolasi:</strong> Setiap VM adalah lingkungan 'kotak pasir' (<strong>sandbox</strong>) yang terpisah. Jika satu VM mengalami masalah, VM lain di server fisik yang sama tidak akan terpengaruh.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-teal-400 mt-1">✓</span>
+                            <span><strong>Efisiensi:</strong> Satu server fisik dapat menjalankan banyak VM dengan sistem operasi yang berbeda, memaksimalkan penggunaan perangkat keras.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-teal-400 mt-1">✓</span>
+                            <span><strong>Deployment Cepat:</strong> Membuat, mengkloning, atau menghapus VM hanya membutuhkan beberapa menit, sangat kontras dengan pengadaan server fisik.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Penutup -->
+        <section class="section-screen bg-slate-800/50">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gradient">Apa Selanjutnya?</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Sekarang Kamu memahami bahwa VM adalah 'komputer sewaan' di cloud. Kamu dapat memilih spesifikasinya (CPU, RAM, Storage) seperti saat membeli komputer fisik.
+                </p>
+                <p class="mt-6 text-lg text-slate-300 font-semibold">
+                    Pada episode berikutnya, kita akan membahas langkah praktis selanjutnya: <br>Bagaimana cara kita terhubung dan 'masuk' ke dalam Virtual Machine yang telah kita buat?
+                </p>
+                <div class="mt-8">
+                    <a href="/cloud/series/2/2-terhubung-ke-vm.html" class="w-full sm:w-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                        Episode Selanjutnya
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

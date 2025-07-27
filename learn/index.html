@@ -42,6 +42,8 @@
 
     <!-- Memuat data utama dan skrip -->
     <script src="main-data.js"></script>
+    <!-- Memuat Anime.js -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('learning-path-list');
@@ -79,11 +81,26 @@
                                 <p class="mt-2 text-sm text-slate-400 flex-grow">${path.description}</p>
                             </div>
                             <div class="mt-6">
-                                ${isAvailable ? `<span class="list-item-button bg-sky-500">Mulai Belajar</span>` : `<span class="list-item-button bg-slate-700 text-slate-400">Segera Hadir</span>`}
+                                ${isAvailable ? `<span class="list-item-button bg-sky-500">Mulai Belajar</span>` : `<span class="list-item-button bg-slate-700 text-slate-400 coming-soon-animation">Segera Hadir</span>`}
                             </div>
                         </a>
                     `;
                     container.innerHTML += card;
+                });
+
+                // Inisialisasi animasi Anime.js setelah kartu dirender
+                anime({
+                    targets: '.coming-soon-animation',
+                    translateY: [
+                        { value: -5, duration: 200, easing: 'easeOutQuad' },
+                        { value: 0, duration: 800, easing: 'easeOutBounce' }
+                    ],
+                    opacity: [
+                        { value: 0.5, duration: 100, easing: 'linear' },
+                        { value: 1, duration: 900, easing: 'linear' }
+                    ],
+                    loop: true,
+                    delay: anime.stagger(100) // Animasi berurutan untuk setiap elemen
                 });
             };
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Seri - Belajar Kubernetes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../navigation/navigation.css">
+</head>
+<body class="bg-slate-900 text-slate-200">
+    <div id="main-navigation-placeholder"></div>
+
+    <div class="main-container">
+        <header class="main-header">
+            <h1 id="main-title" class="main-title text-gradient">Level</h1>
+            <p id="subtitle" class="main-subtitle">Pilih seri di bawah ini untuk melanjutkan.</p>
+        </header>
+
+        <main class="max-w-4xl mx-auto px-4 pb-24">
+            <div id="breadcrumb" class="breadcrumb-container"></div>
+            <div id="search-placeholder"></div>
+
+            <div id="no-results" class="text-center text-slate-400 py-16 hidden">
+                <h3 class="text-2xl font-bold text-slate-200">Tidak Ditemukan</h3>
+                <p>Maaf, tidak ada hasil yang cocok dengan pencarian Anda.</p>
+            </div>
+            <div id="series-list" class="space-y-6">
+                <!-- Daftar Seri akan dirender oleh JavaScript di sini -->
+            </div>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="scripts.js"></script>
+    <script src="../../navigation/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSeriesListPage();
+        });
+    </script>
+</body>
+</html>

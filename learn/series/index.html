@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Jalur Pembelajaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/learn/style.css">
+    <link rel="stylesheet" href="/learn/navigation/navigation.css">
+</head>
+<body class="bg-slate-900 text-slate-200">
+    <div id="main-navigation-placeholder"></div>
+    <div class="main-container">
+        <header class="main-header">
+            <h1 class="main-title text-gradient">Selamat Datang di Portal Belajar</h1>
+            <p class="main-subtitle">Pilih salah satu jalur pembelajaran di bawah ini untuk memulai petualangan Kamu di dunia teknologi.</p>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 pb-24">
+            <!-- Fitur Pencarian Baru -->
+            <div class="mb-12 max-w-lg mx-auto">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" id="search-input" placeholder="Cari jalur pembelajaran..." class="w-full pl-12 pr-4 py-3 bg-slate-800/60 border border-slate-700 rounded-full text-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-colors duration-300">
+                </div>
+            </div>
+
+            <!-- Layout Grid Baru -->
+            <div id="learning-path-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Daftar Jalur Pembelajaran akan dirender oleh JavaScript di sini -->
+            </div>
+             <div id="no-results" class="text-center text-slate-400 py-16 hidden">
+                <h3 class="text-2xl font-bold text-slate-200">Tidak Ditemukan</h3>
+                <p>Maaf, tidak ada jalur pembelajaran yang cocok dengan pencarian Anda.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Memuat data utama dan skrip -->
+    <script src="main-data.js"></script>
+    <!-- Memuat Anime.js -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('learning-path-list');
+            const searchInput = document.getElementById('search-input');
+            const noResultsMessage = document.getElementById('no-results');
+
+            if (!container || typeof learningPaths === 'undefined') return;
+
+            // Fungsi untuk merender kartu
+            const renderLearningPaths = (paths) => {
+                container.innerHTML = ''; // Kosongkan container sebelum render
+                if (paths.length === 0) {
+                    noResultsMessage.classList.remove('hidden');
+                } else {
+                    noResultsMessage.classList.add('hidden');
+                }
+
+                paths.forEach(path => {
+                    const isAvailable = path.status === 'active';
+                    const link = isAvailable ? path.url : '#';
+
+                    const isUrl = path.icon.startsWith('http') || path.icon.startsWith('https');
+                    const iconHtml = isUrl
+                        ? `<img src="${path.icon}" alt="Ikon ${path.title}" class="w-14 h-14 object-contain">`
+                        : `<span class="text-5xl">${path.icon}</span>`;
+                    
+                    // Mengubah dari list menjadi card
+                    const card = `
+                        <a href="${link}" class="card-link flex flex-col bg-slate-800/50 border border-slate-700 rounded-2xl p-6 text-center transition-all duration-300 ${isAvailable ? 'hover:border-sky-500/50 hover:-translate-y-1' : 'opacity-50 cursor-not-allowed'}">
+                            <div class="flex-shrink-0 h-20 mx-auto flex items-center justify-center mb-4">
+                                ${iconHtml}
+                            </div>
+                            <div class="flex-grow flex flex-col">
+                                <h2 class="text-xl font-bold text-slate-100">${path.title}</h2>
+                                <p class="mt-2 text-sm text-slate-400 flex-grow">${path.description}</p>
+                            </div>
+                            <div class="mt-6">
+                                ${isAvailable ? `<span class="list-item-button bg-sky-500">Mulai Belajar</span>` : `<span class="list-item-button bg-slate-700 text-slate-400 coming-soon-animation">Segera Hadir</span>`}
+                            </div>
+                        </a>
+                    `;
+                    container.innerHTML += card;
+                });
+
+                // Inisialisasi animasi Anime.js setelah kartu dirender
+                anime({
+                    targets: '.coming-soon-animation',
+                    translateY: [
+                        { value: -5, duration: 200, easing: 'easeOutQuad' },
+                        { value: 0, duration: 800, easing: 'easeOutBounce' }
+                    ],
+                    opacity: [
+                        { value: 0.5, duration: 100, easing: 'linear' },
+                        { value: 1, duration: 900, easing: 'linear' }
+                    ],
+                    loop: true,
+                    delay: anime.stagger(100) // Animasi berurutan untuk setiap elemen
+                });
+            };
+
+            // Render awal
+            renderLearningPaths(learningPaths);
+
+            // Event listener untuk input pencarian
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredPaths = learningPaths.filter(path =>
+                    path.title.toLowerCase().includes(searchTerm) ||
+                    path.description.toLowerCase().includes(searchTerm)
+                );
+                renderLearningPaths(filteredPaths);
+            });
+        });
+    </script>
+    <script src="/learn/navigation/navigation.js"></script>
+</body>
+</html>

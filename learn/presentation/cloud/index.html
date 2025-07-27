@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Seri - Belajar Cloud Computing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #e2e8f0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="relative min-h-screen">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <header class="py-16 sm:py-24 text-center">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-tight text-gradient">
+                    Belajar Cloud Computing
+                </h1>
+                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">
+                    Pilih seri pembelajaran di bawah ini untuk memulai perjalanan Anda memahami komputasi awan dari nol.
+                </p>
+            </header>
+
+            <main class="max-w-7xl mx-auto px-4 pb-24">
+                <div id="series-list-container" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    </div>
+            </main>
+        </div>
+    </div>
+
+<script>
+    // --- DATA JSON UNTUK SEMUA SERI ---
+    // Total 15 seri pembelajaran cloud computing untuk pemula.
+    const seriesData = [
+        {
+            seriesNumber: 1,
+            title: "Konsep dan Teori",
+            description: "Fondasi penting untuk pemula. Membahas 'apa' dan 'mengapa' di balik teknologi cloud, mulai dari konsep dasar, model layanan, model deployment, hingga analisis manfaat dan risiko.",
+            color: "sky",
+            status: "available",
+            url: "/learn/presentation/cloud/1/"
+        },
+        {
+            seriesNumber: 2,
+            title: "Cloud dalam Praktik",
+            description: "Melangkah lebih jauh ke aspek teknis. Membahas 'bagaimana' cara kerja komponen inti di cloud, dari Virtual Machine, jaringan, penyimpanan, hingga manajemen akses.",
+            color: "teal",
+            status: "available",
+            url: "/learn/presentation/cloud/2/"
+        },
+        {
+            seriesNumber: 3,
+            title: "Mengenal Konsol Manajemen Cloud",
+            description: "Langkah pertama berinteraksi dengan cloud. Panduan navigasi di dalam konsol web provider cloud, memahami dasbor, mencari layanan, dan mengelola akun Anda.",
+            color: "amber",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 4,
+            title: "Dasar Keamanan: Identitas & Akses",
+            description: "Mengamankan akun Anda. Pengenalan Identity and Access Management (IAM): pengguna, grup, peran, dan praktik terbaik keamanan dasar seperti Multi-Factor Authentication (MFA).",
+            color: "indigo",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 5,
+            title: "Manajemen Penyimpanan di Cloud",
+            description: "Membedah berbagai jenis layanan penyimpanan. Mempelajari perbedaan dan kasus penggunaan Object Storage, Block Storage, dan File Storage untuk berbagai kebutuhan aplikasi.",
+            color: "rose",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 6,
+            title: "Jaringan Virtual di Cloud",
+            description: "Membangun jaringan pribadi Anda di cloud. Mempelajari konsep Virtual Private Cloud (VPC), subnet, dan dasar-dasar lalu lintas jaringan internet.",
+            color: "fuchsia",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 7,
+            title: "Pengenalan Database di Cloud",
+            description: "Memahami opsi database yang tersedia. Membandingkan antara menjalankan database sendiri di VM (IaaS) dengan menggunakan layanan database terkelola (PaaS) dari provider cloud.",
+            color: "sky",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 8,
+            title: "Otomatisasi Dasar dengan CLI & SDK",
+            description: "Bekerja lebih efisien di cloud. Pengenalan Command Line Interface (CLI) dan Software Development Kit (SDK) untuk melakukan tugas-tugas dasar secara terprogram.",
+            color: "teal",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 9,
+            title: "Memahami Biaya dan Anggaran Cloud",
+            description: "Mengelola pengeluaran cloud Anda. Mempelajari model harga pay-as-you-go, cara memanfaatkan free tier, serta mengatur notifikasi anggaran (billing alerts) agar biaya tidak membengkak.",
+            color: "amber",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 10,
+            title: "Monitoring & Logging Dasar",
+            description: "Memantau 'kesehatan' sumber daya Anda. Pengenalan cara memeriksa metrik dasar seperti penggunaan CPU, dan melihat log sederhana untuk pemecahan masalah.",
+            color: "indigo",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 11,
+            title: "Pengenalan Arsitektur Cloud",
+            description: "Merancang solusi sederhana. Mempelajari konsep arsitektur dasar seperti High Availability dan Scalability untuk membangun aplikasi yang lebih andal dan tangguh.",
+            color: "rose",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 12,
+            title: "Proyek: Hosting Website Statis",
+            description: "Menggabungkan semua yang telah dipelajari. Panduan langkah demi langkah untuk mendeploy sebuah website statis di cloud menggunakan object storage dan jaringan dasar.",
+            color: "fuchsia",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 13,
+            title: "Fokus Komputasi: Virtual Machines",
+            description: "Menyelami layanan komputasi paling fundamental. Mempelajari cara memilih, meluncurkan, terhubung, dan mengelola sebuah server virtual (VM) dari awal hingga akhir.",
+            color: "sky",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 14,
+            title: "Dasar Keamanan: Jaringan",
+            description: "Melindungi lalu lintas data Anda. Fokus pada Security Groups dan Network ACLs sebagai 'firewall' virtual untuk mengontrol akses masuk dan keluar dari sumber daya Anda.",
+            color: "teal",
+            status: "coming_soon",
+            url: "#"
+        },
+        {
+            seriesNumber: 15,
+            title: "Pengenalan Konsep Serverless",
+            description: "Menulis kode tanpa mengelola server. Pengenalan konsep Function-as-a-Service (FaaS) dan membuat fungsi 'Hello World' sederhana yang berjalan di cloud.",
+            color: "amber",
+            status: "coming_soon",
+            url: "#"
+        }
+    ];
+
+    // --- FUNGSI UNTUK GENERATE KARTU SERI ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('series-list-container');
+        
+        const colorStyles = {
+            sky:    { badge: 'bg-sky-500/10 text-sky-400', button: 'bg-sky-500 hover:bg-sky-600' },
+            teal:   { badge: 'bg-teal-500/10 text-teal-400', button: 'bg-teal-500 hover:bg-teal-600' },
+            amber:  { badge: 'bg-amber-500/10 text-amber-400', button: 'bg-amber-500 hover:bg-amber-600' },
+            indigo: { badge: 'bg-indigo-500/10 text-indigo-400', button: 'bg-indigo-500 hover:bg-indigo-600' },
+            rose:   { badge: 'bg-rose-500/10 text-rose-400', button: 'bg-rose-500 hover:bg-rose-600' },
+            fuchsia:{ badge: 'bg-fuchsia-500/10 text-fuchsia-400', button: 'bg-fuchsia-500 hover:bg-fuchsia-600' },
+            slate:  { badge: 'bg-slate-500/10 text-slate-400', button: 'bg-slate-700' }
+        };
+
+        seriesData.forEach(series => {
+            const styles = colorStyles[series.color] || colorStyles.slate;
+            const isAvailable = series.status === 'available';
+
+            const cardHTML = `
+                <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 flex flex-col h-full ${!isAvailable ? 'opacity-60 border-dashed' : ''}">
+                    <div class="flex-grow">
+                        <span class="${styles.badge} font-bold text-sm py-1 px-3 rounded-full">
+                            SERI ${series.seriesNumber}
+                        </span>
+                        <h2 class="text-3xl font-bold mt-4">${series.title}</h2>
+                        <p class="mt-2 text-slate-400">${series.description}</p>
+                    </div>
+                    ${isAvailable ? 
+                        `<a href="${series.url}" class="mt-6 inline-block ${styles.button} text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 text-center">
+                            Lihat Episode
+                        </a>` :
+                        `<button disabled class="mt-6 inline-block ${colorStyles.slate.button} text-slate-500 font-bold py-3 px-6 rounded-full cursor-not-allowed text-center">
+                            Segera Hadir
+                        </button>`
+                    }
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+    });
+</script>
+
+</body>
+</html>

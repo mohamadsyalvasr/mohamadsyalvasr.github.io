@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Hari - Minggu 1: Konsep Dasar dan Pengenalan Layanan Inti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #e2e8f0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Custom blur persistence for coming_soon text */
+        .blur-text {
+            filter: blur(2px); /* Apply a small blur */
+            pointer-events: none; /* Prevent text selection */
+        }
+        /* Ensure blur remains on hover for the blurred text elements */
+        .coming-soon-card:hover .blur-text {
+            filter: blur(2px); /* Re-apply blur on hover to override potential default hover effects */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Sticky Navigation Header -->
+    <div class="fixed top-0 left-0 w-full bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-3 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center gap-2 sm:gap-4">
+            <!-- Back Button (to previous level or series index) -->
+            <a href="/cloud/series/2/index.html" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                <span class="hidden sm:inline">Kembali ke Minggu</span>
+            </a>
+            
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Main Series List Button -->
+                <a href="/cloud/series/" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 text-sm">
+                    <span class="hidden sm:inline">Daftar Seri</span>
+                    <span class="sm:hidden">Seri</span>
+                </a>
+                <!-- Next Week Button -->
+                <a href="/cloud/series/2/level-2.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center gap-2 text-sm">
+                    <span class="hidden sm:inline">Minggu Selanjutnya</span>
+                    <span class="sm:hidden">Lanjut Minggu</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative min-h-screen">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="relative z-10">
+            <!-- Header -->
+            <header class="py-16 sm:py-24 text-center">
+                <p class="text-sky-400 font-semibold">Minggu 1</p>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-tight text-gradient">
+                    Konsep Dasar dan Pengenalan Layanan Inti
+                </h1>
+                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400">
+                    Memahami fondasi arsitektur data modern dan data streaming, serta layanan inti AWS yang mendukungnya.
+                </p>
+            </header>
+
+            <!-- Day/Episode List will be populated by JavaScript -->
+            <main class="max-w-4xl mx-auto px-4 pb-24">
+                <div id="day-list" class="space-y-8">
+                    <!-- Day cards will be injected here by JavaScript -->
+                </div>
+                
+                <div class="text-center mt-16">
+                    <a href="/cloud/series/2/index.html" class="text-slate-400 hover:text-sky-400 transition-colors">← Kembali ke Daftar Minggu</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Data for each day/episode in Week 1
+        const daysData = [
+            {
+                id: 'day-1',
+                number: 1,
+                title: 'Mengapa Data Modern Penting?',
+                description: 'Memahami latar belakang dan motivasi di balik kebutuhan akan arsitektur data modern, serta keterbatasan pendekatan tradisional dalam menangani volume data eksponensial.',
+                link: '/cloud/series/2/day-1-modern-data-arch-1.html',
+                status: 'active' // 'active' or 'coming_soon'
+            },
+            {
+                id: 'day-2',
+                number: 2,
+                title: 'Pilar Arsitektur Data Modern di AWS',
+                description: 'Mengenal definisi dan komponen kunci arsitektur data modern di AWS, termasuk peran Data Lakes, Databases, Analytics, Machine Learning, dan Governance.',
+                link: '/cloud/series/2/day-2-modern-data-arch-2.html',
+                status: 'coming_soon'
+            },
+            {
+                id: 'day-3',
+                number: 3,
+                title: 'Esensi Data Streaming Modern',
+                description: 'Memahami definisi dan karakteristik arsitektur data streaming modern, fokus pada kemampuan menyerap, memproses, dan menganalisis data bervolume tinggi dengan kecepatan tinggi secara real-time.',
+                link: '/cloud/series/2/day-3-streaming-arch-1.html',
+                status: 'coming_soon'
+            },
+            {
+                id: 'day-4',
+                number: 4,
+                title: 'Lapisan Arsitektur Data Streaming',
+                description: 'Menjelajahi lima lapisan logis dari arsitektur data streaming modern: Source, Stream Ingestion, Stream Storage, Stream Processing, dan Destination, serta fungsi masing-masing.',
+                link: '/cloud/series/2/day-4-streaming-arch-2.html',
+                status: 'coming_soon'
+            },
+            {
+                id: 'day-5',
+                number: 5,
+                title: 'Sumber dan Penyerapan Aliran Data',
+                description: 'Memahami berbagai sumber data streaming (misalnya, log aplikasi, perangkat IoT) dan layanan AWS untuk penyerapan aliran data (AWS IoT, Kinesis Agent, AWS SDK, AWS DMS, MSK Connect).',
+                link: '/cloud/series/2/day-5-streaming-lifecycle-1.html',
+                status: 'coming_soon' // Changed to coming_soon for demonstration
+            },
+            {
+                id: 'day-6',
+                number: 6,
+                title: 'Penyimpanan dan Pemrosesan Aliran Data',
+                description: 'Mengenal layanan AWS untuk penyimpanan aliran data (Kinesis Data Streams, Amazon MSK) dan pemrosesan aliran data (Managed Service for Apache Flink, AWS Lambda, Amazon EMR, AWS Glue).',
+                link: '/cloud/series/2/day-6-streaming-lifecycle-2.html',
+                status: 'coming_soon' // Changed to coming_soon for demonstration
+            },
+            {
+                id: 'day-7',
+                number: 7,
+                title: 'Tujuan dan Wawasan Data Streaming',
+                description: 'Mempelajari berbagai tujuan hilir untuk data streaming (basis data, gudang data, OpenSearch) dan bagaimana data streaming menghasilkan wawasan latensi rendah.',
+                link: '/cloud/series/2/day-7-streaming-lifecycle-3.html',
+                status: 'coming_soon' // Changed to coming_soon for demonstration
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const dayListContainer = document.getElementById('day-list');
+
+            daysData.forEach(day => {
+                const card = document.createElement('div');
+                let cardClasses = 'border rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6';
+                let buttonClasses = 'w-full md:w-auto flex-shrink-0 font-bold py-3 px-6 rounded-full transition-colors duration-300 text-center';
+                let actionElement;
+
+                const opacityValue = day.status === 'coming_soon'
+                    ? 50 - ((day.number - 1) * 5)
+                    : 100;
+
+                cardClasses += ` opacity-${opacityValue}`;
+
+                let titleClasses = 'text-2xl font-bold mt-1';
+                let descriptionClasses = 'mt-2 text-slate-400';
+
+                if (day.status === 'active') {
+                    cardClasses += ' bg-slate-800/50 border-slate-700';
+                    buttonClasses += ' bg-sky-500 hover:bg-sky-600 text-white';
+                    actionElement = `<a href="${day.link}" class="${buttonClasses}">Mulai Hari Ini</a>`;
+                } else { // coming_soon
+                    cardClasses += ' bg-slate-800/30 border-dashed border-slate-700 coming-soon-card'; // Add specific class for CSS targeting
+                    buttonClasses += ' bg-slate-700 text-slate-500 cursor-not-allowed';
+                    actionElement = `<button disabled class="${buttonClasses}">Segera Hadir</button>`;
+                    
+                    // Apply blur to text elements for coming_soon cards
+                    titleClasses += ' blur-text';
+                    descriptionClasses += ' blur-text';
+                }
+
+                card.className = cardClasses;
+                card.innerHTML = `
+                    <div class="text-center md:text-left">
+                        <p class="text-sky-400 font-bold">Hari ${day.number}</p>
+                        <h2 class="${titleClasses}">${day.title}</h2>
+                        <p class="${descriptionClasses}">${day.description}</p>
+                    </div>
+                    ${actionElement}
+                `;
+                dayListContainer.appendChild(card);
+            });
+        });
+    </script>
+
+</body>
+</html>
