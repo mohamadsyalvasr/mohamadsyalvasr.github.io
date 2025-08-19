@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategi Komunikasi & Negosiasi Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: Aplikasi ini dirancang dengan struktur tematik non-linear untuk memfasilitasi eksplorasi yang mudah. Daripada mengikuti urutan bab laporan, konten dikelompokkan ke dalam bagian-bagian logis yang dapat diakses melalui navigasi utama: 'Beranda' untuk ringkasan, 'Fondasi' untuk proses negosiasi interaktif, 'Anatomi Kontrak' untuk detail SLA dan keamanan, 'Risiko & Biaya' untuk tantangan umum, 'Tim Kolaborasi' untuk peran-peran kunci, dan 'Masa Depan' untuk tren AI. Struktur ini memungkinkan pengguna untuk langsung melompat ke topik yang paling relevan bagi mereka, meningkatkan kegunaan dan efisiensi penyerapan informasi dibandingkan dengan format laporan linier. -->
+    <!-- Visualization & Content Choices: 1. SLA: Data tabel SLA diubah menjadi diagram batang interaktif (Chart.js) untuk memvisualisasikan hubungan antara uptime dan kredit finansial secara intuitif. Tujuannya adalah untuk membandingkan dampak penurunan layanan. 2. Proses Negosiasi: Proses 5 tahap disajikan sebagai stepper interaktif (HTML/CSS/JS) untuk memecah informasi kompleks menjadi langkah-langkah yang mudah dicerna. 3. Peran Tim: Matriks peran tim diubah menjadi kartu interaktif dengan ikon untuk visualisasi yang lebih menarik dan hemat ruang. 4. Biaya Tersembunyi: Disajikan dalam format kartu yang dapat diklik untuk menampilkan detail, mendorong eksplorasi aktif. Semua pilihan ini bertujuan untuk meningkatkan keterlibatan dan pemahaman pengguna. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9F7F3;
+            color: #3D405B;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #D35400;
+        }
+        .nav-link.active::after, .nav-link:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #D35400;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background-color: #E07A5F;
+            color: #FFFFFF;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #D35400;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .step-item.active .step-circle {
+            background-color: #E07A5F;
+            color: white;
+            border-color: #D35400;
+        }
+        .step-item.active .step-title {
+            color: #D35400;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#3D405B] tracking-tight">Dasbor Strategi Negosiasi Cloud</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Panduan interaktif untuk menguasai komunikasi dan negosiasi dalam ekosistem komputasi awan.</p>
+        </header>
+
+        <nav class="flex justify-center flex-wrap gap-4 md:gap-8 mb-12 border-b pb-4">
+            <a href="#beranda" class="nav-link text-lg font-medium active" onclick="showSection('beranda', this)">Beranda</a>
+            <a href="#fondasi" class="nav-link text-lg font-medium" onclick="showSection('fondasi', this)">Fondasi</a>
+            <a href="#kontrak" class="nav-link text-lg font-medium" onclick="showSection('kontrak', this)">Anatomi Kontrak</a>
+            <a href="#risiko" class="nav-link text-lg font-medium" onclick="showSection('risiko', this)">Risiko & Biaya</a>
+            <a href="#tim" class="nav-link text-lg font-medium" onclick="showSection('tim', this)">Tim Kolaborasi</a>
+            <a href="#masa-depan" class="nav-link text-lg font-medium" onclick="showSection('masa-depan', this)">Masa Depan</a>
+            <a href="#rekomendasi" class="nav-link text-lg font-medium" onclick="showSection('rekomendasi', this)">Rekomendasi</a>
+        </nav>
+
+        <main>
+            <section id="beranda" class="space-y-8">
+                <div class="card p-8 text-center">
+                    <h2 class="text-3xl font-bold text-[#E07A5F] mb-4">Mengapa Negosiasi Cloud Berbeda?</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Selamat datang di dasbor interaktif strategi negosiasi cloud. Bagian ini memberikan gambaran umum mengapa negosiasi di dunia cloud jauh lebih kompleks daripada bisnis konvensional. Anda akan menemukan ringkasan eksekutif dan pemahaman dasar tentang ekosistem cloud yang menjadi fondasi untuk semua strategi yang akan dibahas.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card p-6">
+                        <h3 class="text-2xl font-semibold mb-3">Ringkasan Eksekutif</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Negosiasi cloud melampaui harga, mencakup aspek teknis, operasional, dan legal yang kompleks. Pergeseran dari CAPEX ke OPEX, risiko *vendor lock-in*, dan biaya tersembunyi menuntut pendekatan strategis. Kunci sukses terletak pada persiapan berbasis data, tim lintas fungsi yang solid, dan pemahaman mendalam terhadap elemen kontrak seperti SLA dan kepemilikan data.
+                        </p>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="text-2xl font-semibold mb-3">Model Layanan Cloud</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">Pahami perbedaan mendasar yang memengaruhi poin negosiasi Anda:</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="font-bold text-[#E07A5F] mr-2">●</span><strong>IaaS:</strong> Anda membangun rumah. Kontrol penuh, tanggung jawab besar.</li>
+                            <li class="flex items-start"><span class="font-bold text-[#E07A5F] mr-2">●</span><strong>PaaS:</strong> Anda menyewa rumah berperabot. Fokus pada aplikasi, bukan infrastruktur.</li>
+                            <li class="flex items-start"><span class="font-bold text-[#E07A5F] mr-2">●</span><strong>SaaS:</strong> Anda menyewa rumah dengan layanan penuh. Cukup gunakan, tanpa perlu pemeliharaan.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="fondasi" class="hidden space-y-8">
+                 <div class="card p-8 text-center">
+                    <h2 class="text-3xl font-bold text-[#E07A5F] mb-4">Fondasi Komunikasi & Proses Negosiasi</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Setiap negosiasi yang sukses dibangun di atas fondasi komunikasi yang kuat dan proses yang terstruktur. Di bagian ini, Anda dapat menjelajahi prinsip-prinsip dasar komunikasi efektif dan mengikuti alur proses negosiasi langkah demi langkah secara interaktif, mulai dari persiapan hingga evaluasi.
+                    </p>
+                </div>
+                <div class="card p-8">
+                    <div id="negotiation-steps"></div>
+                </div>
+            </section>
+
+            <section id="kontrak" class="hidden space-y-8">
+                <div class="card p-8 text-center">
+                    <h2 class="text-3xl font-bold text-[#E07A5F] mb-4">Menganalisis Anatomi Kontrak Cloud</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Inti dari setiap kesepakatan cloud adalah kontraknya. Bagian ini membedah elemen-elemen paling krusial: *Service Level Agreement* (SLA), kepemilikan data, dan keamanan. Gunakan visualisasi interaktif untuk memahami dampak SLA dan pelajari poin-poin penting yang harus dinegosiasikan terkait data dan kepatuhan.
+                    </p>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-2xl font-semibold text-center mb-2">Dampak SLA Terhadap Kredit Finansial</h3>
+                    <p class="text-center text-gray-600 mb-6">Visualisasi ini menunjukkan bagaimana penurunan kecil dalam persentase uptime dapat menghasilkan kredit finansial yang signifikan, berdasarkan contoh Google Cloud Storage.</p>
+                    <div class="chart-container">
+                        <canvas id="slaChart"></canvas>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                     <div class="card p-6">
+                        <h3 class="text-2xl font-semibold mb-3">Kepemilikan Data & Portabilitas</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Meskipun vendor mengklaim "Anda memiliki data Anda," negosiasikan klausul spesifik yang memastikan:
+                        </p>
+                        <ul class="list-disc list-inside mt-4 space-y-2 text-gray-600">
+                            <li>Data dapat diekspor dalam format standar.</li>
+                            <li>Proses pencadangan dan pemulihan yang jelas.</li>
+                            <li>Batasan akses data oleh pihak ketiga atau pemerintah.</li>
+                        </ul>
+                    </div>
+                     <div class="card p-6">
+                        <h3 class="text-2xl font-semibold mb-3">Keamanan & Kepatuhan</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                           Pastikan kontrak merinci aspek keamanan dan kepatuhan hukum secara mendalam, termasuk:
+                        </p>
+                        <ul class="list-disc list-inside mt-4 space-y-2 text-gray-600">
+                            <li>Sertifikasi keamanan yang dimiliki vendor.</li>
+                            <li>Proses enkripsi data (saat transit dan diam).</li>
+                            <li>Prosedur pemulihan bencana yang teruji.</li>
+                            <li>Kepatuhan terhadap regulasi seperti GDPR atau UU PDP.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="risiko" class="hidden space-y-8">
+                <div class="card p-8 text-center">
+                    <h2 class="text-3xl font-bold text-[#E07A5F] mb-4">Mengelola Biaya Tersembunyi & Vendor Lock-in</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Dua tantangan terbesar dalam manajemen cloud adalah biaya tak terduga dan ketergantungan pada satu vendor. Bagian ini mengungkap berbagai jenis biaya tersembunyi yang sering muncul dan menyajikan strategi praktis untuk memitigasi risiko *vendor lock-in*, memastikan fleksibilitas dan kontrol biaya jangka panjang.
+                    </p>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-2xl font-semibold text-center mb-6">Waspadai Biaya Tersembunyi (Klik untuk Detail)</h3>
+                    <div id="hidden-costs-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-2xl font-semibold mb-3">Strategi Mitigasi Vendor Lock-in</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">Hindari ketergantungan berlebih pada satu penyedia dengan taktik berikut:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start"><span class="text-2xl text-[#E07A5F] mr-3">➔</span><div><strong class="block">Strategi Multi-Vendor:</strong> Gunakan beberapa penyedia untuk bagian infrastruktur yang berbeda.</div></li>
+                        <li class="flex items-start"><span class="text-2xl text-[#E07A5F] mr-3">➔</span><div><strong class="block">Standar Terbuka:</strong> Prioritaskan layanan yang mematuhi standar terbuka untuk portabilitas data yang mudah.</div></li>
+                        <li class="flex items-start"><span class="text-2xl text-[#E07A5F] mr-3">➔</span><div><strong class="block">Arsitektur Hybrid/Multi-Cloud:</strong> Terapkan arsitektur yang menggabungkan sumber daya on-premise dan beberapa cloud untuk kelincahan maksimal.</div></li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section id="tim" class="hidden space-y-8">
+                <div class="card p-8 text-center">
+                    <h2 class="text-3xl font-bold text-[#E07A5F] mb-4">Membangun Tim Negosiasi Lintas Fungsi</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Negosiasi cloud yang sukses adalah hasil kerja tim, bukan upaya individu. Bagian ini memetakan peran dan tanggung jawab kunci dari setiap pemangku kepentingan dalam tim negosiasi, mulai dari CIO hingga tim hukum. Pahami bagaimana setiap peran berkontribusi untuk mencapai kesepakatan yang optimal.
+                    </p>
+                </div>
+                <div class="card p-8">
+                    <h3 class="text-2xl font-semibold text-center mb-6">Peran Kunci dalam Tim Negosiasi</h3>
+                    <div id="team-roles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                </div>
+            </section>
+            
+            <section id="masa-depan" class="hidden space-y-8">
+                 <div class="card p-8 text-center">
+                    <h2 class="text-3xl font-bold text-[#E07A5F] mb-4">Masa Depan Negosiasi: Otomatisasi Berbasis AI</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Teknologi kecerdasan buatan (AI) siap merevolusi cara kita menegosiasikan kontrak. Jelajahi bagaimana AI dapat mempercepat proses, menganalisis risiko, dan membebaskan tim Anda untuk fokus pada strategi bernilai tinggi. Lihat studi kasus nyata dari platform otomatisasi untuk memahami dampaknya.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="card p-6">
+                        <h3 class="text-2xl font-semibold mb-3">Peran AI dalam Negosiasi</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            AI mengubah negosiasi dari proses manual menjadi proses yang didukung data. Alat AI dapat menganalisis kontrak dalam hitungan detik, mengidentifikasi klausul berisiko, dan menyarankan perubahan. Ini bukan tentang menggantikan manusia, melainkan memberdayakan mereka dengan pendekatan "human-in-the-loop", di mana AI menangani tugas rutin dan para ahli fokus pada strategi kompleks.
+                        </p>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="text-2xl font-semibold mb-3">Studi Kasus: Ontra.ai</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">Platform ini mengotomatiskan negosiasi rutin dengan fitur seperti:</p>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><strong>Digital Playbooks:</strong> Menstandarkan posisi negosiasi.</li>
+                            <li><strong>Markup Builder:</strong> Membuat redlining otomatis berdasarkan preseden.</li>
+                            <li><strong>Negotiation Summaries:</strong> Menghasilkan ringkasan kesepakatan secara otomatis.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="rekomendasi" class="hidden space-y-8">
+                 <div class="card p-8 text-center">
+                    <h2 class="text-3xl font-bold text-[#E07A5F] mb-4">Kesimpulan & Rekomendasi Aksi</h2>
+                    <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+                        Setelah menjelajahi berbagai aspek negosiasi cloud, bagian terakhir ini merangkum poin-poin kunci dan memberikan daftar langkah-langkah praktis yang dapat Anda ambil. Gunakan rekomendasi ini sebagai panduan untuk membangun strategi negosiasi yang proaktif, berbasis data, dan berfokus pada kemitraan jangka panjang.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="card p-6">
+                        <div class="text-4xl mb-3">1.</div>
+                        <h3 class="text-xl font-semibold mb-2">Bentuk Tim Lintas Fungsi</h3>
+                        <p class="text-gray-600">Libatkan perwakilan dari teknologi, pengadaan, hukum, dan unit bisnis sejak awal untuk mengidentifikasi semua risiko dan kebutuhan.</p>
+                    </div>
+                    <div class="card p-6">
+                        <div class="text-4xl mb-3">2.</div>
+                        <h3 class="text-xl font-semibold mb-2">Adopsi Pendekatan Berbasis Data</h3>
+                        <p class="text-gray-600">Lakukan analisis pengeluaran dan gunakan kalkulator harga cloud untuk membangun posisi tawar yang kuat dan realistis.</p>
+                    </div>
+                    <div class="card p-6">
+                        <div class="text-4xl mb-3">3.</div>
+                        <h3 class="text-xl font-semibold mb-2">Buat Kontrak yang Proaktif</h3>
+                        <p class="text-gray-600">Rinci metrik SLA, pastikan portabilitas data, bahas biaya tersembunyi, dan sertakan klausul negosiasi ulang.</p>
+                    </div>
+                    <div class="card p-6">
+                        <div class="text-4xl mb-3">4.</div>
+                        <h3 class="text-xl font-semibold mb-2">Pertimbangkan Otomatisasi AI</h3>
+                        <p class="text-gray-600">Evaluasi alat berbasis AI untuk mengotomatiskan tugas rutin, membebaskan waktu tim untuk fokus pada strategi bernilai tinggi.</p>
+                    </div>
+                    <div class="card p-6">
+                        <div class="text-4xl mb-3">5.</div>
+                        <h3 class="text-xl font-semibold mb-2">Fokus pada Kemitraan</h3>
+                        <p class="text-gray-600">Bangun hubungan vendor yang kuat dan berkelanjutan. Kemitraan strategis memberikan nilai lebih besar daripada kemenangan jangka pendek.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('main section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        function showSection(sectionId, clickedLink) {
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            if (clickedLink) {
+                clickedLink.classList.add('active');
+            }
+        }
+        
+        const slaData = {
+            labels: ['99.0% - <99.95%', '95.0% - <99.0%', '<95.0%'],
+            datasets: [{
+                label: 'Kredit Finansial (%)',
+                data: [10, 25, 50],
+                backgroundColor: [
+                    'rgba(129, 199, 132, 0.6)',
+                    'rgba(255, 204, 128, 0.6)',
+                    'rgba(229, 115, 115, 0.6)'
+                ],
+                borderColor: [
+                    'rgb(129, 199, 132)',
+                    'rgb(255, 204, 128)',
+                    'rgb(229, 115, 115)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const slaConfig = {
+            type: 'bar',
+            data: slaData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Kredit Finansial (%)'
+                        }
+                    },
+                    x: {
+                         title: {
+                            display: true,
+                            text: 'Persentase Uptime Bulanan'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Kredit: ${context.raw}% dari tagihan bulanan`;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const negotiationStepsData = [
+            {
+                title: "Persiapan",
+                content: "Tahap paling krusial. Kumpulkan informasi, tentukan tujuan SMART, dan siapkan BATNA (Best Alternative to a Negotiated Agreement) Anda. Persiapan matang adalah 80% dari keberhasilan."
+            },
+            {
+                title: "Diskusi & Penawaran",
+                content: "Sajikan kasus Anda dan berikan penawaran awal. Fokus pada kepentingan bersama, bukan posisi kaku, untuk membuka jalan menuju kesepakatan yang produktif."
+            },
+            {
+                title: "Tawar-menawar",
+                content: "Inti dari negosiasi. Tawarkan konsesi dan cari solusi yang adil. Bersikap sabar, fleksibel, dan gunakan kriteria objektif untuk mencapai hasil yang masuk akal."
+            },
+            {
+                title: "Penutupan & Dokumentasi",
+                content: "Setelah kesepakatan tercapai, dokumentasikan hasilnya secara tertulis. Libatkan tim hukum untuk memastikan tidak ada celah yang merugikan di kemudian hari."
+            },
+            {
+                title: "Evaluasi",
+                content: "Langkah kritis yang sering diabaikan. Nilai apakah tujuan tercapai dan identifikasi area perbaikan untuk negosiasi di masa depan. Ini adalah awal dari manajemen vendor jangka panjang."
+            }
+        ];
+
+        let currentStep = 0;
+
+        function renderNegotiationSteps() {
+            const container = document.getElementById('negotiation-steps');
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row items-start">
+                    <div class="w-full md:w-1/3 mb-6 md:mb-0">
+                        ${negotiationStepsData.map((step, index) => `
+                            <div class="step-item flex items-center p-2 cursor-pointer ${index === currentStep ? 'active' : ''}" onclick="setStep(${index})">
+                                <div class="step-circle w-8 h-8 rounded-full border-2 flex items-center justify-center mr-4 transition-all duration-300">${index + 1}</div>
+                                <span class="step-title font-medium transition-all duration-300">${step.title}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="w-full md:w-2/3 md:pl-8 border-t md:border-t-0 md:border-l pt-6 md:pt-0">
+                        <h4 class="text-2xl font-semibold mb-4">${negotiationStepsData[currentStep].title}</h4>
+                        <p class="text-gray-600 leading-relaxed">${negotiationStepsData[currentStep].content}</p>
+                        <div class="mt-6 flex justify-between">
+                            <button class="btn-primary rounded-lg px-4 py-2 ${currentStep === 0 ? 'opacity-50 cursor-not-allowed' : ''}" onclick="prevStep()" ${currentStep === 0 ? 'disabled' : ''}>Sebelumnya</button>
+                            <button class="btn-primary rounded-lg px-4 py-2 ${currentStep === negotiationStepsData.length - 1 ? 'opacity-50 cursor-not-allowed' : ''}" onclick="nextStep()" ${currentStep === negotiationStepsData.length - 1 ? 'disabled' : ''}>Selanjutnya</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function setStep(index) {
+            currentStep = index;
+            renderNegotiationSteps();
+        }
+
+        function nextStep() {
+            if (currentStep < negotiationStepsData.length - 1) {
+                currentStep++;
+                renderNegotiationSteps();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderNegotiationSteps();
+            }
+        }
+
+        const hiddenCostsData = [
+            { title: "Biaya Transfer Data (Egress)", content: "Dikenakan saat data dipindahkan keluar dari jaringan cloud. Contoh: $0.09/GB untuk transfer ke internet publik dari AWS.", icon: "↔️" },
+            { title: "Sumber Daya Menganggur", content: "VM atau penyimpanan yang berjalan tapi tidak digunakan tetap dikenakan biaya. Perlu audit rutin untuk menonaktifkannya.", icon: "😴" },
+            { title: "Panggilan API & Operasi", content: "Setiap panggilan API atau operasi (misal, 'list' pada bucket) dapat dikenakan biaya, signifikan untuk arsitektur serverless.", icon: "⚙️" },
+            { title: "Lisensi Perangkat Lunak", content: "Banyak layanan cloud mengenakan biaya terpisah untuk lisensi perangkat lunak di atas biaya infrastruktur.", icon: "📜" }
+        ];
+
+        const teamRolesData = [
+            { role: "Manajemen/CIO", task: "Menentukan tujuan strategis & memberikan persetujuan akhir.", icon: "👑" },
+            { role: "Pengadaan", task: "Menemukan vendor potensial & negosiasi harga/kontrak.", icon: "🛒" },
+            { role: "Teknis (IT/DevOps)", task: "Menilai kesesuaian teknis & memverifikasi kinerja SLA.", icon: "💻" },
+            { role: "Hukum", task: "Meninjau kontrak & memastikan kepatuhan hukum.", icon: "⚖️" }
+        ];
+        
+        function createClickableCards(containerId, data) {
+            const container = document.getElementById(containerId);
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card p-4 cursor-pointer text-center';
+                card.innerHTML = `
+                    <div class="text-4xl mb-3">${item.icon}</div>
+                    <h4 class="font-semibold text-lg">${item.title || item.role}</h4>
+                    <p class="text-sm text-gray-500 mt-2 hidden">${item.content || item.task}</p>
+                `;
+                card.addEventListener('click', () => {
+                    const detail = card.querySelector('p');
+                    detail.classList.toggle('hidden');
+                    card.classList.toggle('ring-2');
+                    card.classList.toggle('ring-[#E07A5F]');
+                });
+                container.appendChild(card);
+            });
+        }
+
+        window.onload = function () {
+            const slaCtx = document.getElementById('slaChart').getContext('2d');
+            new Chart(slaCtx, slaConfig);
+            
+            renderNegotiationSteps();
+            
+            createClickableCards('hidden-costs-container', hiddenCostsData);
+            createClickableCards('team-roles-container', teamRolesData);
+
+            showSection('beranda', document.querySelector('nav a[href="#beranda"]'));
+        };
+
+    </script>
+</body>
+</html>
